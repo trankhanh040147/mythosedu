@@ -1,2 +1,0 @@
-# mythosedu
-mythosedu.com
