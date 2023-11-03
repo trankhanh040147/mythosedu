@@ -1,148 +1,103 @@
 <?php
-
+define( 'WP_CACHE', true );
 /**
- * Cấu hình cơ bản cho WordPress
+ * The base configuration for WordPress
  *
- * Trong quá trình cài đặt, file "wp-config.php" sẽ được tạo dựa trên nội dung
- * mẫu của file này. Bạn không bắt buộc phải sử dụng giao diện web để cài đặt,
- * chỉ cần lưu file này lại với tên "wp-config.php" và điền các thông tin cần thiết.
+ * The wp-config.php creation script uses this file during the installation.
+ * You don't have to use the web site, you can copy this file to "wp-config.php"
+ * and fill in the values.
  *
- * File này chứa các thiết lập sau:
+ * This file contains the following configurations:
  *
- * * Thiết lập MySQL
- * * Các khóa bí mật
- * * Tiền tố cho các bảng database
+ * * Database settings
+ * * Secret keys
+ * * Database table prefix
+ * * Localized language
  * * ABSPATH
  *
- * @link https://codex.wordpress.org/Editing_wp-config.php
+ * @link https://wordpress.org/support/article/editing-wp-config-php/
  *
  * @package WordPress
  */
 
-// ** Thiết lập MySQL - Bạn có thể lấy các thông tin này từ host/server ** //
-/** Tên database MySQL */
-define('DB_NAME', 'cms_edutekit');
+// ** Database settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define( 'DB_NAME', 'u199319889_qLjMI' );
 
+/** Database username */
+define( 'DB_USER', 'u199319889_CahMa' );
 
-/** Username của database */
-define('DB_USER', 'root');
+/** Database password */
+define( 'DB_PASSWORD', 'tYcIKiKYEN' );
 
-/** Mật khẩu của database */
-define('DB_PASSWORD', 'khanhkhanh123');
+/** Database hostname */
+define( 'DB_HOST', '127.0.0.1' );
 
-/** Hostname của database */
-define('DB_HOST', 'localhost');
+/** Database charset to use in creating database tables. */
+define( 'DB_CHARSET', 'utf8' );
 
-/** Database charset sử dụng để tạo bảng database. */
-define('DB_CHARSET', 'utf8mb4');
+/** The database collate type. Don't change this if in doubt. */
+define( 'DB_COLLATE', '' );
 
-/** Kiểu database collate. Đừng thay đổi nếu không hiểu rõ. */
-define('DB_COLLATE', '');
 /**#@+
- * Khóa xác thực và salt.
+ * Authentication unique keys and salts.
  *
- * Thay đổi các giá trị dưới đây thành các khóa không trùng nhau!
- * Bạn có thể tạo ra các khóa này bằng công cụ
- * {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
- * Bạn có thể thay đổi chúng bất cứ lúc nào để vô hiệu hóa tất cả
- * các cookie hiện có. Điều này sẽ buộc tất cả người dùng phải đăng nhập lại.
+ * Change these to different unique phrases! You can generate these using
+ * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
+ *
+ * You can change these at any point in time to invalidate all existing cookies.
+ * This will force all users to have to log in again.
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         'ghU.y9;Kh0>1|J}AU8DmH #NXCP{`!N2,}}<`?VO2aIFi1<k?apLeM:yChR~ETei');
-define('SECURE_AUTH_KEY',  '*%A{B~2CR%V5G_eBjRo_aR(jnuo%;Jh_$F{{/=%X}srVz4Da&b0&jrW3T.8G)*)?');
-define('LOGGED_IN_KEY',    '2X-(6k9X]+~CL}mGCN8UzzJrGm=~b|#|^Qz4|UQD 4h9!|=So9nP)T_cxsg=t5*l');
-define('NONCE_KEY',        '-D>#3gGI&*SV7rrUMBd[UG-mFVe=G_2uG5%$/2eOesX&(%U4~/^ojNZ0Vtet|P&W');
-define('AUTH_SALT',        'xqA,;dafSU]!j#^uL_K@z78dH7ItfYW^:UocJUA62MVwf8[$zykT(Vy1xxYkJtm}');
-define('SECURE_AUTH_SALT', 'c]7DisxGuYG`Nh-Vsm[_Z2GKe#/I5ersM&w*gK?<f6b7$I|M|EINyP|_,:L`Ln:F');
-define('LOGGED_IN_SALT',   ':g6U$&2<X1=to, V=O5%S|PKa-jP!vPq[MfyUvp;YJQ[_`KmOPd55aV!g IKo2v]');
-define('NONCE_SALT',       'Sun*q4U-!k@F.&&d!!/;t~$g^s_nnphD93fr}>zx|Y3nz-A8a;$vk)w~=(Z>HOk[');
+define( 'AUTH_KEY',          'qZ${x11m/I74)0vu3%z$!U*;9p!)7qqH?4AfAtorYrOrI$Y{|thgSA^zeCcJ$*T9' );
+define( 'SECURE_AUTH_KEY',   ';cTE&&d%DH WcIHn!s_rvj2UPqi>?`Z%Hh}h4iN,<%_mzpD17^&@sN_(nw)Wg<vh' );
+define( 'LOGGED_IN_KEY',     '}88UjaIX)~c92_~eE#*Y$dW;}TYwVVGmTJrT s>)1@r,&/oLO*soiuzbe}4_~(ev' );
+define( 'NONCE_KEY',         'EQWc?5l% [lqJ0faNawg) R@d`-4;Z d!H Xt_%7k03Yju|h?aA.~Y*m_7Huov!P' );
+define( 'AUTH_SALT',         'V!B>4MB[*FnA8<[C(}M*w%|8g5k(]Xj4VeMS2fGqGGVI7jRhii?py0WBRHjp?An}' );
+define( 'SECURE_AUTH_SALT',  '@)vC<)o4A_{:k]&/lIvkttpsV*9wEM~Ntl!zmFzG,+Z%gu$P2,OvGz=b3T5G`8HP' );
+define( 'LOGGED_IN_SALT',    'A>Y4@-O46IFFEU.q]6P4hi)Jrf{9!7+U_Du,*|1aUC1O,&gFX7`/1CXz8f!#E6g@' );
+define( 'NONCE_SALT',        'Zm-`XYV3?I_^_>Z}Kw4e_5^mY{UCMGe1S,)>Q~pb[@d4&Es-Xsqu3rj>D*a1Q$^M' );
+define( 'WP_CACHE_KEY_SALT', '{QoT_9 C[gnvDPKStKU&JZ|Jl_R|heYg7.Jh>6i?gM_j5v5Ny,H hKcfB,8&gsdH' );
+
 
 /**#@-*/
 
 /**
- * Tiền tố cho bảng database.
+ * WordPress database table prefix.
  *
- * Đặt tiền tố cho bảng giúp bạn có thể cài nhiều site WordPress vào cùng một database.
- * Chỉ sử dụng số, ký tự và dấu gạch dưới!
+ * You can have multiple installations in one database if you give each
+ * a unique prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = 'wp_';
+$table_prefix = 'wp_';
 
 /**
- * Dành cho developer: Chế độ debug.
+ * For developers: WordPress debugging mode.
  *
- * Thay đổi hằng số này thành true sẽ làm hiện lên các thông báo trong quá trình phát triển.
- * Chúng tôi khuyến cáo các developer sử dụng WP_DEBUG trong quá trình phát triển plugin và theme.
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
  *
- * Để có thông tin về các hằng số khác có thể sử dụng khi debug, hãy xem tại Codex.
+ * For information on other constants that can be used for debugging,
+ * visit the documentation.
  *
- * @link https://codex.wordpress.org/Debugging_in_WordPress
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define('WP_DEBUG', false);
+define( 'WP_DEBUG', false );
 
-/******************* TRAININGHUB SETTTINGS ***************************/
-define('__SENDEMAIL_ON_OFF', '__MAIL_ON'); // __MAIL_ON: enable; __MAIL_OFF: disible
-define('_DELETE_DRAFT_', 5); // number of minutes to delete draft courses
 
-define('__USING_ASA_SYSTEM', 'NO'); // number of minutes to delete draft courses
+/* Add any custom values between this line and the "stop editing" line. */
 
-define('_BRANCHS_', array(
-        "DNI_HV"=>"Đồng Nai - Hùng Vương",
-        "DongXoai"=>"Đồng Xoài",
-        "HCM_DXH"=>"Đỗ Xuân Hợp",
-        "HCM_HB"=>"Hòa Bình",
-        "HCM_GR"=>"Green River",
-        "HCM_HTP"=>"Huỳnh Tân Phát",
-        "HCM_LQD"=>"Lê Quang Định",
-        "HCM_NK2"=>"Nguyễn Kiệm",
-        "HCM_NO"=>"Nguyễn Oanh",
-        "HCM_STCC"=>"Củ Chi",
-        "HCM_HG"=>"Hậu Giang",
-        "HCM_HHG"=>"Hà Huy Giáp",
-        "HCM_KDV"=>"Kinh Dương Vương",
-        "HCM_KH"=>"Khánh Hội",
-        "HCM_TN"=>"Trần Não",
-        "HCM_TVD"=>"Tô Vĩnh Diện",
-        "HCM_LTT"=>"Lê Trọng Tấn",
-        "HCM_MS"=>"Morning Star",
-        "HCM_NAT"=>"Nguyễn Ảnh Thủ",
-        "HCM_NAT2"=>"Nguyễn Ảnh Thủ 2",
-        "HCM_NCT"=>"Nguyễn Chí Thanh",
-        "HCM_NDT"=>"Nguyễn Duy Trinh",
-        "HCM_NKV"=>"Nguyễn Khắc Viện",
-        "HCM_NTMK"=>"Nguyễn Thị Minh Khai",
-        "HCM_NTT"=>"Nguyễn Thị Thập",
-        "HCM_NVTA"=>"Nguyễn Văn Tăng",
-        "HCM_NVTH"=>"Nguyễn Văn Thủ",
-        "HCM_OL"=>"Online",
-        "HCM_PVH"=>"Phan Văn Hớn",
-        "HCM_PVD"=>"Phạm Văn Đồng",
-        "HCM_PXL"=>"Phan Xích Long",
-        "HCM_QT"=>"Quang Trung",
-        "LA-TA"=>"Long An - Tân An",
-        "HCM_TC"=>"Trường Chinh",
-        "TGG_LTK"=>"Tiền Giang - Lý Thường Kiệt",
-        "HCM_TK"=>"Tô Ký",
-        "HCM_TK2"=>"Tô Ký 2",
-        "HCM_TL"=>"Tên Lửa",
-        "TNH_304"=>"Tây Ninh - 30/4",
-        "HCM_TNV"=>"Tô Ngọc Vân",
-        "HCM_UT"=>"Út Tịch",
-        "HCM_PTB"=>"Vĩnh Long - Phạm Thái Bướng",
-        "BRV_TCD"=>"Vũng Tàu - Trương Công Định",
-        "HCM_VVV"=>"Võ Văn Vân"
-));
 
-/******************* ./END TRAININGHUB SETTTINGS ***************************/
 
-/* Đó là tất cả thiết lập, ngưng sửa từ phần này trở xuống. Chúc bạn viết blog vui vẻ. */
+define( 'FS_METHOD', 'direct' );
+define( 'WP_AUTO_UPDATE_CORE', 'minor' );
+/* That's all, stop editing! Happy publishing. */
 
-define('FS_METHOD', 'direct');
+/** Absolute path to the WordPress directory. */
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', __DIR__ . '/' );
+}
 
-/** Đường dẫn tuyệt đối đến thư mục cài đặt WordPress. */
-if (!defined('ABSPATH'))
-        define('ABSPATH', dirname(__FILE__) . '/');
-
-/** Thiết lập biến và include file. */
-require_once(ABSPATH . 'wp-settings.php');
-
+/** Sets up WordPress vars and included files. */
+require_once ABSPATH . 'wp-settings.php';
