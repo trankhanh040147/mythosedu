@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import type { CurrencyCode } from '@woocommerce/types';
+
+/**
  * Internal dependencies
  */
 import {
@@ -6,8 +11,14 @@ import {
 	ShippingRateItem,
 	ExtensionsData,
 } from './cart-response';
+
+import {
+	ProductResponseItemData,
+	ProductResponseItem,
+} from './product-response';
+
 export interface CurrencyInfo {
-	currency_code: string;
+	currency_code: CurrencyCode;
 	currency_symbol: string;
 	currency_minor_unit: number;
 	currency_decimal_separator: string;
@@ -56,7 +67,7 @@ export interface CartShippingPackageShippingRate extends CurrencyInfo {
 }
 
 export interface CartShippingRate {
-	package_id: number;
+	package_id: string | number;
 	name: string;
 	destination: BaseAddress;
 	items: Array< ShippingRateItem >;
@@ -114,7 +125,12 @@ export interface CartItem {
 	id: number;
 	quantity: number;
 	catalog_visibility: CatalogVisibility;
-	quantity_limit: number;
+	quantity_limits: {
+		minimum: number;
+		maximum: number;
+		multiple_of: number;
+		editable: boolean;
+	};
 	name: string;
 	summary: string;
 	short_description: string;
@@ -130,7 +146,7 @@ export interface CartItem {
 	prices: CartItemPrices;
 	totals: CartItemTotals;
 	extensions: ExtensionsData;
-	item_data: Record< string, unknown >[];
+	item_data: ProductResponseItemData[];
 }
 
 export interface CartTotalsTaxLineItem {
@@ -169,7 +185,7 @@ export interface CartErrorItem {
 	message: string;
 }
 
-export interface Cart {
+export interface Cart extends Record< string, unknown > {
 	coupons: Array< CartCouponItem >;
 	shippingRates: Array< CartShippingRate >;
 	shippingAddress: CartShippingAddress;
@@ -177,13 +193,15 @@ export interface Cart {
 	items: Array< CartItem >;
 	itemsCount: number;
 	itemsWeight: number;
+	crossSells: Array< ProductResponseItem >;
 	needsPayment: boolean;
 	needsShipping: boolean;
 	hasCalculatedShipping: boolean;
 	fees: Array< CartFeeItem >;
 	totals: CartTotals;
 	errors: Array< CartErrorItem >;
-	paymentRequirements: Array< unknown >;
+	paymentMethods: Array< string >;
+	paymentRequirements: Array< string >;
 	extensions: ExtensionsData;
 }
 export interface CartMeta {
@@ -196,4 +214,9 @@ export interface CartMeta {
 export interface ExtensionCartUpdateArgs {
 	data: Record< string, unknown >;
 	namespace: string;
+}
+
+export interface BillingAddressShippingAddress {
+	billing_address: Partial< CartBillingAddress >;
+	shipping_address: Partial< CartShippingAddress >;
 }

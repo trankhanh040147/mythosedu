@@ -71,8 +71,19 @@ if ( ! tutor_utils()->is_instructor( get_current_user_id(), true ) || ! tutor_ut
 				<div class="tutor-col-auto">
 					<div class="tutor-dashboard-builder-header-left">
 						<div class="tutor-dashboard-builder-logo">
-							<?php $tutor_course_builder_logo_src = apply_filters( 'tutor_course_builder_logo_src', tutor()->url . 'assets/images/tutor-logo.png' ); ?>
-							<img src="<?php echo esc_url( $tutor_course_builder_logo_src ); ?>" alt="">
+							<?php //$tutor_course_builder_logo_src = apply_filters( 'tutor_course_builder_logo_src', tutor()->url . 'assets/images/tutor-logo.png' ); ?>
+							<!--img src="<?php //echo esc_url( $tutor_course_builder_logo_src ); ?>" alt="" -->
+							<a href="<?php echo site_url();?>"><span
+                                    class="navbar-brand et_pb_image_wrap __logo">
+<?php
+$custom_logo_id = get_theme_mod( 'custom_logo' );
+$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+?>
+                                    <img loading="lazy" width="284" height="57"
+                                        src="<?php echo $image[0]; ?>" title="logo-sticky" class="wp-image-10"></span>
+                            </a>
+
+							
 						</div>
 					</div>
 				</div>

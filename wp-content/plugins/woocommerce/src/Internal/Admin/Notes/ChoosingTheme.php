@@ -9,8 +9,8 @@ namespace Automattic\WooCommerce\Internal\Admin\Notes;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\Notes\Note;
-use \Automattic\WooCommerce\Admin\Notes\NoteTraits;
+use Automattic\WooCommerce\Admin\Notes\Note;
+use Automattic\WooCommerce\Admin\Notes\NoteTraits;
 
 /**
  * Giving_Feedback_Notes
@@ -31,7 +31,7 @@ class ChoosingTheme {
 	 *
 	 * @return Note
 	 */
-	protected static function get_note() {
+	public static function get_note() {
 		// We need to show choosing a theme notification after 1 day of install.
 		if ( ! self::is_wc_admin_active_in_date_range( 'week-1', DAY_IN_SECONDS ) ) {
 			return;

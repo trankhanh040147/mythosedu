@@ -2,8 +2,11 @@
 /**
  * Color Preset area for settings.
  *
- * @package LMS
- * @since 2.0
+ * @package Tutor\Views
+ * @subpackage Tutor\Settings
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
  */
 
 $value = $this->get( $field['key'] );
@@ -43,8 +46,8 @@ $field_id = esc_attr( 'field_' . $field_key );
 
 <div class="tutor-option-field-row tutor-d-block">
 	<div class="tutor-option-field-label">
-		<h5 class="label"><?php esc_attr( $fields_group['label'] ); ?></h5>
-		<p class="desc"><?php esc_attr( $fields_group['desc'] ); ?></p>
+		<div class="tutor-fs-6 tutor-fw-medium tutor-mb-8" tutor-option-name><?php esc_attr( $fields_group['label'] ); ?></div>
+		<div class="tutor-fs-7 tutor-color-muted"><?php esc_attr( $fields_group['desc'] ); ?></div>
 	</div>
 
 	<div class="tutor-option-field-input color-preset-grid">
@@ -63,7 +66,7 @@ $field_id = esc_attr( 'field_' . $field_key );
 					<?php endforeach; ?>
 				</div>
 				<div class="footer">
-					<span class="text-regular-body"><?php echo esc_attr( $fields['label'] ); ?></span><span class="check-icon"></span>
+					<span class="tutor-fs-6"><?php echo esc_attr( $fields['label'] ); ?></span><span class="check-icon"></span>
 				</div>
 			</div>
 		</label>

@@ -15,8 +15,6 @@ import {
 	useForcedLayout,
 	getAllowedBlocks,
 } from '../../../cart-checkout-shared';
-import iconDataUri from './icon-data-uri.js';
-import './style.scss';
 
 const browseStoreTemplate = SHOP_URL
 	? [
@@ -26,7 +24,7 @@ const browseStoreTemplate = SHOP_URL
 				content: sprintf(
 					/* translators: %s is the link to the store product directory. */
 					__(
-						'<a href="%s">Browse store</a>.',
+						'<a href="%s">Browse store</a>',
 						'woo-gutenberg-products-block'
 					),
 					SHOP_URL
@@ -36,15 +34,7 @@ const browseStoreTemplate = SHOP_URL
 	  ]
 	: null;
 
-const defaultTemplate = ( [
-	[
-		'core/image',
-		{
-			align: 'center',
-			url: iconDataUri,
-			sizeSlug: 'small',
-		},
-	],
+const defaultTemplate = [
 	[
 		'core/heading',
 		{
@@ -54,7 +44,7 @@ const defaultTemplate = ( [
 				'woo-gutenberg-products-block'
 			),
 			level: 2,
-			className: 'wc-block-cart__empty-cart__title',
+			className: 'with-empty-cart-icon wc-block-cart__empty-cart__title',
 		},
 	],
 	browseStoreTemplate,
@@ -79,7 +69,7 @@ const defaultTemplate = ( [
 			rows: 1,
 		},
 	],
-].filter( Boolean ) as unknown ) as TemplateArray;
+].filter( Boolean ) as unknown as TemplateArray;
 
 export const Edit = ( { clientId }: { clientId: string } ): JSX.Element => {
 	const blockProps = useBlockProps();

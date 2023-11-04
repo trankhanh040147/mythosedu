@@ -1,11 +1,35 @@
 <?php
+/**
+ * Handle Ajax Request
+ *
+ * @package Tutor
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 1.0.0
+ */
+
 namespace TUTOR;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Tutor\Models\LessonModel;
+
+/**
+ * Ajax Class
+ *
+ * @since 1.0.0
+ */
 class Ajax {
+
+	const LOGIN_ERRORS_TRANSIENT_KEY = 'tutor_login_errors';
+	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function __construct() {
 
 		add_action( 'wp_ajax_sync_video_playback', array( $this, 'sync_video_playback' ) );
@@ -31,7 +55,7 @@ class Ajax {
 		 *
 		 * @since  v.1.6.3
 		 */
-		add_action( 'wp_ajax_nopriv_tutor_user_login', array( $this, 'process_ajax_login' ) );
+		add_action( 'tutor_action_tutor_user_login', array( $this, 'process_tutor_login' ) );
 
 		/**
 		 * Announcement
@@ -47,15 +71,16 @@ class Ajax {
 	/**
 	 * Update video information and data when necessary
 	 *
-	 * @since v.1.0.0
+	 * @since 1.0.0
+	 * @return void
 	 */
 	public function sync_video_playback() {
 		tutor_utils()->checking_nonce();
 
-		$user_id     = get_current_user_id();
-		$post_id     = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : 0;
-		$duration    = sanitize_text_field( $_POST['duration'] );
-		$currentTime = sanitize_text_field( $_POST['currentTime'] );
+		$user_id      = get_current_user_id();
+		$post_id      = Input::post( 'post_id', 0, Input::TYPE_INT );
+		$duration     = Input::post( 'duration' );
+		$current_time = Input::post( 'currentTime' );
 
 		if ( ! tutor_utils()->has_enrolled_content_access( 'lesson', $post_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor' ) ) );
@@ -68,7 +93,7 @@ class Ajax {
 		$video = tutor_utils()->get_video( $post_id );
 
 		if ( $duration ) {
-			$video['duration_sec'] = $duration; // secs
+			$video['duration_sec'] = $duration; // Duration in sec.
 			$video['playtime']     = tutor_utils()->playtime_string( $duration );
 			$video['runtime']      = tutor_utils()->playtime_array( $duration );
 		}
@@ -79,36 +104,48 @@ class Ajax {
 		 */
 
 		$best_watch_time = tutor_utils()->get_lesson_reading_info( $post_id, $user_id, 'video_best_watched_time' );
-		if ( $best_watch_time < $currentTime ) {
-			tutor_utils()->update_lesson_reading_info( $post_id, $user_id, 'video_best_watched_time', $currentTime );
+		if ( $best_watch_time < $current_time ) {
+			LessonModel::update_lesson_reading_info( $post_id, $user_id, 'video_best_watched_time', $current_time );
 		}
 
-		if ( tutor_utils()->avalue_dot( 'is_ended', $_POST ) ) {
-			tutor_utils()->mark_lesson_complete( $post_id );
+		if ( Input::post( 'is_ended', false, Input::TYPE_BOOL ) ) {
+			LessonModel::mark_lesson_complete( $post_id );
 		}
 		exit();
 	}
 
+	/**
+	 * Video playback callback for noprev
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function sync_video_playback_noprev() {
 
 	}
 
-
+	/**
+	 * Place rating
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function tutor_place_rating() {
-		global $wpdb;
-
 		tutor_utils()->checking_nonce();
 
-		$rating    = sanitize_text_field( tutor_utils()->avalue_dot( 'tutor_rating_gen_input', $_POST ) );
-		$course_id = sanitize_text_field( tutor_utils()->avalue_dot( 'course_id', $_POST ) );
-		$review    = sanitize_textarea_field( tutor_utils()->avalue_dot( 'review', $_POST ) );
+		global $wpdb;
 
-		! $rating ? $rating   = 0 : 0;
-		$rating > 5 ? $rating = 5 : 0;
+		$moderation = tutor_utils()->get_option( 'enable_course_review_moderation', false, true, true );
+		$rating     = Input::post( 'tutor_rating_gen_input', 0, Input::TYPE_INT );
+		$course_id  = Input::post( 'course_id' );
+		$review     = Input::post( 'review', '', Input::TYPE_TEXTAREA );
+
+		$rating <= 0 ? $rating = 1 : 0;
+		$rating > 5 ? $rating  = 5 : 0;
 
 		$user_id = get_current_user_id();
 		$user    = get_userdata( $user_id );
-		$date    = date( 'Y-m-d H:i:s', tutor_time() );
+		$date    = date( 'Y-m-d H:i:s', tutor_time() ); //phpcs:ignore
 
 		if ( ! tutor_utils()->has_enrolled_content_access( 'course', $course_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor' ) ) );
@@ -130,15 +167,28 @@ class Ajax {
 			)
 		);
 
-		$review_ID = $previous_rating_id;
+		$review_id = $previous_rating_id;
 		if ( $previous_rating_id ) {
 			$wpdb->update(
 				$wpdb->comments,
-				array( 'comment_content' => $review ),
+				array(
+					'comment_content'  => $review,
+					'comment_approved' => $moderation ? 'hold' : 'approved',
+					'comment_date'     => $date,
+					'comment_date_gmt' => get_gmt_from_date( $date ),
+				),
 				array( 'comment_ID' => $previous_rating_id )
 			);
 
-			$rating_info = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->commentmeta} WHERE comment_id = %d AND meta_key = 'tutor_rating'; ", $previous_rating_id ) );
+			$rating_info = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->commentmeta} 
+				WHERE comment_id = %d 
+					AND meta_key = 'tutor_rating'; ",
+					$previous_rating_id
+				)
+			);
+
 			if ( $rating_info ) {
 				$wpdb->update(
 					$wpdb->commentmeta,
@@ -161,7 +211,7 @@ class Ajax {
 		} else {
 			$data = array(
 				'comment_post_ID'  => esc_sql( $course_id ),
-				'comment_approved' => 'approved',
+				'comment_approved' => $moderation ? 'hold' : 'approved',
 				'comment_type'     => 'tutor_course_rating',
 				'comment_date'     => $date,
 				'comment_date_gmt' => get_gmt_from_date( $date ),
@@ -175,7 +225,7 @@ class Ajax {
 
 			$wpdb->insert( $wpdb->comments, $data );
 			$comment_id = (int) $wpdb->insert_id;
-			$review_ID  = $comment_id;
+			$review_id  = $comment_id;
 
 			if ( $comment_id ) {
 				$result = $wpdb->insert(
@@ -194,15 +244,21 @@ class Ajax {
 		wp_send_json_success(
 			array(
 				'message'   => __( 'Rating placed successsully!', 'tutor' ),
-				'review_id' => $review_ID,
+				'review_id' => $review_id,
 			)
 		);
 	}
 
+	/**
+	 * Delete a review
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function delete_tutor_review() {
 		tutor_utils()->checking_nonce();
 
-		$review_id = sanitize_text_field( tutor_utils()->array_get( 'review_id', $_POST ) );
+		$review_id = Input::post( 'review_id' );
 
 		if ( ! tutor_utils()->can_user_manage( 'review', $review_id, get_current_user_id() ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permissioned Denied!', 'tutor' ) ) );
@@ -216,10 +272,16 @@ class Ajax {
 		wp_send_json_success();
 	}
 
+	/**
+	 * Add course in wishlist
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function tutor_course_add_to_wishlist() {
 		tutor_utils()->checking_nonce();
 
-		// Redirect login since only logged in user can add courses to wishlist
+		// Redirect login since only logged in user can add courses to wishlist.
 		if ( ! is_user_logged_in() ) {
 			wp_send_json_error(
 				array(
@@ -230,7 +292,7 @@ class Ajax {
 
 		global $wpdb;
 		$user_id   = get_current_user_id();
-		$course_id = (int) sanitize_text_field( $_POST['course_id'] );
+		$course_id = Input::post( 'course_id', 0, Input::TYPE_INT );
 
 		$if_added_to_list = $wpdb->get_row(
 			$wpdb->prepare(
@@ -271,6 +333,9 @@ class Ajax {
 
 	/**
 	 * Prepare addons data
+	 *
+	 * @since 1.0.0
+	 * @return array
 	 */
 	public function prepare_addons_data() {
 		$addons       = apply_filters( 'tutor_addons_lists_config', array() );
@@ -315,7 +380,7 @@ class Ajax {
 				$plugins_data[ $base_name ]['plugins_required'] = $depended_plugins;
 
 				// Check if it's notifications.
-				if ( function_exists( 'tutor_notifications' ) && $base_name == tutor_notifications()->basename ) {
+				if ( function_exists( 'tutor_notifications' ) && tutor_notifications()->basename === $base_name ) {
 
 					$required = array();
 					version_compare( PHP_VERSION, '7.2.5', '>=' ) ? 0 : $required[] = __( 'PHP 7.2.5 or greater is required', 'tutor' );
@@ -330,9 +395,19 @@ class Ajax {
 			}
 		}
 
+		/**
+		 * Keep same sorting order.
+		 * 
+		 * @since 2.2.4
+		 */
+		$free_addon_list = apply_filters( 'tutor_pro_addons_lists_for_display', array() );
 		$prepared_addons = array();
-		foreach ( $plugins_data as $tutor_addon ) {
-			array_push( $prepared_addons, $tutor_addon );
+
+		foreach ( $free_addon_list as $addon_name => $addon ) {
+			$key = "tutor-pro/addons/{$addon_name}/{$addon_name}.php";
+			if ( isset( $plugins_data[ $key ] ) ) {
+				$prepared_addons[] = $plugins_data[ $key ];
+			}
 		}
 
 		return $prepared_addons;
@@ -340,6 +415,9 @@ class Ajax {
 
 	/**
 	 * Get all notifications
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	public function tutor_get_all_addons() {
 
@@ -358,6 +436,9 @@ class Ajax {
 
 	/**
 	 * Method for enable / disable addons
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	public function addon_enable_disable() {
 
@@ -365,30 +446,27 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor' ) ) );
 		}
 
-		$addonsConfig = maybe_unserialize( get_option( 'tutor_addons_config' ) );
+		$addons_config     = maybe_unserialize( get_option( 'tutor_addons_config' ) );
+		$addon_field_names = json_decode( stripslashes( ( tutor_utils()->avalue_dot( 'addonFieldNames', $_POST ) ) ), true ); //phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-		// $isEnable = (bool) sanitize_text_field( tutor_utils()->avalue_dot( 'isEnable', $_POST ) );
-		// $addonFieldName = sanitize_text_field( tutor_utils()->avalue_dot( 'addonFieldName', $_POST ) );
-		$addonFieldNames = json_decode( stripslashes( ( tutor_utils()->avalue_dot( 'addonFieldNames', $_POST ) ) ), true );
-
-		foreach ( $addonFieldNames as $addonFieldName => $isEnable ) {
+		foreach ( $addon_field_names as $addon_field_name => $is_enable ) {
 			do_action( 'tutor_addon_before_enable_disable' );
-			if ( $isEnable ) {
-				do_action( "tutor_addon_before_enable_{$addonFieldName}" );
-				do_action( 'tutor_addon_before_enable', $addonFieldName );
-				$addonsConfig[ $addonFieldName ]['is_enable'] = 1;
-				update_option( 'tutor_addons_config', $addonsConfig );
+			if ( $is_enable ) {
+				do_action( "tutor_addon_before_enable_{$addon_field_name}" );
+				do_action( 'tutor_addon_before_enable', $addon_field_name );
+				$addons_config[ $addon_field_name ]['is_enable'] = 1;
+				update_option( 'tutor_addons_config', $addons_config );
 
-				do_action( 'tutor_addon_after_enable', $addonFieldName );
-				do_action( "tutor_addon_after_enable_{$addonFieldName}" );
+				do_action( 'tutor_addon_after_enable', $addon_field_name );
+				do_action( "tutor_addon_after_enable_{$addon_field_name}" );
 			} else {
-				do_action( "tutor_addon_before_disable_{$addonFieldName}" );
-				do_action( 'tutor_addon_before_disable', $addonFieldName );
-				$addonsConfig[ $addonFieldName ]['is_enable'] = 0;
-				update_option( 'tutor_addons_config', $addonsConfig );
+				do_action( "tutor_addon_before_disable_{$addon_field_name}" );
+				do_action( 'tutor_addon_before_disable', $addon_field_name );
+				$addons_config[ $addon_field_name ]['is_enable'] = 0;
+				update_option( 'tutor_addons_config', $addons_config );
 
-				do_action( 'tutor_addon_after_disable', $addonFieldName );
-				do_action( "tutor_addon_after_disable_{$addonFieldName}" );
+				do_action( 'tutor_addon_after_disable', $addon_field_name );
+				do_action( "tutor_addon_after_disable_{$addon_field_name}" );
 			}
 			do_action( 'tutor_addon_after_enable_disable' );
 		}
@@ -397,44 +475,68 @@ class Ajax {
 	}
 
 	/**
-	 * Process ajax login
+	 * Process tutor login
 	 *
-	 * @since v.1.6.3
+	 * @since 1.6.3
+	 *
+	 * @since 2.1.3 Ajax removed, validation errors
+	 * stores in session.
+	 *
+	 * @return void
 	 */
-	public function process_ajax_login() {
-		tutor_utils()->checking_nonce();
+	public function process_tutor_login() {
+		$validation_error = new \WP_Error();
 
-		$username    = tutor_utils()->array_get( 'log', $_POST );
-		$password    = tutor_utils()->array_get( 'pwd', $_POST );
-		$redirect_to = tutor_utils()->array_get( 'redirect_to', $_POST );
+		/**
+		 * Separate nonce verification added to show nonce verification
+		 * failed message in a proper way.
+		 *
+		 * @since 2.1.4
+		 */
+		if ( ! wp_verify_nonce( $_POST[ tutor()->nonce ], tutor()->nonce_action ) ) { //phpcs:ignore
+			$validation_error->add( 401, __( 'Nonce verification failed', 'tutor' ) );
+			\set_transient( self::LOGIN_ERRORS_TRANSIENT_KEY, $validation_error->get_error_messages() );
+			return;
+		}
+		//phpcs:disable WordPress.Security.NonceVerification.Missing
+
+		/**
+		 * No sanitization/wp_unslash needed for log & pwd since WordPress
+		 * does itself
+		 *
+		 * @since 2.1.3
+		 *
+		 * @see https://developer.wordpress.org/reference/functions/wp_signon/
+		 */
+		$username    = tutor_utils()->array_get( 'log', $_POST ); //phpcs:ignore
+		$password    = tutor_utils()->array_get( 'pwd', $_POST ); //phpcs:ignore
+		$redirect_to = isset( $_POST['redirect_to'] ) ? esc_url_raw( wp_unslash( $_POST['redirect_to'] ) ) : '';
+		$remember    = isset( $_POST['rememberme'] );
 
 		try {
 			$creds = array(
-				'user_login'    => trim( wp_unslash( $username ) ),
+				'user_login'    => trim( $username ),
 				'user_password' => $password,
-				'remember'      => isset( $_POST['rememberme'] ),
+				'remember'      => $remember,
 			);
 
-			$validation_error = new \WP_Error();
 			$validation_error = apply_filters( 'tutor_process_login_errors', $validation_error, $creds['user_login'], $creds['user_password'] );
 
 			if ( $validation_error->get_error_code() ) {
-				wp_send_json_error(
-					array(
-						'message' => $validation_error->get_error_message(),
-					)
+				$validation_error->add(
+					$validation_error->get_error_code(),
+					$validation_error->get_error_message()
 				);
 			}
 
 			if ( empty( $creds['user_login'] ) ) {
-				wp_send_json_error(
-					array(
-						'message' => __( 'Username is required.', 'tutor' ),
-					)
+				$validation_error->add(
+					400,
+					__( 'Username is required.', 'tutor' )
 				);
 			}
 
-			// On multisite, ensure user exists on current site, if not add them before allowing login.
+			// On multi-site, ensure user exists on current site, if not add them before allowing login.
 			if ( is_multisite() ) {
 				$user_data = get_user_by( is_email( $creds['user_login'] ) ? 'email' : 'login', $creds['user_login'] );
 
@@ -447,48 +549,49 @@ class Ajax {
 			$user = wp_signon( apply_filters( 'tutor_login_credentials', $creds ), is_ssl() );
 
 			if ( is_wp_error( $user ) ) {
-				wp_send_json_error(
-					array(
-						'message' => $user->get_error_message(),
-					)
-				);
-			} else {
-				// since 1.9.8 do enroll if guest attempt to enroll
-				if ( ! empty( $_POST['tutor_course_enroll_attempt'] ) ) {
-					do_action( 'tutor_do_enroll_after_login_if_attempt', $_POST['tutor_course_enroll_attempt'] );
+				// If no error exist then add WP login error, to prevent error duplication.
+				if ( ! $validation_error->has_errors() ) {
+					$validation_error->add( 400, $user->get_error_message() );
 				}
-
-				wp_send_json_success(
-					array(
-						'redirect_to' => apply_filters( 'tutor_login_redirect_url', $redirect_to ),
-					)
-				);
+			} else {
+				do_action( 'tutor_after_login_success', $user->ID );
+				// Since 1.9.8 do enroll if guest attempt to enroll.
+				$course_enroll_attempt = Input::post( 'tutor_course_enroll_attempt' );
+				if ( ! empty( $course_enroll_attempt ) && is_a( $user, 'WP_User' ) ) {
+					do_action( 'tutor_do_enroll_after_login_if_attempt', $course_enroll_attempt, $user->ID );
+				}
+				wp_safe_redirect( $redirect_to );
+				exit();
 			}
 		} catch ( \Exception $e ) {
 			do_action( 'tutor_login_failed' );
-			wp_send_json_error( apply_filters( 'login_errors', $e->getMessage() ) );
+			$validation_error->add( 400, $e->getMessage() );
+		} finally {
+			// Store errors in transient data.
+			\set_transient( self::LOGIN_ERRORS_TRANSIENT_KEY, $validation_error->get_error_messages() );
 		}
 	}
 
 	/**
 	 * Create/Update announcement
 	 *
-	 * @since  v.1.7.9
+	 * @since  1.7.9
+	 * @return void
 	 */
 	public function create_or_update_annoucement() {
 		tutor_utils()->checking_nonce();
 
 		$error                = array();
-		$course_id            = sanitize_text_field( $_POST['tutor_announcement_course'] );
-		$announcement_title   = sanitize_text_field( $_POST['tutor_announcement_title'] );
-		$announcement_summary = sanitize_textarea_field( $_POST['tutor_announcement_summary'] );
+		$course_id            = Input::post( 'tutor_announcement_course' );
+		$announcement_title   = Input::post( 'tutor_announcement_title' );
+		$announcement_summary = Input::post( 'tutor_announcement_summary', '', Input::TYPE_TEXTAREA );
 
-		// Check if user can manage this announcment
+		// Check if user can manage this announcment.
 		if ( ! tutor_utils()->can_user_manage( 'course', $course_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor' ) ) );
 		}
 
-		// set data and sanitize it
+		// Set data and sanitize it.
 		$form_data = array(
 			'post_type'    => 'tutor_announcements',
 			'post_title'   => $announcement_title,
@@ -497,11 +600,11 @@ class Ajax {
 			'post_status'  => 'publish',
 		);
 
-		if ( isset( $_POST['announcement_id'] ) ) {
-			$form_data['ID'] = sanitize_text_field( $_POST['announcement_id'] );
+		if ( Input::has( 'announcement_id' ) ) {
+			$form_data['ID'] = Input::post( 'announcement_id' );
 		}
 
-		// validation message set
+		// Validation message set.
 		if ( empty( $form_data['post_parent'] ) ) {
 			$error['post_parent'] = __( 'Course name required', 'tutor' );
 
@@ -521,7 +624,7 @@ class Ajax {
 
 		}
 
-		// If validation fails
+		// If validation fails.
 		if ( count( $error ) > 0 ) {
 			wp_send_json_error(
 				array(
@@ -531,15 +634,15 @@ class Ajax {
 			);
 		}
 
-		// insert or update post
+		// Insert or update post.
 		$post_id = wp_insert_post( $form_data );
 		if ( $post_id > 0 ) {
 			$announcement = get_post( $post_id );
-			$action_type  = sanitize_textarea_field( $_POST['action_type'] );
+			$action_type  = Input::post( 'action_type' );
 
 			do_action( 'tutor_announcements/after/save', $post_id, $announcement, $action_type );
 
-			$resp_message = $action_type == 'create' ? __( 'Announcement created successfully', 'tutor' ) : __( 'Announcement updated successfully', 'tutor' );
+			$resp_message = 'create' === $action_type ? __( 'Announcement created successfully', 'tutor' ) : __( 'Announcement updated successfully', 'tutor' );
 			wp_send_json_success( array( 'message' => $resp_message ) );
 		}
 
@@ -549,11 +652,13 @@ class Ajax {
 	/**
 	 * Delete announcement
 	 *
-	 * @since  v.1.7.9
+	 * @since  1.7.9
+	 * @return void
 	 */
 	public function delete_annoucement() {
-		$announcement_id = sanitize_text_field( $_POST['announcement_id'] );
 		tutor_utils()->checking_nonce();
+
+		$announcement_id = Input::post( 'announcement_id' );
 
 		if ( ! tutor_utils()->can_user_manage( 'announcement', $announcement_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor' ) ) );

@@ -2,9 +2,10 @@
 /**
  * Instructor Feedback Template
  *
- * @package InstructorFeedback
- *
- * @since v2.0.0
+ * @package Tutor\Views
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
  */
 
 $attempt_data = $data['attempt_data'];
@@ -15,11 +16,11 @@ if ( $attempt_info ) {
 }
 
 ?>
-<div class="wrap">
+<div>
 	<div class="quiz-attempt-answers-wrap">
 		<div class="attempt-answers-header tutor-mb-12">
 			<div class="attempt-header-quiz tutor-mt-24">
-				<span class="color-text-primary text-medium-body"><?php esc_html_e( 'Instructor Feedback', 'tutor' ); ?></span>
+				<span class="tutor-color-black tutor-fs-6 tutor-fw-medium"><?php esc_html_e( 'Instructor Feedback', 'tutor' ); ?></span>
 			</div>
 		</div>
 		<div class="tutor-instructor-feedback-wrap tutor-mb-16">
@@ -33,7 +34,7 @@ if ( $attempt_info ) {
 				tutor_load_template_from_custom_path( $text_editor_template, $editor_args );
 				?>
 		</div>
-		<button class="tutor-btn <?php echo is_admin() ? 'tutor-btn-wordpress' : ''; ?> tutor-instructor-feedback tutor-mt-4" data-attempt-id="<?php echo esc_attr( $attempt_data->attempt_id ); ?>" data-toast_success_message="<?php esc_html_e( 'Updated', 'tutor' ); ?>">
+		<button class="tutor-btn tutor-btn-primary tutor-instructor-feedback tutor-mt-4" data-attempt-id="<?php echo esc_attr( $attempt_data->attempt_id ); ?>" data-toast_success_message="<?php esc_html_e( 'Updated', 'tutor' ); ?>">
 				<?php esc_html_e( 'Update', 'tutor' ); ?>
 		</button>
 	</div>

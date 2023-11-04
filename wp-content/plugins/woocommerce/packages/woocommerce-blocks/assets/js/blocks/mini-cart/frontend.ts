@@ -1,10 +1,20 @@
 /**
  * External dependencies
  */
-import { getSetting } from '@woocommerce/settings';
 import preloadScript from '@woocommerce/base-utils/preload-script';
 import lazyLoadScript from '@woocommerce/base-utils/lazy-load-script';
+import getNavigationType from '@woocommerce/base-utils/get-navigation-type';
 import { translateJQueryEventToNative } from '@woocommerce/base-utils/legacy-events';
+
+/**
+ * Internal dependencies
+ */
+import {
+	getMiniCartTotalsFromLocalStorage,
+	getMiniCartTotalsFromServer,
+	updateTotals,
+} from './utils/data';
+import setStyles from './utils/set-styles';
 
 interface dependencyData {
 	src: string;
@@ -14,6 +24,10 @@ interface dependencyData {
 	translations?: string;
 }
 
+updateTotals( getMiniCartTotalsFromLocalStorage() );
+getMiniCartTotalsFromServer().then( updateTotals );
+setStyles();
+
 window.addEventListener( 'load', () => {
 	const miniCartBlocks = document.querySelectorAll( '.wc-block-mini-cart' );
 	let wasLoadScriptsCalled = false;
@@ -22,10 +36,10 @@ window.addEventListener( 'load', () => {
 		return;
 	}
 
-	const dependencies = getSetting(
-		'mini_cart_block_frontend_dependencies',
-		{}
-	) as Record< string, dependencyData >;
+	const dependencies = window.wcBlocksMiniCartFrontendDependencies as Record<
+		string,
+		dependencyData
+	>;
 
 	// Preload scripts
 	for ( const dependencyHandle in dependencies ) {
@@ -76,6 +90,17 @@ window.addEventListener( 'load', () => {
 
 	document.body.addEventListener( 'wc-blocks_adding_to_cart', loadScripts );
 
+	// Load scripts if a page is reloaded via the back button (potentially out of date cart data).
+	// Based on refreshCachedCartData() in assets/js/base/context/cart-checkout/cart/index.js.
+	window.addEventListener(
+		'pageshow',
+		( event: PageTransitionEvent ): void => {
+			if ( event?.persisted || getNavigationType() === 'back_forward' ) {
+				loadScripts();
+			}
+		}
+	);
+
 	miniCartBlocks.forEach( ( miniCartBlock, i ) => {
 		if ( ! ( miniCartBlock instanceof HTMLElement ) ) {
 			return;
@@ -100,7 +125,7 @@ window.addEventListener( 'load', () => {
 			document.body.removeEventListener(
 				'wc-blocks_added_to_cart',
 				// eslint-disable-next-line @typescript-eslint/no-use-before-define
-				openDrawerWithRefresh
+				funcOnAddToCart
 			);
 			document.body.removeEventListener(
 				'wc-blocks_removed_from_cart',
@@ -125,12 +150,10 @@ window.addEventListener( 'load', () => {
 		};
 
 		const openDrawerWithRefresh = () => {
-			miniCartBlock.dataset.isDataOutdated = 'true';
 			openDrawer();
 		};
 
 		const loadContentsWithRefresh = () => {
-			miniCartBlock.dataset.isDataOutdated = 'true';
 			miniCartBlock.dataset.isInitiallyOpen = 'false';
 			loadContents();
 		};
@@ -139,12 +162,17 @@ window.addEventListener( 'load', () => {
 		miniCartButton.addEventListener( 'focus', loadScripts );
 		miniCartButton.addEventListener( 'click', openDrawer );
 
-		// There might be more than one Mini Cart block in the page. Make sure
+		const funcOnAddToCart =
+			miniCartBlock.dataset.addToCartBehaviour === 'open_drawer'
+				? openDrawerWithRefresh
+				: loadContentsWithRefresh;
+
+		// There might be more than one Mini-Cart block in the page. Make sure
 		// only one opens when adding a product to the cart.
 		if ( i === 0 ) {
 			document.body.addEventListener(
 				'wc-blocks_added_to_cart',
-				openDrawerWithRefresh
+				funcOnAddToCart
 			);
 			document.body.addEventListener(
 				'wc-blocks_removed_from_cart',

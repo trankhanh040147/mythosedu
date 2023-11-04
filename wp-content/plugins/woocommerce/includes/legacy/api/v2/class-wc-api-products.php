@@ -6,7 +6,7 @@
  *
  * @author      WooThemes
  * @category    API
- * @package     WooCommerce/API
+ * @package     WooCommerce\RestApi
  * @since       2.1
  * @version     3.0
  */
@@ -1929,7 +1929,7 @@ class WC_API_Products extends WC_API_Resource {
 			throw new WC_API_Exception( 'woocommerce_api_missing_product_attribute_name', sprintf( __( 'Missing parameter %s', 'woocommerce' ), 'name' ), 400 );
 		}
 
-		if ( strlen( $slug ) >= 28 ) {
+		if ( strlen( $slug ) > 28 ) {
 			throw new WC_API_Exception( 'woocommerce_api_invalid_product_attribute_slug_too_long', sprintf( __( 'Slug "%s" is too long (28 characters max). Shorten it, please.', 'woocommerce' ), $slug ), 400 );
 		} elseif ( wc_check_if_attribute_name_is_reserved( $slug ) ) {
 			throw new WC_API_Exception( 'woocommerce_api_invalid_product_attribute_slug_reserved_name', sprintf( __( 'Slug "%s" is not allowed because it is a reserved term. Change it, please.', 'woocommerce' ), $slug ), 400 );
@@ -2023,7 +2023,7 @@ class WC_API_Products extends WC_API_Resource {
 
 			// Clear transients
 			delete_transient( 'wc_attribute_taxonomies' );
-			WC_Cache_Helper::incr_cache_prefix( 'woocommerce-attributes' );
+			WC_Cache_Helper::invalidate_cache_group( 'woocommerce-attributes' );
 
 			$this->server->send_status( 201 );
 
@@ -2109,7 +2109,7 @@ class WC_API_Products extends WC_API_Resource {
 
 			// Clear transients
 			delete_transient( 'wc_attribute_taxonomies' );
-			WC_Cache_Helper::incr_cache_prefix( 'woocommerce-attributes' );
+			WC_Cache_Helper::invalidate_cache_group( 'woocommerce-attributes' );
 
 			return $this->get_product_attribute( $id );
 		} catch ( WC_API_Exception $e ) {
@@ -2171,7 +2171,7 @@ class WC_API_Products extends WC_API_Resource {
 
 			// Clear transients
 			delete_transient( 'wc_attribute_taxonomies' );
-			WC_Cache_Helper::incr_cache_prefix( 'woocommerce-attributes' );
+			WC_Cache_Helper::invalidate_cache_group( 'woocommerce-attributes' );
 
 			return array( 'message' => sprintf( __( 'Deleted %s', 'woocommerce' ), 'product_attribute' ) );
 		} catch ( WC_API_Exception $e ) {

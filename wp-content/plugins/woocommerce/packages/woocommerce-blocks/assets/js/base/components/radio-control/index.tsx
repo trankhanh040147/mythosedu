@@ -3,7 +3,6 @@
  */
 import classnames from 'classnames';
 import { useInstanceId } from '@wordpress/compose';
-
 /**
  * Internal dependencies
  */
@@ -14,9 +13,10 @@ import './style.scss';
 const RadioControl = ( {
 	className = '',
 	id,
-	selected,
-	onChange = () => void 0,
+	selected = '',
+	onChange,
 	options = [],
+	disabled = false,
 }: RadioControlProps ): JSX.Element | null => {
 	const instanceId = useInstanceId( RadioControl );
 	const radioControlId = id || instanceId;
@@ -44,6 +44,7 @@ const RadioControl = ( {
 							option.onChange( value );
 						}
 					} }
+					disabled={ disabled }
 				/>
 			) ) }
 		</div>

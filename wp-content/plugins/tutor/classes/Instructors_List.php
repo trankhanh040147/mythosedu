@@ -1,23 +1,34 @@
 <?php
 /**
- * Instructor List
+ * Manage Instructor List
  *
- * @package Instructor List
+ * @package Tutor
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 1.0.0
  */
 
 namespace TUTOR;
-
-use TUTOR\Students_List;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use TUTOR\Students_List;
 use TUTOR\Backend_Page_Trait;
+use Tutor\Cache\TutorCache;
+use Tutor\Helpers\QueryHelper;
 
+/**
+ * Instructors_List class
+ *
+ * @since 1.0.0
+ */
 class Instructors_List {
 
-	const INSTRUCTOR_LIST_PAGE = 'tutor-instructors';
+	const INSTRUCTOR_LIST_PAGE       = 'tutor-instructors';
+	const INSTRUCTOR_LIST_CACHE_KEY  = 'tutor-instructors-list';
+	const INSTRUCTOR_COUNT_CACHE_KEY = 'tutor-instructors-count';
 
 	/**
 	 * Trait for utilities
@@ -26,6 +37,7 @@ class Instructors_List {
 	 */
 
 	use Backend_Page_Trait;
+
 	/**
 	 * Page Title
 	 *
@@ -41,14 +53,18 @@ class Instructors_List {
 	public $bulk_action = true;
 
 	/**
-	 * Handle dependencies
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->page_title = __( 'Instructor', 'tutor' );
+
 		/**
 		 * Handle bulk action
 		 *
-		 * @since v2.0.0
+		 * @since 2.0.0
 		 */
 		add_action( 'wp_ajax_tutor_instructor_bulk_action', array( $this, 'instructor_bulk_action' ) );
 	}
@@ -56,18 +72,21 @@ class Instructors_List {
 	/**
 	 * Available tabs that will visible on the right side of page navbar
 	 *
-	 * @param string $search, instructor search | optional.
-	 * @param string $course_id, course id that belong to instructor | optional.
-	 * @param string $date, user registered date | optional.
+	 * @since 2.0.0
+	 *
+	 * @param string $search instructor search | optional.
+	 * @param string $course_id course id that belong to instructor | optional.
+	 * @param string $date user registered date | optional.
+	 *
 	 * @return array
-	 * @since v2.0.0
 	 */
 	public function tabs_key_value( $search = '', $course_id = '', $date = '' ): array {
 		$url     = get_pagenum_link();
-		$approve = tutor_utils()->get_total_instructors( $search, array( 'approved' ), $course_id, $date );
-		$pending = tutor_utils()->get_total_instructors( $search, array( 'pending' ), $course_id, $date );
-		$blocked = tutor_utils()->get_total_instructors( $search, array( 'blocked' ), $course_id, $date );
-		$tabs    = array(
+		$approve = self::count_total_instructors( array( 'approved' ), $search, $course_id, $date, 'approved' );
+		$pending = self::count_total_instructors( array( 'pending' ), $search, $course_id, $date, 'pending' );
+		$blocked = self::count_total_instructors( array( 'blocked' ), $search, $course_id, $date, 'blocked' );
+
+		$tabs = array(
 			array(
 				'key'   => 'all',
 				'title' => __( 'All', 'tutor' ),
@@ -99,8 +118,8 @@ class Instructors_List {
 	/**
 	 * Prepare bulk actions that will show on dropdown options
 	 *
+	 * @since 2.0.0
 	 * @return array
-	 * @since v2.0.0
 	 */
 	public function prpare_bulk_actions(): array {
 		$actions = array(
@@ -115,15 +134,21 @@ class Instructors_List {
 	/**
 	 * Handle bulk action for instructor delete
 	 *
+	 * @since 2.0.0
 	 * @return string JSON response.
-	 * @since v2.0.0
 	 */
 	public function instructor_bulk_action() {
-		// check nonce.
 		tutor_utils()->checking_nonce();
-		$action                                = isset( $_POST['bulk-action'] ) ? sanitize_text_field( $_POST['bulk-action'] ) : '';
-		$bulk_ids                              = isset( $_POST['bulk-ids'] ) ? sanitize_text_field( $_POST['bulk-ids'] ) : '';
-		isset( $_POST['bulkIds'] ) ? $bulk_ids = sanitize_text_field( $_POST['bulkIds'] ) : 0;
+
+		// Check if user is privileged.
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( tutor_utils()->error_message() );
+		}
+
+		$action   = Input::post( 'bulk-action', '' );
+		$bulk_ids = Input::post( 'bulk-ids', '' );
+
+		Input::has( 'bulkIds' ) ? $bulk_ids = Input::post( 'bulkIds' ) : 0;
 
 		if ( '' === $action || '' === $bulk_ids ) {
 			return wp_send_json_error();
@@ -141,33 +166,39 @@ class Instructors_List {
 
 		$message = 'Instructor status updated';
 
-		return true === $response ? wp_send_json_success(array('status'=>$message)) : wp_send_json_error();
-		exit;
+		return true === $response ? wp_send_json_success( array( 'status' => $message ) ) : wp_send_json_error();
 	}
 
 	/**
-	 * Execute bulk action for enrollments ex: complete | cancel
+	 * Execute bulk action for enrollment list ex: complete | cancel
+	 *
+	 * @since 2.0.0
 	 *
 	 * @param string $status hold status for updating.
-	 * @param string $users_ids ids that need to update.
+	 * @param string $user_ids comma seperated user ids.
+	 *
 	 * @return bool
-	 * @since v2.0.0
 	 */
 	public static function update_instructors( $status, $user_ids ): bool {
 		global $wpdb;
 		$status           = sanitize_text_field( $status );
 		$instructor_table = $wpdb->usermeta;
-		$update           = $wpdb->query(
+
+		$ids       = array_map( 'intval', explode( ',', $user_ids ) );
+		$in_clause = QueryHelper::prepare_in_clause( $ids );
+
+		//phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$update = $wpdb->query(
 			$wpdb->prepare(
-				" UPDATE {$instructor_table}
-					SET meta_value = %s
-					WHERE user_id IN ($user_ids)
-						AND meta_key = %s
-				",
+				"UPDATE {$instructor_table} SET meta_value = %s 
+				WHERE user_id IN ($in_clause) 
+				AND meta_key = %s",
 				$status,
 				'_tutor_instructor_status'
 			)
 		);
+		//phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 		// Remove role.
 		if ( 'pending' === $status || 'blocked' === $status ) {
 			$arr = explode( ',', $user_ids );
@@ -187,19 +218,15 @@ class Instructors_List {
 		return false === $update ? false : true;
 	}
 
-	function column_default( $item, $column_name ) {
-		switch ( $column_name ) {
-			case 'user_email':
-			case 'display_name':
-				return $item->$column_name;
-			case 'registration_date':
-				return esc_html( date( get_option( 'date_format' ), strtotime( $item->user_registered ) ) );
-			default:
-				return print_r( $item, true ); // Show the whole array for troubleshooting purposes
-		}
-	}
-
-	function column_total_course( $item ) {
+	/**
+	 * Get total course.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object $item item.
+	 * @return void
+	 */
+	public function column_total_course( $item ) {
 		global $wpdb;
 		$course_post_type = tutor()->course_post_type;
 
@@ -212,185 +239,17 @@ class Instructors_List {
 			)
 		);
 
-		echo $total_course;
-	}
-
-	/**
-	 * @param $item
-	 *
-	 * Completed Course by User
-	 */
-
-	function column_status( $item ) {
-		// Build row actions
-		$actions = array();
-
-		$status = tutor_utils()->instructor_status( $item->ID, false );
-
-		switch ( $status ) {
-			case 'pending':
-				$actions['approved'] = sprintf( '<span class="tutor-badge-label label-warning">' . __( 'Pending', 'tutor' ) . '</span>' );
-				break;
-			case 'approved':
-				$actions['blocked'] = sprintf( '<span class="tutor-badge-label label-success">' . __( 'Approved', 'tutor' ) . '</span>' );
-				break;
-			case 'blocked':
-				$actions['approved'] = sprintf( '<span class="tutor-badge-label label-danger">' . __( 'Blocked', 'tutor' ) . '</span>' );
-				break;
-		}
-
-		return $this->row_actions( $actions );
-	}
-
-	function column_display_name( $item ) {
-		// Build row actions
-		$actions = array();
-
-		$status = tutor_utils()->instructor_status( $item->ID, false );
-
-		switch ( $status ) {
-			case 'pending':
-				$actions['approved'] = sprintf( '<a class="btn-outline tutor-btn instructor-action" data-action="approve" data-instructor-id="' . $item->ID . '" href="?page=%s&action=%s&instructor=%s">' . __( 'Approve', 'tutor' ) . '</a>', self::INSTRUCTOR_LIST_PAGE, 'approve', $item->ID );
-				break;
-			case 'approved':
-				$actions['blocked'] = sprintf( '<a data-prompt-message="' . __( 'Sure to Block?', 'tutor' ) . '" class="btn-outline tutor-btn instructor-action" data-action="blocked" data-instructor-id="' . $item->ID . '" href="?page=%s&action=%s&instructor=%s">' . __( 'Block', 'tutor' ) . '</a>', self::INSTRUCTOR_LIST_PAGE, 'blocked', $item->ID );
-				break;
-			case 'blocked':
-				$actions['approved'] = sprintf( '<a data-prompt-message="' . __( 'Sure to Un Block?', 'tutor' ) . '" class="btn-outline tutor-btn instructor-action" data-action="approve" data-instructor-id="' . $item->ID . '" href="?page=%s&action=%s&instructor=%s">' . __( 'Unblock', 'tutor' ) . '</a>', self::INSTRUCTOR_LIST_PAGE, 'approve', $item->ID );
-				break;
-		}
-
-		// Add user edit link
-		$edit_link                             = get_edit_user_link( $item->ID );
-		$edit_link                             = '<a href="' . esc_url( $edit_link ) . '">' . esc_html__( 'Edit' ) . '</a>';
-		$actions['tutor-instructor-edit-link'] = $edit_link;
-
-		// Add remove instructor action
-		$removal_title                      = $status == 'pending' ? __( 'Reject', 'tutor' ) : __( 'Remove as Instructor', 'tutor' );
-		$removal_warning                    = $status == 'pending' ? __( 'Sure to Reject?', 'tutor' ) : __( 'Sure to Remove as Instructor?', 'tutor' );
-		$actions['tutor-remove-instructor'] = sprintf( '<a data-prompt-message="' . $removal_warning . '" class="instructor-action" data-action="remove-instructor" data-instructor-id="' . $item->ID . '"  href="?page=%s&action=%s&instructor=%s">' . $removal_title . '</a>', self::INSTRUCTOR_LIST_PAGE, 'remove-instructor', $item->ID );
-
-		// Return the title contents
-		return sprintf(
-			'%1$s <span style="color:silver">(id:%2$s)</span>%3$s',
-			$item->display_name,
-			$item->ID,
-			$this->row_actions( $actions )
-		);
-	}
-
-	function column_action( $item ) {
-		// Build row actions
-		$actions = array();
-
-		$status = tutor_utils()->instructor_status( $item->ID, false );
-
-		switch ( $status ) {
-			case 'pending':
-				$actions['approved'] = sprintf( '<a class="btn-outline tutor-btn instructor-action" data-action="approve" data-instructor-id="' . $item->ID . '" href="?page=%s&action=%s&instructor=%s">' . __( 'Approve', 'tutor' ) . '</a>', self::INSTRUCTOR_LIST_PAGE, 'approve', $item->ID );
-				break;
-			case 'approved':
-				$actions['blocked'] = sprintf( '<a data-title="' . ( '' ) . '" data-prompt-message="' . __( 'Are you sure, want to block?', 'tutor' ) . '" class="btn-outline tutor-btn instructor-action" data-action="blocked" data-instructor-id="' . $item->ID . '" href="?page=%s&action=%s&instructor=%s">' . __( 'Block', 'tutor' ) . '</a>', self::INSTRUCTOR_LIST_PAGE, 'blocked', $item->ID );
-				break;
-			case 'blocked':
-				$actions['approved'] = sprintf( '<a data-title="' . ( '' ) . '" data-prompt-message="' . __( 'Are you sure, want to approve?', 'tutor' ) . '" class="btn-outline tutor-btn instructor-action" data-action="approve" data-instructor-id="' . $item->ID . '" href="?page=%s&action=%s&instructor=%s">' . __( 'Approve', 'tutor' ) . '</a>', self::INSTRUCTOR_LIST_PAGE, 'approve', $item->ID );
-				break;
-		}
-
-		return $this->row_actions( $actions );
-	}
-
-	function column_cb( $item ) {
-		return sprintf(
-			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
-			/*$1%s*/ $this->_args['singular'],  // Let's simply repurpose the table's singular label ("instructor")
-			/*$2%s*/ $item->ID                // The value of the checkbox should be the record's id
-		);
-	}
-
-	function column_instructor_commission( $item ) {
-		$commision = apply_filters( 'tutor_pro_instructor_commission_string', $item->ID );
-
-		// If the return value is numeric, it means the filter was not executed.
-		// may be pro is not installed. So show N\A. The return value will something like '23 percent'
-
-		return ! is_numeric( $commision ) ? $commision : 'N\\A';
-	}
-
-	function get_columns() {
-		$columns = array(
-			'cb'                    => '<input type="checkbox" />', // Render a checkbox instead of text
-			'display_name'          => __( 'Name', 'tutor' ),
-			'user_email'            => __( 'E-Mail', 'tutor' ),
-			'total_course'          => __( 'Total Course', 'tutor' ),
-			'instructor_commission' => __( 'Instructor Commission', 'tutor' ),
-			'registration_date'     => __( 'Date', 'tutor' ),
-			'status'                => __( 'Status', 'tutor' ),
-		);
-		return $columns;
-	}
-
-	function get_sortable_columns() {
-		$sortable_columns = array(
-			// 'display_name'     => array('title',false),     //true means it's already sorted
-		);
-		return $sortable_columns;
-	}
-
-	/**
-	 * Handle single instructor approve | block action
-	 */
-	function process_bulk_action() {
-		$instructor_id = (int) sanitize_text_field( $_GET['instructor'] );
-		if ( 'approve' === $this->current_action() ) {
-			self::add_instructor_role( $instructor_id, 'approved' );
-		}
-
-		if ( 'blocked' === $this->current_action() ) {
-			self::add_instructor_role( $instructor_id, 'blocked' );
-		}
-	}
-
-	/**
-	 * Filter support added
-	 *
-	 * @param optional
-	 *
-	 * @since 1.9.7
-	 */
-	function prepare_items( $search_filter = '', $course_filter = '', $date_filter = '', $order_filter = '' ) {
-		$per_page = 20;
-
-		// $search_term = '';
-		// if (isset($_REQUEST['s'])){
-		// $search_term = sanitize_text_field($_REQUEST['s']);
-		// }
-
-		$columns  = $this->get_columns();
-		$hidden   = array();
-		$sortable = $this->get_sortable_columns();
-
-		$this->_column_headers = array( $columns, $hidden, $sortable );
-		$this->process_bulk_action();
-		$current_page = $this->get_pagenum();
-
-		$total_items = tutor_utils()->get_total_instructors( $search_filter );
-		$this->items = tutor_utils()->get_instructors( ( $current_page - 1 ) * $per_page, $per_page, $search_filter, $course_filter, $date_filter, $order_filter, $status = null, $cat_ids = array() );
-
-		$this->set_pagination_args(
-			array(
-				'total_items' => $total_items,
-				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
-			)
-		);
+		echo esc_html( $total_course );
 	}
 
 	/**
 	 * Initialize instructor_role to a user
 	 *
-	 * @param int    $instructor_id | user id that need to add role.
-	 * @param string $status | status that will added with role (approved).
+	 * @since 1.0.0
+	 *
+	 * @param integer $instructor_id | user id that need to add role.
+	 * @param string  $status | status that will added with role (approved).
+	 *
 	 * @return void
 	 */
 	protected static function add_instructor_role( int $instructor_id, string $status ) {
@@ -412,8 +271,11 @@ class Instructors_List {
 	/**
 	 * Initialize instructor_role to a user
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int    $instructor_id | user id that need to add role.
 	 * @param string $status | status that will added with role (approved).
+	 *
 	 * @return void
 	 */
 	protected static function remove_instructor_role( int $instructor_id, string $status ) {
@@ -426,5 +288,132 @@ class Instructors_List {
 		$instructor = new \WP_User( $instructor_id );
 		$instructor->remove_role( tutor()->instructor_role );
 		do_action( 'tutor_after_blocked_instructor', $instructor_id );
+	}
+
+	/**
+	 * Get instructors list
+	 *
+	 * @since 2.1.7
+	 *
+	 * @param array  $status instructor status: approved, pending, block.
+	 * @param int    $offset offset for pagination.
+	 * @param int    $per_page per page limit.
+	 * @param string $search search keyword.
+	 * @param string $course_id course id.
+	 * @param string $date instructor registration date.
+	 * @param string $order sorting order.
+	 *
+	 * @return wpdb::results
+	 */
+	public static function get_instructors( array $status, $offset, $per_page, $search = '', $course_id = '', $date = '', $order = 'DESC' ) {
+		global $wpdb;
+
+		$wild = '%';
+
+		$search_clause = $wild . $wpdb->esc_like( $search ) . $wild;
+		$course_clause = '' !== $course_id ? "AND umeta.meta_value = {$course_id}" : '';
+		$date_clause   = '' !== $date ? "AND DATE(user.user_registered) = CAST('$date' AS DATE )" : '';
+		$order_clause  = '' !== $order ? "ORDER BY user.ID {$order}" : '';
+		$in_clause     = QueryHelper::prepare_in_clause( $status );
+
+		$query  = "SELECT
+					DISTINCT user.*,
+					ins_status.meta_value AS status,
+					(
+						SELECT
+							COUNT(*)
+							FROM {$wpdb->posts}
+							WHERE post_author = user.ID
+								AND post_type = 'courses'
+					) total_courses
+					FROM {$wpdb->users} AS user
+						
+					INNER JOIN {$wpdb->usermeta} AS ins_status
+						ON ( user.ID = ins_status.user_id )
+						AND ins_status.meta_key = '_tutor_instructor_status'
+					LEFT JOIN {$wpdb->usermeta} AS umeta
+						ON umeta.user_id = user.ID
+						AND umeta.meta_key = '_tutor_instructor_course_id'
+					WHERE ins_status.meta_value IN ($in_clause)
+						AND (user.user_email LIKE %s OR user.display_name LIKE %s)
+						{$course_clause}
+						{$date_clause}
+					{$order_clause}
+					LIMIT %d, %d;
+				";
+		$result = TutorCache::get( self::INSTRUCTOR_LIST_CACHE_KEY );
+		if ( false === $result ) {
+			TutorCache::set(
+				self::INSTRUCTOR_LIST_CACHE_KEY,
+				$result = $wpdb->get_results(
+					$wpdb->prepare(
+						$query,
+						$search_clause,
+						$search_clause,
+						$offset,
+						$per_page
+					)
+				)
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Count total instructors
+	 *
+	 * @since 2.1.7
+	 *
+	 * @param array  $status instructor status: approved, pending, block.
+	 * @param string $search search keyword.
+	 * @param string $course_id course id.
+	 * @param string $date instructor registration date.
+	 * @param string $unique_cache_key unique key will be append with
+	 * self::INSTRUCTOR_COUNT_CACHE_KEY so that multiple count value could be
+	 * stored as unique data.
+	 *
+	 * @return int count value of instructors
+	 */
+	public static function count_total_instructors( array $status, $search = '', $course_id = '', $date = '', $unique_cache_key = '' ) {
+		global $wpdb;
+
+		$wild = '%';
+
+		$search_clause = $wild . $wpdb->esc_like( $search ) . $wild;
+		$course_clause = '' !== $course_id ? "AND umeta.meta_value = {$course_id}" : '';
+		$date_clause   = '' !== $date ? "AND DATE(user.user_registered) = CAST('$date' AS DATE )" : '';
+		$in_clause     = QueryHelper::prepare_in_clause( $status );
+
+		$query  = "SELECT
+					COUNT(DISTINCT user.ID)
+					
+					FROM {$wpdb->users} AS user
+						
+					INNER JOIN {$wpdb->usermeta} AS ins_status
+						ON ( user.ID = ins_status.user_id )
+						AND ins_status.meta_key = '_tutor_instructor_status'
+					LEFT JOIN {$wpdb->usermeta} AS umeta
+						ON umeta.user_id = user.ID
+						AND umeta.meta_key = '_tutor_instructor_course_id'
+					WHERE ins_status.meta_value IN ($in_clause)
+						AND (user.user_email LIKE %s OR user.display_name LIKE %s)
+						{$course_clause}
+						{$date_clause}
+				";
+		$result = TutorCache::get( self::INSTRUCTOR_COUNT_CACHE_KEY . $unique_cache_key );
+		if ( false === $result ) {
+			TutorCache::set(
+				self::INSTRUCTOR_COUNT_CACHE_KEY,
+				$result = $wpdb->get_var(
+					$wpdb->prepare(
+						$query,
+						$search_clause,
+						$search_clause
+					)
+				)
+			);
+		}
+		return $result;
 	}
 }

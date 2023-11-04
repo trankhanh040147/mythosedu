@@ -7,7 +7,7 @@ HTMLHint.addRule({
 		'use strict';
 
 		var self = this;
-		parser.addListener( 'Tagstart', function( event ) {
+		parser.addListener( 'tagstart', function( event ) {
 			var attr, col, attrName, allowedAttributes, i, len, tagName;
 
 			tagName = event.tagName.toLowerCase();

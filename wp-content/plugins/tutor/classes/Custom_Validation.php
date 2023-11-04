@@ -1,21 +1,32 @@
 <?php
+/**
+ * Reuseable custom validation trait
+ *
+ * @package Tutor
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
+ */
+
 namespace TUTOR;
 
-trait Custom_Validation
-{
+/**
+ * Custom Valaidation Trait
+ *
+ * @since 2.0.0
+ */
+trait Custom_Validation {
 
-	/*
-	*check whether order is asc or desc
-	*/
-	public function validate_order($order)
-	{
-
-		if($order === 'ASC' OR $order ==='DESC' OR $order ==='asc' OR $order ==='desc')
-		{
-			return true;
-		}
-		return false;
-
+	/**
+	 * Check whether order value is asc or desc
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $order sorting order.
+	 * @return bool
+	 */
+	public function validate_order( $order ) {
+		return in_array( strtolower( $order ), array( 'asc', 'desc' ) );
 	}
 }
-?>
+

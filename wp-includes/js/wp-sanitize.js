@@ -14,9 +14,9 @@
 	wp.sanitize = {
 
 		/**
-		 * Strip HTML Tags.
+		 * Strip HTML tags.
 		 *
-		 * @param {string} text Text to have the HTML Tags striped out of.
+		 * @param {string} text Text to have the HTML tags striped out of.
 		 *
 		 * @return  Stripped text.
 		 */
@@ -35,14 +35,14 @@
 				return wp.sanitize.stripTags( _text );
 			}
 
-			// Return the text with stripped Tags.
+			// Return the text with stripped tags.
 			return _text;
 		},
 
 		/**
-		 * Strip HTML Tags and convert HTML entities.
+		 * Strip HTML tags and convert HTML entities.
 		 *
-		 * @param {string} text Text to strip Tags and convert HTML entities.
+		 * @param {string} text Text to strip tags and convert HTML entities.
 		 *
 		 * @return Sanitized text. False on failure.
 		 */

@@ -1,24 +1,33 @@
 /**
  * External dependencies
  */
-import { useEffect, useState, useCallback } from '@wordpress/element';
+import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
 import { blocksConfig } from '@woocommerce/block-settings';
 import { getProducts } from '@woocommerce/editor-components/utils';
 import { useDebouncedCallback } from 'use-debounce';
-import type { ProductResponseItem } from '@woocommerce/types';
+import type {
+	ProductResponseItem,
+	WithInjectedSearchedProducts,
+} from '@woocommerce/types';
 
 /**
  * Internal dependencies
  */
-import { formatError } from '../base/utils/errors.js';
+import { formatError } from '../base/utils/errors';
+
+interface WithSearchedProductProps {
+	selected: number[];
+}
 
 /**
  * A higher order component that enhances the provided component with products from a search query.
  */
-const withSearchedProducts = (
-	OriginalComponent: React.FunctionComponent< Record< string, unknown > >
+const withSearchedProducts = <
+	T extends Record< string, unknown > & WithSearchedProductProps
+>(
+	OriginalComponent: React.ComponentType< T & WithInjectedSearchedProducts >
 ) => {
-	return ( { selected, ...props }: { selected: number[] } ): JSX.Element => {
+	return ( { selected, ...props }: T ): JSX.Element => {
 		const [ isLoading, setIsLoading ] = useState( true );
 		const [ error, setError ] = useState< {
 			message: string;
@@ -41,26 +50,25 @@ const withSearchedProducts = (
 			setIsLoading( false );
 		};
 
+		const selectedRef = useRef( selected );
+
 		useEffect( () => {
-			getProducts( { selected } )
+			getProducts( { selected: selectedRef.current } )
 				.then( ( results ) => {
 					setProductsList( results as ProductResponseItem[] );
 					setIsLoading( false );
 				} )
 				.catch( setErrorState );
-		}, [ selected ] );
+		}, [ selectedRef ] );
 
-		const [ debouncedSearch ] = useDebouncedCallback(
-			( search: string ) => {
-				getProducts( { selected, search } )
-					.then( ( results ) => {
-						setProductsList( results as ProductResponseItem[] );
-						setIsLoading( false );
-					} )
-					.catch( setErrorState );
-			},
-			400
-		);
+		const debouncedSearch = useDebouncedCallback( ( search: string ) => {
+			getProducts( { selected, search } )
+				.then( ( results ) => {
+					setProductsList( results as ProductResponseItem[] );
+					setIsLoading( false );
+				} )
+				.catch( setErrorState );
+		}, 400 );
 
 		const onSearch = useCallback(
 			( search: string ) => {
@@ -72,7 +80,7 @@ const withSearchedProducts = (
 
 		return (
 			<OriginalComponent
-				{ ...props }
+				{ ...( props as T ) }
 				selected={ selected }
 				error={ error }
 				products={ productsList }

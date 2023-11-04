@@ -1,15 +1,15 @@
 /**
  * External dependencies
  */
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from '@wordpress/element';
 
 interface Validation< T > {
 	( value: T, previousValue: T | undefined ): boolean;
 }
 /**
- * Use Previous based on https://usehooks.com/usePrevious/.
+ * Use Previous based on https://usehooks.com/useprevious/.
  *
- * @param {*}    value
+ * @param {*}        value
  * @param {Function} [validation] Function that needs to validate for the value
  *                                to be updated.
  */

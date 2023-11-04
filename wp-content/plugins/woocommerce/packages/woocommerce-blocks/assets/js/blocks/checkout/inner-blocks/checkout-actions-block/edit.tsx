@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import classnames from 'classnames';
 import { useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -8,11 +9,15 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import PageSelector from '@woocommerce/editor-components/page-selector';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { CHECKOUT_PAGE_ID } from '@woocommerce/block-settings';
+import { getSetting } from '@woocommerce/settings';
+import { ReturnToCartButton } from '@woocommerce/base-components/cart-checkout';
+import EditableButton from '@woocommerce/editor-components/editable-button';
 import Noninteractive from '@woocommerce/base-components/noninteractive';
+
 /**
  * Internal dependencies
  */
-import Block from './block';
+import { defaultPlaceOrderButtonLabel } from './constants';
 
 export const Edit = ( {
 	attributes,
@@ -21,11 +26,16 @@ export const Edit = ( {
 	attributes: {
 		showReturnToCart: boolean;
 		cartPageId: number;
+		placeOrderButtonLabel: string;
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
 	const blockProps = useBlockProps();
-	const { cartPageId = 0, showReturnToCart = true } = attributes;
+	const {
+		cartPageId = 0,
+		showReturnToCart = true,
+		placeOrderButtonLabel,
+	} = attributes;
 	const { current: savedCartPageId } = useRef( cartPageId );
 	const currentPostId = useSelect(
 		( select ) => {
@@ -83,12 +93,37 @@ export const Edit = ( {
 						/>
 					) }
 			</InspectorControls>
-			<Noninteractive>
-				<Block
-					showReturnToCart={ showReturnToCart }
-					cartPageId={ cartPageId }
-				/>
-			</Noninteractive>
+			<div className="wc-block-checkout__actions">
+				<div className="wc-block-checkout__actions_row">
+					<Noninteractive>
+						{ showReturnToCart && (
+							<ReturnToCartButton
+								link={ getSetting(
+									'page-' + cartPageId,
+									false
+								) }
+							/>
+						) }
+					</Noninteractive>
+					<EditableButton
+						className={ classnames(
+							'wc-block-cart__submit-button',
+							'wc-block-components-checkout-place-order-button',
+							{
+								'wc-block-components-checkout-place-order-button--full-width':
+									! showReturnToCart,
+							}
+						) }
+						value={ placeOrderButtonLabel }
+						placeholder={ defaultPlaceOrderButtonLabel }
+						onChange={ ( content ) => {
+							setAttributes( {
+								placeOrderButtonLabel: content,
+							} );
+						} }
+					/>
+				</div>
+			</div>
 		</div>
 	);
 };

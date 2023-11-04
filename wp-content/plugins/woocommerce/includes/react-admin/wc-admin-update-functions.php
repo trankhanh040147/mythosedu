@@ -7,10 +7,10 @@
  * @package WooCommerce\Admin
  */
 
-use \Automattic\WooCommerce\Admin\Features\OnboardingTasks\TaskLists;
-use \Automattic\WooCommerce\Admin\Notes\Notes;
-use \Automattic\WooCommerce\Internal\Admin\Notes\UnsecuredReportFiles;
-use \Automattic\WooCommerce\Admin\ReportExporter;
+use Automattic\WooCommerce\Admin\Features\OnboardingTasks\TaskLists;
+use Automattic\WooCommerce\Admin\Notes\Notes;
+use Automattic\WooCommerce\Internal\Admin\Notes\UnsecuredReportFiles;
+use Automattic\WooCommerce\Admin\ReportExporter;
 
 /**
  * Update order stats `status` index length.
@@ -275,4 +275,11 @@ function wc_admin_update_300_update_is_read_from_last_read() {
 function wc_admin_update_340_remove_is_primary_from_note_action() {
 	global $wpdb;
 	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wc_admin_note_actions DROP COLUMN `is_primary`" );
+}
+
+/**
+ * Delete the deprecated remote inbox notifications option since transients are now used.
+ */
+function wc_update_670_delete_deprecated_remote_inbox_notifications_option() {
+	delete_option( 'wc_remote_inbox_notifications_specs' );
 }

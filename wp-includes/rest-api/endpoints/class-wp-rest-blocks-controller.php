@@ -24,13 +24,12 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param object $post Post object that backs the block.
+	 * @param WP_Post $post Post object that backs the block.
 	 * @return bool Whether the block can be read.
 	 */
 	public function check_read_permission( $post ) {
-		// Ensure that the user is logged in and has the read_blocks capability.
-		$post_type = get_post_type_object( $post->post_type );
-		if ( ! current_user_can( $post_type->cap->read_post, $post->ID ) ) {
+		// By default the read_post capability is mapped to edit_posts.
+		if ( ! current_user_can( 'read_post', $post->ID ) ) {
 			return false;
 		}
 
@@ -41,8 +40,9 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 * Filters a response based on the context defined in the schema.
 	 *
 	 * @since 5.0.0
+	 * @since 6.3.0 Adds the `wp_pattern_sync_status` postmeta property to the top level of response.
 	 *
-	 * @param array  $data    Response data to fiter.
+	 * @param array  $data    Response data to filter.
 	 * @param string $context Context defined in the schema.
 	 * @return array Filtered response.
 	 */
@@ -57,6 +57,9 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 		unset( $data['title']['rendered'] );
 		unset( $data['content']['rendered'] );
 
+		// Add the core wp_pattern_sync_status meta as top level property to the response.
+		$data['wp_pattern_sync_status'] = isset( $data['meta']['wp_pattern_sync_status'] ) ? $data['meta']['wp_pattern_sync_status'] : '';
+		unset( $data['meta']['wp_pattern_sync_status'] );
 		return $data;
 	}
 
@@ -68,7 +71,10 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
-		// Do not cache this schema because all properties are derived from parent controller.
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		$schema = parent::get_item_schema();
 
 		/*
@@ -87,7 +93,9 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 		unset( $schema['properties']['title']['properties']['rendered'] );
 		unset( $schema['properties']['content']['properties']['rendered'] );
 
-		return $schema;
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
 	}
 
 }

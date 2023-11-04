@@ -7,24 +7,23 @@ import { useState, useEffect } from '@wordpress/element';
 import { CheckboxControl } from '@woocommerce/blocks-checkout';
 import { useCheckoutSubmit } from '@woocommerce/base-context/hooks';
 import { withInstanceId } from '@wordpress/compose';
-import type { ValidationData } from '@woocommerce/type-defs/contexts';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { VALIDATION_STORE_KEY } from '@woocommerce/block-data';
+
 /**
  * Internal dependencies
  */
 import { termsConsentDefaultText, termsCheckboxDefaultText } from './constants';
-import './style.scss';
 
 const FrontendBlock = ( {
 	text,
 	checkbox,
 	instanceId,
-	validation,
 	className,
 }: {
 	text: string;
 	checkbox: boolean;
 	instanceId: string;
-	validation: ValidationData;
 	className?: string;
 } ): JSX.Element => {
 	const [ checked, setChecked ] = useState( false );
@@ -32,14 +31,15 @@ const FrontendBlock = ( {
 	const { isDisabled } = useCheckoutSubmit();
 
 	const validationErrorId = 'terms-and-conditions-' + instanceId;
-	const {
-		getValidationError,
-		setValidationErrors,
-		clearValidationError,
-	} = validation;
+	const { setValidationErrors, clearValidationError } =
+		useDispatch( VALIDATION_STORE_KEY );
 
-	const error = getValidationError( validationErrorId ) || {};
-	const hasError = error.message && ! error.hidden;
+	const error = useSelect( ( select ) => {
+		return select( VALIDATION_STORE_KEY ).getValidationError(
+			validationErrorId
+		);
+	} );
+	const hasError = !! ( error?.message && ! error?.hidden );
 
 	// Track validation errors for this input.
 	useEffect( () => {

@@ -1,20 +1,21 @@
 /**
  * External dependencies
  */
-import { Icon, payment } from '@wordpress/icons';
-import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
+import { Icon } from '@wordpress/icons';
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
 import { Edit, Save } from './edit';
-import metadata from './block.json';
+import expressIcon from '../../../cart-checkout-shared/icon';
 
-registerFeaturePluginBlockType( metadata, {
+registerBlockType( 'woocommerce/cart-express-payment-block', {
 	icon: {
 		src: (
 			<Icon
-				icon={ payment }
+				style={ { fill: 'none' } } // this is needed for this particular svg
+				icon={ expressIcon }
 				className="wc-block-editor-components-block-icon"
 			/>
 		),

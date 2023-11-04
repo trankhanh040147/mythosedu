@@ -9,10 +9,10 @@ namespace Automattic\WooCommerce\Admin\API;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\Categories\DataStore as CategoriesDataStore;
-use \Automattic\WooCommerce\Admin\API\Reports\Coupons\DataStore as CouponsDataStore;
-use \Automattic\WooCommerce\Admin\API\Reports\Customers\DataStore as CustomersDataStore;
-use \Automattic\WooCommerce\Admin\API\Reports\Products\DataStore as ProductsDataStore;
+use Automattic\WooCommerce\Admin\API\Reports\Categories\DataStore as CategoriesDataStore;
+use Automattic\WooCommerce\Admin\API\Reports\Coupons\DataStore as CouponsDataStore;
+use Automattic\WooCommerce\Admin\API\Reports\Customers\DataStore as CustomersDataStore;
+use Automattic\WooCommerce\Admin\API\Reports\Products\DataStore as ProductsDataStore;
 
 /**
  * Leaderboards controller.
@@ -63,6 +63,26 @@ class Leaderboards extends \WC_REST_Data_Controller {
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
 				'schema' => array( $this, 'get_public_allowed_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<leaderboard>\w+)',
+			array(
+				'args' => array(
+					'leaderboard' => array(
+						'type' => 'string',
+						'enum' => array( 'customers', 'coupons', 'categories', 'products' ),
+					),
+				),
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	}
@@ -369,9 +389,26 @@ class Leaderboards extends \WC_REST_Data_Controller {
 	 */
 	public function get_items( $request ) {
 		$persisted_query = json_decode( $request['persisted_query'], true );
-		$leaderboards    = $this->get_leaderboards( $request['per_page'], $request['after'], $request['before'], $persisted_query );
-		$data            = array();
 
+		switch ( $request['leaderboard'] ) {
+			case 'customers':
+				$leaderboards = array( $this->get_customers_leaderboard( $request['per_page'], $request['after'], $request['before'], $persisted_query ) );
+				break;
+			case 'coupons':
+				$leaderboards = array( $this->get_coupons_leaderboard( $request['per_page'], $request['after'], $request['before'], $persisted_query ) );
+				break;
+			case 'categories':
+				$leaderboards = array( $this->get_categories_leaderboard( $request['per_page'], $request['after'], $request['before'], $persisted_query ) );
+				break;
+			case 'products':
+				$leaderboards = array( $this->get_products_leaderboard( $request['per_page'], $request['after'], $request['before'], $persisted_query ) );
+				break;
+			default:
+				$leaderboards = $this->get_leaderboards( $request['per_page'], $request['after'], $request['before'], $persisted_query );
+				break;
+		}
+
+		$data = array();
 		if ( ! empty( $leaderboards ) ) {
 			foreach ( $leaderboards as $leaderboard ) {
 				$response = $this->prepare_item_for_response( $leaderboard, $request );

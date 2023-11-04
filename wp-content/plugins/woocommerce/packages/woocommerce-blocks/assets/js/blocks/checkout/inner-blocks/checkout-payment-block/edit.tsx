@@ -9,6 +9,11 @@ import { ADMIN_URL, getSetting } from '@woocommerce/settings';
 import ExternalLinkCard from '@woocommerce/editor-components/external-link-card';
 import { innerBlockAreas } from '@woocommerce/blocks-checkout';
 import Noninteractive from '@woocommerce/base-components/noninteractive';
+import { GlobalPaymentMethod } from '@woocommerce/types';
+import { useSelect } from '@wordpress/data';
+import { PAYMENT_STORE_KEY } from '@woocommerce/block-data';
+import { blocksConfig } from '@woocommerce/block-settings';
+import { trimCharacters, trimWords } from '@woocommerce/utils';
 
 /**
  * Internal dependencies
@@ -19,12 +24,6 @@ import {
 	AdditionalFieldsContent,
 } from '../../form-step';
 import Block from './block';
-
-type paymentAdminLink = {
-	id: number;
-	title: string;
-	description: string;
-};
 
 export const Edit = ( {
 	attributes,
@@ -38,9 +37,21 @@ export const Edit = ( {
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
-	const globalPaymentMethods = getSetting(
+	const globalPaymentMethods = getSetting< GlobalPaymentMethod[] >(
 		'globalPaymentMethods'
-	) as paymentAdminLink[];
+	);
+
+	const { incompatiblePaymentMethods } = useSelect( ( select ) => {
+		const { getIncompatiblePaymentMethods } = select( PAYMENT_STORE_KEY );
+		return {
+			incompatiblePaymentMethods: getIncompatiblePaymentMethods(),
+		};
+	}, [] );
+	const incompatiblePaymentMethodMessage = __(
+		'Incompatible with block-based checkout',
+		'woo-gutenberg-products-block'
+	);
+	const wordCountType = blocksConfig.wordCountType;
 
 	return (
 		<FormStepBlock
@@ -66,12 +77,41 @@ export const Edit = ( {
 							) }
 						</p>
 						{ globalPaymentMethods.map( ( method ) => {
+							const isIncompatible =
+								!! incompatiblePaymentMethods[ method.id ];
+
+							let trimmedDescription;
+
+							if ( wordCountType === 'words' ) {
+								trimmedDescription = trimWords(
+									method.description,
+									30,
+									undefined,
+									false
+								);
+							} else {
+								trimmedDescription = trimCharacters(
+									method.description,
+									30,
+									wordCountType ===
+										'characters_including_spaces',
+									undefined,
+									false
+								);
+							}
+
 							return (
 								<ExternalLinkCard
 									key={ method.id }
 									href={ `${ ADMIN_URL }admin.php?page=wc-settings&tab=checkout&section=${ method.id }` }
 									title={ method.title }
-									description={ method.description }
+									description={ trimmedDescription }
+									{ ...( isIncompatible
+										? {
+												warning:
+													incompatiblePaymentMethodMessage,
+										  }
+										: {} ) }
 								/>
 							);
 						} ) }

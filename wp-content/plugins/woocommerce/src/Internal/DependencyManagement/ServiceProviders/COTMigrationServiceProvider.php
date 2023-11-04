@@ -35,5 +35,6 @@ class COTMigrationServiceProvider extends AbstractServiceProvider {
 	 */
 	public function register() {
 		$this->share( PostsToOrdersMigrationController::class );
+		$this->share( CLIRunner::class );
 	}
 }

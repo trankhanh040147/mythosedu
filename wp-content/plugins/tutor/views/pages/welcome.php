@@ -1,11 +1,13 @@
 <?php
 /**
-* Welcome page template
-*
-* @package Tutor\Welcome
-*
-* @since v2.0.0
-*/
+ * Welcome page
+ *
+ * @package Tutor\Views
+ * @subpackage Tutor\Welcome
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 1.0.0
+ */
 
 $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 ?>
@@ -40,8 +42,8 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 							<svg xmlns="http://www.w3.org/2000/svg" width="310" height="64" fill="none"><g fill="#fff" clip-path="url(#a)"><path d="M73.888 52.544V16.96H63.14c-1.214 0-1.666-.768-1.666-2.635v-1.653c0-1.877.452-2.645 1.666-2.645h29.732c1.225 0 1.666.768 1.666 2.645v1.653c0 1.867-.559 2.635-1.666 2.635H82.219v35.584c0 1.216-1 1.877-3.332 1.877H77.22c-2.333-.021-3.333-.661-3.333-1.877ZM142.821 38.112c0-10.464 5.224-16.192 15.049-16.192 9.824 0 14.984 5.728 14.984 16.192s-5.17 16.192-14.93 16.192-15.103-5.728-15.103-16.192Zm21.982 0c0-6.72-2.15-10.133-6.879-10.133-4.73 0-6.998 3.413-6.998 10.133 0 6.72 2.15 10.133 6.998 10.133 4.847 0 6.879-3.445 6.879-10.133ZM177.358 21.92h5.213a.88.88 0 0 1 .637.253.86.86 0 0 1 .255.632l.333 4.619c1.548-2.528 3.773-4.736 6.987-4.736 2.892 0 3.666 1.067 3.666 2.976 0 1.216-.667 4.63-1.774 4.63a23.667 23.667 0 0 0-3.106-.555c-2.892 0-4.891 2.538-5.375 3.413v19.392c0 1.216-1 1.877-3.44 1.877h-.999c-2.333 0-3.332-.661-3.332-1.877V22.805a.862.862 0 0 1 .272-.645.884.884 0 0 1 .663-.24ZM209.873 52.437V11.35c0-.885.774-1.322 2.44-1.322h.516c1.774 0 2.44.544 2.44 1.322v38.219h17.199c.892 0 1.225.555 1.225 1.877v.992c0 1.323-.333 1.867-1.225 1.867h-20.714a1.656 1.656 0 0 1-1.419-.458 1.622 1.622 0 0 1-.462-1.409ZM274.7 9.91h-2.15a2.77 2.77 0 0 0-2.655 1.066l-13.404 22.837-13.436-22.794c-.322-.662-1.075-1.067-2.655-1.067h-2.225c-1.773 0-2.44.555-2.44 1.323V52.98c0 .886.774 1.323 2.44 1.323h.452c1.784 0 2.45-.544 2.45-1.323V22.048c.02-1.139-.02-2.278-.118-3.413l.226-.107c.409.973.929 1.896 1.548 2.752l11.211 19.253c.094.263.278.484.519.626.242.143.526.197.803.153h2.451a1.556 1.556 0 0 0 1.333-.779l10.985-18.837c.559-.875 1-1.76 1.559-2.752l.215.117c-.108 1.067-.108 2.304-.108 3.414V52.98c0 .886.774 1.323 2.44 1.323h.441c1.784 0 2.451-.544 2.451-1.323v-41.6c.215-.917-.559-1.472-2.333-1.472ZM283.471 51.328c-.784-.544-1.225-1.067-1.225-1.536 0-.992 1.548-3.413 2.214-3.413.486.126.94.351 1.333.661a19.355 19.355 0 0 0 9.556 2.528c4.772 0 8.212-2.976 8.212-7.381 0-5.067-4.665-6.603-9.545-8.48-5.374-2.134-10.996-4.075-10.996-12.342 0-6.72 5.557-11.562 13.974-11.562 2.665 0 6.771.768 8.889 2.208a2.143 2.143 0 0 1 1.215 1.653c0 .981-1.333 3.296-2 3.296a3.875 3.875 0 0 1-1.666-.768 13.765 13.765 0 0 0-6.546-1.653c-4.772 0-8.105 2.538-8.105 7.05 0 4.512 3.999 5.728 8.546 7.467 5.664 2.133 11.996 4.63 11.996 13.227 0 7.466-5.558 12.117-13.974 12.117-5.45 0-9.889-1.525-11.878-3.072ZM139.274 47.701c-.71.126-1.429.197-2.15.214-1.666 0-2.665-.768-2.665-3.414V28.085h3.321a1.706 1.706 0 0 0 1.169-.493c.311-.308.489-.724.497-1.16v-3.083a1.69 1.69 0 0 0-.5-1.157 1.714 1.714 0 0 0-1.166-.496h-3.321v-6.763a1.691 1.691 0 0 0-.504-1.15 1.716 1.716 0 0 0-1.162-.492h-4.665c-.43.018-.837.198-1.138.503a1.68 1.68 0 0 0-.486 1.14v6.72h-2.149c-.439.01-.856.188-1.166.496-.311.307-.49.722-.5 1.157v3.082c.008.436.186.852.497 1.16.31.309.729.486 1.169.494h2.149v16.565c0 7.05 3.892 9.6 8.879 9.6 1.892 0 5.557-.224 5.557-2.645.108-.448-.559-3.862-1.666-3.862ZM117.852 21.813c.438.011.855.189 1.166.497.31.307.489.722.5 1.157V52.65a1.69 1.69 0 0 1-.5 1.157 1.718 1.718 0 0 1-1.166.496h-4.225a1.716 1.716 0 0 1-1.166-.496 1.69 1.69 0 0 1-.5-1.157v-3.083a12.876 12.876 0 0 1-4.314 3.42 12.98 12.98 0 0 1-5.36 1.316c-6.45 0-9.674-3.413-9.674-10.133V23.467c.01-.435.19-.85.5-1.157.31-.308.728-.486 1.166-.497h4.665c.445 0 .872.173 1.19.483.317.309.5.73.508 1.17v19.606c0 2.976 1.548 4.63 4.773 4.63 2.666 0 4.88-1.985 6.105-3.862V23.467c.009-.436.187-.852.498-1.16.31-.309.729-.485 1.168-.494h4.666Z"/><path fill-rule="evenodd" d="M12.963 40.757a3.236 3.236 0 0 1-2.164-.935 3.189 3.189 0 0 1-.942-2.147v-7.051c0-.818.327-1.602.91-2.18a3.119 3.119 0 0 1 2.196-.903c.824 0 1.614.325 2.197.903a3.07 3.07 0 0 1 .91 2.18v7.05a2.99 2.99 0 0 1-.887 2.203 3.033 3.033 0 0 1-2.22.88M35.386 40.757a3.116 3.116 0 0 1-2.221-.888 3.069 3.069 0 0 1-.918-2.194v-7.051c0-.818.327-1.602.91-2.18a3.119 3.119 0 0 1 2.196-.903c.824 0 1.614.325 2.197.903a3.07 3.07 0 0 1 .91 2.18v7.05a3.05 3.05 0 0 1-.907 2.184 3.098 3.098 0 0 1-2.2.9" clip-rule="evenodd"/><path fill-rule="evenodd" d="M6.75 25.333a7.825 7.825 0 0 1 2.797-3.222 7.91 7.91 0 0 1 4.083-1.29 7.95 7.95 0 0 1 5.5 2.456 7.828 7.828 0 0 1 2.164 5.587v14.432c.095.692.44 1.327.97 1.786a2.926 2.926 0 0 0 3.83 0c.531-.459.876-1.094.972-1.786V28.864a7.817 7.817 0 0 1 2.157-5.586 7.94 7.94 0 0 1 5.496-2.457 7.223 7.223 0 0 1 3.962 1.102 7.142 7.142 0 0 1 2.702 3.08 19.078 19.078 0 0 1-.684 18.675 19.28 19.28 0 0 1-6.97 6.735 19.463 19.463 0 0 1-9.393 2.517 19.466 19.466 0 0 1-9.44-2.337 19.288 19.288 0 0 1-7.099-6.6A19.075 19.075 0 0 1 6.75 25.333ZM18.961 6.4H29.84v4.17a24.102 24.102 0 0 0-5.546-.66 29.087 29.087 0 0 0-5.375.554l.043-4.064Zm29.527 29.515c0-.662.108-1.216.108-1.878a24.06 24.06 0 0 0-3.349-12.183 24.301 24.301 0 0 0-9.077-8.851V6.4h4.676c.855 0 1.675-.337 2.28-.937.605-.6.945-1.414.945-2.263s-.34-1.663-.945-2.263A3.237 3.237 0 0 0 40.846 0H7.857c-.86.043-1.67.409-2.269 1.022a3.358 3.358 0 0 0-.955 2.285c0 .848.34 1.662.944 2.262.605.6 1.425.938 2.28.938h4.773v6.506a24.212 24.212 0 0 0-7.525 6.362 24 24 0 0 0-4.342 8.812 23.895 23.895 0 0 0-.44 9.8 23.965 23.965 0 0 0 3.536 9.16c9.04 15.2 33.526 16.746 41.856 16.853a3.238 3.238 0 0 0 2-.768 2.685 2.685 0 0 0 .773-1.984V35.915Z" clip-rule="evenodd"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h309.333v64H0z"/></clipPath></defs></svg>
 						</a>
 					</div>
-					<div class="tutor-fs-3 tutor-fw-normal tutor-color-white" style="opacity: 0.7;">
-						Welcome to LMS 2.0: Redefining eLearning on WordPress
+					<div class="tutor-fs-3 tutor-color-white" style="opacity: 0.7;">
+						Welcome to Tutor LMS 2.0: Redefining eLearning on WordPress
 					</div>
 				</div>
 
@@ -51,7 +53,6 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 			</div>
 		</div>
 	</section>
-	
 	<section class="tutor-mb-32 tutor-mb-xl-40" style="margin-top: -140px;">
 		<div class="tutor-container">
 			<div class="tutor-row tutor-gx-xl-5">
@@ -59,40 +60,39 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 					<div class="tutor-welcome-card">
 						<div class="tutor-px-32 tutor-px-xl-72 tutor-pt-32 tutor-pt-xl-72">
 							<div class="tutor-fs-3 tutor-fw-medium tutor-color-black tutor-mb-12">More Organized <br class="tutor-d-none tutor-d-lg-block"/>Dashboard</div>
-							<div class="tutor-fs-6 tutor-fw-normal tutor-color-black-60">Get great improvements to the dashboard offering a more intuitive, organized, and modern approach.</div>
+							<div class="tutor-fs-6 tutor-color-secondary">Get great improvements to the dashboard offering a more intuitive, organized, and modern approach.</div>
 						</div>
 						<div>
-							<img class="tutor-img-responsive" src="<?php echo esc_url($image_url); ?>/dashboard.png" srcset="<?php echo esc_url($image_url); ?>/dashboard-2x.png 2x" alt="Dashboard" loading="lazy">
+							<img class="tutor-img-responsive" src="<?php echo esc_url( $image_url ); ?>/dashboard.png" srcset="<?php echo esc_url( $image_url ); ?>/dashboard-2x.png 2x" alt="Dashboard" loading="lazy">
 						</div>
 					</div>
 				</div>
-	
+
 				<div class="tutor-col-lg-6">
 					<div class="tutor-welcome-card tutor-px-24 tutor-px-xl-48 tutor-pt-24 tutor-pt-xl-48 tutor-pb-20 tutor-pb-xl-32 tutor-mb-32 tutor-mb-xl-40">
-						<div class="tutor-row tutor-align-items-center">
-							<div class="tutor-col-lg-6 tutor-d-flex tutor-justify-content-center tutor-d-xl-block">
+						<div class="tutor-row tutor-align-center">
+							<div class="tutor-col-lg-6 tutor-d-flex tutor-justify-center tutor-d-xl-block">
 								<div>
-									<img class="tutor-img-responsive" src="<?php echo esc_url($image_url); ?>/design-system.png" srcset="<?php echo esc_url($image_url); ?>/design-system-2x.png 2x" alt="Unified Design" loading="lazy">
+									<img class="tutor-img-responsive" src="<?php echo esc_url( $image_url ); ?>/design-system.png" srcset="<?php echo esc_url( $image_url ); ?>/design-system-2x.png 2x" alt="Unified Design" loading="lazy">
 								</div>
 							</div>
 							<div class="tutor-col-lg-6">
 								<div class="tutor-fs-3 tutor-fw-medium tutor-color-black tutor-mb-0">Unified Design <br class="tutor-d-none tutor-d-lg-block"/>System</div>
-								<div class="tutor-fs-6 tutor-fw-normal tutor-color-black-60 tutor-mt-12 tutor-mb-16">Bring an aligned and enhanced user experience with <strong>Appearance, Colors, Accessibility</strong>, and more.</div>
+								<div class="tutor-fs-6 tutor-color-secondary tutor-mt-12 tutor-mb-16">Bring an aligned and enhanced user experience with <strong>Appearance, Colors, Accessibility</strong>, and more.</div>
 							</div>
 						</div>
 					</div>
-	
 					<div class="tutor-welcome-card">
-						<div class="tutor-row tutor-align-items-center">
-							<div class="tutor-col-lg-6 tutor-d-flex tutor-justify-content-center tutor-d-xl-block">
+						<div class="tutor-row tutor-align-center">
+							<div class="tutor-col-lg-6 tutor-d-flex tutor-justify-center tutor-d-xl-block">
 								<div>
-									<img class="tutor-img-responsive" src="<?php echo esc_url($image_url); ?>/analytics.png" srcset="<?php echo esc_url($image_url); ?>/analytics-2x.png 2x" alt="Analytics" loading="lazy">
+									<img class="tutor-img-responsive" src="<?php echo esc_url( $image_url ); ?>/analytics.png" srcset="<?php echo esc_url( $image_url ); ?>/analytics-2x.png 2x" alt="Analytics" loading="lazy">
 								</div>
 							</div>
 							<div class="tutor-col-lg-6">
 								<div class="tutor-px-32 tutor-px-lg-0 tutor-pt-32 tutor-pt-xl-48 tutor-pb-24 tutor-pb-xl-32">
 									<div class="tutor-fs-3 tutor-fw-medium tutor-color-black tutor-mb-12">Advanced <br class="tutor-d-none tutor-d-lg-block"/>Analytics</div>
-									<div class="tutor-fs-6 tutor-fw-normal tutor-color-black-60 tutor-mb-16">Get detailed insights on courses, students, earnings, statements, and do so much more with advanced analytics.</div>
+									<div class="tutor-fs-6 tutor-color-secondary tutor-mb-16">Get detailed insights on courses, students, earnings, statements, and do so much more with advanced analytics.</div>
 								</div>
 							</div>
 						</div>
@@ -101,15 +101,15 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 			</div>
 		</div>
 	</section>
-	
+
 	<section class="tutor-mb-32 tutor-mb-xl-40">
 		<div class="tutor-container">
 			<div class="tutor-welcome-card">
-				<div class="tutor-row tutor-align-items-center">
+				<div class="tutor-row tutor-align-center">
 					<div class="tutor-col-lg-5 tutor-col-xl-4">
 						<div class="tutor-pl-32 tutor-pl-xl-48 tutor-pt-32 tutor-pt-xl-48 tutor-pb-24 tutor-pb-xl-32">
 							<div class="tutor-fs-3 tutor-fw-medium tutor-color-black tutor-mb-12">Customizable <br class="tutor-d-none tutor-d-lg-block"/>Automated Emails</div>
-							<div class="tutor-fs-6 tutor-fw-normal tutor-color-black-60 tutor-mb-32">Edit email template content right from the settings. Get pre designed templates, set emails, see reviews, and do more.</div>
+							<div class="tutor-fs-6 tutor-color-secondary tutor-mb-32">Edit email template content right from the settings. Get pre designed templates, set emails, see reviews, and do more.</div>
 							<div class="tutor-row tutor-gx-xl-5">
 								<div class="tutor-col-6">
 									<div class="tutor-mb-8">
@@ -117,7 +117,7 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 									</div>
 									<div class="tutor-fs-6 tutor-fw-medium">Get Pre-designed Email Templates</div>
 								</div>
-	
+
 								<div class="tutor-col-6">
 									<div class="tutor-mb-8">
 										<svg xmlns="http://www.w3.org/2000/svg" width="59" height="58" fill="none"><circle cx="29.5" cy="29" r="29" fill="#1F3BD8" opacity=".08"/><path fill="#1F3BD8" d="m43.64 15.672-5.26-2.724a1.108 1.108 0 0 0-1.45.487l-8.16 15.789c-.113.214-.151.46-.111.697l.83 4.861a1.108 1.108 0 0 0 1.572.808l4.43-2.214c.214-.105.388-.275.498-.487l8.127-15.734a1.108 1.108 0 0 0-.477-1.484Zm-9.445 15.921-2.801 1.351-.52-3.033 7.473-14.472 3.321 1.694-7.473 14.46Zm9.378-5.668v11.382a5.536 5.536 0 0 1-5.536 5.536h-15.5A5.536 5.536 0 0 1 17 37.307V21.806a5.536 5.536 0 0 1 5.536-5.536h8.659a1.107 1.107 0 0 1 0 2.214h-8.659a3.322 3.322 0 0 0-3.322 3.322v15.5a3.322 3.322 0 0 0 3.322 3.323h15.501a3.322 3.322 0 0 0 3.322-3.322V25.925a1.107 1.107 0 1 1 2.214 0Z"/></svg>	
@@ -128,29 +128,29 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 						</div>
 					</div>
 					<div class="tutor-col-lg-7 tutor-col-xl-8 tutor-d-none tutor-d-lg-block">
-						<img class="tutor-img-responsive" src="<?php echo esc_url($image_url); ?>/email-templates.png" srcset="<?php echo esc_url($image_url); ?>/email-templates-2x.png 2x" alt="Email Templates" loading="lazy">
+						<img class="tutor-img-responsive" src="<?php echo esc_url( $image_url ); ?>/email-templates.png" srcset="<?php echo esc_url( $image_url ); ?>/email-templates-2x.png 2x" alt="Email Templates" loading="lazy">
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	
+
 	<section class="tutor-mb-40 tutor-mb-xl-80">
 		<div class="tutor-container">
 			<div class="tutor-row tutor-gx-xl-5">
 				<div class="tutor-col-lg-6 tutor-mb-32 tutor-mb-lg-0">
 					<div class="tutor-welcome-card tutor-px-32 tutor-pt-44">
 						<div class="tutor-row">
-							<div class="tutor-col-xl-6 tutor-d-flex tutor-justify-content-center tutor-d-xl-block">
+							<div class="tutor-col-xl-6 tutor-d-flex tutor-justify-center tutor-d-xl-block">
 								<div>
-									<img class="tutor-img-responsive" src="<?php echo esc_url($image_url); ?>/notifications.png" srcset="<?php echo esc_url($image_url); ?>/notifications-2x.png 2x" alt="Notifications" loading="lazy">
+									<img class="tutor-img-responsive" src="<?php echo esc_url( $image_url ); ?>/notifications.png" srcset="<?php echo esc_url( $image_url ); ?>/notifications-2x.png 2x" alt="Notifications" loading="lazy">
 								</div>
 							</div>
-	
+
 							<div class="tutor-col-xl-6">
 								<div class="tutor-py-32">
 									<div class="tutor-fs-3 tutor-fw-medium tutor-color-black tutor-mb-12">Notifications</div>
-									<div class="tutor-fs-6 tutor-fw-normal tutor-color-black-60">
+									<div class="tutor-fs-6 tutor-color-secondary">
 										Enhance the overall LMS experience by informing users of new announcements, comments, questions, and more.
 									</div>
 								</div>
@@ -158,17 +158,17 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 						</div>
 					</div>
 				</div>
-	
+
 				<div class="tutor-col-lg-6">
 					<div class="tutor-welcome-card tutor-px-32 tutor-py-44">
 						<div class="tutor-row">
-							<div class="tutor-col-xl-4 tutor-d-flex tutor-justify-content-center tutor-d-xl-block">
+							<div class="tutor-col-xl-4 tutor-d-flex tutor-justify-center tutor-d-xl-block">
 								<svg xmlns="http://www.w3.org/2000/svg" width="155" height="155" fill="none"><circle cx="77.5" cy="77.5" r="77.5" fill="#3E64DE" fill-opacity=".1"/><path fill="#3E64DE" d="M97.857 72.41H82.59V57.144a3.393 3.393 0 0 0-3.393-3.393h-3.392a3.393 3.393 0 0 0-3.393 3.393V72.41H57.143a3.393 3.393 0 0 0-3.393 3.393v3.392a3.393 3.393 0 0 0 3.393 3.393H72.41v15.268a3.393 3.393 0 0 0 3.393 3.393h3.392a3.393 3.393 0 0 0 3.393-3.393V82.59h15.268a3.393 3.393 0 0 0 3.393-3.393v-3.392a3.393 3.393 0 0 0-3.393-3.393Z"/></svg>
 							</div>
-	
+
 							<div class="tutor-col-xl-8 tutor-mt-24 tutor-mt-xl-0">
 								<div class="tutor-fs-3 tutor-fw-medium tutor-color-black tutor-mb-12">And more…</div>
-								<div class="tutor-fs-6 tutor-fw-normal tutor-color-black-60">
+								<div class="tutor-fs-6 tutor-color-secondary">
 									Communication enhanced with more options, new assignments options, course catalog & details revamped, settings restructured, and made changes to many more things.
 								</div>
 							</div>
@@ -178,18 +178,23 @@ $image_url = 'https://api.tutorlms.com/wp-json/restapi/v1/tutor-assets/welcome';
 			</div>
 		</div>
 	</section>
-		
+
 	<section>
 		<div class="tutor-container">
-			<div class="tutor-row tutor-justify-content-center tutor-gx-xl-5">
+			<div class="tutor-row tutor-justify-center tutor-gx-xl-5">
 				<div class="tutor-col-lg-4 tutor-col-xl-3 tutor-mb-24 tutor-mb-lg-0">
-					<a class="tutor-btn tutor-btn-primary tutor-d-block tutor-text-center" href="<?php echo admin_url( 'post-new.php?post_type=courses' ); ?>">Let's Start Building</a>
+					<a class="tutor-btn tutor-btn-primary tutor-d-block" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=' . tutor()->course_post_type ) ); ?>">
+						<?php esc_html_e( "Let's Start Building", 'tutor' ); ?>
+					</a>
 				</div>
 				<div class="tutor-col-lg-4 tutor-col-xl-3">
-					<a target="_blank" class="tutor-btn tutor-is-outline tutor-d-block tutor-text-center" href="#" rel="noreferrer noopener">Get LMS Content - 20% off</a>
+					<a target="_blank" class="tutor-btn tutor-btn-outline-primary tutor-d-block" 
+					href="https://www.themeum.com/tutor-lms/pricing/?utm_source=wizard&utm_medium=wp_dashboard&utm_campaign=free_vs_pro#comparison" rel="noreferrer noopener">
+						<?php esc_html_e( 'Compare Free vs Pro', 'tutor' ); ?>
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
-	
+

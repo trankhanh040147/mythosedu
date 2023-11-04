@@ -99,7 +99,7 @@ var AutoValidator = {
   validate : function (f) {
     var i, nl, s = this.settings, c = 0;
 
-    nl = this.Tags(f, 'label');
+    nl = this.tags(f, 'label');
     for (i = 0; i < nl.length; i++) {
       this.removeClass(nl[i], s.invalid_cls);
       nl[i].setAttribute('aria-invalid', false);
@@ -118,7 +118,7 @@ var AutoValidator = {
 
   getErrorMessages : function (f) {
     var nl, i, s = this.settings, field, msg, values, messages = [], ed = tinyMCEPopup.editor;
-    nl = this.Tags(f, "label");
+    nl = this.tags(f, "label");
     for (i = 0; i < nl.length; i++) {
       if (this.hasClass(nl[i], s.invalid_cls)) {
         field = document.getElementById(nl[i].getAttribute("for"));
@@ -152,7 +152,7 @@ var AutoValidator = {
     }
 
     for (i = 0; i < t.length; i++) {
-      nl = this.Tags(e.form ? e.form : e, t[i]);
+      nl = this.tags(e.form ? e.form : e, t[i]);
       for (j = 0; j < nl.length; j++) {
         this.removeClass(nl[j], s.invalid_cls);
         nl[j].setAttribute('aria-invalid', false);
@@ -163,7 +163,7 @@ var AutoValidator = {
   validateElms : function (f, e) {
     var nl, i, n, s = this.settings, st = true, va = Validator, v;
 
-    nl = this.Tags(f, e);
+    nl = this.tags(f, e);
     for (i = 0; i < nl.length; i++) {
       n = nl[i];
 
@@ -238,7 +238,7 @@ var AutoValidator = {
     return n.className = c !== ' ' ? c : '';
   },
 
-  Tags : function (f, s) {
+  tags : function (f, s) {
     return f.getElementsByTagName(s);
   },
 
@@ -255,7 +255,7 @@ var AutoValidator = {
   markLabels : function (f, n, ic) {
     var nl, i;
 
-    nl = this.Tags(f, "label");
+    nl = this.tags(f, "label");
     for (i = 0; i < nl.length; i++) {
       if (nl[i].getAttribute("for") == n.id || nl[i].htmlFor == n.id) {
         this.addClass(nl[i], ic);

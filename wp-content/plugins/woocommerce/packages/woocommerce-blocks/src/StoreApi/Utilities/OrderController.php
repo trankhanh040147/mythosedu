@@ -1,14 +1,12 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Utilities;
+namespace Automattic\WooCommerce\StoreApi\Utilities;
 
 use \Exception;
-use Automattic\WooCommerce\Blocks\StoreApi\Routes\RouteException;
+use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
 
 /**
  * OrderController class.
  * Helper class which creates and syncs orders with the cart.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class OrderController {
 
@@ -44,11 +42,50 @@ class OrderController {
 	 * Update an order using data from the current cart.
 	 *
 	 * @param \WC_Order $order The order object to update.
+	 * @param boolean   $update_totals Whether to update totals or not.
 	 */
-	public function update_order_from_cart( \WC_Order $order ) {
+	public function update_order_from_cart( \WC_Order $order, $update_totals = true ) {
+		/**
+		 * This filter ensures that local pickup locations are still used for order taxes by forcing the address used to
+		 * calculate tax for an order to match the current address of the customer.
+		 *
+		 * -    The method `$customer->get_taxable_address()` runs the filter `woocommerce_customer_taxable_address`.
+		 * -    While we have a session, our `ShippingController::filter_taxable_address` function uses this hook to set
+		 *      the customer address to the pickup location address if local pickup is the chosen method.
+		 *
+		 * Without this code in place, `$customer->get_taxable_address()` is not used when order taxes are calculated,
+		 * resulting in the wrong taxes being applied with local pickup.
+		 *
+		 * The alternative would be to instead use `woocommerce_order_get_tax_location` to return the pickup location
+		 * address directly, however since we have the customer filter in place we don't need to duplicate effort.
+		 *
+		 * @see \WC_Abstract_Order::get_tax_location()
+		 */
+		add_filter(
+			'woocommerce_order_get_tax_location',
+			function( $location ) {
+
+				if ( ! is_null( wc()->customer ) ) {
+
+					$taxable_address = wc()->customer->get_taxable_address();
+
+					$location = array(
+						'country'  => $taxable_address[0],
+						'state'    => $taxable_address[1],
+						'postcode' => $taxable_address[2],
+						'city'     => $taxable_address[3],
+					);
+				}
+
+				return $location;
+			}
+		);
+
 		// Ensure cart is current.
-		wc()->cart->calculate_shipping();
-		wc()->cart->calculate_totals();
+		if ( $update_totals ) {
+			wc()->cart->calculate_shipping();
+			wc()->cart->calculate_totals();
+		}
 
 		// Update the current order to match the current cart.
 		$this->update_line_items_from_cart( $order );
@@ -92,16 +129,9 @@ class OrderController {
 					'shipping_state'      => $order->get_shipping_state(),
 					'shipping_postcode'   => $order->get_shipping_postcode(),
 					'shipping_country'    => $order->get_shipping_country(),
+					'shipping_phone'      => $order->get_shipping_phone(),
 				]
 			);
-
-			$shipping_phone_value = is_callable( [ $order, 'get_shipping_phone' ] ) ? $order->get_shipping_phone() : $order->get_meta( '_shipping_phone', true );
-
-			if ( is_callable( [ $customer, 'set_shipping_phone' ] ) ) {
-				$customer->set_shipping_phone( $shipping_phone_value );
-			} else {
-				$customer->update_meta_data( 'shipping_phone', $shipping_phone_value );
-			}
 
 			$customer->save();
 		};
@@ -116,8 +146,12 @@ class OrderController {
 	 * @param \WC_Order $order Order object.
 	 */
 	public function validate_order_before_payment( \WC_Order $order ) {
+		$needs_shipping          = wc()->cart->needs_shipping();
+		$chosen_shipping_methods = wc()->session->get( 'chosen_shipping_methods' );
+
 		$this->validate_coupons( $order );
 		$this->validate_email( $order );
+		$this->validate_selected_shipping_methods( $needs_shipping, $chosen_shipping_methods );
 		$this->validate_addresses( $order );
 	}
 
@@ -407,6 +441,131 @@ class OrderController {
 	}
 
 	/**
+	 * Check there is a shipping method if it requires shipping.
+	 *
+	 * @throws RouteException Exception if invalid data is detected.
+	 * @param boolean $needs_shipping Current order needs shipping.
+	 * @param array   $chosen_shipping_methods Array of shipping methods.
+	 */
+	public function validate_selected_shipping_methods( $needs_shipping, $chosen_shipping_methods = array() ) {
+		if ( ! $needs_shipping || ! is_array( $chosen_shipping_methods ) ) {
+			return;
+		}
+
+		foreach ( $chosen_shipping_methods as $chosen_shipping_method ) {
+			if ( false === $chosen_shipping_method ) {
+				throw new RouteException(
+					'woocommerce_rest_invalid_shipping_option',
+					__( 'Sorry, this order requires a shipping option.', 'woocommerce' ),
+					400,
+					[]
+				);
+			}
+		}
+	}
+
+	/**
+	 * Validate a given order key against an existing order.
+	 *
+	 * @throws RouteException Exception if invalid data is detected.
+	 * @param integer $order_id Order ID.
+	 * @param string  $order_key Order key.
+	 */
+	public function validate_order_key( $order_id, $order_key ) {
+		$order = wc_get_order( $order_id );
+
+		if ( ! $order || ! $order_key || $order->get_id() !== $order_id || ! hash_equals( $order->get_order_key(), $order_key ) ) {
+			throw new RouteException( 'woocommerce_rest_invalid_order', __( 'Invalid order ID or key provided.', 'woocommerce' ), 401 );
+		}
+	}
+
+	/**
+	 * Get errors for order stock on failed orders.
+	 *
+	 * @throws RouteException Exception if invalid data is detected.
+	 * @param integer $order_id Order ID.
+	 */
+	public function get_failed_order_stock_error( $order_id ) {
+		$order = wc_get_order( $order_id );
+
+		// Ensure order items are still stocked if paying for a failed order. Pending orders do not need this check because stock is held.
+		if ( ! $order->has_status( wc_get_is_pending_statuses() ) ) {
+			$quantities = array();
+
+			foreach ( $order->get_items() as $item_key => $item ) {
+				if ( $item && is_callable( array( $item, 'get_product' ) ) ) {
+					$product = $item->get_product();
+
+					if ( ! $product ) {
+						continue;
+					}
+
+					$quantities[ $product->get_stock_managed_by_id() ] = isset( $quantities[ $product->get_stock_managed_by_id() ] ) ? $quantities[ $product->get_stock_managed_by_id() ] + $item->get_quantity() : $item->get_quantity();
+				}
+			}
+
+			// Stock levels may already have been adjusted for this order (in which case we don't need to worry about checking for low stock).
+			if ( ! $order->get_data_store()->get_stock_reduced( $order->get_id() ) ) {
+				foreach ( $order->get_items() as $item_key => $item ) {
+					if ( $item && is_callable( array( $item, 'get_product' ) ) ) {
+						$product = $item->get_product();
+
+						if ( ! $product ) {
+							continue;
+						}
+
+						/**
+						 * Filters whether or not the product is in stock for this pay for order.
+						 *
+						 * @param boolean True if in stock.
+						 * @param \WC_Product $product Product.
+						 * @param \WC_Order $order Order.
+						 *
+						 * @since 9.8.0-dev
+						 */
+						if ( ! apply_filters( 'woocommerce_pay_order_product_in_stock', $product->is_in_stock(), $product, $order ) ) {
+							return array(
+								'code'    => 'woocommerce_rest_out_of_stock',
+								/* translators: %s: product name */
+								'message' => sprintf( __( 'Sorry, "%s" is no longer in stock so this order cannot be paid for. We apologize for any inconvenience caused.', 'woocommerce' ), $product->get_name() ),
+							);
+						}
+
+						// We only need to check products managing stock, with a limited stock qty.
+						if ( ! $product->managing_stock() || $product->backorders_allowed() ) {
+							continue;
+						}
+
+						// Check stock based on all items in the cart and consider any held stock within pending orders.
+						$held_stock     = wc_get_held_stock_quantity( $product, $order->get_id() );
+						$required_stock = $quantities[ $product->get_stock_managed_by_id() ];
+
+						/**
+						 * Filters whether or not the product has enough stock.
+						 *
+						 * @param boolean True if has enough stock.
+						 * @param \WC_Product $product Product.
+						 * @param \WC_Order $order Order.
+						 *
+						 * @since 9.8.0-dev
+						 */
+						if ( ! apply_filters( 'woocommerce_pay_order_product_has_enough_stock', ( $product->get_stock_quantity() >= ( $held_stock + $required_stock ) ), $product, $order ) ) {
+							/* translators: 1: product name 2: quantity in stock */
+							return array(
+								'code'    => 'woocommerce_rest_out_of_stock',
+								/* translators: %s: product name */
+								'message' => sprintf( __( 'Sorry, we do not have enough "%1$s" in stock to fulfill your order (%2$s available). We apologize for any inconvenience caused.', 'woocommerce' ), $product->get_name(), wc_format_stock_quantity_for_display( $product->get_stock_quantity() - $held_stock, $product ) ),
+							);
+						}
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Changes default order status to draft for orders created via this API.
 	 *
 	 * @return string
@@ -484,15 +643,8 @@ class OrderController {
 				'shipping_state'      => wc()->customer->get_shipping_state(),
 				'shipping_postcode'   => wc()->customer->get_shipping_postcode(),
 				'shipping_country'    => wc()->customer->get_shipping_country(),
+				'shipping_phone'      => wc()->customer->get_shipping_phone(),
 			]
 		);
-
-		$shipping_phone_value = is_callable( [ wc()->customer, 'get_shipping_phone' ] ) ? wc()->customer->get_shipping_phone() : wc()->customer->get_meta( 'shipping_phone', true );
-
-		if ( is_callable( [ $order, 'set_shipping_phone' ] ) ) {
-			$order->set_shipping_phone( $shipping_phone_value );
-		} else {
-			$order->update_meta_data( '_shipping_phone', $shipping_phone_value );
-		}
 	}
 }

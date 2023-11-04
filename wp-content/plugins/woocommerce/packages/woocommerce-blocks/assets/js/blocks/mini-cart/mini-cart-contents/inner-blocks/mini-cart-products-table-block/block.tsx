@@ -2,18 +2,16 @@
  * External dependencies
  */
 import { useStoreCart } from '@woocommerce/base-context/hooks';
+import { CartLineItemsTable } from '@woocommerce/base-components/cart-checkout';
 import classNames from 'classnames';
 
-/**
- * Internal dependencies
- */
-import CartLineItemsTable from '../../../../cart/cart-line-items-table';
-
-type MiniCartContentsBlockProps = {
+type MiniCartProductsTableBlockProps = {
 	className: string;
 };
 
-const Block = ( { className }: MiniCartContentsBlockProps ): JSX.Element => {
+const Block = ( {
+	className,
+}: MiniCartProductsTableBlockProps ): JSX.Element => {
 	const { cartItems, cartIsLoading } = useStoreCart();
 	return (
 		<div

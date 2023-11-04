@@ -4,7 +4,7 @@
  *
  * Functions for REST specific things.
  *
- * @package WooCommerce/Functions
+ * @package WooCommerce\Functions
  * @version 2.6.0
  */
 
@@ -46,13 +46,15 @@ function wc_rest_prepare_date_response( $date, $utc = true ) {
  */
 function wc_rest_allowed_image_mime_types() {
 	return apply_filters(
-		'woocommerce_rest_allowed_image_mime_types', array(
+		'woocommerce_rest_allowed_image_mime_types',
+		array(
 			'jpg|jpeg|jpe' => 'image/jpeg',
 			'gif'          => 'image/gif',
 			'png'          => 'image/png',
 			'bmp'          => 'image/bmp',
 			'tiff|tif'     => 'image/tiff',
 			'ico'          => 'image/x-icon',
+			'webp'         => 'image/webp',
 		)
 	);
 }
@@ -89,11 +91,13 @@ function wc_rest_upload_image_from_url( $image_url ) {
 
 	// If error storing temporarily, return the error.
 	if ( is_wp_error( $file_array['tmp_name'] ) ) {
-		return new WP_Error( 'woocommerce_rest_invalid_remote_image_url',
+		return new WP_Error(
+			'woocommerce_rest_invalid_remote_image_url',
 			/* translators: %s: image URL */
 			sprintf( __( 'Error getting remote image %s.', 'woocommerce' ), $image_url ) . ' '
 			/* translators: %s: error message */
-			. sprintf( __( 'Error: %s', 'woocommerce' ), $file_array['tmp_name']->get_error_message() ), array( 'status' => 400 )
+			. sprintf( __( 'Error: %s', 'woocommerce' ), $file_array['tmp_name']->get_error_message() ),
+			array( 'status' => 400 )
 		);
 	}
 
@@ -136,7 +140,7 @@ function wc_rest_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 		include_once ABSPATH . 'wp-admin/includes/image.php';
 	}
 
-	$image_meta = wp_read_image_metadata( $upload['file'] );
+	$image_meta = @wp_read_image_metadata( $upload['file'] );
 	if ( $image_meta ) {
 		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
 			$title = wc_clean( $image_meta['title'] );
@@ -156,7 +160,7 @@ function wc_rest_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 
 	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id );
 	if ( ! is_wp_error( $attachment_id ) ) {
-		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+		@wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 	}
 
 	return $attachment_id;
@@ -166,7 +170,7 @@ function wc_rest_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
  * Validate reports request arguments.
  *
  * @since 2.6.0
- * @param mixed           $value   Value to valdate.
+ * @param mixed           $value   Value to validate.
  * @param WP_REST_Request $request Request instance.
  * @param string          $param   Param to validate.
  * @return WP_Error|boolean
@@ -339,14 +343,22 @@ function wc_rest_check_product_reviews_permissions( $context = 'read', $object_i
 	$permission = false;
 	$contexts   = array(
 		'read'   => 'moderate_comments',
-		'create' => 'moderate_comments',
-		'edit'   => 'moderate_comments',
-		'delete' => 'moderate_comments',
-		'batch'  => 'moderate_comments',
+		'create' => 'edit_products',
+		'edit'   => 'edit_products',
+		'delete' => 'edit_products',
+		'batch'  => 'edit_products',
 	);
 
+	if ( $object_id > 0 ) {
+		$object = get_comment( $object_id );
+
+		if ( ! is_a( $object, 'WP_Comment' ) || get_comment_type( $object ) !== 'review' ) {
+			return false;
+		}
+	}
+
 	if ( isset( $contexts[ $context ] ) ) {
-		$permission = current_user_can( $contexts[ $context ] );
+		$permission = current_user_can( $contexts[ $context ], $object_id );
 	}
 
 	return apply_filters( 'woocommerce_rest_check_permissions', $permission, $context, $object_id, 'product_review' );

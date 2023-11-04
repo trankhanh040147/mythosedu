@@ -14,7 +14,9 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-
+if (!defined('GETID3_INCLUDEPATH')) { // prevent path-exposing attacks that access modules directly on public webservers
+	exit;
+}
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.ogg.php', __FILE__, true);
 
 /**
@@ -134,7 +136,7 @@ class getid3_flac extends getid3_handler
 		}
 		while ($LastBlockFlag === false);
 
-		// handle Tags
+		// handle tags
 		if (!empty($info['flac']['VORBIS_COMMENT']['comments'])) {
 			$info['flac']['comments'] = $info['flac']['VORBIS_COMMENT']['comments'];
 		}
@@ -400,6 +402,7 @@ class getid3_flac extends getid3_handler
 	public function parsePICTURE() {
 		$info = &$this->getid3->info;
 
+		$picture = array();
 		$picture['typeid']         = getid3_lib::BigEndian2Int($this->fread(4));
 		$picture['picturetype']    = self::pictureTypeLookup($picture['typeid']);
 		$picture['image_mime']     = $this->fread(getid3_lib::BigEndian2Int($this->fread(4)));

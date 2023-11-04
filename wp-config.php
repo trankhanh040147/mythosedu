@@ -1,7 +1,5 @@
 <?php
 define( 'WP_CACHE', true );
-define('WP_HOME','https://mythosedu.com/');
-define('WP_SITEURL','https://mythosedu.com/');
 /**
  * The base configuration for WordPress
  *
@@ -24,13 +22,13 @@ define('WP_SITEURL','https://mythosedu.com/');
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'u199319889_mythosedu_v1' );
+define( 'DB_NAME', 'u199319889_qLjMI' );
 
 /** Database username */
-define( 'DB_USER', 'u199319889_root_v1' );
+define( 'DB_USER', 'u199319889_CahMa' );
 
 /** Database password */
-define( 'DB_PASSWORD', 'C?ixUqc*FcF2' );
+define( 'DB_PASSWORD', 'tYcIKiKYEN' );
 
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );

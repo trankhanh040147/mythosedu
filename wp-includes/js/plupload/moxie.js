@@ -7747,11 +7747,11 @@ define("moxie/runtime/html5/image/ExifParser", [
 ], function(Basic, BinaryReader, x) {
 	
 	function ExifParser(data) {
-		var __super__, Tags, tagDescs, offsets, idx, Tiff;
+		var __super__, tags, tagDescs, offsets, idx, Tiff;
 		
 		BinaryReader.call(this, data);
 
-		Tags = {
+		tags = {
 			tiff: {
 				/*
 				The image orientation viewed in terms of rows and columns.
@@ -7982,12 +7982,12 @@ define("moxie/runtime/html5/image/ExifParser", [
 
 				if (offsets.exifIFD) {
 					try {
-						Exif = extractTags.call(this, offsets.exifIFD, Tags.exif);
+						Exif = extractTags.call(this, offsets.exifIFD, tags.exif);
 					} catch(ex) {
 						return null;
 					}
 
-					// Fix formatting of some Tags
+					// Fix formatting of some tags
 					if (Exif.ExifVersion && Basic.typeOf(Exif.ExifVersion) === 'array') {
 						for (var i = 0, exifVersion = ''; i < Exif.ExifVersion.length; i++) {
 							exifVersion += String.fromCharCode(Exif.ExifVersion[i]);
@@ -8005,7 +8005,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 
 				if (offsets.gpsIFD) {
 					try {
-						GPS = extractTags.call(this, offsets.gpsIFD, Tags.gps);
+						GPS = extractTags.call(this, offsets.gpsIFD, tags.gps);
 					} catch (ex) {
 						return null;
 					}
@@ -8023,7 +8023,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 			thumb: function() {
 				if (offsets.IFD1) {
 					try {
-						var IFD1Tags = extractTags.call(this, offsets.IFD1, Tags.thumb);
+						var IFD1Tags = extractTags.call(this, offsets.IFD1, tags.thumb);
 						
 						if ('JPEGInterchangeFormat' in IFD1Tags) {
 							return this.SEGMENT(offsets.tiffHeader + IFD1Tags.JPEGInterchangeFormat, IFD1Tags.JPEGInterchangeFormatLength);
@@ -8044,7 +8044,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 
 			clear: function() {
 				__super__.clear();
-				data = Tags = tagDescs = Tiff = offsets = __super__ = null;
+				data = tags = tagDescs = Tiff = offsets = __super__ = null;
 			}
 		});
 
@@ -8063,7 +8063,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 		}
 
 		offsets.IFD0 = offsets.tiffHeader + this.LONG(idx += 2);
-		Tiff = extractTags.call(this, offsets.IFD0, Tags.tiff);
+		Tiff = extractTags.call(this, offsets.IFD0, tags.tiff);
 
 		if ('ExifIFDPointer' in Tiff) {
 			offsets.exifIFD = offsets.tiffHeader + Tiff.ExifIFDPointer;
@@ -8086,7 +8086,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 		}
 
 
-		function extractTags(IFD_offset, Tags2extract) {
+		function extractTags(IFD_offset, tags2extract) {
 			var data = this;
 			var length, i, tag, type, count, size, offset, value, values = [], hash = {};
 			
@@ -8122,7 +8122,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 				// Set binary reader pointer to beginning of the next tag
 				offset = IFD_offset + 2 + i*12;
 
-				tag = Tags2extract[data.SHORT(offset)];
+				tag = tags2extract[data.SHORT(offset)];
 
 				if (tag === undefined) {
 					continue; // Not the tag we requested
@@ -8174,7 +8174,7 @@ define("moxie/runtime/html5/image/ExifParser", [
 
 			// If tag name passed translate into hex key
 			if (typeof(tag) === 'string') {
-				var tmpTags = Tags[ifd.toLowerCase()];
+				var tmpTags = tags[ifd.toLowerCase()];
 				for (var hex in tmpTags) {
 					if (tmpTags[hex] === tag) {
 						tag = hex;
@@ -8502,7 +8502,7 @@ define("moxie/runtime/html5/image/ImageInfo", [
 	- ability to distinguish image type (JPEG or PNG) by signature
 	- ability to extract image width/height directly from it's internals, without preloading in memory (fast)
 	- ability to extract APP headers from JPEGs (Exif, GPS, etc)
-	- ability to replace width/height Tags in extracted JPEG headers
+	- ability to replace width/height tags in extracted JPEG headers
 	- ability to restore APP headers, that were for example stripped during image manipulation
 
 	@class ImageInfo
@@ -8562,7 +8562,7 @@ define("moxie/runtime/html5/image/ImageInfo", [
 			height: 0,
 
 			/**
-			Sets Exif tag. Currently applicable only for width and height Tags. Obviously works only with JPEGs.
+			Sets Exif tag. Currently applicable only for width and height tags. Obviously works only with JPEGs.
 
 			@method setExif
 			@param {String} tag Tag to set
@@ -9786,7 +9786,7 @@ define("moxie/runtime/html4/xhr/XMLHttpRequest", [
 
 			getResponse: function(responseType) {
 				if ('json' === responseType) {
-					// strip off <pre>..</pre> Tags that might be enclosing the response
+					// strip off <pre>..</pre> tags that might be enclosing the response
 					if (Basic.typeOf(_response) === 'string' && !!window.JSON) {
 						try {
 							return JSON.parse(_response.replace(/^\s*<pre[^>]*>/, '').replace(/<\/pre>\s*$/, ''));

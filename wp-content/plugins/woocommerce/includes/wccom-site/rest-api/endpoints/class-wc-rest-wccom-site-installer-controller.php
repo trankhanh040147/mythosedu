@@ -4,16 +4,18 @@
  *
  * Handles requests to /installer.
  *
- * @package WooCommerce\WooCommerce_Site\Rest_Api
+ * @package WooCommerce\WCCom\API
  * @since   3.7.0
  */
+
+use WC_REST_WCCOM_Site_Installer_Error_Codes as Installer_Error_Codes;
+use WC_REST_WCCOM_Site_Installer_Error as Installer_Error;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * REST API WCCOM Site Installer Controller Class.
  *
- * @package WooCommerce/WCCOM_Site/REST_API
  * @extends WC_REST_Controller
  */
 class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
@@ -33,7 +35,7 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	protected $rest_base = 'installer';
 
 	/**
-	 * Register the routes for product reviews.
+	 * Register the routes for WCCCOM Installer Controller.
 	 *
 	 * @since 3.7.0
 	 */
@@ -51,6 +53,12 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'install' ),
 					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'products' => array(
+							'required' => true,
+							'type'     => 'object',
+						),
+					),
 				),
 				array(
 					'methods'             => WP_REST_Server::DELETABLE,
@@ -69,8 +77,32 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	 * @return bool|WP_Error
 	 */
 	public function check_permission( $request ) {
-		if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'install_themes' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_install_product', __( 'You do not have permission to install plugin or theme', 'woocommerce' ), array( 'status' => 401 ) );
+		$current_user = wp_get_current_user();
+
+		if ( empty( $current_user ) || ( $current_user instanceof WP_User && ! $current_user->exists() ) ) {
+			/**
+			 * This filter allows to provide a custom error message when the user is not authenticated.
+			 *
+			 * @since 3.7.0
+			 */
+			$error = apply_filters(
+				WC_WCCOM_Site::AUTH_ERROR_FILTER_NAME,
+				new Installer_Error( Installer_Error_Codes::NOT_AUTHENTICATED )
+			);
+			return new WP_Error(
+				$error->get_error_code(),
+				$error->get_error_message(),
+				array( 'status' => $error->get_http_code() )
+			);
+		}
+
+		if ( ! user_can( $current_user, 'install_plugins' ) || ! user_can( $current_user, 'install_themes' ) ) {
+			$error = new Installer_Error( Installer_Error_Codes::NO_PERMISSION );
+			return new WP_Error(
+				$error->get_error_code(),
+				$error->get_error_message(),
+				array( 'status' => $error->get_http_code() )
+			);
 		}
 
 		return true;
@@ -84,6 +116,11 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	 * @return bool|WP_Error
 	 */
 	public function get_install_state( $request ) {
+		$requirements_met = WC_WCCOM_Site_Installer_Requirements_Check::met_requirements();
+		if ( is_wp_error( $requirements_met ) ) {
+			return $requirements_met;
+		}
+
 		return rest_ensure_response( WC_WCCOM_Site_Installer::get_state() );
 	}
 
@@ -95,6 +132,11 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	 * @return bool|WP_Error
 	 */
 	public function install( $request ) {
+		$requirements_met = WC_WCCOM_Site_Installer_Requirements_Check::met_requirements();
+		if ( is_wp_error( $requirements_met ) ) {
+			return $requirements_met;
+		}
+
 		if ( empty( $request['products'] ) ) {
 			return new WP_Error( 'missing_products', __( 'Missing products in request body.', 'woocommerce' ), array( 'status' => 400 ) );
 		}

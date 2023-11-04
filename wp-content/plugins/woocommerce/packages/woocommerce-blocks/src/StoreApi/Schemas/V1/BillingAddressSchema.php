@@ -2,6 +2,7 @@
 namespace Automattic\WooCommerce\StoreApi\Schemas\V1;
 
 use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
+use Automattic\WooCommerce\StoreApi\Utilities\ValidationUtils;
 
 /**
  * BillingAddressSchema class.
@@ -53,7 +54,7 @@ class BillingAddressSchema extends AbstractAddressSchema {
 	 */
 	public function sanitize_callback( $address, $request, $param ) {
 		$address          = parent::sanitize_callback( $address, $request, $param );
-		$address['email'] = wc_clean( wp_unslash( $address['email'] ) );
+		$address['email'] = sanitize_text_field( wp_unslash( $address['email'] ) );
 		return $address;
 	}
 
@@ -86,18 +87,19 @@ class BillingAddressSchema extends AbstractAddressSchema {
 	 * @param \WC_Order|\WC_Customer $address An object with billing address.
 	 *
 	 * @throws RouteException When the invalid object types are provided.
-	 * @return stdClass
+	 * @return array
 	 */
 	public function get_item_response( $address ) {
+		$validation_util = new ValidationUtils();
 		if ( ( $address instanceof \WC_Customer || $address instanceof \WC_Order ) ) {
 			$billing_country = $address->get_billing_country();
 			$billing_state   = $address->get_billing_state();
 
-			if ( ! $this->validate_state( $billing_state, $billing_country ) ) {
+			if ( ! $validation_util->validate_state( $billing_state, $billing_country ) ) {
 				$billing_state = '';
 			}
 
-			return (object) $this->prepare_html_response(
+			return $this->prepare_html_response(
 				[
 					'first_name' => $address->get_billing_first_name(),
 					'last_name'  => $address->get_billing_last_name(),

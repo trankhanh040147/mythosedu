@@ -39,6 +39,13 @@ class CheckoutSchema extends AbstractSchema {
 	protected $shipping_address_schema;
 
 	/**
+	 * Image Attachment schema instance.
+	 *
+	 * @var ImageAttachmentSchema
+	 */
+	protected $image_attachment_schema;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ExtendSchema     $extend Rest Extending instance.
@@ -47,7 +54,7 @@ class CheckoutSchema extends AbstractSchema {
 	public function __construct( ExtendSchema $extend, SchemaController $controller ) {
 		parent::__construct( $extend, $controller );
 		$this->billing_address_schema  = $this->controller->get( BillingAddressSchema::IDENTIFIER );
-		$this->shipping_address_schema = $this->controller->get( BillingAddressSchema::IDENTIFIER );
+		$this->shipping_address_schema = $this->controller->get( ShippingAddressSchema::IDENTIFIER );
 		$this->image_attachment_schema = $this->controller->get( ImageAttachmentSchema::IDENTIFIER );
 	}
 
@@ -72,6 +79,12 @@ class CheckoutSchema extends AbstractSchema {
 			],
 			'order_key'         => [
 				'description' => __( 'Order key used to check validity or protect access to certain order data.', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+				'readonly'    => true,
+			],
+			'order_number'      => [
+				'description' => __( 'Order number used for display.', 'woocommerce' ),
 				'type'        => 'string',
 				'context'     => [ 'view', 'edit' ],
 				'readonly'    => true,
@@ -112,7 +125,9 @@ class CheckoutSchema extends AbstractSchema {
 				'description' => __( 'The ID of the payment method being used to process the payment.', 'woocommerce' ),
 				'type'        => 'string',
 				'context'     => [ 'view', 'edit' ],
-				'enum'        => wc()->payment_gateways->get_payment_gateway_ids(),
+				// Validation may be based on cart contents which is not available here; this returns all enabled
+				// gateways. Further validation occurs during the request.
+				'enum'        => array_values( WC()->payment_gateways->get_payment_gateway_ids() ),
 			],
 			'create_account'    => [
 				'description' => __( 'Whether to create a new user account as part of order processing.', 'woocommerce' ),
@@ -179,10 +194,11 @@ class CheckoutSchema extends AbstractSchema {
 			'order_id'          => $order->get_id(),
 			'status'            => $order->get_status(),
 			'order_key'         => $order->get_order_key(),
+			'order_number'      => $order->get_order_number(),
 			'customer_note'     => $order->get_customer_note(),
 			'customer_id'       => $order->get_customer_id(),
-			'billing_address'   => $this->billing_address_schema->get_item_response( $order ),
-			'shipping_address'  => $this->shipping_address_schema->get_item_response( $order ),
+			'billing_address'   => (object) $this->billing_address_schema->get_item_response( $order ),
+			'shipping_address'  => (object) $this->shipping_address_schema->get_item_response( $order ),
 			'payment_method'    => $order->get_payment_method(),
 			'payment_result'    => [
 				'payment_status'  => $payment_result->status,
