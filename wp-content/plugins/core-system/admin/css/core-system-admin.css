@@ -1,0 +1,8 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+.site-new-php .form-field .form-control {
+    max-width: 25em;
+}
