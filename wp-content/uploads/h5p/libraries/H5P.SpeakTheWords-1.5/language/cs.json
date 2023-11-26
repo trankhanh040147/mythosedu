@@ -1,0 +1,454 @@
+{
+  "semantics": [
+    {
+      "label": "Media",
+      "fields": [
+        {
+          "label": "Type",
+          "description": "Optional media to display above the question."
+        },
+        {
+          "label": "Disable image zooming"
+        }
+      ]
+    },
+    {
+      "label": "Popište úlohu",
+      "placeholder": "Jak řeknete \"Ano\" ve španělštině?"
+    },
+    {
+      "label": "Přijaté odpovědi",
+      "field": {
+        "label": "Přijaté odpovědi"
+      }
+    },
+    {
+      "label": "Text Nesprávná odpověď",
+      "default": "Nesprávná odpověď"
+    },
+    {
+      "label": "Text Správná odpověď",
+      "default": "Správná odpověď"
+    },
+    {
+      "label": "Jazyk řeči na vstupu",
+      "options": [
+        {
+          "label": "Afrikaans"
+        },
+        {
+          "label": "Amharština"
+        },
+        {
+          "label": "Arabština (Algeria)"
+        },
+        {
+          "label": "Arabština (Bahrain)"
+        },
+        {
+          "label": "Arabština (Egypt)"
+        },
+        {
+          "label": "Arabština (Iraq)"
+        },
+        {
+          "label": "Arabština (Jordan)"
+        },
+        {
+          "label": "Arabština (Kuwait)"
+        },
+        {
+          "label": "Arabština (Libanon)"
+        },
+        {
+          "label": "Arabština (Lybia)"
+        },
+        {
+          "label": "Arabština (Morocco)"
+        },
+        {
+          "label": "Arabština (Oman)"
+        },
+        {
+          "label": "Arabština (Qatar)"
+        },
+        {
+          "label": "Arabština (Saudi Arabia)"
+        },
+        {
+          "label": "Arabština (Tunisia)"
+        },
+        {
+          "label": "Arabština (UAE)"
+        },
+        {
+          "label": "Arabština (Yemen)"
+        },
+        {
+          "label": "Armenian"
+        },
+        {
+          "label": "Azerbaijani"
+        },
+        {
+          "label": "Basque"
+        },
+        {
+          "label": "Bengali (Bangladesh)"
+        },
+        {
+          "label": "Bengali (India)"
+        },
+        {
+          "label": "Bulgarian"
+        },
+        {
+          "label": "Catalan"
+        },
+        {
+          "label": "Central Khmer"
+        },
+        {
+          "label": "Chinese, Mandarin (Traditional, Taiwan)"
+        },
+        {
+          "label": "Chinese, Cantonese (Traditional, Hong Kong)"
+        },
+        {
+          "label": "Chinese, Mandarin (Simplified, China)"
+        },
+        {
+          "label": "Chinese, Mandarin (Simplified, Hong Kong)"
+        },
+        {
+          "label": "Chorvatština"
+        },
+        {
+          "label": "Čeština"
+        },
+        {
+          "label": "Dánština"
+        },
+        {
+          "label": "Holandština"
+        },
+        {
+          "label": "Angličtina(Australia)"
+        },
+        {
+          "label": "Angličtina(Canada)"
+        },
+        {
+          "label": "Angličtina(Ghana)"
+        },
+        {
+          "label": "Angličtina (India)"
+        },
+        {
+          "label": "Angličtina (Kenya)"
+        },
+        {
+          "label": "Angličtina (New Zealand)"
+        },
+        {
+          "label": "Angličtina (Nigeria)"
+        },
+        {
+          "label": "Angličtina (Philippines)"
+        },
+        {
+          "label": "Angličtina (South Africa)"
+        },
+        {
+          "label": "Angličtina (Tanzania)"
+        },
+        {
+          "label": "Angličtina (UK)"
+        },
+        {
+          "label": "Angličtina (US)"
+        },
+        {
+          "label": "Filipino"
+        },
+        {
+          "label": "Finština"
+        },
+        {
+          "label": "Francouzština"
+        },
+        {
+          "label": "Galician"
+        },
+        {
+          "label": "Gruzínština"
+        },
+        {
+          "label": "Němčina"
+        },
+        {
+          "label": "Řečtina"
+        },
+        {
+          "label": "Gujarati"
+        },
+        {
+          "label": "Hebrejština"
+        },
+        {
+          "label": "Hindi (India)"
+        },
+        {
+          "label": "Maďarština"
+        },
+        {
+          "label": "Islandština"
+        },
+        {
+          "label": "Indonesian"
+        },
+        {
+          "label": "Italština"
+        },
+        {
+          "label": "Italština (Switzerland)"
+        },
+        {
+          "label": "Japonština"
+        },
+        {
+          "label": "Javanese"
+        },
+        {
+          "label": "Kannada"
+        },
+        {
+          "label": "Korejština"
+        },
+        {
+          "label": "Lao"
+        },
+        {
+          "label": "Latina"
+        },
+        {
+          "label": "Lotyština"
+        },
+        {
+          "label": "Litevština"
+        },
+        {
+          "label": "Malayalam"
+        },
+        {
+          "label": "Malaysian"
+        },
+        {
+          "label": "Mandarin Chinese"
+        },
+        {
+          "label": "Marathi"
+        },
+        {
+          "label": "Nepali"
+        },
+        {
+          "label": "Norština"
+        },
+        {
+          "label": "Pig Latin"
+        },
+        {
+          "label": "Polština"
+        },
+        {
+          "label": "Portugalština"
+        },
+        {
+          "label": "Portugalština (Brazil)"
+        },
+        {
+          "label": "Rumunština"
+        },
+        {
+          "label": "Ruština"
+        },
+        {
+          "label": "Srbština"
+        },
+        {
+          "label": "Sinhalese"
+        },
+        {
+          "label": "Slovenština"
+        },
+        {
+          "label": "Slovinština"
+        },
+        {
+          "label": "Španělština (Argentina)"
+        },
+        {
+          "label": "Španělština (Bolivia)"
+        },
+        {
+          "label": "Španělština (Chile)"
+        },
+        {
+          "label": "Španělština (Colombia)"
+        },
+        {
+          "label": "Španělština (Costa Rica)"
+        },
+        {
+          "label": "Španělština (Dominican Republic)"
+        },
+        {
+          "label": "Španělština (Ecuador)"
+        },
+        {
+          "label": "Španělština (El Salvador)"
+        },
+        {
+          "label": "Španělština (Guatemala)"
+        },
+        {
+          "label": "Španělština (Honduras)"
+        },
+        {
+          "label": "Španělština (Mexico)"
+        },
+        {
+          "label": "Španělština (Nicaragua)"
+        },
+        {
+          "label": "Španělština (Panama)"
+        },
+        {
+          "label": "Španělština (Paraguay)"
+        },
+        {
+          "label": "Španělština (Peru)"
+        },
+        {
+          "label": "Španělština (Puerto Rico)"
+        },
+        {
+          "label": "Španělština (Španělsko)"
+        },
+        {
+          "label": "Španělština (US)"
+        },
+        {
+          "label": "Španělština (Uruguay)"
+        },
+        {
+          "label": "Španělština (Venezuela)"
+        },
+        {
+          "label": "Sundanese"
+        },
+        {
+          "label": "Swahili (Kenya)"
+        },
+        {
+          "label": "Swahili (Tanzania)"
+        },
+        {
+          "label": "Švédština"
+        },
+        {
+          "label": "Tamil (India)"
+        },
+        {
+          "label": "Tamil (Malaysia)"
+        },
+        {
+          "label": "Tamil (Singapore)"
+        },
+        {
+          "label": "Tamil (Sri Lanka)"
+        },
+        {
+          "label": "Telugu"
+        },
+        {
+          "label": "Thai (Thailand)"
+        },
+        {
+          "label": "Traditional Taiwan"
+        },
+        {
+          "label": "Turečtina"
+        },
+        {
+          "label": "Ukrajinština (Ukrajina)"
+        },
+        {
+          "label": "Urdu (India)"
+        },
+        {
+          "label": "Urdu (Pakistan)"
+        },
+        {
+          "label": "Vietnamese"
+        },
+        {
+          "label": "Yue Chinese (Traditional Hong Kong)"
+        },
+        {
+          "label": "Zulu"
+        }
+      ]
+    },
+    {
+      "label": "Popisky a texty Namluvte slova",
+      "fields": [
+        {
+          "label": "Popisek tlačítka \"Opakovat\"",
+          "default": "Opakovat"
+        },
+        {
+          "label": "Popisek tlačítka \"Zobrazit řešení\"",
+          "default": "Zobrazit řešení"
+        },
+        {
+          "label": "Popisek tlačítka \"Mluvit\"",
+          "default": "Stiskněte pro namluvení"
+        },
+        {
+          "label": "Popisek tlačítka při poslechu \"Poslouchejte\"",
+          "default": "Poslouchání..."
+        },
+        {
+          "label": "Text předcházející správné odpovědi v režimu řešení",
+          "default": "Správná odpověď:"
+        },
+        {
+          "label": "Text sdělení uživateli, jak byla jeho odpověď interpretována",
+          "default": "Vaše odpověď byla interpretována jako:"
+        },
+        {
+          "label": "Text, který se zobrazí, když uživatel nezaregistroval žádný zvuk",
+          "default": "Neslyšel jsem vás, ujistěte se, že je váš mikrofon povolený"
+        },
+        {
+          "label": "Text záhlaví se zobrazí, pokud prohlížeč nepodporuje rozpoznávání řeči",
+          "default": "Vypadá to, že váš prohlížeč nepodporuje rozpoznávání řeči"
+        },
+        {
+          "label": "Text těla, který se zobrazí, pokud prohlížeč nepodporuje rozpoznávání řeči",
+          "default": "Zkuste to prosím znovu v prohlížeči, jako je Chrome"
+        },
+        {
+          "label": "Popis podpůrné technologie pro tlačítko „Zobrazit řešení“",
+          "default": "Zobrazit řešení. Úkol bude zobrazen se správným řešením."
+        },
+        {
+          "label": "Popisek podpůrné technologie pro tlačítko „Opakovat“",
+          "default": "Zopakovat úkol. Resetovat všechny odpovědi a spustit úlohu znovu."
+        }
+      ]
+    }
+  ]
+}

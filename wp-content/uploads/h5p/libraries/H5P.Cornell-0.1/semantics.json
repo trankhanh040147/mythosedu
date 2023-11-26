@@ -1,0 +1,165 @@
+[
+  {
+    "label": "Instructions",
+    "importance": "medium",
+    "name": "instructions",
+    "type": "text",
+    "optional": true,
+    "description": "Students will see these instructions on top of the notes.",
+    "widget": "html",
+    "enterMode": "div",
+    "tags": [
+      "strong",
+      "em",
+      "u",
+      "a",
+      "ul",
+      "ol",
+      "h2",
+      "h3",
+      "hr"
+    ]
+  },
+  {
+    "label": "Exercise content",
+    "importance": "medium",
+    "name": "exerciseContent",
+    "type": "library",
+    "options": [
+      "H5P.Audio 1.4",
+      "H5P.AdvancedText 1.1",
+      "H5P.Video 1.5"
+    ]
+  },
+  {
+    "name": "notesFields",
+    "label": "Notes fields",
+    "description": "Settings for the notes fields",
+    "importance": "low",
+    "type": "group",
+    "fields": [
+      {
+        "label": "Cue field title",
+        "importance": "low",
+        "name": "recallTitle",
+        "type": "text",
+        "default": "Cue",
+        "optional": true,
+        "description": "Title for the recall section"
+      },
+      {
+        "label": "Cue field placeholder",
+        "importance": "low",
+        "name": "recallPlaceholder",
+        "type": "text",
+        "default": "Enter your comments, questions, the main idea, etc. that you derive from your notes",
+        "optional": true,
+        "description": "Placeholder for the cue section as a reminder for your students"
+      },
+      {
+        "label": "Notes field title",
+        "importance": "low",
+        "name": "notesTitle",
+        "type": "text",
+        "default": "Notes",
+        "optional": true,
+        "description": "Title for the notes section"
+      },
+      {
+        "label": "Notes field placeholder",
+        "importance": "low",
+        "name": "notesPlaceholder",
+        "type": "text",
+        "default": "Enter dates, details, definitions, formulas, examples, etc. from the source material",
+        "optional": true,
+        "description": "Placeholder for the notes section as a reminder for your students"
+      },
+      {
+        "label": "Summary field title",
+        "importance": "low",
+        "name": "summaryTitle",
+        "type": "text",
+        "default": "Summary",
+        "optional": true,
+        "description": "Title for the summary section"
+      },
+      {
+        "label": "Summary field placeholder",
+        "importance": "low",
+        "name": "summaryPlaceholder",
+        "type": "text",
+        "default": "Summarize what you have learned",
+        "optional": true,
+        "description": "Placeholder for the summary section as a reminder for your students"
+      }
+    ]
+  },
+  {
+    "name": "behaviour",
+    "type": "group",
+    "importance": "low",
+    "label": "Behavioural settings",
+    "default": true,
+    "fields": [
+      {
+        "name": "showNotesOnStartup",
+        "type": "boolean",
+        "label": "Show notes on startup",
+        "description": "When this option is disabled, the notes are hidden on startup. Notes are hidden automatically on small displays.",
+        "default": true,
+        "optional": true
+      }
+    ]
+  },
+  {
+    "name": "a11y",
+    "type": "group",
+    "common": true,
+    "label": "Readspeaker",
+    "importance": "low",
+    "fields": [
+      {
+        "name": "buttonFullscreenEnter",
+        "type": "text",
+        "label": "Fullscreen button title (enter)",
+        "importance": "low",
+        "default": "Enter fullscreen mode"
+      },
+      {
+        "name": "buttonFullscreenExit",
+        "type": "text",
+        "label": "Fullscreen button title (exit)",
+        "importance": "low",
+        "default": "Exit fullscreen mode"
+      },
+      {
+        "name": "buttonToggleOpenNotes",
+        "type": "text",
+        "label": "Toggle button title (when notes closed)",
+        "importance": "low",
+        "default": "Open notes"
+      },
+      {
+        "name": "buttonToggleCloseNotes",
+        "type": "text",
+        "label": "Toggle button title (when notes opened)",
+        "importance": "low",
+        "default": "Close notes"
+      },
+      {
+        "name": "notesOpened",
+        "type": "text",
+        "label": "Notes opened",
+        "importance": "low",
+        "default": "The view has switched to your notes."
+      },
+      {
+        "name": "notesClosed",
+        "type": "text",
+        "label": "Notes closed",
+        "importance": "low",
+        "default": "The view has switched to the exercise."
+      }
+    ]
+  }
+]

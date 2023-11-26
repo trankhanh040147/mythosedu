@@ -1,0 +1,29 @@
+{
+  "semantics": [
+    {
+      "label": "List of Column Content",
+      "entity": "Zasób",
+      "field": {
+        "fields": [
+          {
+            "label": "Zasób"
+          },
+          {
+            "label": "Oddziel zawartość poziomą linijką",
+            "options": [
+              {
+                "label": "Automatyczne (domyślnie)"
+              },
+              {
+                "label": "Never use ruler above"
+              },
+              {
+                "label": "Zawsze używaj linijki powyżej"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

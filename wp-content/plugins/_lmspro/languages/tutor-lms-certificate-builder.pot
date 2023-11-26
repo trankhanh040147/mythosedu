@@ -1,0 +1,142 @@
+# Copyright (C) 2021 Tutor LMS Certificate Builder
+# This file is distributed under the same license as the Tutor LMS Certificate Builder package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tutor LMS Certificate Builder\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/Ajax.php:66
+msgid "Permission Denied"
+msgstr ""
+
+#: src/Ajax.php:158, src/Ajax.php:237
+msgid "Bad Request sent. Please try again."
+msgstr ""
+
+#: src/Ajax.php:212
+msgid "Something was wrong. Please try again."
+msgstr ""
+
+#: src/Ajax.php:208
+msgid "Certificate Data Updated Successfully"
+msgstr ""
+
+#: src/Ajax.php:247
+msgid "Certificate data found."
+msgstr ""
+
+#: src/Ajax.php:250
+msgid "No certificate data found."
+msgstr ""
+
+#: src/Ajax.php:269
+msgid "Could not save preview due to invalid image."
+msgstr ""
+
+#: src/Core.php:41, src/Core.php:43, src/Core.php:50
+msgid "Certificates"
+msgstr ""
+
+#: src/Core.php:42, src/Core.php:44
+msgid "Certificate"
+msgstr ""
+
+#: src/Core.php:45, src/Core.php:46
+msgid "Add New Certificate"
+msgstr ""
+
+#: src/Core.php:47
+msgid "New Certificate"
+msgstr ""
+
+#: src/Core.php:48
+msgid "Edit Certificate"
+msgstr ""
+
+#: src/Core.php:49
+msgid "View Certificate"
+msgstr ""
+
+#: src/Core.php:51
+msgid "Search Certificates"
+msgstr ""
+
+#: src/Core.php:52
+msgid "Parent Certificates:"
+msgstr ""
+
+#: src/Core.php:53
+msgid "No Certificates found."
+msgstr ""
+
+#: src/Core.php:54
+msgid "No Certificates found in Trash."
+msgstr ""
+
+#: src/Core.php:59
+msgid "Description."
+msgstr ""
+
+#: src/Editor.php:150
+msgid "Untitled Template"
+msgstr ""
+
+#: templates/add-certificate-area.php:18
+msgid "Create certificate"
+msgstr ""
+
+#: templates/certificate-list-table.php:6
+msgid "All Certificates"
+msgstr ""
+
+#: templates/certificate-list-table.php:29
+msgid "Category"
+msgstr ""
+
+#: templates/certificate-list-table.php:40
+msgid "Draft"
+msgstr ""
+
+#: templates/certificate-list-table.php:41
+msgid "Published"
+msgstr ""
+
+#: templates/editor.php:26
+msgid "Certificate Builder"
+msgstr ""
+
+#: src/Admin/Admin.php:41
+msgid "Certificate Templates"
+msgstr ""
+
+#: src/Admin/Admin.php:42
+msgid "Certificates Builder"
+msgstr ""
+
+#: src/Admin/Certificate_List.php:69
+msgid "Sure to Delete?"
+msgstr ""
+
+#: src/Admin/Certificate_List.php:84
+msgid "Template"
+msgstr ""
+
+#: src/Admin/Certificate_List.php:85
+msgid "Status"
+msgstr ""
+
+#: templates/admin/certificates.php:27
+msgid "Add New"
+msgstr ""
+
+#: templates/admin/certificates.php:35
+msgid "Search"
+msgstr ""

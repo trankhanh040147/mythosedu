@@ -1,0 +1,85 @@
+{
+  "semantics": [
+    {
+      "label": "Instructies",
+      "description": "De gebruikers zien deze instructies boven de aantekeningen staan."
+    },
+    {
+      "label": "Inhoud van de oefening"
+    },
+    {
+      "label": "Notitievelden",
+      "description": "Instellingen voor de notitievelden",
+      "fields": [
+        {
+          "label": "Titel kernwoordenveld",
+          "default": "Kernwoorden",
+          "description": "Titel van het kernwoordenveld"
+        },
+        {
+          "label": "Tijdelijke tekst van het kernwoordenveld",
+          "default": "Voer kernwoorden, vragen, hoofdidee, enz. in.",
+          "description": "Tijdelijke tekst voor je kernwoordenveld als geheugensteun voor de gebruikers"
+        },
+        {
+          "label": "Titel notitieveld",
+          "default": "Notities",
+          "description": "Titel van het notitieveld"
+        },
+        {
+          "label": "Tijdelijke tekst van het notitieveld",
+          "default": "Vul data, details, definities, formules, voorbeelden, enz. in.",
+          "description": "Tijdelijke tekst voor het notitieveld als geheugensteun voor je gebruikers"
+        },
+        {
+          "label": "Titel samenvattingsveld",
+          "default": "Samenvatting",
+          "description": "Titel van het samenvattingsveld"
+        },
+        {
+          "label": "Tijdelijke tekst van het samenvattingsveld",
+          "default": "Schrijf je samenvatting",
+          "description": "Tijdelijke tekst voor het samenvattingsveld als geheugensteun voor de gebruikers"
+        }
+      ]
+    },
+    {
+      "label": "Gedragsinstellingen",
+      "fields": [
+        {
+          "label": "Toon aantekeningen bij opstarten",
+          "description": "Indien ingeschakeld, worden de aantekeningen bij het opstarten getoond"
+        }
+      ]
+    },
+    {
+      "label": "Schermlezer",
+      "fields": [
+        {
+          "label": "Titel van \"Volledig scherm\"-knop (ga naar)",
+          "default": "Ga naar volledig scherm"
+        },
+        {
+          "label": "Titel van \"Volledig scherm\"-knop (afsluiten)",
+          "default": "Volledig scherm afsluiten"
+        },
+        {
+          "label": "Titel van de schakelknop (wanneer aantekeningen gesloten zijn)",
+          "default": "Open aantekeningen"
+        },
+        {
+          "label": "Titel van de schakelknop (wanneer aantekeningen geopend zijn)",
+          "default": "Sluit aantekeningen"
+        },
+        {
+          "label": "Aantekeningen zijn geopend",
+          "default": "De weergave is overgeschakeld naar je aantekeningen."
+        },
+        {
+          "label": "Aantekeningen zijn gesloten",
+          "default": "De weergave is overgeschakeld naar de oefening."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4018 @@
+ [
+        {
+          "product_code": "01071040",
+          "product_title": "Senior Learning & Development Executive",
+          "product_slug": "senior-learning-development-executive",
+          "product_seo_link": "Chuyên viên cấp cao Đào tạo và Phát triển",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1038",
+          "product_title": "Senior Performance Marketing Manager",
+          "product_slug": "senior-performance-marketing-manager",
+          "product_seo_link": "Quản lý cấp cao Tiếp thị",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1037",
+          "product_title": "Receptionist cum Admin Officer",
+          "product_slug": "receptionist-cum-admin-officer",
+          "product_seo_link": "Nhân viên Lễ tân Hành chính",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1036",
+          "product_title": "Senior Quality Control Executive",
+          "product_slug": "senior-quality-control-executive",
+          "product_seo_link": "Chuyên viên cấp cao Quản lý Chất lượng Sản phẩm tiếng Anh",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1035",
+          "product_title": "Senior Critical Math Program Executive",
+          "product_slug": "senior-critical-math-program-executive",
+          "product_seo_link": "Chuyên viên Cao cấp Chương trình Toán Tư Duy",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1033",
+          "product_title": "ASA Quality Control Executive",
+          "product_slug": "asa-quality-control-executive",
+          "product_seo_link": "Chuyên viên kiểm soát chất lượng chương trình tăng cường",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1031",
+          "product_title": "Overseas Study Manager",
+          "product_slug": "overseas-study-manager",
+          "product_seo_link": "Quản lý Chương trình Du học",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1030",
+          "product_title": "Senior Service Excellence Manager",
+          "product_slug": "senior-service-excellence-manager",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "TEMP1029",
+          "product_title": "Strategic Planning Manager",
+          "product_slug": "strategic-planning-manager",
+          "product_seo_link": "Quản lý Chiến lược Kế hoạch",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1026",
+          "product_title": "Social Media Team Leader",
+          "product_slug": "social-media-team-leader",
+          "product_seo_link": "Trưởng nhóm truyền thông xã hội",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1027",
+          "product_title": "Video Content Creator Executive",
+          "product_slug": "video-content-creator-executive",
+          "product_seo_link": "Chuyên viên sáng tạo nội dung Video",
+          "product_lang": "en",
+          "product_type": "Trung cấp"
+        },
+        {
+          "product_code": "TEMP1014",
+          "product_title": "Senior Backend Developer",
+          "product_slug": "senior-backend-developer",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1015",
+          "product_title": "Senior Frontend Developer",
+          "product_slug": "senior-frontend-developer",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1017",
+          "product_title": "Senior Mobile Developer",
+          "product_slug": "senior-mobile-developer",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1013",
+          "product_title": "Technical Manager",
+          "product_slug": "technical-manager",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1019",
+          "product_title": "Chuyên viên cấp cao Đào tạo và Phát triển Tổ chức",
+          "product_slug": "chuyen-vien-cap-cao-dao-tao-va-phat-trien-to-chuc",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1004",
+          "product_title": "Online Program Senior Executive",
+          "product_slug": "online-program-senior-executive",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1005",
+          "product_title": "Online Program Manager",
+          "product_slug": "online-program-manager",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1021",
+          "product_title": "Chuyên viên Tuyển dụng - GVVN",
+          "product_slug": "chuyen-vien-tuyen-dung-gvvn",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1000",
+          "product_title": "Project Manager",
+          "product_slug": "project-manager",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1002",
+          "product_title": "Product Owner (App-base)",
+          "product_slug": "product-owner-app-base",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1001",
+          "product_title": "Lead Product Designer (UX)",
+          "product_slug": "lead-product-designer-ux",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1010",
+          "product_title": "Chuyên viên Cao cấp Phân tích Tài chính",
+          "product_slug": "chuyen-vien-cao-cap-phan-tich-tai-chinh",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1006",
+          "product_title": "Giám sát Hành chính Nhân sự",
+          "product_slug": "giam-sat-hanh-chinh-nhan-su",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP1007",
+          "product_title": "Trưởng nhóm Truyền thông nội bộ",
+          "product_slug": "truong-nhom-truyen-thong-noi-bo",
+          "product_seo_link": "",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01080731",
+          "product_title": "Event Executive",
+          "product_slug": "event-executive",
+          "product_seo_link": "Chuyên viên Tổ chức sự kiện",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP1022",
+          "product_title": "IT Business Partner",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1020",
+          "product_title": "Chuyên viên C&B/HN (based HCMC)",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1018",
+          "product_title": "Senior Front-end Developer",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1016",
+          "product_title": "Senior DevOps Engineer",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1012",
+          "product_title": "Quản lý Phát triển Chương trình Kỹ thuật số (DIGI)",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1011",
+          "product_title": "Chuyên viên cấp cao phát triển chương trình",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1009",
+          "product_title": "Chuyên viên Phân tích Tài chính",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1008",
+          "product_title": "Quản lý Chương trình Toán tư duy",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP1003",
+          "product_title": "Product Owner (Game-base)",
+          "product_slug": null,
+          "product_seo_link": null,
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP999",
+          "product_title": "Senior Marketing Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên Viên Điều Phối Marketing Cấp Cao",
+          "product_lang": "vi",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP102",
+          "product_title": "Senior General Marketing Executive",
+          "product_slug": "senior-general-marketing-executive",
+          "product_seo_link": "Chuyên viên Marketing cấp",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB-00106",
+          "product_title": "K12 TQM",
+          "product_slug": "k12-tqm",
+          "product_seo_link": "Quản lý Đào tạo Chương trình Bồi dưỡng và luyện thi phổ thông",
+          "product_lang": "vi",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "JOB-00105",
+          "product_title": "Math TQM",
+          "product_slug": "math-tqm",
+          "product_seo_link": "Quản lý Đào tạo Chương trình Toán Tư duy ",
+          "product_lang": "vi",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "01050730",
+          "product_title": "Brand & Communication Manager",
+          "product_slug": "brand-communication-manager",
+          "product_seo_link": "Quản lý Thương hiệu và Truyền thông",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB-00104",
+          "product_title": "Longform content executive",
+          "product_slug": "longform-content-executive",
+          "product_seo_link": "Chuyên viên phát triển nội dung định dạng dài ",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB-00103",
+          "product_title": "Telemarketing - Telemarketing Trainer & QC",
+          "product_slug": "telemarketing-telemarketing-trainer-qc",
+          "product_seo_link": "Chuyên viên đào tạo và kiểm soát chất lượng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP091",
+          "product_title": "Local Marketing Team Leader",
+          "product_slug": "local-marketing-team-leader",
+          "product_seo_link": "Trưởng nhóm tiếp thị vùng",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP100",
+          "product_title": "Executive Assistant to CEO",
+          "product_slug": "executive-assistant-to-ceo",
+          "product_seo_link": "Trợ lý Tổng Giám đốc",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "04080230",
+          "product_title": "SSC Supervisor",
+          "product_slug": "ssc-supervisor",
+          "product_seo_link": "Giám sát Dịch vụ học đường và Tuân thủ",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP099",
+          "product_title": "Security Staff",
+          "product_slug": "security-staff",
+          "product_seo_link": "Nhân viên Bảo vệ",
+          "product_lang": "vi",
+          "product_type": "THPT"
+        },
+        {
+          "product_code": "TEMP096",
+          "product_title": "Operational Excellence Manager",
+          "product_slug": "operational-excellence-manager",
+          "product_seo_link": "Operational Excellence Manager",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP097",
+          "product_title": "Quality Control Teamlead",
+          "product_slug": "quality-control-teamlead",
+          "product_seo_link": "Quality Control Teamlead",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP095",
+          "product_title": "Architecture executive",
+          "product_slug": "architecture-executive",
+          "product_seo_link": "Chuyên viên thiết kế kiến trúc/nội thất",
+          "product_lang": "vi",
+          "product_type": "Trung cấp"
+        },
+        {
+          "product_code": "TEMP093",
+          "product_title": "Senior Regional Operations Manager",
+          "product_slug": "senior-regional-operations-manager",
+          "product_seo_link": "Senior Regional Operations Manager",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP092",
+          "product_title": "Marketing Team Leader",
+          "product_slug": "marketing-team-leader",
+          "product_seo_link": "Trưởng nhóm Marketing",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01100800",
+          "product_title": "Purchasing Officer",
+          "product_slug": "purchasing-officer",
+          "product_seo_link": "Nhân viên Mua sắm",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP089",
+          "product_title": "Regional Communication Executive",
+          "product_slug": "regional-communication-executive",
+          "product_seo_link": "Chuyên viên truyền thông vùng",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP087",
+          "product_title": "Nhân viên Điều phối Tuyển Sinh & Phát triển khách hàng Doanh Nghiệp",
+          "product_slug": "nhan-vien-dieu-phoi-tuyen-sinh-phat-trien-khach-hang-doanh-nghiep",
+          "product_seo_link": "Nhân viên Điều phối Tuyển Sinh & Phát triển khách hàng Doanh Nghiệp",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP088",
+          "product_title": "Chuyên viên Phòng điều phối Tuyển Sinh",
+          "product_slug": "chuyen-vien-phong-dieu-phoi-tuyen-sinh",
+          "product_seo_link": "Chuyên viên Phòng điều phối Tuyển Sinh",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP085",
+          "product_title": "Brand & Communicaiton Executive ",
+          "product_slug": "brand-communicaiton-executive",
+          "product_seo_link": "Chuyên viên truyền thông thương hiệu",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP086",
+          "product_title": "Video Editor Executive",
+          "product_slug": "video-editor-executive",
+          "product_seo_link": "Chuyên viên Quay Dựng Video",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1081111",
+          "product_title": "Chuyên viên Tuyển dụng (Khối Giáo viên)",
+          "product_slug": "chuyen-vien-tuyen-dung-khoi-giao-vien",
+          "product_seo_link": "Recruitment Executive (Teacher Dept.)",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP081",
+          "product_title": "Curriculum Executive",
+          "product_slug": "curriculum-executive",
+          "product_seo_link": "Chuyên viên Thiết kế trải nghiệm học tập",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP082",
+          "product_title": "Senior Backend Developer",
+          "product_slug": "senior-backend-developer",
+          "product_seo_link": "Chuyên cấp cao phát triển BackEnd",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP083",
+          "product_title": "Senior Mobile Developer",
+          "product_slug": "senior-mobile-developer",
+          "product_seo_link": "Chuyên cấp cao phát triển Front End và di động",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP073",
+          "product_title": "Critical Math Manager",
+          "product_slug": "critical-math-manager",
+          "product_seo_link": "Quản lý chương trình Toán tư duy",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP072",
+          "product_title": "Curriculum Manager (DIGI)",
+          "product_slug": "curriculum-manager-digi",
+          "product_seo_link": "Quản lý Chương trình Công nghệ số (DIGI)",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP074",
+          "product_title": "Learning Exp & Content Manager",
+          "product_slug": "learning-exp-content-manager",
+          "product_seo_link": "Quản lý Nội dung & Trải nghiệm hoc tập",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP084",
+          "product_title": "Senior Functional Consultant",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao tích hợp và phân tích dữ liệu",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP079",
+          "product_title": "Curriculum Executive (Chemistry)",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên chương trình Hóa phổ thông",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP078",
+          "product_title": "Curriculum Executive (Physics)",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên chương trình Vật lý phổ thông",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP077",
+          "product_title": "Curriculum Executive (Math)",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên chương trình Toán phổ thông",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP076",
+          "product_title": "Game Design Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm thiết kế Game",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "TEMP071",
+          "product_title": "Senior Graphic Designer",
+          "product_slug": "senior-graphic-designer",
+          "product_seo_link": "Chuyên Viên Thiết Kế Đồ Họa Cấp Cao",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "0101040",
+          "product_title": "ASA Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "010189",
+          "product_title": "HR Assistant",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "001"
+        },
+        {
+          "product_code": "1011111",
+          "product_title": "Accounting Executive",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "001"
+        },
+        {
+          "product_code": "B",
+          "product_title": "Academic Administration Manager",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "A",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101099",
+          "product_title": "IT Engineer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101031",
+          "product_title": "Chief Accountant",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101027",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101021",
+          "product_title": "Chief Accountant",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101020",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "Accounting Senior Officer",
+          "product_title": "Accounting Senior Officer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101019",
+          "product_title": "CEO",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101018",
+          "product_title": "Corporate Sales Executive",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101017",
+          "product_title": "ASA Officer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101016",
+          "product_title": "ASA Manager",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101015",
+          "product_title": "Accounting Senior Officer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101014",
+          "product_title": "Academic Director",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101013",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "101012",
+          "product_title": "IT Engineer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "DBA",
+          "product_title": "Security Staff",
+          "product_slug": "security-staff",
+          "product_seo_link": "Executed",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "UAT01",
+          "product_title": "Academic Director",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "001"
+        },
+        {
+          "product_code": "TEMP070",
+          "product_title": "Business Development Executive",
+          "product_slug": "business-development-executive",
+          "product_seo_link": "Chuyên viên Quản lý dự án & Giám sát thi công ",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01010010",
+          "product_title": "CEO",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "TEMP068",
+          "product_title": "Corporate Strategy Executive",
+          "product_slug": "corporate-strategy-executive",
+          "product_seo_link": "Chuyên viên Chiến Lược Doanh Nghiệp",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP069",
+          "product_title": "Corporate Strategy Manager",
+          "product_slug": "corporate-strategy-manager",
+          "product_seo_link": "Quản lý Chiến Lược Doanh Nghiệp",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP063",
+          "product_title": "HR Officer -Recruitment",
+          "product_slug": "hr-officer-recruitment",
+          "product_seo_link": "Nhân viên Nhân sự - Tuyển dụng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP064",
+          "product_title": "HR Officer -C&B",
+          "product_slug": "hr-officer-cb",
+          "product_seo_link": "Nhân viên Nhân sự - C&B",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP065",
+          "product_title": "HRT Officer - North",
+          "product_slug": "hrt-officer-north",
+          "product_seo_link": "Nhân viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP066",
+          "product_title": "Marketing Officer -North",
+          "product_slug": "marketing-officer-north",
+          "product_seo_link": "Nhân viên Marketing sự kiện",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP067",
+          "product_title": "Project Management Executive -North",
+          "product_slug": "project-management-executive-north",
+          "product_seo_link": "Chuyên viên Quản lý dự án",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01051320",
+          "product_title": "Site Expansion Manager",
+          "product_slug": "site-expansion-manager",
+          "product_seo_link": "Quản lý Phát triển mặt bằng",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "Training05",
+          "product_title": "Academic Project Senior Manager",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "2012510",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012509",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012310",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012309",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012210",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012209",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012110",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012009",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012006",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "2012005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1141005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1140008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1140005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1140003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1132008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1132005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1131007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1131005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1130003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1120004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1112008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1112005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1111209",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1111108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1111105",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1111009",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1111008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1111004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1110005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1105008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1105005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1104008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1104007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1104005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1103008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1103005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1102008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1102005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1101511",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1101410",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1101210",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1101110",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1101008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1101006",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1100008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1100003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1094007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1093107",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1093008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1093007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1093004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1092008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1092007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1092005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1091008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1091007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1091005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1091004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1090108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1080010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1080009",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1080008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1080005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1075010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1075008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1075005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1074010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1074008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1074006",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1074005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073608",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073606",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073508",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073407",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073406",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073308",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073107",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1073005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1072010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1072009",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1072006",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1072005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1071010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1071007",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1071005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1070110",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1070009",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1070005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1070004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1070003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060310",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060208",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060110",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060109",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060106",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060105",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1060003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1056107",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1056006",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1055207",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1055107",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1055005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1054207",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1054206",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1054106",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1054105",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053307",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053306",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053206",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053110",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053109",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053106",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1053005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1052208",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1052207",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1052108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1052106",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1052005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1051010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1051008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1051006",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1051005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1050004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1050003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1044004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1043004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1042005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1041005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1033008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1032004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1031005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1030005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1030004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1030003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1023010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1023005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1022008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1021008",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1020010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1020005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1020003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1015010",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1015009",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1014108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1014005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1011004",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1010208",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1010108",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1010105",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1010104",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1002110",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1002005",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1002003",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1002001",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "1001001",
+          "product_title": "",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "TEMP062",
+          "product_title": "Trưởng nhóm Nghiên cứu chương trình Vật ký",
+          "product_slug": "truong-nhom-nghien-cuu-chuong-trinh-vat-ky",
+          "product_seo_link": "Physics Program Team Leader",
+          "product_lang": "vi",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "01010020",
+          "product_title": "Chief Operating Officer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": ""
+        },
+        {
+          "product_code": "job test16.11-02",
+          "product_title": "Accounting Officer",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "job test16.11.01",
+          "product_title": "Accounting Executive",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "002"
+        },
+        {
+          "product_code": "job test16.11",
+          "product_title": "Academic Director",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "001"
+        },
+        {
+          "product_code": "JOB-00001999999",
+          "product_title": "ERP D365 to MCS Draft 2 ",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB-0000123456",
+          "product_title": "ERP D365 to MCS Draft 1",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB-0000011",
+          "product_title": "ERP D365 Test - JOB title 0000011",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP061",
+          "product_title": "",
+          "product_slug": "security-staff-cum-maintance",
+          "product_seo_link": "Executed",
+          "product_lang": "vi",
+          "product_type": ""
+        },
+        {
+          "product_code": "TEMP059",
+          "product_title": "Nhân viên Lương và Phúc lợi",
+          "product_slug": "nhan-vien-luong-va-phuc-loi",
+          "product_seo_link": "C&B Officer",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP060",
+          "product_title": "HRIS Executive",
+          "product_slug": "hris-executive",
+          "product_seo_link": "HRIS Executive",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP058",
+          "product_title": "SEO Content Officer",
+          "product_slug": "seo-content-officer",
+          "product_seo_link": "Nhân viên SEO Content",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP057",
+          "product_title": "Quality Control Senior Officer",
+          "product_slug": "quality-control-senior-officer",
+          "product_seo_link": "Quality Control Senior Officer",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP056",
+          "product_title": "System Coordination Executive",
+          "product_slug": "system-coordination-executive",
+          "product_seo_link": "System Coordination Executive",
+          "product_lang": "en",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "JOB-TEM-0013",
+          "product_title": "ERP D365 Functional - 2",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB-TEM-0012",
+          "product_title": "ERP D365 Functional - 1",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP054",
+          "product_title": "Trưởng Nhóm Tuyển Sinh",
+          "product_slug": "truong-nhom-tuyen-sinh",
+          "product_seo_link": "ASA Supervisor",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP055",
+          "product_title": "Chuyên viên Vận hành",
+          "product_slug": "chuyen-vien-van-hanh",
+          "product_seo_link": "Operation Executive",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "test1",
+          "product_title": "Academic Administration Manager",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "TEMP053",
+          "product_title": "ERP D365 Functional",
+          "product_slug": "erp-d365-functional",
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP052",
+          "product_title": "UX/UI Designer",
+          "product_slug": "ux-ui-designer",
+          "product_seo_link": "Chuyên Viên Thiết Kế UX/UI",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP051",
+          "product_title": "Product Maketing Executive",
+          "product_slug": "product-maketing-executive",
+          "product_seo_link": "Chuyên Viên Tiếp Thị Sản Phẩm",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP050",
+          "product_title": "Supply Chain Manager",
+          "product_slug": "supply-chain-manager",
+          "product_seo_link": "Quản Lý Mua Sắm",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP046",
+          "product_title": "Chuyên viên Kế toán Chi phí",
+          "product_slug": "chuyen-vien-ke-toan-chi-phi",
+          "product_seo_link": "Accounting Executive",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP047",
+          "product_title": "Chuyên viên Kế toán Thuế",
+          "product_slug": "chuyen-vien-ke-toan-thue",
+          "product_seo_link": "Accounting Executive",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP048",
+          "product_title": "Chuyên viên Kế toán Phải thu",
+          "product_slug": "chuyen-vien-ke-toan-phai-thu",
+          "product_seo_link": "Accounting Executive",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP049",
+          "product_title": "Chuyên viên Kế toán Kho",
+          "product_slug": "chuyen-vien-ke-toan-kho",
+          "product_seo_link": "Accounting Executive",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01070710",
+          "product_title": "Telemarketing Supervisor",
+          "product_slug": "telemarketing-supervisor",
+          "product_seo_link": "Giám sát Telemarketing",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP045",
+          "product_title": "K-12 and Math Product Manager  ",
+          "product_slug": "k-12-and-math-product-manager",
+          "product_seo_link": "Quản lý sản phẩm K12 và Toán học",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP044",
+          "product_title": "ASA Training & Development Manager",
+          "product_slug": "asa-training-development-manager",
+          "product_seo_link": "Quản lý đào tạo & phát triển Tư vấn tuyển sinh",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "Accountant",
+          "product_title": "Accountant",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "0200"
+        },
+        {
+          "product_code": "TEMP043",
+          "product_title": "Thực tập sinh nhân sự - Đào tạo và Phát triển",
+          "product_slug": "thuc-tap-sinh-nhan-su-dao-tao-va-phat-trien",
+          "product_seo_link": "HR Interns - Learning & Development Intern",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "Account Manager",
+          "product_title": "Account Manager",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "0400"
+        },
+        {
+          "product_code": "HRT Executive",
+          "product_title": "RT Executive",
+          "product_slug": "rt-executive",
+          "product_seo_link": "Executed",
+          "product_lang": "",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "Head of PUR",
+          "product_title": "IT Engineer",
+          "product_slug": "it-engineer",
+          "product_seo_link": "Executed",
+          "product_lang": "",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "VN",
+          "product_title": "VN",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "Teacher"
+        },
+        {
+          "product_code": "C0O",
+          "product_title": "C0O",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "TA",
+          "product_title": "Teacher",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "Teacher"
+        },
+        {
+          "product_code": "EX",
+          "product_title": "Teacher",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "Teacher"
+        },
+        {
+          "product_code": "C123",
+          "product_title": "CEO 123",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "JOB-00062e35617001dd",
+          "product_title": "CEO",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "JOB-00062e355700d5b6",
+          "product_title": "CEO",
+          "product_slug": null,
+          "product_seo_link": "Executed",
+          "product_lang": null,
+          "product_type": "003"
+        },
+        {
+          "product_code": "TEMP042",
+          "product_title": "SEO Executive",
+          "product_slug": "seo-executive",
+          "product_seo_link": "Chuyên viên SEO",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JobId-45678908002",
+          "product_title": "TitleId 45678908001",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "JobFunciton"
+        },
+        {
+          "product_code": "JobId-45678909",
+          "product_title": "TitleId",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "JobFunciton"
+        },
+        {
+          "product_code": "JobId-45678908001",
+          "product_title": "TitleId 45678908001",
+          "product_slug": null,
+          "product_seo_link": "IntegrationStatus",
+          "product_lang": null,
+          "product_type": "JobFunciton"
+        },
+        {
+          "product_code": "TEMP041",
+          "product_title": "Local Marketing Executive",
+          "product_slug": "local-marketing-executive",
+          "product_seo_link": "Chuyên viên Marketing cơ sở",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01080601",
+          "product_title": "Accounting Executive",
+          "product_slug": "accounting-executive",
+          "product_seo_link": "Chuyên viên Kế toán",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP040",
+          "product_title": "Business Development Team Leader",
+          "product_slug": "business-development-team-leader",
+          "product_seo_link": "Trưởng nhóm Quản lý dự án và giám sát thi công. ",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01080733",
+          "product_title": "PR Executive",
+          "product_slug": "pr-executive",
+          "product_seo_link": "Chuyên viên Truyền thông",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP037",
+          "product_title": "Care Administrator",
+          "product_slug": "care-administrator",
+          "product_seo_link": "Nhân viên Care Admin",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP038",
+          "product_title": " Telemarketing Agent -North",
+          "product_slug": "telemarketing-agent-north",
+          "product_seo_link": "Nhân viên Telemarketing",
+          "product_lang": "en",
+          "product_type": "Trung cấp"
+        },
+        {
+          "product_code": "TEMP039",
+          "product_title": "Freelance Designer ",
+          "product_slug": "freelance-designer",
+          "product_seo_link": "Nhân viên Design Freelance",
+          "product_lang": "en",
+          "product_type": "Khác"
+        },
+        {
+          "product_code": "TEMP036",
+          "product_title": "LMS Business Analyst",
+          "product_slug": "lms-business-analyst",
+          "product_seo_link": "Chuyên viên phân tích hệ thống ứng dụng LMS",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "02050130",
+          "product_title": "Campus Sales Manager",
+          "product_slug": "campus-sales-manager",
+          "product_seo_link": "Quản lý cơ sở",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP035",
+          "product_title": "Cộng tác viên ASA điều phối",
+          "product_slug": "cong-tac-vien-asa-dieu-phoi",
+          "product_seo_link": "Cộng tác viên ASA điều phối",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP034",
+          "product_title": "HRT Intern",
+          "product_slug": "hrt-intern",
+          "product_seo_link": "Thực tập sinh thương hiệu tuyển dụng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP032",
+          "product_title": "ERP Integration Executive ",
+          "product_slug": "erp-integration-executive",
+          "product_seo_link": "ERP Integration Executive ",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP033",
+          "product_title": "ERP Developer Executive",
+          "product_slug": "erp-developer-executive",
+          "product_seo_link": "ERP Developer Executive",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP031",
+          "product_title": "Business Intelligence Analyst ",
+          "product_slug": "business-intelligence-analyst",
+          "product_seo_link": "Business Intelligence Analyst ",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP030",
+          "product_title": "Direct Sales Supervisor ",
+          "product_slug": "direct-sales-supervisor",
+          "product_seo_link": "Giám sát tiếp thị trực tiếp",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP029",
+          "product_title": "Purchasing Intern",
+          "product_slug": "purchasing-intern",
+          "product_seo_link": "Thực tập sinh Mua sắm",
+          "product_lang": "en",
+          "product_type": "Khác"
+        },
+        {
+          "product_code": "TEMP028",
+          "product_title": "HR Intern",
+          "product_slug": "hr-intern",
+          "product_seo_link": "Thực tập sinh Nhân sự",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01030100",
+          "product_title": "ASA Director",
+          "product_slug": "asa-director",
+          "product_seo_link": "Giám đốc Tuyển sinh",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01081020",
+          "product_title": "C&B Executive",
+          "product_slug": "cb-executive",
+          "product_seo_link": "Chuyên viên Lương và Phúc lợi",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01040700",
+          "product_title": "Marketing Senior Manager",
+          "product_slug": "marketing-senior-manager",
+          "product_seo_link": "Quản lý Cấp cao Tiếp thị",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP027",
+          "product_title": "HRT Officer -North",
+          "product_slug": "hrt-officer-north",
+          "product_seo_link": "Nhân viên Nhân sự giáo viên",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP026",
+          "product_title": "Product Intern",
+          "product_slug": "product-intern",
+          "product_seo_link": "Thực tập sinh Sản phẩm Công nghệ giáo dục",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP025",
+          "product_title": "Senior Accounting Executive",
+          "product_slug": "senior-accounting-executive",
+          "product_seo_link": "Chuyên viên kế toán cấp cao",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP023",
+          "product_title": "Coordination Executive -North",
+          "product_slug": "coordination-executive-north",
+          "product_seo_link": "Chuyên viên điều phối chăm sóc học viên",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP021",
+          "product_title": "ASA Student Care -North",
+          "product_slug": "asa-student-care-north",
+          "product_seo_link": "Nhân viên chăm sóc học viên",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP022",
+          "product_title": "ASA Officer - North",
+          "product_slug": "asa-officer-north",
+          "product_seo_link": "Nhân viên tư vấn tuyển sinh",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP024",
+          "product_title": "Maintenance Staff -North",
+          "product_slug": "maintenance-staff-north",
+          "product_seo_link": "Nhân viên bảo trì",
+          "product_lang": "en",
+          "product_type": "Trung cấp"
+        },
+        {
+          "product_code": "TEMP020",
+          "product_title": "Product Marketing Manager",
+          "product_slug": "product-marketing-manager",
+          "product_seo_link": "Quản lý Tiếp thị Sản phẩm",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01050740",
+          "product_title": "Digital Marketing Manager",
+          "product_slug": "digital-marketing-manager",
+          "product_seo_link": "Quản lý Digital Marketing",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP019",
+          "product_title": "IT Helpdesk",
+          "product_slug": "it-helpdesk",
+          "product_seo_link": "Nhân viên IT cơ sở",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP018",
+          "product_title": "Regional Brand Executive",
+          "product_slug": "regional-brand-executive",
+          "product_seo_link": "Chuyên viên tiếp thị thương hiệu vùng  ",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP017",
+          "product_title": "Regional Marketing Executive",
+          "product_slug": "regional-marketing-executive",
+          "product_seo_link": "Chuyên viên Tiếp thị vùng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP016",
+          "product_title": "Contract Management and Project Administration Executive",
+          "product_slug": "contract-management-and-project-administration-executive",
+          "product_seo_link": "Chuyên viên Quản lý Hợp đồng thuê và Hành chính dự án ",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "JOB_ID",
+          "product_title": "JOB_TITLE 1",
+          "product_slug": null,
+          "product_seo_link": "JOB_TITLE 2",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080740",
+          "product_title": "Digital Marketing Executive",
+          "product_slug": "digital-marketing-executive",
+          "product_seo_link": "Chuyên viên Digital Marketing",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01060736",
+          "product_title": "Graphic Designer Team Leader",
+          "product_slug": "graphic-designer-team-leader",
+          "product_seo_link": "Trưởng nhóm Thiết kế đồ họa",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP015",
+          "product_title": "Communications Executive",
+          "product_slug": "communications-executive",
+          "product_seo_link": "Chuyên viên truyền thông",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1080522",
+          "product_title": "Business Analyst & Software Test Executive",
+          "product_slug": "business-analyst-software-test-executive",
+          "product_seo_link": "Chuyên viên Business Analyst & Software Tester",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP013",
+          "product_title": "HR Manager",
+          "product_slug": "hr-manager",
+          "product_seo_link": "Quản lý nhân sự",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP014",
+          "product_title": "HRT Manager",
+          "product_slug": "hrt-manager",
+          "product_seo_link": "Quản lý nhân sự giáo viên",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP012",
+          "product_title": "LMS Apex Developer",
+          "product_slug": "lms-apex-developer",
+          "product_seo_link": "LMS Apex Developer",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01080920",
+          "product_title": "R&D Executive",
+          "product_slug": "rd-executive",
+          "product_seo_link": "Chuyên viên Nghiên cứu và Phát triển chương trình",
+          "product_lang": "en",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "01070544",
+          "product_title": "Senior Digital Developer Executive",
+          "product_slug": "senior-digital-developer-executive",
+          "product_seo_link": "Chuyên viên cấp cao phát triển kỹ thuật số",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01070552",
+          "product_title": "Senior LMS Coordinator Executive",
+          "product_slug": "senior-lms-coordinator-executive",
+          "product_seo_link": "Chuyên viên cấp cao Điều phối LMS",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP011",
+          "product_title": "Math Academic Manager",
+          "product_slug": "math-academic-manager",
+          "product_seo_link": "Math Academic Manager",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "02050120",
+          "product_title": "ASA Manager",
+          "product_slug": "asa-manager",
+          "product_seo_link": "Quản lý Tuyển sinh",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01010030",
+          "product_title": "Corporate Strategy Director",
+          "product_slug": "corporate-strategy-director",
+          "product_seo_link": "Corporate Strategy Director",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01030400",
+          "product_title": "Edtech Director",
+          "product_slug": "edtech-director",
+          "product_seo_link": "Giám đốc Giáo dục Công nghệ ",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01100200",
+          "product_title": "SSC Coordination Officer",
+          "product_slug": "ssc-coordination-officer",
+          "product_seo_link": "Nhân viên Điều phối Dịch vụ Học đường & Tuân thủ",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01050430",
+          "product_title": "Product Manager",
+          "product_slug": "product-manager",
+          "product_seo_link": "Quản lý sản phẩm",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP009",
+          "product_title": "Senior Digital Marketing Executive (Tech)",
+          "product_slug": "senior-digital-marketing-executive-tech",
+          "product_seo_link": "Chuyên viên cấp cao Digital Marketing(Tech)",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP010",
+          "product_title": "Digital Marketing Executive (Paid Media)",
+          "product_slug": "digital-marketing-executive-paid-media",
+          "product_seo_link": "Chuyên viên Digital Marketing(Paid Media)",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP008",
+          "product_title": "Financial Data Analysis Executive",
+          "product_slug": "financial-data-analysis-executive",
+          "product_seo_link": "Chuyên viên phân tích dữ liệu tài chính",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP007",
+          "product_title": "Product Owner",
+          "product_slug": "product-owner",
+          "product_seo_link": "Product Owner",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01081111",
+          "product_title": "Chuyên viên tuyển dụng giáo viên, trợ giảng",
+          "product_slug": "chuyen-vien-tuyen-dung-giao-vien-tro-giang",
+          "product_seo_link": "Chuyên viên tuyển dụng giáo viên, trợ giảng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP001",
+          "product_title": "Regional Marketing Manager",
+          "product_slug": "regional-marketing-manager",
+          "product_seo_link": "Quản lý Marketing Vùng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01050700",
+          "product_title": "Marketing Manager",
+          "product_slug": "marketing-manager",
+          "product_seo_link": "Quản lý Marketing",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "TEMP002",
+          "product_title": "Offshore Teaching Program Manager",
+          "product_slug": "offshore-teaching-program-manager",
+          "product_seo_link": "Offshore Teaching Program Manager",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01080552",
+          "product_title": "LMS Executive",
+          "product_slug": "lms-executive",
+          "product_seo_link": "Chuyên viên LMS",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP004",
+          "product_title": "Direct Marketing Trainer &Qc",
+          "product_slug": "direct-marketing-trainer-qc",
+          "product_seo_link": "Direct Marketing Trainer &Qc",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP005",
+          "product_title": "DevOps- Database Administrator",
+          "product_slug": "devops-database-administrator",
+          "product_seo_link": "DevOps- Database Administrator",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01080210",
+          "product_title": "Chuyên viên quản lý tài sản",
+          "product_slug": "chuyen-vien-quan-ly-tai-san",
+          "product_seo_link": "Chuyên viên quản lý tài sản",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "TEMP006",
+          "product_title": "Chuyên viên phụ trách Work Permit -Visa",
+          "product_slug": "chuyen-vien-phu-trach-work-permit-visa",
+          "product_seo_link": "Chuyên viên phụ trách Work Permit -Visa",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01030900",
+          "product_title": "R&D Director",
+          "product_slug": "rd-director",
+          "product_seo_link": "Giám đốc R&D",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01081030",
+          "product_title": "Recruitment Executive",
+          "product_slug": "recruitment-executive",
+          "product_seo_link": "Chuyên viên Tuyển dụng",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "01081402",
+          "product_title": "Financial Analysis Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Phân tích Tài chính",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051400",
+          "product_title": "Finance Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Tài chính",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051410",
+          "product_title": "Corporate Strategy Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Chiến lược Doanh nghiệp",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081401",
+          "product_title": "Business & finance analyst",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Phân tích Tài chính và Kinh doanh",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050140",
+          "product_title": "Customer Development Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Phát triển Khách hàng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080141",
+          "product_title": "Corporate Sales Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Khách hàng doanh nghiệp",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081320",
+          "product_title": "Site Expansion Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên phát triển mặt bằng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01071310",
+          "product_title": "Senior Executive Project Management",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Quản lý dự án",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01071300",
+          "product_title": "Senior Business Development Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Quản lý dự án & Giám sát thi công",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051310",
+          "product_title": "Construction & Project Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Dự án & Giám sát công trình",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01041200",
+          "product_title": "Business Planning cum E.A to CEO Senior Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý cấp cao Hoạch định Kinh doanh kiêm Trợ lý Tổng Giám Đốc",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01111015",
+          "product_title": "Housekeeper",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Tạp vụ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01091030",
+          "product_title": "Recruitment Senior Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Tuyển dụng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051030",
+          "product_title": "Recruitment Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Tuyển dụng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101012",
+          "product_title": "Receptionist",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Lễ tân",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101014",
+          "product_title": "Messenger",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Văn thư",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081050",
+          "product_title": "Legal Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Pháp chế",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051050",
+          "product_title": "Legal & Corp. Affairs Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Pháp lý và Sự vụ Doanh nghiệp",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081040",
+          "product_title": "Learning & Development Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Đào tạo và Phát triển",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101011",
+          "product_title": "HR Admin Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Nhân sự",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01061011",
+          "product_title": "HR & Admin Team leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Nhân sự và Hành chính",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101013",
+          "product_title": "Driver",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Lái xe",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051020",
+          "product_title": "Compensation & Benefit Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Lương và Phúc lợi",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081011",
+          "product_title": "HR Admin Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Nhân sự",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01041110",
+          "product_title": "HR Teacher Senior Manager - Vietnamese Teacher",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Trợ giảng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051120",
+          "product_title": "Compensation & Benefit Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Lương và Phúc lợi",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101120",
+          "product_title": "HR Teacher Officer - C&B",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081113",
+          "product_title": "HR Teacher Executive - Foreign Teacher",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01091113",
+          "product_title": "HR Teacher Senior Officer - Foreign Teacher",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Nhân sự giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101113",
+          "product_title": "HR Teacher Officer - Foreign Teacher",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01081112",
+          "product_title": "HR Teacher Executive - Teaching Assistant",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01091112",
+          "product_title": "HR Teacher Senior Officer - Teaching Assistant",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Nhân sự giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101112",
+          "product_title": "HR Teacher Officer - Teaching Assistant",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01091111",
+          "product_title": "HR Teacher Senior Officer - Vietnamese Teacher",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Nhân sự giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01101111",
+          "product_title": "HR Teacher Officer - Vietnamese Teacher",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051113",
+          "product_title": "HR Teacher Manager - Foreign Teacher",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Giáo viên NN",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01051112",
+          "product_title": "HR Teacher Manager - Teaching Assistant",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050940",
+          "product_title": "Stem Program Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý chương trình Stem",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070920",
+          "product_title": "R&D Senior Executive ",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Nghiên cứu và Phát triển chương trình",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080910",
+          "product_title": "R&D Executive - Program",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Nghiên cứu và Phát triển chương trình",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080901",
+          "product_title": "R&D Coordination Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Điều phối Nghiên cứu và phát triển chương trình",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050910",
+          "product_title": "Program Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Chương trình",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070911",
+          "product_title": "Instructional Design Assistant",
+          "product_slug": null,
+          "product_seo_link": "Trợ lý thiết kế Giảng dạy",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01040910",
+          "product_title": "Academic Project Senior Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý cấp cao Dự án Chuyên môn",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01090800",
+          "product_title": "Senior Purchasing Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Mua sắm",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050800",
+          "product_title": "Purchasing Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Mua sắm",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080800",
+          "product_title": "Purchasing Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Mua sắm",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050710",
+          "product_title": "Telemarketing Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Telemarketing",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070734",
+          "product_title": "Senior Communications Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Truyền thông",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060733",
+          "product_title": "PR Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Truyền thông",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100701",
+          "product_title": "Marketing Coordinator Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên điều phối Marketing",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080736",
+          "product_title": "Graphic Designer Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Thiết kế Đồ họa",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01090731",
+          "product_title": "Event Senior Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao tổ chức sự kiện",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070731",
+          "product_title": "Event Senior Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Tổ chức sự kiện",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050720",
+          "product_title": "Direct Marketing Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Tiếp thị trực tiếp",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060740",
+          "product_title": "Digital Marketing Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Tiếp thị Kĩ thuật số",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100740",
+          "product_title": "Digital Community Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Digital Community",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100750",
+          "product_title": "Customer Experience Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Trải nghiệm khách hàng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050750",
+          "product_title": "Customer Experience Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Trải nghiệm khách hàng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080750",
+          "product_title": "Customer Experience Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Trải nghiệm khách hàng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050732",
+          "product_title": "Creative Marketing Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Creative Marketing",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100735",
+          "product_title": "Copywriter Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Copywriter",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080735",
+          "product_title": "Copywriter Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Copywriter",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060734",
+          "product_title": "Communications & Content Planner Team leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Truyền thông",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01090150",
+          "product_title": "Senior Online Sales Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Kinh doanh trực tuyến",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100150",
+          "product_title": "Online Sales Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Kinh doanh trực tuyến",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050150",
+          "product_title": "Online Sales Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Kinh doanh trực tuyến",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080602",
+          "product_title": "Treasury Executive",
+          "product_slug": null,
+          "product_seo_link": "Thủ quỹ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050601",
+          "product_title": "General Accounting Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Kế toán Tổng hợp",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100603",
+          "product_title": "Campus Accounting Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Kế toán cơ sở",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060601",
+          "product_title": "Accounting Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Kế toán",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01090601",
+          "product_title": "Accounting Senior Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên cấp cao Kế toán",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100601",
+          "product_title": "Payable Accountant",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên kế toán thanh toán",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060542",
+          "product_title": "Web Development Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm phát triển web",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100510",
+          "product_title": "Software Developer Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Lập trình Phần mềm",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080510",
+          "product_title": "Software Developer Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Lập trình",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070553",
+          "product_title": "Senior Dynamic 365 Administrator Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Quản trị Dynamics 365",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060533",
+          "product_title": "IT Infrastructure Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm hạ tầng Công nghệ thông tin",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080533",
+          "product_title": "IT Infrastructure Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên hạ tầng Công nghệ thông tin",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050551",
+          "product_title": "ERP Project Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Dự án ERP",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070551",
+          "product_title": "ERP Coordinator",
+          "product_slug": null,
+          "product_seo_link": "Điều phối dự án ERP",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080521",
+          "product_title": "DW & BI Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên DW & BI",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060541",
+          "product_title": "Development and System Integration Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Phát triển và tích hợp hệ thống",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050541",
+          "product_title": "Development and System Integration Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Phát triển và tích hợp hệ thống",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060532",
+          "product_title": "Cyber Security Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm An ninh mạng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01100531",
+          "product_title": "Campus IT Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Công nghệ thông tin cơ sở",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050510",
+          "product_title": "Business Application Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Phát triển ứng dụng kinh doanh",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01060510",
+          "product_title": "Business Application Development Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Phát triển ứng dụng kinh doanh",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01070522",
+          "product_title": "Business Analyst & Software Test Senior Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên cấp cao Business Analyst & Software Tester",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01080522",
+          "product_title": "Business Analyst & Software Test Executive",
+          "product_slug": null,
+          "product_seo_link": "Chuyên viên Business Analyst & Software Tester",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050200",
+          "product_title": "SSC Coordination Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Điều phối Dịch vụ Học đường & Tuân thủ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050230",
+          "product_title": "Area SSC Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Dịch vụ Học đường và Tuân thủ vùng",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01020900",
+          "product_title": "R & D Director",
+          "product_slug": null,
+          "product_seo_link": "Giám đốc Nghiên cứu và Phát triển",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01030700",
+          "product_title": "Marketing Director",
+          "product_slug": null,
+          "product_seo_link": "Giám đốc Tiếp thị",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01030500",
+          "product_title": "IT Director",
+          "product_slug": null,
+          "product_seo_link": "Giám đốc Công nghệ Thông tin",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01031100",
+          "product_title": "HRT Director",
+          "product_slug": null,
+          "product_seo_link": "Giám đốc Nhân sự Giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01031400",
+          "product_title": "Financial Controller",
+          "product_slug": null,
+          "product_seo_link": "Giám sát Tài chính",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01030300",
+          "product_title": "Academic Director",
+          "product_slug": null,
+          "product_seo_link": "Giám đốc Đào tạo",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01040430",
+          "product_title": "Senior Product Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý cấp cao Sản phẩm",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01040440",
+          "product_title": "Head Of Growth",
+          "product_slug": null,
+          "product_seo_link": "Head Of Growth",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "01050420",
+          "product_title": "Scrum Master",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Scrum Master",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "03050350",
+          "product_title": "Training Quality Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Chất lượng đào tạo",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "03100350",
+          "product_title": "Teacher Care Officer",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Chăm sóc giáo viên",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "04060230",
+          "product_title": "SSC Team Leader",
+          "product_slug": null,
+          "product_seo_link": "Trưởng nhóm Dịch vụ Học đường & Tuân thủ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "04050230",
+          "product_title": "Area SSC Manager",
+          "product_slug": null,
+          "product_seo_link": "Quản lý Dịch vụ Học đường và Tuân thủ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "04110263",
+          "product_title": "Security Staff",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Bảo vệ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "04110240",
+          "product_title": "Maintenance Staff",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Bảo trì",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "04110250",
+          "product_title": "Housekeeper",
+          "product_slug": null,
+          "product_seo_link": "Nhân viên Tạp vụ",
+          "product_lang": "en",
+          "product_type": null
+        },
+        {
+          "product_code": "4110250",
+          "product_title": "Housekeeper",
+          "product_slug": "housekeeper",
+          "product_seo_link": "Nhân viên Tạp vụ",
+          "product_lang": "vi",
+          "product_type": "THPT"
+        },
+        {
+          "product_code": "01051040",
+          "product_title": "Learning & Development Manager",
+          "product_slug": "learning-development-manager",
+          "product_seo_link": "Quản lý Đào tạo và Phát triển",
+          "product_lang": "en",
+          "product_type": "Cao Học"
+        },
+        {
+          "product_code": "02100120",
+          "product_title": "ASA Officer",
+          "product_slug": "asa-officer",
+          "product_seo_link": "Nhân viên Tuyển sinh",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01100710",
+          "product_title": "Telemarketing Agent",
+          "product_slug": "telemarketing-agent",
+          "product_seo_link": "Nhân viên Telemarketing",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01100720",
+          "product_title": "Direct Sales Agent",
+          "product_slug": "direct-sales-agent",
+          "product_seo_link": "Nhân viên Tiếp thị trực tiếp",
+          "product_lang": "vi",
+          "product_type": "THPT"
+        },
+        {
+          "product_code": "01070533",
+          "product_title": "Senior IT Infrastructure Executive",
+          "product_slug": "senior-it-infrastructure-executive",
+          "product_seo_link": "Chuyên viên cấp cao hạ tầng Công nghệ thông tin",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01070510",
+          "product_title": "Software Developer Senior Executive",
+          "product_slug": "software-developer-senior-executive",
+          "product_seo_link": "Chuyên viên cấp cao Lập trình",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "01060720",
+          "product_title": "Direct Marketing Team Leader",
+          "product_slug": "direct-marketing-team-leader",
+          "product_seo_link": "Trưởng nhóm Tiếp thị Trực tiếp",
+          "product_lang": "en",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "1080510",
+          "product_title": "Software Developer Executive",
+          "product_slug": "software-developer-executive",
+          "product_seo_link": "Chuyên viên Lập trình",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1080750",
+          "product_title": "Customer Experience Executive",
+          "product_slug": "customer-experience-executive",
+          "product_seo_link": "Chuyên viên Trải nghiệm khách hàng",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "4080230",
+          "product_title": "SSC Supervisor",
+          "product_slug": "ssc-supervisor",
+          "product_seo_link": "Giám sát Dịch vụ học đường và Tuân thủ",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "4110240",
+          "product_title": "Maintenance Staff",
+          "product_slug": "maintenance-staff",
+          "product_seo_link": "Nhân viên Bảo trì",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "4110263",
+          "product_title": "Security Staff",
+          "product_slug": "security-staff",
+          "product_seo_link": "Nhân viên Bảo vệ",
+          "product_lang": "vi",
+          "product_type": "THPT"
+        },
+        {
+          "product_code": "3100350",
+          "product_title": "Teacher Care Officer",
+          "product_slug": "teacher-care-officer",
+          "product_seo_link": "Nhân viên Chăm sóc giáo viên",
+          "product_lang": "vi",
+          "product_type": "Cao đẳng"
+        },
+        {
+          "product_code": "1050150",
+          "product_title": "Online Sales Manager",
+          "product_slug": "online-sales-manager",
+          "product_seo_link": "Quản lý Kinh doanh trực tuyến",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1050940",
+          "product_title": "Stem Program Manager",
+          "product_slug": "stem-program-manager",
+          "product_seo_link": "Quản lý chương trình Stem",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "3050350",
+          "product_title": "Training Quality Manager",
+          "product_slug": "training-quality-manager",
+          "product_seo_link": "Quản lý Chất lượng đào tạo",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1050720",
+          "product_title": "Direct Marketing Manager",
+          "product_slug": "direct-marketing-manager",
+          "product_seo_link": "Quản lý Tiếp thị trực tiếp",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1050420",
+          "product_title": "Scrum Master",
+          "product_slug": "scrum-master",
+          "product_seo_link": "Quản lý Scrum Master",
+          "product_lang": "en",
+          "product_type": "Đại học"
+        },
+        {
+          "product_code": "1071300",
+          "product_title": "Senior Business Development Executive",
+          "product_slug": "senior-business-development-executive",
+          "product_seo_link": "Chuyên viên cấp cao Quản lý dự án & Giám sát thi công",
+          "product_lang": "vi",
+          "product_type": "Đại học"
+        }
+      ]
