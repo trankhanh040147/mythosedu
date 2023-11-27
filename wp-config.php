@@ -1,103 +1,213 @@
 <?php
 
 /**
- * The base configuration for WordPress
+ * Cấu hình cơ bản cho WordPress
  *
- * The wp-config.php creation script uses this file during the installation.
- * You don't have to use the web site, you can copy this file to "wp-config.php"
- * and fill in the values.
+ * Trong quá trình cài đặt, file "wp-config.php" sẽ được tạo dựa trên nội dung
+ * mẫu của file này. Bạn không bắt buộc phải sử dụng giao diện web để cài đặt,
+ * chỉ cần lưu file này lại với tên "wp-config.php" và điền các thông tin cần thiết.
  *
- * This file contains the following configurations:
+ * File này chứa các thiết lập sau:
  *
- * * Database settings
- * * Secret keys
- * * Database table prefix
- * * Localized language
+ * * Thiết lập MySQL
+ * * Các khóa bí mật
+ * * Tiền tố cho các bảng database
  * * ABSPATH
  *
- * @link https://wordpress.org/support/article/editing-wp-config-php/
+ * @link https://codex.wordpress.org/Editing_wp-config.php
  *
  * @package WordPress
  */
 
-// ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
+// ** Thiết lập MySQL - Bạn có thể lấy các thông tin này từ host/server ** //
+/** Tên database MySQL */
 define( 'DB_NAME', 'u199319889_mythosedu_uat' );
 
-/** Database username */
-define( 'DB_USER', 'u199319889_root' );
 
-/** Database password */
-define( 'DB_PASSWORD', '040147' );
+/** Username của database */
+//define('DB_USER', 'pma');
+define('DB_USER', 'u199319889_root');
 
-/** Database hostname */
-define( 'DB_HOST', '127.0.0.1' );
+/** Mật khẩu của database */
+define('DB_PASSWORD', 'Mythose47');
 
-/** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8' );
+/** Hostname của database */
+define('DB_HOST', 'localhost');
 
-/** The database collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
+/** Database charset sử dụng để tạo bảng database. */
+define('DB_CHARSET', 'utf8mb4');
 
+/** Kiểu database collate. Đừng thay đổi nếu không hiểu rõ. */
+define('DB_COLLATE', '');
 /**#@+
- * Authentication unique keys and salts.
+ * Khóa xác thực và salt.
  *
- * Change these to different unique phrases! You can generate these using
- * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
- *
- * You can change these at any point in time to invalidate all existing cookies.
- * This will force all users to have to log in again.
+ * Thay đổi các giá trị dưới đây thành các khóa không trùng nhau!
+ * Bạn có thể tạo ra các khóa này bằng công cụ
+ * {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
+ * Bạn có thể thay đổi chúng bất cứ lúc nào để vô hiệu hóa tất cả
+ * các cookie hiện có. Điều này sẽ buộc tất cả người dùng phải đăng nhập lại.
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',          'qZ${x11m/I74)0vu3%z$!U*;9p!)7qqH?4AfAtorYrOrI$Y{|thgSA^zeCcJ$*T9' );
-define( 'SECURE_AUTH_KEY',   ';cTE&&d%DH WcIHn!s_rvj2UPqi>?`Z%Hh}h4iN,<%_mzpD17^&@sN_(nw)Wg<vh' );
-define( 'LOGGED_IN_KEY',     '}88UjaIX)~c92_~eE#*Y$dW;}TYwVVGmTJrT s>)1@r,&/oLO*soiuzbe}4_~(ev' );
-define( 'NONCE_KEY',         'EQWc?5l% [lqJ0faNawg) R@d`-4;Z d!H Xt_%7k03Yju|h?aA.~Y*m_7Huov!P' );
-define( 'AUTH_SALT',         'V!B>4MB[*FnA8<[C(}M*w%|8g5k(]Xj4VeMS2fGqGGVI7jRhii?py0WBRHjp?An}' );
-define( 'SECURE_AUTH_SALT',  '@)vC<)o4A_{:k]&/lIvkttpsV*9wEM~Ntl!zmFzG,+Z%gu$P2,OvGz=b3T5G`8HP' );
-define( 'LOGGED_IN_SALT',    'A>Y4@-O46IFFEU.q]6P4hi)Jrf{9!7+U_Du,*|1aUC1O,&gFX7`/1CXz8f!#E6g@' );
-define( 'NONCE_SALT',        'Zm-`XYV3?I_^_>Z}Kw4e_5^mY{UCMGe1S,)>Q~pb[@d4&Es-Xsqu3rj>D*a1Q$^M' );
-define( 'WP_CACHE_KEY_SALT', '{QoT_9 C[gnvDPKStKU&JZ|Jl_R|heYg7.Jh>6i?gM_j5v5Ny,H hKcfB,8&gsdH' );
-
+define('DDL_INTERNAL',     true );
+define('AUTH_KEY',         'ghU.y9;Kh0>1|J}AU8DmH #NXCP{`!N2,}}<`?VO2aIFi1<k?apLeM:yChR~ETei');
+define('SECURE_AUTH_KEY',  '*%A{B~2CR%V5G_eBjRo_aR(jnuo%;Jh_$F{{/=%X}srVz4Da&b0&jrW3T.8G)*)?');
+define('LOGGED_IN_KEY',    '2X-(6k9X]+~CL}mGCN8UzzJrGm=~b|#|^Qz4|UQD 4h9!|=So9nP)T_cxsg=t5*l');
+define('NONCE_KEY',        '-D>#3gGI&*SV7rrUMBd[UG-mFVe=G_2uG5%$/2eOesX&(%U4~/^ojNZ0Vtet|P&W');
+define('AUTH_SALT',        'xqA,;dafSU]!j#^uL_K@z78dH7ItfYW^:UocJUA62MVwf8[$zykT(Vy1xxYkJtm}');
+define('SECURE_AUTH_SALT', 'c]7DisxGuYG`Nh-Vsm[_Z2GKe#/I5ersM&w*gK?<f6b7$I|M|EINyP|_,:L`Ln:F');
+define('LOGGED_IN_SALT',   ':g6U$&2<X1=to, V=O5%S|PKa-jP!vPq[MfyUvp;YJQ[_`KmOPd55aV!g IKo2v]');
+define('NONCE_SALT',       'Sun*q4U-!k@F.&&d!!/;t~$g^s_nnphD93fr}>zx|Y3nz-A8a;$vk)w~=(Z>HOk[');
+define('DDL_DOMAIN',       '518ddbefbbe009410fa92cc4c3d7c8d9' );
 
 /**#@-*/
 
 /**
- * WordPress database table prefix.
+ * Tiền tố cho bảng database.
  *
- * You can have multiple installations in one database if you give each
- * a unique prefix. Only numbers, letters, and underscores please!
+ * Đặt tiền tố cho bảng giúp bạn có thể cài nhiều site WordPress vào cùng một database.
+ * Chỉ sử dụng số, ký tự và dấu gạch dưới!
  */
-$table_prefix = 'wp_';
+$table_prefix  = 'wp_';
+// Setting default theme for new sites
+define( 'WP_DEFAULT_THEME', 'Drag & drop layout' );
+
 
 /**
- * For developers: WordPress debugging mode.
+ * Dành cho developer: Chế độ debug.
  *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
+ * Thay đổi hằng số này thành true sẽ làm hiện lên các thông báo trong quá trình phát triển.
+ * Chúng tôi khuyến cáo các developer sử dụng WP_DEBUG trong quá trình phát triển plugin và theme.
  *
- * For information on other constants that can be used for debugging,
- * visit the documentation.
+ * Để có thông tin về các hằng số khác có thể sử dụng khi debug, hãy xem tại Codex.
  *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/
+ * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define( 'WP_DEBUG', false );
+define('WP_DEBUG', false);
 
+/******************* TRAININGHUB SETTTINGS ***************************/
+define('__SENDEMAIL_ON_OFF', '__MAIL_ON'); // __MAIL_ON: enable; __MAIL_OFF: disible
+define('_DELETE_DRAFT_', 5); // number of minutes to delete draft courses
 
-/* Add any custom values between this line and the "stop editing" line. */
+define('__USING_ASA_SYSTEM', 'YES'); //mod using for ASA system
 
+define('__V_API_ON_OFF_MOD', '__API_ON'); // __API_ON: enable; __API_OFF: disible
+// define('_DEFINE_DEPARTMENT_NAME', array(
+//         "HR"=>"HR",
+//         "ASA"=>"ASA",
+//         "IT"=>"IT",
+// ));
+  
+define('_BRANCHS_', array(
+ "HNI_CTM"=>"Cơ sở Hà Nội - CTM",
+ "HCM_VPTT"=>"Văn Phòng Trung Tâm VUS Hồ Chí Minh",
+ "HCM_NTMK"=>"Cơ sở Hồ Chí Minh - Nguyễn Thị Minh Khai",
+ "HCM_ADV"=>"Cơ sở Hồ Chí Minh - An Dương Vương",
+ "HCM_BH"=>"Cơ sở Hồ Chí Minh - Bà Hom",
+ "HCM_BL"=>"Cơ sở Hồ Chí Minh - Bình Long",
+ "HCM_BM"=>"Cơ sở Hồ Chí Minh - Bình Minh",
+ "HCM_CH"=>"Cơ sở Hồ Chí Minh - Cộng Hòa",
+ "HCM_DXH"=>"Cơ sở Hồ Chí Minh - Đỗ Xuân Hợp",
+ "HCM_GR"=>"Cơ sở Hồ Chí Minh - Green River",
+ "HCM_HB"=>"Cơ sở Hồ Chí Minh - Hòa Bình",
+ "HCM_HG"=>"Cơ sở Hồ Chí Minh - Hậu Giang",
+ "HCM_KH"=>"Cơ sở Hồ Chí Minh - Khánh Hội",
+ "HCM_LTT"=>"Cơ sở Hồ Chí Minh - Lê Trọng Tấn",
+ "HCM_MS"=>"Cơ sở Hồ Chí Minh - Morning Star",
+ "HCM_NAT"=>"Cơ sở Hồ Chí Minh - Nguyễn Ảnh Thủ",
+ "HCM_NAT2"=>"Cơ sở Hồ Chí Minh - Nguyễn Ảnh Thủ 2",
+ "HCM_NCT"=>"Cơ sở Hồ Chí Minh - Nguyễn Chí Thanh",
+ "HCM_NDT"=>"Cơ sở Hồ Chí Minh - Nguyễn Duy Trinh",
+ "HCM_NK"=>"Cơ sở Hồ Chí Minh - Nguyễn Kiệm",
+ "HCM_NKV"=>"Cơ sở Hồ Chí Minh - Nguyễn Khắc Viện",
+ "HCM_NTT"=>"Cơ sở Hồ Chí Minh - Nguyễn Thị Thập",
+ "HCM_NVTA"=>"Cơ sở Hồ Chí Minh - Nguyễn Văn Tăng",
+ "HCM_PXL"=>"Cơ sở Hồ Chí Minh - Phan Xích Long",
+ "HCM_QT"=>"Cơ sở Hồ Chí Minh - Quang Trung",
+ "HCM_TC"=>"Cơ sở Hồ Chí Minh - Trường Chinh",
+ "HCM_TL"=>"Cơ sở Hồ Chí Minh - Tên Lửa",
+ "HCM_TNV"=>"Cơ sở Hồ Chí Minh - Tô Ngọc Vân",
+ "HCM_UT"=>"Cơ sở Hồ Chí Minh - Út Tịch",
+ "HCM_VTS"=>"Cơ sở Hồ Chí Minh - Võ Thị Sáu",
+ "HCM_TK"=>"Cơ sở Hồ Chí Minh - Kids Tô Ký",
+ "HCM_TN"=>"Cơ sở Hồ Chí Minh - Kids Trần Não",
+ "HCM_TVD"=>"Cơ sở Hồ Chí Minh - Kids Tô Vĩnh Diện",
+ "HCM_TK2"=>"Cơ sở Hồ Chí Minh - Tô Ký 2",
+ "HNI_VPTT"=>"Văn Phòng Trung Tâm VUS Hà Nội",
+ "HNI_NLB"=>"Cơ sở Hà Nội - Nguyễn Lương Bằng",
+ "HNI_GP"=>"Cơ sở Hà Nội - Golden Palace",
+ "HNI_TCT"=>"Cơ sở Hà Nội - Times City",
+ "HNI_VG"=>"Cơ sở Hà Nội - Vinhomes Gardenia",
+ "DNA_NVL"=>"Cơ sở Đà Nẵng - Nguyễn Văn Linh",
+ "DNI_PT"=>"Cơ sở Đồng Nai - Phan Trung",
+ "DNI_VTS"=>"Cơ sở Đồng Nai - Võ Thị Sáu",
+ "BDG_BCM"=>"Cơ sở Bình Dương - Becamex",
+ "BDG_CMT8"=>"Cơ sở Bình Dương - Cách Mạng Tháng Tám",
+ "BDG_DA"=>"Cơ sở Bình Dương - Dĩ An",
+ "BRV_TCD"=>"Cơ sở Vũng Tàu - Trương Công Định",
+ "HCM_OL"=>"Cơ sở Hồ Chí Minh - Online",
+ "CTO_NK"=>"Cơ sở Cần Thơ - Nguyễn Kim",
+ "TNH_304"=>"Cơ sở Tây Ninh - 30/4",
+ "VLG_PTB"=>"Cơ sở Vĩnh Long - Phạm Thái Bường",
+ "BMT_PBC"=>"Cơ sở Buôn Mê Thuột – Phan Bội Châu",
+ "HCM_NVTH"=>"Cơ sở Hồ Chí Minh - Nguyễn Văn Thủ",
+ "HCM_KDV"=>"Cơ sở Hồ Chí Minh - Kinh Dương Vương",
+ "HCM_COR"=>"Cơ sở Hồ Chí Minh - Nhóm KH Doanh Nghiệp",
+ "HNI_COR"=>"Cơ sở Hà Nội - Nhóm KH Doanh Nghiệp",
+ "HCM_OST"=>"Cơ sở Online Stem",
+ "HCM_SSU"=>"Summer",
+ "HCM_NK2"=>"Cơ sỏ Hồ Chí Minh - Nguyễn Kiệm 2",
+ "HNI_CT"=>"Cơ sở Hà Nội - Century Tower",
+ "HCM_VVV"=>"Cơ sở Hồ Chí Minh - Võ Vân Vân",
+ "DNI_LD"=>"Cơ sở Đồng Nai - Lê Duẩn",
+ "DNI_HV"=>"Cơ sở Đồng Nai - Hùng Vương",
+ "LAN_MTT"=>"Cơ sở Long An - Mai Thị Tốt",
+ "HCM_TL8"=>"HCM_TL8 Cơ sở Hồ Chí Minh - Củ Chi Tỉnh Lộ 8",
+ "BDG_DA2"=>"Cơ sở Bình Dương - Dĩ An 2",
+ "TGG_NKKN"=>"Cơ sở Tiền Giang - Nam Kỳ Khởi Nghĩa",
+ "HCM_HTP"=>"Cơ sở Hồ Chí Minh - Huỳnh Tấn Phát",
+ "HCM_LQD"=>"Cơ sở Hồ Chí Minh - Lê Quang Định",
+ "HCM_NO"=>"Cơ sở Hồ Chí Minh - Nguyễn Oanh",
+ "HCM_LDC"=>"Cơ sở Hồ Chí Minh - Lương Định Của",
+ "EDU_BMT"=>"Công ty giáo dục quốc tế VUS",
+ "BRV_NTT"=>"Cơ sở Bà Rịa - Nguyễn Tất Thành",
+ "BDG_HV"=>"Cơ sở Bình Dương - Hùng Vương",
+ "BDG_NVT"=>"Cơ sở Bình Dương - Nguyễn Văn Tiết",
+ "HCM_PVD"=>"Cơ sở Hồ Chí Minh - Phạm Văn Đồng",
+ "HCM_LTK"=>"Cơ sở Hồ Chí Minh - Lý Thường Kiệt",
+ "HCM_PVH"=>"Cơ sở Hồ Chí Minh - Phan Văn Hớn",
+ "HCM_VVN"=>"Cơ sở Hồ Chí Minh - Võ Văn Ngân",
+ "GLI_PDP"=>"Cơ sở Gia Lai - Phan Đình Phùng",
+ "KHA_LTP"=>"Cơ sở Khánh Hòa - Lê Thành Phương",
+ "BDH_LL"=>"Cơ sở Bình Định - Lê Lợi",
+ "HNI_AH"=>"Cơ sở Hà Nội - An Hưng",
+ "HCM_HD"=>"Cơ sở Hồ Chí Minh - Hoàng Diệu",
+ "KGG_BTH"=>"Cơ sở Kiên Giang - Ba Tháng Hai",
+ "DEV_HCM"=>"CÔNG TY TNNH VUS DEVELOPMENT",
+ "MGM_HCM"=>"CÔNG TY TNHH VUS MANAGEMENT",
+ "KTM_TP"=>"Cơ sở Kon Tum - Trần Phú",
+ "EDU_SSU"=>"Summer BMT",
+ "LDG_PDP"=>"Cơ sở Lâm Đồng - Phan Đình Phùng",
+ "HNI_AB"=>"Cơ sở Hà Nội - An Bình",
+ "PYN_01"=>"Cơ sở Phú Yên - 01",
+ "HNI_VP"=>"Cơ sở Hà Nội - Văn Phú",
+ "HCM_NHT"=>"Cơ sở Hồ Chí Minh - Nguyễn Hữu Trí",
+ "HNI_LD"=>"Cơ sở Hà Nội - Linh Đàm",
+ "HCM_LVL"=>"Cơ sở Hồ Chí Minh - Lê Văn Lương"
+ ));
+  
 
+/******************* ./END TRAININGHUB SETTTINGS ***************************/
 
-define( 'FS_METHOD', 'direct' );
-define( 'WP_AUTO_UPDATE_CORE', 'minor' );
-/* That's all, stop editing! Happy publishing. */
+/* Đó là tất cả thiết lập, ngưng sửa từ phần này trở xuống. Chúc bạn viết blog vui vẻ. */
 
-/** Absolute path to the WordPress directory. */
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
-}
+define('FS_METHOD', 'direct');
 
-/** Sets up WordPress vars and included files. */
-require_once ABSPATH . 'wp-settings.php';
+/** Đường dẫn tuyệt đối đến thư mục cài đặt WordPress. */
+if (!defined('ABSPATH'))
+        define('ABSPATH', dirname(__FILE__) . '/');
+
+/** Thiết lập biến và include file. */
+require_once(ABSPATH . 'wp-settings.php');
+
