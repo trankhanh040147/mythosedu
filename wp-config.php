@@ -25,7 +25,7 @@
 define( 'DB_NAME', 'u199319889_mythosedu_uat' );
 
 /** Database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'u199319889_root' );
 
 /** Database password */
 define( 'DB_PASSWORD', '040147' );
