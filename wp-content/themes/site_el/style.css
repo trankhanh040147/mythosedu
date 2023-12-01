@@ -1,0 +1,376 @@
+/*
+Theme Name: Drag & drop layout
+Theme URI: #
+Author: #
+Author URI: #
+Description: Drag & drop layout Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device.
+Version: 1.0.0
+License: #
+License URI: #
+Text Domain: dashboard
+Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+h1, h2, h3, h4, h5, h6{
+    margin: 0;
+}
+
+.input.tutor-form-control {
+    height: 35px !important;
+}
+
+.__txt_blur {
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 2px 10px 0 10px;
+    color: #797979;
+}
+
+@media screen and (max-width: 768px) {
+	.elementor-main-swiper.swiper-container {
+    width: 100% !important;
+    height: auto !important;
+}
+.elementor-13 .elementor-element.elementor-element-bf9cb23 .elementor-image img {
+    width: 100%;
+    max-width: 50%;
+}
+	.elementor-menu-toggle .eicon-menu-bar {
+		position: absolute;
+    right: 20px;
+    top: -44px;
+	}
+	.elementor-carousel-image {
+    background: no-repeat center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    height: 183px !important;
+    position: relative;
+    width: 303px  !important;
+    border-radius: 20px  !important;
+    margin: 0 auto;
+}
+	#main .elementor-13 .elementor-element.elementor-element-e18ae01 .swiper-slide-inner {
+    padding: 0em 2em 2em 2em !important;
+    text-align: left;
+}
+	
+}
+
+/* Nhathuy */
+.cls-active-courses .tutor-course-listing-grid-3 .tutor-course-listing-item:not(:first-child){background:black;pointer-events: none; opacity: 0.5;}
+
+.tutor_course_code span._lbl{color:red;}
+.tutor_course_code #tutor-course-code-start{width:50%!important;display:inline}
+#tutor-course-parent-tab .tab-item-content {padding: 0 40px;}
+.tutor-default-tab .tab-body{padding:32px 0;}
+#tutor-course-children-tab .row{padding: 0 40px;}
+#tutor-course-children-tab ul{padding:15px; height:400px; overflow-y:auto;border: 1px solid #cdcfd5;
+    border-radius: 6px;background-color:#fff;}
+#tutor-course-children-tab ul li{list-style:none;border: 1px solid #cdcfd5;padding:5px 8px;margin-bottom:8px;cursor:move;
+background-color:#f2f2f2;}
+.dashboard-student-main{
+    padding-top: 50px;
+	background-image: url(/wp-content/uploads/2022/07/Rectangle-19.jpg);
+	background-size: auto;
+    background-position: 0 -120px;
+	background-repeat: repeat-x;
+}
+.tutor-dashboard-student-left{
+    padding-top: 27px;
+
+}
+.tutor-dashboard-student-left .tutor-course-sidebar-card{
+    background-color: #fff;
+}
+.tutor-dashboard-student-header {
+    display: flex !important;
+    align-items: center !important;
+    flex: 0 0 auto;
+
+}
+.tutor-dashboard-student-header .tutor-dashboard-header-avatar {
+    background-size: cover;
+    width: 80px;
+    height: 80px;
+    background-position: center;
+    border-radius: 50%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+}
+.tutor-dashboard .tutor-dashboard-student-left ul.tutor-dashboard-permalinks:before{
+	border:none!important;
+}
+.tutor-dashboard .tutor-dashboard-student-left ul.tutor-dashboard-permalinks{
+	margin: 0;
+    padding: 15px 0 0 0;
+}
+.tutor-dashboard .tutor-dashboard-student-left .tutor-dashboard-permalinks li a {
+	padding: 7px 10px;
+}
+.tutor-dashboard .tutor-dashboard-student-left .tutor-dashboard-menu-item.active a .tutor-dashboard-menu-item-icon {
+    color: #fff!important;
+}
+.tutor-course-sidebar-card-header{
+	text-transform: uppercase;
+	border: 1px solid #cdcfd5;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}
+.dashboard-student-content-top{
+	border: 1px solid #cdcfd5;
+    box-sizing: border-box;
+    border-radius: 6px;
+    overflow: visible;
+	display:flex;
+	position: relative;
+	
+}
+
+.dashboard-student-content-top::after{
+	content: '';
+    position: absolute;
+    width: 285px;
+    height: 260px;
+    background-image:url('/wp-content/uploads/Mask-group.png');
+	right: -30px;
+    bottom: 0;
+	z-index: 99;
+}
+.col-completions div, .col-ceeertificate div{
+	line-height:1.2;
+	text-transform:uppercase;
+	
+}
+.col-completions, .col-ceeertificate{position: relative;}
+.col-completions div:after {
+  content: '';
+  height: 70%;
+  width: 2px;
+  position: absolute;
+  right: 15%;
+  top: 15%;
+  background-color: #cdcfd5;
+}
+.tutor-dashboard-student-content{
+	padding-left:27px;
+}
+.tutor-dashboard-student-content .tutor-student-course-listing-item{
+	border:none!important;
+	background:none!important;	
+	padding: 32px 0;
+}
+.tutor-dashboard-student-content .tutor-frontend-dashboard-course-porgress-cards:not(:first-child){
+	border-top: 1px solid #cdcfd5;
+}
+.tutor-student-course-listing-item .tutor-course-listing-thumbnail{
+	border-radius:6px;
+}
+.course_sub_class{
+	margin-left:282px;
+}
+.tutor-dashboard-student-content .course_sub_class:not(:first-child){
+	border-top: 1px dashed #cdcfd5;
+}
+.course_sub_class .tutor-frontend-dashboard-course-porgress-card .tutor-course-listing-thumbnail {
+	max-width: 125px;max-height:60px;
+}
+.not_course_sub_class + .course_sub_class{
+	border-top:none!important;
+}
+.course_sub_class .course_speaker, .course_sub_class .course_lesson_duration{
+	display:none;
+}
+.list-item-course-due{
+	display:flex;
+}
+.text-launch{
+	text-align:right;
+}
+.course-list-item-course-due{
+	padding: 10px 0
+}
+.course-list-item-course-due:not(:first-child){
+	border-top: 1px dashed #cdcfd5;
+}
+.course_lesson_duration{
+	background-image:url('/wp-content/uploads/Vector.png');
+	background-repeat:no-repeat;
+	background-position: left center;
+	padding-left:16px;
+}
+
+.course-student-main{
+    padding-top: 20px;
+	background-image: url(/wp-content/uploads/2022/07/Rectangle-19.jpg);
+	background-size: auto;
+    background-position: 0 -60px;
+	background-repeat: repeat-x;
+}
+.course-student-main .__course_info_top{padding:0;height:240px}
+.course-student-main .tutor-course-details-category span,
+.course-student-main .tutor-course-details-category span a{color:#6874B1;text-transform:uppercase;}
+._course_head_text{
+	word-break: break-word;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   line-height: 22px; /* fallback */
+   max-height: 48px; /* fallback */
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+   color:#ACB2CB;
+   font-size:18px;
+ }
+ ._course_head_text p{padding:0;margin:0}
+.course-student-main  .tutor-course-author{
+	color:#fff;
+   font-size:18px;
+   margin-top:20px;	
+}
+
+.course-parent-children .tutor-student-course-listing-item {
+    border: none!important;
+    background: none!important;
+    padding: 16px 0;
+}
+.course-parent-children .tutor-frontend-dashboard-course-porgress-cards:not(:first-child) {
+    border-top: 1px dashed #cdcfd5;
+}
+.course-student-page-right{padding-top:8px}
+.course-student-page-right .tutor-price-box-thumbnail{
+	margin:0;
+}
+.course-student-page-right .tutor-price-box-thumbnail img,.course-student-page-right .tutor-price-box-thumbnail .course-players-parent{
+	width:auto;
+	height:230px;
+	aspect-ratio: 16/9;
+    object-fit: fill;
+}
+.course-student-page-right .plyr--video,
+.course-student-page-right .tutor-course-thumbnail-bg img{
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+}
+.course-right-price{
+	font-style: normal;
+	font-weight: 600;
+	font-size: 30px;
+	line-height: 38px;
+
+	color: #212F6E;
+}
+._courses_durations_ span,span._courses_durations_ {
+	padding:0 4px;
+}
+.add_to_cart_btn{
+	margin-right:20px!important;margin-bottom:0!important;
+}
+.icon_heart:before {
+    font-size: 36px;
+}
+.student_course_rate{
+	width: 120px;
+	text-align: center;
+	background: #fff;
+	color: #fff;
+	cursor: pointer;
+	border: solid 1px #ffc107;
+	padding: 10px 17px;
+	border-radius: 100px;
+	margin-left: 25px;
+	margin-top: 15px;
+}
+.course-student-main .tutor-color-design-brand{
+	color: #00AE3B;
+}
+.curriculum_head {padding-bottom:20px;}
+.curriculum_head span{padding:0 1px;color:#AFAFAF;}
+.course-student-main .tutor-course-listing-item-footer .cart-text{
+	padding-right:10px;
+}
+.addtocart_grp{border-top:1px dashed #cdcfd5;margin-top:6px;}
+
+@media (min-width: 1200px){
+	.tutor-lesson-page-main {
+		grid-gap: 5px;
+	}
+}
+@media (min-width: 992px){
+	.tutor-lesson-page-main {
+		grid-template-columns: 3fr 9fr;
+	}
+}
+
+.tutor-lesson-page-main {
+    display: grid;
+    grid-gap: 5px;
+}
+.tutor-single-lesson-items{
+	padding: 5px 22px 5px 0;
+}
+.tutor-lessons-under-topic .tutor-single-lesson-items.active{
+	background-color:#d5d6d9;
+}
+.tab-lesson-page{
+	max-width: 100%!important;
+}
+.tutor-course-builder-section-attachments .tutor-form-label{
+	display:none;
+}
+.tutor-lesson-page-main-left .tutor-single-page-top-bar{
+	display:none!important;
+}
+
+.tutor-course-listing-item-body .list-item-steps button{
+	border:none;
+}
+.tutor-course-listing-item-body .list-item-steps button::after{
+	content:'';
+    display: inline-block;
+    width:0;
+    height:0;
+    border:7px solid transparent;
+    vertical-align: baseline;
+	border-bottom-color:  #0d6efd;
+	margin-left:5px;
+}
+.tutor-course-listing-item-body .list-item-steps button.collapsed::after {
+	border-bottom-color: transparent;
+	border-left-color: #0d6efd;
+	vertical-align: middle;
+}
+/* Styles specific to this particular page */
+.scroll-pane
+{
+	width: 100%;
+	height: 300px;
+	overflow: auto;
+}
+.horizontal-only
+{
+	height: auto;
+	max-height: 300px;
+}
+.scroll-pane .course-list-item-course-due{
+	padding:10px 1rem;
+}
+.scroll-pane .course-list-item-course-due:first-child{
+	padding-top:1rem;
+}
+.scroll-pane .course-list-item-course-due:last-child{
+	padding-bottom:1rem;
+}
+.jspTrack {
+    background: #f1f1f1 !important;
+}
+
+.jspDrag {
+    background: lightgray !important;
+}
+.jspVerticalBar {
+	width: 10px !important;
+}

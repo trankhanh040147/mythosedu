@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1839" height="410" viewBox="0 0 1839 410">
+  <defs>
+    <filter id="Pixel" x="914" y="23" width="893" height="451" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood flood-opacity="0.404"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="WIX" x="40" y="34" width="856" height="426" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur-2"/>
+      <feFlood flood-opacity="0.404"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="WIX-2" x="48" y="32" width="851" height="424" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur-3"/>
+      <feFlood flood-opacity="0.404"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Pixel-2" x="921" y="25" width="884" height="445" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur-4"/>
+      <feFlood flood-opacity="0.404"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-Web_1920_6">
+      <rect width="1839" height="410"/>
+    </clipPath>
+  </defs>
+  <g id="Web_1920_6" data-name="Web 1920 – 6" clip-path="url(#clip-Web_1920_6)">
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Pixel)">
+      <text id="Pixel-3" data-name="Pixel" transform="translate(917 354)" fill="#afaaaa" font-size="402" font-family="iCielSamsungSharpSans-Bold, iCiel Samsung Sharp Sans" font-weight="700"><tspan x="0" y="0">Pixel</tspan></text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#WIX)">
+      <text id="WIX-3" data-name="WIX" transform="translate(43 355)" fill="#b5b5b5" font-size="400" font-family="SVN-PoppinsExtraBold, SVN-Poppins" font-weight="800"><tspan x="0" y="0">WIX</tspan></text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#WIX-2)">
+      <text id="WIX-4" data-name="WIX" transform="translate(51 351)" fill="#fff" font-size="398" font-family="SVN-PoppinsExtraBold, SVN-Poppins" font-weight="800"><tspan x="0" y="0">WIX</tspan></text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Pixel-2)">
+      <text id="Pixel-4" data-name="Pixel" transform="translate(924 352)" fill="#bcbcbc" font-size="398" font-family="iCielSamsungSharpSans-Bold, iCiel Samsung Sharp Sans" font-weight="700"><tspan x="0" y="0">Pixel</tspan></text>
+    </g>
+  </g>
+</svg>
