@@ -33,10 +33,10 @@ do_action( 'tutor_lesson/single/before/video/vimeo' );
         <div class="course-players">
             <div class="loading-spinner"></div>
             <?php if (!$disable_default_player_vimeo): ?>
-                <iframe src="https://player.vimeo.com/video/<?php echo $video_id; ?>" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                <iframe  id="youplay" src="https://player.vimeo.com/video/<?php echo $video_id; ?>?&autoplay=1&muted=1&enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
             <?php else: ?>
                 <div class="plyr__video-embed tutorPlayer">
-                    <iframe src="https://player.vimeo.com/video/<?php echo $video_id; ?>?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                    <iframe src="https://player.vimeo.com/video/<?php echo $video_id; ?>?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media" allow="autoplay"></iframe>
                 </div>
             <?php endif; ?>
         </div>

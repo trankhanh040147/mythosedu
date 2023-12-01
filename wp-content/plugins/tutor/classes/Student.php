@@ -157,6 +157,8 @@ class Student {
 		$tutor_profile_bio = wp_kses_post( tutor_utils()->input_old( 'tutor_profile_bio' ) );
 		$tutor_profile_job_title = sanitize_text_field( tutor_utils()->input_old( 'tutor_profile_job_title' ) );
 		$_tutor_vus_member = sanitize_text_field( tutor_utils()->input_old( '_tutor_vus_member' ) );
+		$_tutor_gender = sanitize_text_field( tutor_utils()->input_old( '_tutor_gender' ) );
+		$_tutor_age = tutor_utils()->input_old( '_tutor_age' );
 
 		$display_name = sanitize_text_field( tutor_utils()->input_old( 'display_name' ) );
 
@@ -172,7 +174,9 @@ class Student {
 			update_user_meta( $user_id, 'phone_number', $phone_number );
 			update_user_meta( $user_id, '_tutor_profile_bio', $tutor_profile_bio );
 			update_user_meta( $user_id, '_tutor_profile_job_title', $tutor_profile_job_title );
-			update_user_meta( $user_id, '_tutor_vus_member', $_tutor_vus_member );
+			//update_user_meta( $user_id, '_tutor_vus_member', $_tutor_vus_member );
+			update_user_meta( $user_id, '_tutor_gender', $_tutor_gender );
+			update_user_meta( $user_id, '_tutor_age', $_tutor_age );
 
 			$tutor_user_social = tutor_utils()->tutor_user_social_icons();
 			foreach ( $tutor_user_social as $key => $social ) {

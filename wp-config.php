@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cấu hình cơ bản cho WordPress
  *
@@ -20,20 +21,23 @@
 
 // ** Thiết lập MySQL - Bạn có thể lấy các thông tin này từ host/server ** //
 /** Tên database MySQL */
-define( 'DB_NAME', 'mythosedu_lms' );
+define('DB_NAME', 'vus_traininghub_uat');
+//define( 'DB_NAME', 'live_vus_traininghub' );
 
 
 /** Username của database */
-define( 'DB_USER', 'root' );
+//define('DB_USER', 'pma');
+define('DB_USER', 'root');
 
 /** Mật khẩu của database */
-define( 'DB_PASSWORD', '040147' );
+// define('DB_PASSWORD', 'PVs2021nMdhihd@d4dm.coHn!..');
+define('DB_PASSWORD', '123456');
 
 /** Hostname của database */
-define( 'DB_HOST', 'localhost' );
+define('DB_HOST', 'localhost');
 
 /** Database charset sử dụng để tạo bảng database. */
-define( 'DB_CHARSET', 'utf8mb4' );
+define('DB_CHARSET', 'utf8mb4');
 
 /** Kiểu database collate. Đừng thay đổi nếu không hiểu rõ. */
 define('DB_COLLATE', '');
@@ -49,14 +53,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'ghU.y9;Kh0>1|J}AU8DmH #NXCP{`!N2,}}<`?VO2aIFi1<k?apLeM:yChR~ETei' );
-define( 'SECURE_AUTH_KEY',  '*%A{B~2CR%V5G_eBjRo_aR(jnuo%;Jh_$F{{/=%X}srVz4Da&b0&jrW3T.8G)*)?' );
-define( 'LOGGED_IN_KEY',    '2X-(6k9X]+~CL}mGCN8UzzJrGm=~b|#|^Qz4|UQD 4h9!|=So9nP)T_cxsg=t5*l' );
-define( 'NONCE_KEY',        '-D>#3gGI&*SV7rrUMBd[UG-mFVe=G_2uG5%$/2eOesX&(%U4~/^ojNZ0Vtet|P&W' );
-define( 'AUTH_SALT',        'xqA,;dafSU]!j#^uL_K@z78dH7ItfYW^:UocJUA62MVwf8[$zykT(Vy1xxYkJtm}' );
-define( 'SECURE_AUTH_SALT', 'c]7DisxGuYG`Nh-Vsm[_Z2GKe#/I5ersM&w*gK?<f6b7$I|M|EINyP|_,:L`Ln:F' );
-define( 'LOGGED_IN_SALT',   ':g6U$&2<X1=to, V=O5%S|PKa-jP!vPq[MfyUvp;YJQ[_`KmOPd55aV!g IKo2v]' );
-define( 'NONCE_SALT',       'Sun*q4U-!k@F.&&d!!/;t~$g^s_nnphD93fr}>zx|Y3nz-A8a;$vk)w~=(Z>HOk[' );
+define('AUTH_KEY',         'ghU.y9;Kh0>1|J}AU8DmH #NXCP{`!N2,}}<`?VO2aIFi1<k?apLeM:yChR~ETei');
+define('SECURE_AUTH_KEY',  '*%A{B~2CR%V5G_eBjRo_aR(jnuo%;Jh_$F{{/=%X}srVz4Da&b0&jrW3T.8G)*)?');
+define('LOGGED_IN_KEY',    '2X-(6k9X]+~CL}mGCN8UzzJrGm=~b|#|^Qz4|UQD 4h9!|=So9nP)T_cxsg=t5*l');
+define('NONCE_KEY',        '-D>#3gGI&*SV7rrUMBd[UG-mFVe=G_2uG5%$/2eOesX&(%U4~/^ojNZ0Vtet|P&W');
+define('AUTH_SALT',        'xqA,;dafSU]!j#^uL_K@z78dH7ItfYW^:UocJUA62MVwf8[$zykT(Vy1xxYkJtm}');
+define('SECURE_AUTH_SALT', 'c]7DisxGuYG`Nh-Vsm[_Z2GKe#/I5ersM&w*gK?<f6b7$I|M|EINyP|_,:L`Ln:F');
+define('LOGGED_IN_SALT',   ':g6U$&2<X1=to, V=O5%S|PKa-jP!vPq[MfyUvp;YJQ[_`KmOPd55aV!g IKo2v]');
+define('NONCE_SALT',       'Sun*q4U-!k@F.&&d!!/;t~$g^s_nnphD93fr}>zx|Y3nz-A8a;$vk)w~=(Z>HOk[');
 
 /**#@-*/
 
@@ -79,11 +83,23 @@ $table_prefix  = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
-
+/******************* ON OFF SENDMAIL ***************************/
+define('__SENDEMAIL_ON_OFF', '__MAIL_ON'); // __MAIL_ON: enable; __MAIL_OFF: disible
+define('_DELETE_DRAFT_', 5); // number of minutes to delete draft courses
+define('_BRANCHS_', array(
+							'HCM'=>"TP HCM",
+							'HNO'=>"Ha Noi",
+							'DNG'=>"Da Nang",
+							'DLA'=>"Da Lat",
+							'HPO'=>"Hai Phong",
+							'CTO'=>"Can Tho"
+						));
 /* Đó là tất cả thiết lập, ngưng sửa từ phần này trở xuống. Chúc bạn viết blog vui vẻ. */
 
+define('FS_METHOD', 'direct');
+
 /** Đường dẫn tuyệt đối đến thư mục cài đặt WordPress. */
-if ( !defined('ABSPATH') )
+if (!defined('ABSPATH'))
 	define('ABSPATH', dirname(__FILE__) . '/');
 
 /** Thiết lập biến và include file. */

@@ -94,7 +94,7 @@ ob_start();
     </div>
 
     <?php ob_start(); ?>
-        <div class="tutor-quiz-wrapper tutor-quiz-wrapper tutor-d-flex justify-content-center tutor-mt-80 tutor-pb-80">
+        <div class="tutor-quiz-wrapper tutor-quiz-wrapper tutor-d-flex justify-content-center tutor-mt-10 tutor-pb-80">
             <input type="hidden" name="tutor_quiz_id" id="tutor_quiz_id" value="<?php the_ID(); ?>">
 
             <?php
@@ -110,5 +110,5 @@ ob_start();
     <?php 
     
 echo apply_filters( 'tutor_quiz/single/wrapper', ob_get_clean() );
-tutor_load_template_from_custom_path(__DIR__.'/single-content-loader.php', array('context' => 'quiz', 'html_content'=>ob_get_clean()), false);
+tutor_load_template_from_custom_path(__DIR__.'/single-content-loader-quiz.php', array('context' => 'quiz', 'html_content'=>ob_get_clean()), false);
 ?>

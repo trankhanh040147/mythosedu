@@ -8,16 +8,9 @@
             <?php //do_action("tutor_before_login_form"); ?>
 
             <div class="tutor-modal-body">
-                <div class="tutor-fs-5 tutor-fw-normal tutor-color-black tutor-mb-32">
-                    <?php _e('Add Children Courses To Cart?', 'tutor'); ?>
-                </div>
-				
                 <div class="tutor-text-left tutor-fs-6 tutor-fw-normal tutor-color-black-60 tutor-mt-20">
-                    <?php _e('This is a parent course!', 'tutor'); ?>&nbsp;<br/>
-					<?php _e('This has children courses, include free courses and courses with prices.', 'tutor'); ?>&nbsp;<br/>
-					<?php _e('After this courses ordered, free children courses will be enrolled automatically.', 'tutor'); ?>&nbsp;<br/>	
-					<?php _e('But with children courses which have prices, please purchase them, if you want to enroll them.', 'tutor'); ?>&nbsp;<br/>
-					<?php _e('Please check this box to add them to cart!', 'tutor'); ?>&nbsp;<br/><br/>	
+                    <?php _e('This is a paid course.', 'tutor'); ?>&nbsp;<br/>
+					<?php _e('To continue, check the box below to add this course to cart.', 'tutor'); ?>&nbsp;<br/><br/>	
                 </div>
                 <form class="tutor-add_children-form" method="post">
 				<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
@@ -29,14 +22,14 @@
                         <div class="tutor-form-check">
                             <input id="tutor-add-agmnt-1" type="checkbox" class="tutor-form-check-input tutor-bg-black-40" name="add-children" value="add-children" />
                             <label for="tutor-add-agmnt-1" class="tutor-fs-7 tutor-fw-normal tutor-color-muted">
-                                <?php _e('Yes, add children courses', 'tutor'); ?>
+                                <?php _e('Add to cart', 'tutor'); ?>
                             </label>
                         </div>
                     </div>
 
                     <?php //do_action("tutor_login_form_end"); ?>
-                    <button type="submit" class="tutor-btn is-primary tutor-is-block">
-                        <?php _e('ADD TO CART', 'tutor'); ?>
+                    <button type="submit" class="tutor-btn is-primary tutor-is-block tutor-is-icon-btn">
+                        <?php _e('Save & proceed with the payment', 'tutor'); ?>
                     </button>
                 </form>
 

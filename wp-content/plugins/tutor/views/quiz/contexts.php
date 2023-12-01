@@ -12,7 +12,7 @@ $contexts =  array(
             'correct_answer'    => __('Correct Answer', 'tutor'),
             'incorrect_answer'  => __('Incorrect Answer', 'tutor'),
             'earned_marks'      => __('Earned Marks', 'tutor'),
-            'result'            => __('Result', 'tutor'),
+            //'result'            => __('Result', 'tutor'),
             'details'           => __('Details', 'tutor')
         ),
         'contexts' => array(
@@ -23,7 +23,7 @@ $contexts =  array(
                 'correct_answer',
                 'incorrect_answer',
                 'earned_marks',
-                'result',
+                //'result',
                 'details'
             ),
             'frontend-dashboard-students-attempts' => 'frontend-dashboard-my-attempts',
@@ -34,7 +34,7 @@ $contexts =  array(
                 'correct_answer',
                 'incorrect_answer',
                 'earned_marks',
-                'result',
+                //'result',
                 'details'
             ),
             'backend-dashboard-students-attempts' => array(
@@ -46,7 +46,7 @@ $contexts =  array(
                 'correct_answer',
                 'incorrect_answer',
                 'earned_marks',
-                'result',
+                //'result',
                 'details',
             ),
         )
@@ -63,7 +63,7 @@ $contexts =  array(
             'correct_answer'    => __('Correct Answer', 'tutor'),
             'incorrect_answer'  => __('Incorrect Answer', 'tutor'),
             'earned_marks'      => __('Earned Marks', 'tutor'),
-            'result'            => __('Result', 'tutor')
+            //'result'            => __('Result', 'tutor')
         ),
         'contexts' => array(
             'frontend-dashboard-my-attempts' => array(
@@ -74,7 +74,7 @@ $contexts =  array(
                 'correct_answer',
                 'incorrect_answer',
                 'earned_marks',
-                'result'
+                //'result'
             ),
             'frontend-dashboard-students-attempts' => 'frontend-dashboard-my-attempts',
             'course-single-previous-attempts' => 'frontend-dashboard-my-attempts',

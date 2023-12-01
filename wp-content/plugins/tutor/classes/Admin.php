@@ -68,6 +68,8 @@ class Admin {
 		add_submenu_page('tutor', __('Categories', 'tutor'), __('Categories', 'tutor'), 'manage_tutor', 'edit-tags.php?taxonomy=course-category&post_type=' . $course_post_type, null);
 
 		add_submenu_page('tutor', __('Tags', 'tutor'), __('Tags', 'tutor'), 'manage_tutor', 'edit-tags.php?taxonomy=course-tag&post_type=' . $course_post_type, null);
+		
+		add_submenu_page('tutor', __('Difficulty Levels', 'tutor'), __('Difficulty Levels', 'tutor'), 'manage_tutor', 'edit-tags.php?taxonomy=course-level&post_type=' . $course_post_type, null);
 
 		add_submenu_page('tutor', __('Students', 'tutor'), __('Students', 'tutor'), 'manage_tutor', Students_List::STUDENTS_LIST_PAGE, array($this, 'tutor_students'));
 
@@ -175,7 +177,7 @@ class Admin {
 
 	public function parent_menu_active($parent_file) {
 		$taxonomy = tutor_utils()->avalue_dot('taxonomy', tutor_sanitize_data($_GET));
-		if ($taxonomy === 'course-category' || $taxonomy === 'course-tag') {
+		if ($taxonomy === 'course-category' || $taxonomy === 'course-tag' || $taxonomy === 'course-level') {
 			return 'tutor';
 		}
 
@@ -191,6 +193,9 @@ class Admin {
 		}
 		if ($taxonomy === 'course-tag') {
 			return 'edit-tags.php?taxonomy=course-tag&post_type=' . $course_post_type;
+		}
+		if ($taxonomy === 'course-level') {
+			return 'edit-tags.php?taxonomy=course-level&post_type=' . $course_post_type;
 		}
 
 
@@ -359,6 +364,12 @@ class Admin {
 					$terms = wp_get_object_terms($post_id, 'course-tag');
 					foreach ($terms as $term) {
 						wp_remove_object_terms($post_id, array($term->term_id), 'course-tag');
+					}
+					
+					//Delete levels if available
+					$terms = wp_get_object_terms($post_id, 'course-level');
+					foreach ($terms as $term) {
+						wp_remove_object_terms($post_id, array($term->term_id), 'course-level');
 					}
 
 					//Delete All Meta

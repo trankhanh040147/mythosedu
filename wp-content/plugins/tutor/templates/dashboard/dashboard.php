@@ -2,6 +2,76 @@
 
 /**
  * @package TutorLMS/Templates
+ * @version 1.6.4
+ */
+
+use TUTOR\Input;
+use \TUTOR_REPORT\Analytics;
+global $wpdb;
+
+$course_post_type 		= tutor()->course_post_type;
+$lesson_type      		= tutor()->lesson_post_type;
+$user_id				= get_current_user_id();
+$branchs_count			= ( current_user_can( 'administrator' ) ) ? count(tutor_utils()->get_branchs( )):tutor_utils()->get_user_manage_branchs_total_count($user_id);
+$students_count			= ( current_user_can( 'administrator' ) ) ? count(get_users( array('role'    => 'subscriber'))):tutor_utils()->get_user_manage_users_total_count($user_id);
+$staff_courses 			= tutor_utils()->get_courses_for_staff( $user_id );
+$staff_courses_count 	= ( current_user_can( 'administrator' ) ) ? tutor_utils()->get_course_count():count($staff_courses);
+if(current_user_can( 'administrator' )||current_user_can( 'shop_manager' )||current_user_can( 'st_lt' )):
+?>
+
+<div class="analytics-title tutor-fs-5 tutor-fw-medium tutor-color-black tutor-mb-16">
+    <?php //_e( 'Dashboard', 'tutor' ); ?>
+</div>
+<div class="tutor-dashboard-content-inner">
+
+	<div class="tutor-dashboard-inline-links">
+		<?php
+			tutor_load_template( 'dashboard.learning-report.nav-bar', array( 'active_setting_nav' => 'overview' ) );
+		?>
+	</div>
+
+</div>
+<div class="tutor-row tutor-dashboard-cards-container">
+	<div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-6 tutor-col-lg-4">
+		<a href="#<?php //echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-report/branchs' );?>">
+		<p>
+			<span class="tutor-dashboard-round-icon">
+				<i class="tutor-icon-company-filled"></i>
+			</span>
+			<span class="tutor-dashboard-info-val"><?php echo $branchs_count;?></span>
+			<span><?php _e( 'Campus', 'tutor' ); ?></span>
+		</p>
+		</a>
+	</div>
+	<div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-6 tutor-col-lg-4">
+		<a href="#<?php //echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-report/students' );?>">
+		<p>
+			<span class="tutor-dashboard-round-icon">
+				<i class="tutor-icon-user-graduate-filled"></i>
+			</span>
+			<span class="tutor-dashboard-info-val"><?php echo $students_count;?></span>
+			<span><?php _e( 'Students', 'tutor' ); ?></span>
+		</p>
+		</a>
+	</div>
+	<div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-6 tutor-col-lg-4">
+		<a href="#<?php //echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-report/learning' );?>">
+		<p>
+			<span class="tutor-dashboard-round-icon">
+				<i class="tutor-icon-book-open-filled"></i>
+			</span>
+			<span class="tutor-dashboard-info-val"><?php echo $staff_courses_count;?></span>
+			<span><?php _e( 'Courses', 'tutor' ); ?></span>
+		</p>
+		</a>
+	</div>
+</div>
+
+<?php
+else:
+
+/**
+ * @package TutorLMS/Templates
  * @version 1.4.3
  */
 
@@ -19,7 +89,7 @@ if ( tutor_utils()->get_option( 'enable_profile_completion' ) ) {
 	);
 	$complete_count     = $total_count - $incomplete_count;
 
-	if ( $is_instructor ) {
+	if ( $is_instructor && !current_user_can( 'administrator' ) && !current_user_can( 'shop_manager' )) {
 		if ( isset($total_count) && isset($incomplete_count) && $incomplete_count <= $total_count ) {
 			?>
 			<div class="profile-completion tutor-mb-40">
@@ -136,8 +206,8 @@ if ( tutor_utils()->get_option( 'enable_profile_completion' ) ) {
 	<?php
 	$enrolled_course   = tutor_utils()->get_enrolled_courses_by_user();
 	$completed_courses = tutor_utils()->get_completed_courses_ids_by_user();
-	$total_students    = tutor_utils()->get_total_students_by_instructor( get_current_user_id() );
-	$my_courses        = tutor_utils()->get_courses_by_instructor( get_current_user_id(), 'publish' );
+	$total_students    = ( current_user_can( 'administrator' ) ) ? tutor_utils()->get_total_students_admin_role() : tutor_utils()->get_total_students_by_instructor( get_current_user_id() );
+	$my_courses 	   = ( current_user_can( 'administrator' ) ) ? tutor_utils()->get_courses_by_instructor_admin_role(null, 'publish') : tutor_utils()->get_courses_by_instructor( get_current_user_id(), 'publish' );
 	$earning_sum       = tutor_utils()->get_earning_sum();
 
 	$enrolled_course_count                          = $enrolled_course ? $enrolled_course->post_count : 0;
@@ -307,7 +377,7 @@ $courses_in_progress = tutor_utils()->get_active_courses_by_user( get_current_us
 <?php endif; ?>
 
 <?php
-$instructor_course = tutor_utils()->get_courses_for_instructors( get_current_user_id() );
+$instructor_course = ( current_user_can( 'administrator' ) ) ? tutor_utils()->get_courses_for_instructors_admin_role( ): tutor_utils()->get_courses_for_instructors( get_current_user_id() );
 
 if ( count( $instructor_course ) ) {
 	$course_badges = array(
@@ -388,4 +458,5 @@ if ( count( $instructor_course ) ) {
 		</div>
 	<?php
 }
+endif;
 ?>

@@ -111,11 +111,27 @@ class User {
 		$_tutor_profile_bio       = wp_kses_post( tutor_utils()->avalue_dot( '_tutor_profile_bio', $_POST ) );
 		$_tutor_profile_image     = wp_kses_post( tutor_utils()->avalue_dot( '_tutor_profile_photo', $_POST ) );
 		$_tutor_vus_member        = wp_kses_post( tutor_utils()->avalue_dot( '_tutor_vus_member', $_POST ) );
-		
+		$_tutor_gender      	  = wp_kses_post( tutor_utils()->avalue_dot( '_tutor_gender', $_POST ) );
+		$_tutor_age				  = tutor_utils()->avalue_dot( '_tutor_age', $_POST );
+		$ip_manage_branchs        = sanitize_text_field( tutor_utils()->avalue_dot( 'ip_manage_branchs', $_POST ) );
+		$ip_manage_branchs		  =	str_replace(' ', '', $ip_manage_branchs);
+		$ip_manage_users        = sanitize_text_field( tutor_utils()->avalue_dot( 'ip_manage_users', $_POST ) );
+		$ip_manage_users		  =	str_replace(' ', '', $ip_manage_users);
 		update_user_meta( $user_id, '_tutor_profile_job_title', $_tutor_profile_job_title );
 		update_user_meta( $user_id, '_tutor_profile_bio', $_tutor_profile_bio );
 		update_user_meta( $user_id, '_tutor_profile_photo', $_tutor_profile_image );
 		update_user_meta( $user_id, '_tutor_vus_member', $_tutor_vus_member );
+		update_user_meta( $user_id, '_tutor_gender', $_tutor_gender );
+		update_user_meta( $user_id, '_tutor_age', $_tutor_age );
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->users} 
+											SET Manage_Branchs = %s
+											WHERE ID = %d",$ip_manage_branchs,$user_id)
+								);
+		$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->users} 
+											SET Manage_Users = %s
+											WHERE ID = %d",$ip_manage_users,$user_id)
+								);						
 	}
 
 	public function set_user_role( $user_id, $role, $old_roles ) {

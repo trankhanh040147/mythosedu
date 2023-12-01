@@ -60,16 +60,26 @@ function tutor_course_single_sidebar( $echo = true, $context='desktop' ) {
 
 do_action( 'tutor/course/single/content/before/all', $course_id, $content_id );
 
+$h5p_id = tutor_utils()->get_h5p_option($content_id, 'h5p_id');
+
 get_tutor_header();
+
 tutor_utils()->tutor_custom_header();
 
+if($h5p_id) {
+	$enable_h5p_points_to_course = tutor_utils()->get_h5p_option($content_id, 'enable_h5p_points_to_course');
+	$grade_category = tutor_utils()->get_h5p_option($content_id, 'grade_category');
+	$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);
+	$h5p_fullscreen = tutor_utils()->get_h5p_option($content_id, 'h5p_fullscreen');
+} 
 ?>
-
-<?php do_action('tutor_'.$context.'/single/before/wrap'); ?>
+<?php do_action('tutor_'.$context.'/single/before/wrap'); 
+if(!$h5p_fullscreen):
+?>
 	<div class="tutor-container">
 		<div class="tutor-topbar-left-item tutor-d-flex pb-3">
 			<div class="tutor-topbar-item tutor-topbar-sidebar-toggle tutor-hide-sidebar-bar flex-center tutor-d-none tutor-d-xl-flex">
-				<a href="javascript:;" class="tutor-lesson-sidebar-hide-bar">
+				<a  href="<?php echo esc_url( get_permalink($course_id) ); ?>" class="h5pleave h5p-leave">
 					<span class="tutor-icon-icon-light-left-line tutor-color-black flex-center text-bold-caption"></span>
 				</a>
 			</div>
@@ -87,11 +97,18 @@ tutor_utils()->tutor_custom_header();
 					while ( $topics->have_posts() ) {
 						$topics->the_post();
 						$topic_id       = get_the_ID();
+						$topic_title  = get_the_title();
 						$topic_summery  = get_the_content();
 						$total_contents = tutor_utils()->count_completed_contents_by_topic( $topic_id );
 						?>
 
 						<div class="tutor-topics-in-single-lesson tutor-topics-<?php echo $topic_id; ?>">
+							<div class="pt-3 tutor-topic-group tutor-topic-group-<?php echo $topic_id; ?>">
+								<span class='tutor-fs-6 tutor-icon-layer-filled'></span>								
+								<span class="lesson_title tutor-fs-6 tutor-fw-bold tutor-color-black-70">
+									<?php echo $topic_title;?>
+								</span>								
+							</div>
 							<?php
 								do_action( 'tutor/lesson_list/before/topic', $topic_id );
 								$lessons = tutor_utils()->get_course_contents_by_topic( get_the_ID(), -1 );
@@ -103,11 +120,11 @@ tutor_utils()->tutor_custom_header();
 									if ( $post->post_type === 'tutor_quiz' ) {
 										$quiz = $post;
 										?>
-											<div class="tutor-lessons-under-topic" data-quiz-id="<?php echo $quiz->ID; ?>">
+											<div class="pl-2 tutor-lessons-under-topic" data-quiz-id="<?php echo $quiz->ID; ?>">
 												<div class="tutor-single-lesson-items <?php echo ( $currentPost->ID == get_the_ID() ) ? 'active tutor-color-design-brand' : ''; ?>">
-													<a href="<?php echo $show_permalink ? get_permalink( $quiz->ID ) : '#'; ?>" class="tutor-single-quiz-a tutor-d-flex tutor-justify-content-between" data-quiz-id="<?php echo $quiz->ID; ?>">
+													<a href="<?php echo $show_permalink ? get_permalink( $quiz->ID ) : '#'; ?>" class="h5pleave h5p-leave tutor-single-quiz-a tutor-d-flex tutor-justify-content-between" data-quiz-id="<?php echo $quiz->ID; ?>">
 														<div class="tutor-single-lesson-items-left tutor-d-flex">
-															<span class="tutor-icon-quiz-filled"></span>
+															<span class="tutor-fs-6 tutor-icon-quiz-filled"></span>
 															<span class="lesson_title tutor-fs-7 tutor-fw-normal tutor-color-black-70">
 																<?php echo $quiz->post_title; ?>
 															</span>
@@ -201,15 +218,15 @@ tutor_utils()->tutor_custom_header();
 										}
 										$is_completed_lesson = tutor_utils()->is_completed_lesson();
 										?>
-											<div class="tutor-lessons-under-topic">
+											<div class="pl-2 tutor-lessons-under-topic">
 												<div class="tutor-single-lesson-items <?php echo ( $currentPost->ID == get_the_ID() ) ? 'active tutor-color-design-brand' : ''; ?>">
-													<a href="<?php echo $show_permalink ? get_the_permalink() : '#'; ?>" class="tutor-single-lesson-a" data-lesson-id="<?php the_ID(); ?>">
+													<a href="<?php echo $show_permalink ? get_the_permalink() : '#'; ?>" class="h5pleave h5p-leave tutor-single-lesson-a" data-lesson-id="<?php the_ID(); ?>">
 														<div class="tutor-single-lesson-items-left tutor-d-flex">
 															<?php
-																$tutor_lesson_type_icon = $play_time ? 'youtube-brand' : 'document-file';
+																$tutor_lesson_type_icon = 'education-filled';//$play_time ? 'youtube-brand' : 'document-file';
 																echo "<span class='tutor-fs-6 tutor-icon-$tutor_lesson_type_icon'></span>";
 															?>
-															<span class="lesson_title tutor-fs-6 tutor-fw-bold tutor-color-black-70">
+															<span class="lesson_title tutor-fs-6 tutor-fw-normal tutor-color-black-70">
 																<?php the_title(); ?>
 															</span>
 														</div>
@@ -217,7 +234,7 @@ tutor_utils()->tutor_custom_header();
 															<?php
 																do_action( 'tutor/lesson_list/right_icon_area', $post );
 																if ( $play_time ) {
-																	echo "<span class='text-regular-caption tutor-color-black-70 pl-4'>Class time: " . tutor_utils()->get_optimized_duration( $play_time ) . '</span>';
+																	//echo "<span class='text-regular-caption tutor-color-black-70 pl-4'>Class time: " . tutor_utils()->get_optimized_duration( $play_time ) . '</span>';
 																}
 																
 															?>
@@ -245,7 +262,11 @@ tutor_utils()->tutor_custom_header();
 			<?php echo isset($html_content) ? $html_content  : '' ; ?>
 			<?php endif; ?>
 			<?php if($context=='lesson'): ?>
-				<?php 
+				<?php
+					$is_completed_lesson = tutor_utils()->is_completed_lesson($content_id,get_current_user_id());
+					if ( ! $is_completed_lesson) {
+						tutor_utils()->mark_lesson_complete( $content_id,get_current_user_id() );
+					}
 					$video = tutor_utils()->get_video_info();
 					if ( $video ) {
 						tutor_lesson_video();
@@ -284,7 +305,7 @@ tutor_utils()->tutor_custom_header();
 					<?php// _e( 'About Lesson', 'tutor' ); ?>
 				</div>
 				<div class="text-regular-body tutor-color-black-60 tutor-mt-12" style="min-height:293px;">
-					<?php the_content(); ?>
+					<?php the_content(); echo do_shortcode( "[h5p id='".$h5p_id."']" );?>
 				</div>
 			</div>
 			<div class="tab-body-item<?php echo 'files'==$page_tab ? ' is-active' : ''; ?>" id="tutor-course-spotlight-tab-2" data-tutor-query-string-content="files">
@@ -310,6 +331,58 @@ tutor_utils()->tutor_custom_header();
 		</div>
 			
 	</div>
-<?php do_action('tutor_'.$context.'/single/after/wrap');
+<?php 
+
+else:
+	
+	echo do_shortcode( "[h5p id='".$h5p_id."']" );
+?>
+	<style>
+		.h5p-iframe-wrapper{padding: 2% 10%!important;}
+		header,footer{display:none!important;}
+	</style>
+<?php
+
+endif;
+
+do_action('tutor_'.$context.'/single/after/wrap');
 
 tutor_utils()->tutor_custom_footer();
+if($h5p_id):
+?>
+	<script>
+	jQuery(function($){											
+		$(document).on('click', 'a.h5p-leave', function (event) {
+    		var href = $(this).attr('href');    
+      		event.preventDefault();
+      		event.stopImmediatePropagation();
+			var popup;
+			var data = {
+						title: 'Abandon H5P?',
+						description: 'Do you want to leave this page?',
+						buttons: {
+							keep: {
+								title: 'Yes, leave',
+								id: 'leave',
+								"class": 'tutor-btn tutor-is-outline tutor-is-default',
+								callback: function callback() {
+									location.href = href;								
+								}
+							},
+							reset: {
+								title: 'Stay here',
+								id: 'reset',
+								"class": 'tutor-btn',
+								callback: function callback() {
+								popup.remove();
+								}
+							}
+						}
+					};
+			popup = new window.tutor_popup($, '', 40).popup(data);
+		});
+	});				
+ 	</script>
+<?php
+endif;
+?>

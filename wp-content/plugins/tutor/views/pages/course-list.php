@@ -124,6 +124,36 @@ if ( '' !== $category_slug ) {
 
 add_filter( 'posts_search', '_tutor_search_by_title_only', 500, 2 );
 
+if(defined("_DELETE_DRAFT_"))
+$delete_draft = intval(_DELETE_DRAFT_);
+$delete_draft=($delete_draft)?$delete_draft:5;
+$args_del = array(
+'fields'         => 'ids',
+'post_type'   	=> 'courses',
+'post_status'    => array( 'draft') ,
+'s' 			 => 'Auto Draft',
+'posts_per_page' => '-1',
+'date_query'     => array(
+					'column'  => 'post_date',
+					'before'   => "-".$delete_draft." minutes"
+					)
+);
+
+// The Query
+//$query = new WP_Query( $args );
+query_posts( $args_del );
+// The Loop
+if ( have_posts() ) {
+while ( have_posts() ) {
+	the_post();
+	//echo get_the_ID();
+	wp_delete_post(get_the_ID(),true); 
+}    
+}
+wp_reset_postdata();
+
+$args['not_draft_search'] = 'Auto Draft';			 
+
 $the_query = new WP_Query( $args );
 
 remove_filter( 'posts_search', '_tutor_search_by_title_only', 500 );

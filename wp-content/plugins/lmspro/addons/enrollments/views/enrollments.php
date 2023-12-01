@@ -138,7 +138,8 @@ $filters = array(
 										</td>
 										<td data-th="<?php _e('Date', 'tutor-pro'); ?>">
 											<div class="td-datetime tutor-fs-7 tutor-color-black">
-												<?php esc_html_e( tutor_i18n_get_formated_date( $list->enrol_date ) ); ?>,
+												<?php esc_html_e( tutor_get_formated_date( get_option( 'date_format' ). ', ' . get_option( 'time_format' ),$list->enrol_date ) ); 
+												?>
 											</div>
 										</td>
 										<td data-th="<?php _e('Course', 'tutor-pro'); ?>">

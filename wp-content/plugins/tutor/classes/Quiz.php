@@ -292,6 +292,7 @@ class Quiz {
 		$user_id 		 = get_current_user_id();
 		$attempt_id 	 = (int) tutor_utils()->avalue_dot( 'attempt_id', $_POST );
 		$attempt    	 = tutor_utils()->get_attempt( $attempt_id );
+		$quiz_id 		 = $attempt->quiz_id;
 		$course_id  	 = tutor_utils()->get_course_by_quiz( $attempt->quiz_id )->ID;
 		$attempt_answers = isset( $_POST['attempt'] ) ? tutor_sanitize_data( $_POST['attempt'] ) : false;
 		$attempt_answers = is_array($attempt_answers) ? $attempt_answers : array();
@@ -494,7 +495,89 @@ class Quiz {
 
 			$wpdb->update($wpdb->prefix.'tutor_quiz_attempts', $attempt_info, array('attempt_id' => $attempt_id));
 		}
+		
+		$is_completed_course = tutor_utils()->is_completed_course( $course_id );
+		//$earned_percentage = tutor_utils()->get_course_h5p_points( $course_id );
+		$h5p_points_answered_all = tutor_utils()->h5p_points_answered_all( $course_id );
+		//$earned_percentage+= tutor_utils()->get_course_quiz_points( $course_id );
+		$quiz_points_answered_all = tutor_utils()->quiz_points_answered_all( $course_id );
+		$earned_percentage= tutor_utils()->get_course_total_points( $course_id );
+		if($h5p_points_answered_all && $quiz_points_answered_all && !$is_completed_course){
+			$table_comments = $wpdb->prefix . 'comments';
+			//$GPA = tutor_utils()->get_course_settings($course_id, '_tutor_grade_point_average');
+			//$earned_percentage = $all_earned_marks > 0 ? (number_format(($all_earned_marks * 100) / $all_total_marks)) : 0;
+			//if($earned_percentage>=$GPA){
+				$date = date( 'Y-m-d H:i:s', tutor_time() );
 
+				// Making sure that, hash is unique
+				do {
+					$hash    = substr( md5( wp_generate_password( 32 ) . $date . $course_id . $user_id ), 0, 16 );
+					$hasHash = (int) $wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT COUNT(comment_ID) from {$wpdb->comments}
+						WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_content = %s ",
+							$hash
+						)
+					);
+
+				} while ( $hasHash > 0 );
+
+				$data = array(
+					'comment_post_ID'  => $course_id,
+					'comment_author'   => $user_id,
+					'comment_date'     => $date,
+					'comment_date_gmt' => get_gmt_from_date( $date ),
+					'comment_content'  => $hash, // Identification Hash
+					'comment_approved' => 'approved',
+					'comment_agent'    => 'TutorLMSPlugin',
+					'comment_type'     => 'course_completed',
+					'user_id'          => $user_id,
+				);
+
+				$wpdb->insert( $table_comments, $data );
+				$lastid = $wpdb->insert_id;		
+				if($lastid)
+					update_comment_meta( $lastid, 'earned_marks', $earned_percentage );				
+				$permalink = get_the_permalink( $course_id );
+				
+				$children_ids = get_post_meta( $course_id, '_tutor_course_children', true );
+				$children_ids_arr = array();
+				if($children_ids)
+					$children_ids_arr = explode(" ",trim($children_ids));
+				$parent_id = wp_get_post_parent_id($course_id);
+				$parent_ids = get_post_meta( $course_id, '_tutor_course_parent', true );
+				$parent_ids_arr = array();
+				if($parent_ids)
+					$parent_ids_arr = explode(" ",trim($parent_ids));
+				if ( count($parent_ids_arr)) {
+					foreach($parent_ids_arr as $p_id){
+						$completed_percent = tutor_utils()->parent_course_percents($p_id);
+						$completed_percent = intval($completed_percent);
+						$is_completed_course_parent = tutor_utils()->is_completed_course( $p_id );
+						if($completed_percent>=100 && !$is_completed_course_parent){
+							$date = date( 'Y-m-d H:i:s', tutor_time() );
+							$wpdb->insert( $table_comments, array(
+																'comment_post_ID'  => $p_id,
+																'comment_author'   => $user_id,
+																'comment_date'     => $date,
+																'comment_date_gmt' => get_gmt_from_date( $date ),
+																'comment_content'  => $date,
+																'comment_approved' => 'approved',
+																'comment_agent'    => 'TutorLMSPlugin',
+																'comment_type'     => 'course_completed',
+																'user_id'          => $user_id,
+															) );
+						}
+					}
+				}
+				
+				wp_redirect( $permalink );
+				exit;
+			//}
+		}
+			
+		//echo $add_quiz_pionts = tutor_utils()->get_quiz_option($quiz_id, 'enable_quiz_points_to_course');
+		
 		// After hook
 		do_action('tutor_quiz/attempt_ended', $attempt_id, $course_id, $user_id);
 

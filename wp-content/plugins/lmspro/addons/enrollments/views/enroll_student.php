@@ -15,17 +15,34 @@
         <div class="tutor-enroll-field-row">
             <div class="tutor-enroll-field-label">
                 <label for="">
-					<?php _e('Student', 'tutor-pro'); ?>
+					<?php _e('Existed Student', 'tutor-pro'); ?>
 
                     <span class="tutor-required-fields">*</span>
                 </label>
             </div>
             <div class="tutor-option-field">
-                <select name="student_id" id="select2_search_user_ajax" required="required"></select>
+                <select name="student_id" id="select2_search_user_ajax"></select>
             </div>
         </div>
 
+		<div class="tutor-enroll-field-row">
+            <div class="tutor-enroll-field-label">
+                <label for="">
+					<?php _e('Add Students', 'tutor-pro'); ?>
 
+                    <span class="tutor-required-fields">*</span>
+                </label>
+            </div>
+            <div class="tutor-option-field">
+				<textarea name="add_students" id="add_students" rows="5" cols="60"  class="tutor-form-control tutor-mb-12" placeholder="Email, Branch_ID, Branch_Name, Gender, Age"></textarea>
+            </div>
+			<div class="tutor-enroll-field-label"></div>
+			<div class="tutor-option-field">
+                <?php _e('Students list: Email, Branch_ID, Branch_Name, Gender, Age (one per line)', 'tutor-pro'); ?>
+            </div>
+			
+        </div>
+		
         <div class="tutor-enroll-field-row">
             <div class="tutor-enroll-field-label">
                 <label>

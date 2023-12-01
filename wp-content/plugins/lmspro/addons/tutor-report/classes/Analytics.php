@@ -41,8 +41,9 @@ class Analytics extends ExportAnalytics {
 		do_action( 'before_register_frontend_report_nav_item' );
 
 		$nav_items['analytics'] = array(
-			'title' => __('Analytics', 'tutor-pro'),
-			'icon' => 'tutor-icon-chart-pie',
+			'title' => __('Learning Analytics', 'tutor-pro'),
+			'icon' => 'tutor-icon-quiz-attempt-filled',
+			'show_ui'  => false,
 			'auth_cap'	=> tutor()->instructor_role,
 		);
 		return apply_filters( 'after_register_frontend_report_nav_item', $nav_items );

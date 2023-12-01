@@ -75,19 +75,20 @@
 
 <div id="quiz-builder-tab-settings" class="quiz-builder-tab-container">
     <div class="tutor-mb-32">
-        <label class="tutor-form-label"><?php _e('Include this quiz in course total point', 'tutor'); ?></label>
+        <label class="tutor-form-label"><?php _e('Include this quiz in course total point', 'tutor'); $checked= (tutor_utils()->get_quiz_option($quiz_id, 'enable_quiz_points_to_course')==="0")?0:1;?></label>
         <div class="tutor-input-group">
             <div class="tutor-row tutor-align-items-center">
                 <div class="tutor-col-sm-12 tutor-col-md-12 tutor-mt-4 tutor-mb-4">
                     <label class="tutor-form-toggle">
-                        <input type="checkbox" class="tutor-form-toggle-input" value="1" name="quiz_option[enable_quiz_points_to_course]" <?php checked('1', tutor_utils()->get_quiz_option($quiz_id, 'enable_quiz_points_to_course')); ?> />
+                        <input type="hidden" value="0" name="quiz_option[enable_quiz_points_to_course]" >
+                        <input type="checkbox" class="tutor-form-toggle-input" value="1" name="quiz_option[enable_quiz_points_to_course]" <?php checked('1', $checked); ?> />
                         <span class="tutor-form-toggle-control"></span> <?php _e('Include quiz point: No - Yes', 'tutor'); ?>
                     </label>
                 </div>
             </div>
             <p class="text-regular-small tutor-color-muted tutor-mt-12">
                 <?php _e('Enable this option to add the points of this quiz to the points of the course.
-						Default is disable.', 'tutor'); ?>
+						Default is yes.', 'tutor'); ?>
             </p>
         </div>
     </div>
@@ -173,9 +174,19 @@
     </div>
 
     <div class="tutor-mb-32">
-        <label class="tutor-form-label"><?php _e('Passing Grade (%)', 'tutor'); ?></label>
+        <label class="tutor-form-label"><?php _e('Test Category', 'tutor'); ?></label>
         <div class="tutor-input-group">
-            <input type="number" class="tutor-form-control" name="quiz_option[passing_grade]" value="<?php echo tutor_utils()->get_quiz_option($quiz_id, 'passing_grade', 80) ?>" size="10" min="0"/>
+            <?php 
+				$topic_id = wp_get_post_parent_id($quiz_id);
+				$post_parent_id = wp_get_post_parent_id($topic_id);
+				$grade_categories = tutor_utils()->get_course_grades($post_parent_id); 
+			?>
+            <select name="quiz_option[grade_category]" class="tutor-form-select">
+				<option value="0" >Please select one</option>
+				<?php foreach($grade_categories as $grade_key=>$grade_category):?>
+				<option value="<?php echo $grade_key;?>" <?php selected(tutor_utils()->get_quiz_option($quiz_id, 'grade_category'), $grade_key); ?>><?php echo $grade_category[0] ?> (<?php echo $grade_category[1] ?>%)</option>
+				<?php endforeach;?>
+            </select>
             <p class="tutor-input-feedback">
                 <?php _e('Set the passing percentage for this quiz', 'tutor'); ?>
             </p>

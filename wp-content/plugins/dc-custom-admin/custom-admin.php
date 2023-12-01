@@ -46,7 +46,7 @@
    * Coppyright footer text
    */
    function dc_admin_footer_credits( $text ) {
-      $text = '<p>VUS - TRAINING HUB ©2022</p>';
+      $text = '<p>CMS Portal ©2019</p>';
        return $text;
    }
   add_filter( 'admin_footer_text', 'dc_admin_footer_credits' );

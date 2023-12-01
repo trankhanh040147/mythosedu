@@ -209,7 +209,7 @@ if ( $context == 'course-single-previous-attempts' && is_array( $attempt_list ) 
 									?>
 										<td data-th="See Details">
 											<div class="inline-flex-center td-action-btns">
-												<a href="<?php echo $url; ?>" class="tutor-btn tutor-btn-disable-outline tutor-btn-outline-fd tutor-btn-sm">
+												<a href="<?php echo $url; ?>" class="text-white tutor-btn tutor-btn-disable-outline tutor-btn-outline-fd tutor-btn-sm">
 													<?php
 														if ( $has_pending && ( $context == 'frontend-dashboard-students-attempts' || $context == 'backend-dashboard-students-attempts' ) ) {
 															esc_html_e( 'Review', 'tutor' );

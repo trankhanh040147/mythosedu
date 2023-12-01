@@ -57,34 +57,295 @@ class General {
 
 		// Publish or Pending...
 		$message       = null;
+		$message_tqm   = null;
+		$message_step  = null;
 		$show_modal    = true;
 		$submit_action = tutor_utils()->array_get( 'course_submit_btn', $_POST );
+		$message_step = ( $submit_action === 'next_step' )? $submit_action:"";
+		if ( $submit_action == 'next_step' ) {
+			
+			$can_publish_course = (bool) tutor_utils()->get_option( 'instructor_can_publish_course' );
+			if ( $can_publish_course || current_user_can( 'administrator' ) ) {
+				
+				$grade_categories = tutor_utils()->get_grade_categories();
+				$course_grades = array();
+				$allgrade=0;
+				if(count($grade_categories)){					
+					$i=0;
+					foreach($grade_categories as $grade){
+						if($grade){
+							$i+=1;
+							$course_grade_checked = sanitize_text_field($_POST['course_grade_checked_'.$i]);
+							if($course_grade_checked){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_'.$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_'.$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
 
-		if ( $submit_action === 'save_course_as_draft' ) {
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+							}
+						}
+					}
+				}
+				$name_more = $_POST['course_grade_name_more'];//var_dump($name_more);die();
+				if($name_more && count($name_more)){
+					$i=0;
+					foreach($name_more as $grade){
+						if($grade){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_more'][$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_more'][$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
+
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+						}
+						$i+=1;	
+					}
+				}
+				$_tutor_course_grades = maybe_serialize($course_grades);
+				update_post_meta($post_ID, '_tutor_course_grades', $_tutor_course_grades);
+				
+				if($allgrade!=100)
+					$allgrade_mesg = "<p class='text-danger'>Please notice that total course grade is ".$allgrade." </p>";
+				$postData['post_status'] = 'publish';
+				$message                 = __( $allgrade_mesg, 'tutor-pro' );
+				
+				global $wpdb;
+				$tqm_course_code = trim($_POST['tqm_course_code']);
+				if($tqm_course_code){
+					$table_name  = $wpdb->prefix."posts";
+					$column_name  = "tqm_course_code";
+					$entry = $wpdb->get_row( "SELECT * FROM ".$table_name." WHERE ".$column_name." = '" . $tqm_course_code . "'");
+					if (isset($entry))
+					{					
+						if($entry->ID!=$post_ID)
+							$message_tqm             = __( 'Duplicated "TQM Course Code", could not update this field. Please try another one.', 'tutor-pro' );	
+					}
+					else{
+								
+						$wpdb->query( $wpdb->prepare("UPDATE $table_name 
+												SET tqm_course_code = %s 
+												WHERE ID = %d",$tqm_course_code, $post_ID)
+									);
+					}
+				}
+				
+			} else {
+				$postData['post_status'] = 'pending';
+				$message                 = __( 'Course has been submitted for review.', 'tutor-pro' );
+			}
+		}elseif ( $submit_action === 'save_course_as_draft' ) {
+			//$grade_categories = tutor_utils()->get_grade_categories();
+				$grade_categories = tutor_utils()->get_grade_categories();
+				$course_grades = array();
+				$allgrade=0;
+				if(count($grade_categories)){					
+					$i=0;
+					foreach($grade_categories as $grade){
+						if($grade){
+							$i+=1;
+							$course_grade_checked = sanitize_text_field($_POST['course_grade_checked_'.$i]);
+							if($course_grade_checked){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_'.$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_'.$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
+
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+							}
+						}
+					}
+				}
+				$name_more = $_POST['course_grade_name_more'];//var_dump($name_more);die();
+				if($name_more && count($name_more)){
+					$i=0;
+					foreach($name_more as $grade){
+						if($grade){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_more'][$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_more'][$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
+
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+						}
+						$i+=1;	
+					}
+				}
+				$_tutor_course_grades = maybe_serialize($course_grades);
+				update_post_meta($post_ID, '_tutor_course_grades', $_tutor_course_grades);
+				if($allgrade!=100)
+					$allgrade_mesg = "<p class='text-danger'>Please notice that total course grade is ".$allgrade." </p>";
+				//$postData['post_status'] = 'private';
+				//$message                 = __( 'Course has set private.'.$allgrade_mesg, 'tutor-pro' );
 			$postData['post_status'] = 'draft';
-			$message                 = __( 'Course has been saved as a draft.', 'tutor-pro' );
+			$message                 = __( 'Course has been saved as a draft.'.$allgrade_mesg, 'tutor-pro' );
 			$show_modal              = false;
+			global $wpdb;
+				$tqm_course_code = trim($_POST['tqm_course_code']);
+				if($tqm_course_code){
+					$table_name  = $wpdb->prefix."posts";
+					$column_name  = "tqm_course_code";
+					$entry = $wpdb->get_row( "SELECT * FROM ".$table_name." WHERE ".$column_name." = '" . $tqm_course_code . "'");
+					if (isset($entry))
+					{					
+						if($entry->ID!=$post_ID)
+							$message_tqm             = __( 'Duplicated "TQM Course Code", could not update this field. Please try another one.', 'tutor-pro' );	
+					}
+					else{
+								
+						$wpdb->query( $wpdb->prepare("UPDATE $table_name 
+												SET tqm_course_code = %s 
+												WHERE ID = %d",$tqm_course_code, $post_ID)
+									);
+					}
+				}
 		} elseif ( $submit_action === 'submit_for_review' ) {
 			$postData['post_status'] = 'pending';
 			$message                 = __( 'Course has been submitted for review.', 'tutor-pro' );
 		} elseif ( $submit_action == 'publish_course' ) {
 			$can_publish_course = (bool) tutor_utils()->get_option( 'instructor_can_publish_course' );
 			if ( $can_publish_course || current_user_can( 'administrator' ) ) {
+				
+				$grade_categories = tutor_utils()->get_grade_categories();
+				$course_grades = array();
+				$allgrade=0;
+				if(count($grade_categories)){					
+					$i=0;
+					foreach($grade_categories as $grade){
+						if($grade){
+							$i+=1;
+							$course_grade_checked = sanitize_text_field($_POST['course_grade_checked_'.$i]);
+							if($course_grade_checked){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_'.$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_'.$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
+
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+							}
+						}
+					}
+				}
+				$name_more = $_POST['course_grade_name_more'];//var_dump($name_more);die();
+				if($name_more && count($name_more)){
+					$i=0;
+					foreach($name_more as $grade){
+						if($grade){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_more'][$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_more'][$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
+
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+						}
+						$i+=1;	
+					}
+				}
+				$_tutor_course_grades = maybe_serialize($course_grades);
+				update_post_meta($post_ID, '_tutor_course_grades', $_tutor_course_grades);
+				if($allgrade!=100)
+					$allgrade_mesg = "<p class='text-danger'>Please notice that total course grade is ".$allgrade." </p>";
 				$postData['post_status'] = 'publish';
-				$message                 = __( 'Course has been published.', 'tutor-pro' );
+				$message                 = __( 'Course has been published.'.$allgrade_mesg, 'tutor-pro' );
+				
+				global $wpdb;
+				$tqm_course_code = trim($_POST['tqm_course_code']);
+				if($tqm_course_code){
+					$table_name  = $wpdb->prefix."posts";
+					$column_name  = "tqm_course_code";
+					$entry = $wpdb->get_row( "SELECT * FROM ".$table_name." WHERE ".$column_name." = '" . $tqm_course_code . "'");
+					if (isset($entry))
+					{					
+						if($entry->ID!=$post_ID)
+							$message_tqm             = __( 'Duplicated "TQM Course Code", could not update this field. Please try another one.', 'tutor-pro' );	
+					}
+					else{
+								
+						$wpdb->query( $wpdb->prepare("UPDATE $table_name 
+												SET tqm_course_code = %s 
+												WHERE ID = %d",$tqm_course_code, $post_ID)
+									);
+					}
+				}
+				
 			} else {
 				$postData['post_status'] = 'pending';
 				$message                 = __( 'Course has been submitted for review.', 'tutor-pro' );
 			}
 		}
+		 elseif ( $submit_action == 'private_course' ) {
+				$grade_categories = tutor_utils()->get_grade_categories();
+				$course_grades = array();
+				$allgrade=0;
+				if(count($grade_categories)){					
+					$i=0;
+					foreach($grade_categories as $grade){
+						if($grade){
+							$i+=1;
+							$course_grade_checked = sanitize_text_field($_POST['course_grade_checked_'.$i]);
+							if($course_grade_checked){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_'.$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_'.$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
 
-		if ( $message ) {
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+							}
+						}
+					}
+				}
+				$name_more = $_POST['course_grade_name_more'];//var_dump($name_more);die();
+				if($name_more && count($name_more)){
+					$i=0;
+					foreach($name_more as $grade){
+						if($grade){
+								$course_grade_name = sanitize_text_field($_POST['course_grade_name_more'][$i]);
+								$course_grade_value = sanitize_text_field($_POST['course_grade_value_more'][$i]);
+								$allgrade+= intval($course_grade_value);
+								$grade_slug = strtolower(trim(preg_replace('/[\s-]+/', "_", preg_replace('/[^A-Za-z0-9-]+/', "_", preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $course_grade_name))))), "_"));
+
+								if($course_grade_value) $course_grades[$grade_slug]=array($course_grade_name,$course_grade_value);
+						}
+						$i+=1;	
+					}
+				}
+				$_tutor_course_grades = maybe_serialize($course_grades);
+				update_post_meta($post_ID, '_tutor_course_grades', $_tutor_course_grades);
+				if($allgrade!=100)
+					$allgrade_mesg = "<p class='text-danger'>Please notice that total course grade is ".$allgrade." </p>";
+				$postData['post_status'] = 'private';
+				$message                 = __( 'Course has set private.'.$allgrade_mesg, 'tutor-pro' );
+				
+				global $wpdb;
+				$tqm_course_code = trim($_POST['tqm_course_code']);
+				if($tqm_course_code){
+					$table_name  = $wpdb->prefix."posts";
+					$column_name  = "tqm_course_code";
+					$entry = $wpdb->get_row( "SELECT * FROM ".$table_name." WHERE ".$column_name." = '" . $tqm_course_code . "'");
+					if (isset($entry))
+					{					
+						if($entry->ID!=$post_ID)
+							$message_tqm             = __( 'Duplicated "TQM Course Code", could not update this field. Please try another one.', 'tutor-pro' );	
+					}
+					else{
+								
+						$wpdb->query( $wpdb->prepare("UPDATE $table_name 
+												SET tqm_course_code = %s 
+												WHERE ID = %d",$tqm_course_code, $post_ID)
+									);
+					}
+				}
+		}
+
+		if ( $message || $message_step) {
 			update_user_meta( $user_id, 'tutor_frontend_course_message_expires', time() + 5 );
 			update_user_meta(
 				$user_id,
 				'tutor_frontend_course_action_message',
 				array(
 					'message'    => $message,
+					'message_step'    => $message_step,
+					'message_tqm'    => $message_tqm,
 					'show_modal' => $show_modal,
 				)
 			);

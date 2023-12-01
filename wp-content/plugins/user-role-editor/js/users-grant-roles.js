@@ -10,10 +10,13 @@ jQuery(document).ready(function() {
     jQuery('#ure_grant_roles_2').click(function() {
         ure_prepare_grant_roles_dialog();
     });
-    
+    jQuery('#ure_grant_roles_3').click(function() {
+        ure_prepare_grant_roles_dialog();
+    });
     if (ure_users_grant_roles_data.show_wp_change_role!=1) {        
         jQuery('#new_role').hide();
         jQuery('#new_role2').hide();
+		jQuery('#new_role3').hide();
         jQuery('#changeit').hide();
         jQuery('[id=changeit]:eq(1)').hide();   // for 2nd 'Change' button with the same ID.        
     }

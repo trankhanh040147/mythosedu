@@ -36,13 +36,13 @@
             <?php echo $earned_marks . '/' . $total_marks; ?>
         </span>
     </div>
-    <div class="flex">
+    <div class="flex"><!--
         <?php _e('Passing Marks', 'tutor'); ?>: 
         <span class="tutor-color-black">
             <?php
                 $pass_marks = ($total_marks * $passing_grade) / 100;
                 echo number_format_i18n($pass_marks, 2);
 			?>
-        </span>
+        </span>-->
     </div>
 </div>

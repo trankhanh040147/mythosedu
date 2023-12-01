@@ -59,10 +59,17 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 					<div class="_course_head_text">
 						<p><?php echo get_the_content();?><p>
 					</div>
+					<?php
+						$speaker = get_post_meta( get_the_ID(), '_tutor_course_speaker', true );
+						if($speaker):
+					?>	
 					<div class="tutor-course-author tutor-mr-16">
 						<div><?php _e('Speaker: ', 'tutor'); ?></div>
-						<div class=" tutor-fw-bold"><?php echo get_the_author_meta('display_name'); ?></div>
+						<div class=" tutor-fw-bold"><?php echo $speaker; ?></div>
 					</div>
+					<?php
+						endif;
+					?>
 				</div>
 	            <?php do_action('tutor_course/single/before/inner-wrap'); ?>
                 <div class="tutor-default-tab tutor-course-details-tab tutor-tab-has-seemore tutor-mt-32">
@@ -92,7 +99,15 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 						</div>
 					<?php endif; ?>
 
-					<?php do_action('tutor_course/single/after/benefits'); ?>
+					<?php do_action('tutor_course/single/after/benefits'); 
+					
+					//begin check startdate
+					$tutor_course_start_date = get_post_meta(get_the_ID(), '_tutor_course_start_date', true);
+					$_tutor_show_feedback = get_post_meta(get_the_ID(), '_tutor_show_feedback', true);
+					$tutor_course_show_feedback = 'no'===$_tutor_show_feedback ?  false : true;
+					
+					?>
+					<?php //if($tutor_course_start_date): ?>
 					
 					<div class="course-parent-children tutor-course-details-widget tutor-course-details-widget-col-1 tutor-mt-lg-50 tutor-mt-32">
 						<div class="tutor-course-details-widget-title tutor-mb-16">
@@ -160,11 +175,15 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 									echo $course_duration;	
 								?>
 							</span>
+							<?php
+							/*
 							<span class="">
 								<?php
-									echo __( "total length", 'tutor' );	
+									echo __( "Total length", 'tutor' );	
 								?>
 							</span>
+							*/
+							?>
 						</div>
 						
 						<div>
@@ -249,7 +268,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 							</div>
 						</div>
 					</div>
-					<?php if (is_user_logged_in()) :?>
+					<?php if (is_user_logged_in() && time() >= strtotime($tutor_course_start_date)) :?>
 					<div class="tutor-course-details-widget tutor-course-details-widget-col-1 tutor-mt-lg-50 tutor-mt-32">
 						<div class="tutor-course-details-widget-title tutor-mb-16">
 							<span class="tutor-fs-5 tutor-fw-bold mb-3">
@@ -294,7 +313,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 						</div>
 					</div>
 					<?php endif; ?>
-					
+					<?php if($tutor_course_show_feedback): ?> 
 					<?php
 					$disable = ! get_tutor_option( 'enable_course_review' );
 					if ( $disable ) {
@@ -458,6 +477,8 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 					<?php endif; ?>
 
 					<?php do_action( 'tutor_course/single/enrolled/after/reviews' ); ?>
+					<?php endif; ?>
+					<?php //endif; ?>
                 </div>
 	            <?php do_action('tutor_course/single/after/inner-wrap'); ?>
             </div>
@@ -511,7 +532,8 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 									if(!$course_price)
 										echo  esc_html_e( 'Free','tutor'  );
 									else
-										echo tutor_utils()->tutor_price($course_price); 
+										echo tutor_utils()->tutor_price($course_price);
+										
 								?>
                             </div>
 							<span class="tutor-fs-4 tutor-fw-medium tutor-color-muted">
@@ -544,6 +566,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 						$course_enrolled = tutor_utils()->is_enrolled($course_id);
 						$course_added_to_cart = tutor_utils()->is_course_added_to_cart($course_id);
 						
+						
 						if($course_enrolled){	// if course enrolled
 							 ?>
 								<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
@@ -551,11 +574,28 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 									<span class="tutor-color-success">
 									<?php esc_html_e( 'You enrolled in this course on', 'tutor' ); ?>
 										<span class="text-bold-small tutor-color-success tutor-ml-4 tutor-enrolled-info-date">
-										<?php echo esc_html( tutor_get_formated_date( get_option( 'date_format' ), $is_enrolled->post_date ) ); ?>
+										<?php echo esc_html( tutor_get_formated_date( get_option( 'date_format' ), $course_enrolled->post_date ) ); ?>
 										</span>
 									</span>
 								</div>
 							<?php
+							$is_completed_course = tutor_utils()->is_completed_course($course_id);
+							if($is_completed_course){	
+							 ?>
+							 </div>
+							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
+									<span class="tutor-fs-5 text-bold-small tutor-color-success">
+									<?php esc_html_e( 'Course Completed', 'tutor' ); ?>
+									</span>
+							</div>
+							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">		
+									<a href="<?php echo $lesson_url;?>">
+									<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-16 tutor-enroll-course-button">
+									<?php esc_html_e( 'Learn Again', 'tutor' ); ?>
+									</button>
+									</a>								
+							 <?php
+							} 
 						}
 						elseif ( $course_added_to_cart ) {
 							?>
@@ -589,9 +629,17 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 									<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
 										<input type="hidden" name="tutor_course_id" value="<?php echo esc_attr( get_the_ID() ); ?>">
 										<input type="hidden" name="tutor_course_action" value="_tutor_course_enroll_now">
-										<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
-										<?php esc_html_e( 'Enroll Course', 'tutor' ); ?>
-										</button>
+										<?php 
+										// check is public course
+										//if(tutor_utils()->_tutor_is_public_course($course_id) == "yes") {
+										?>
+											<button type="submit" class="__check_enroll_course tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
+											<?php esc_html_e( 'Enroll', 'tutor' ); 
+											?>
+											</button>
+										<?php 
+										//}
+										?>
 									</form>
 								</div>
 								<a href="#" class=" tutor-mt-16 tutor-btn-ghost tutor-btn-ghost-fd action-btn tutor-fs-6 tutor-fw-normal tutor-color-black tutor-course-wishlist-btn" data-course-id="<?php echo get_the_ID(); ?>">

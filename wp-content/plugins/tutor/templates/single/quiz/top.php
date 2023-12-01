@@ -21,7 +21,8 @@ $previous_attempts 	= tutor_utils()->quiz_attempts();
 $attempted_count 	= is_array($previous_attempts) ? count($previous_attempts) : 0;
 
 $attempts_allowed 	= tutor_utils()->get_quiz_option(get_the_ID(), 'attempts_allowed', 0);
-$passing_grade 		= tutor_utils()->get_quiz_option(get_the_ID(), 'passing_grade', 0);
+$grade_category = tutor_utils()->get_quiz_option(get_the_ID(), 'grade_category');
+$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);
 $attempt_remaining 	= (int) $attempts_allowed - (int) $attempted_count;
 
 do_action('tutor_quiz/single/before/top');
@@ -36,7 +37,7 @@ do_action('tutor_quiz/single/before/top');
 				<?php echo get_the_title(); ?>
 			</div>
 			<div class="">
-				<?php echo get_the_content(); ?>
+				<?php //echo get_the_content(); ?>
 			</div>
 		</div>
 		<div class="tutor-quiz-info-area tutor-mb-60 tutor-mt-24">
@@ -91,11 +92,11 @@ do_action('tutor_quiz/single/before/top');
 			<?php
 				// Show Passign grade
 				if($passing_grade){
-					?>
+					?><!--
 					<div class="tutor-quiz-info">
 						<span class="text-regular-body tutor-color-muted"><?php _e('Passing Grade', 'tutor'); ?></span>
 						<span class="text-regular-body tutor-color-black">(<?php echo $passing_grade . '%'; ?>)</span>
-					</div>
+					</div>-->
 					<?php 
 				} 
 			?>
@@ -117,7 +118,7 @@ do_action('tutor_quiz/single/before/top');
 						</button>
 					</form>
 
-					<button class="tutor-btn tutor-btn-disable-outline tutor-no-hover tutor-btn-md skip-quiz-btn" data-tutor-modal-target="tutor-quiz-skip-to-next">
+					<button class="tutor-btn tutor-btn-disable-outline tutor-no-hover tutor-btn-md skip-quiz-btn text-white" data-tutor-modal-target="tutor-quiz-skip-to-next">
 						<?php _e( 'Skip Quiz', 'tutor' ); ?>
 					</button>
 

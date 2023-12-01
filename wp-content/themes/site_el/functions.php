@@ -347,6 +347,86 @@ function my_login_redirect( $redirect_to, $request, $user ) {
     
 }
 
+add_action('wp_login','student_login_redirect', 1, 2 );
+function student_login_redirect( $user_login, WP_User $user ) {
+    if ( current_user_can( 'subscriber' )) {
+        wp_redirect( SITE_URL . '/dashboard' );exit;
+    }
+}
 
+add_filter( 'posts_where', 'courses_search_filter', 10, 2 );
+function courses_search_filter( $where, $wp_query ) {
+    global $wpdb;
+    if ( $search_filter = $wp_query->get( 'search_filter' ) ) {
+       $where .= ' AND ((' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql( $wpdb->esc_like( $search_filter ) ) . '%\')
+						OR (' . $wpdb->posts . '.tqm_course_code LIKE \'%' . esc_sql( $wpdb->esc_like( $search_filter ) ) . '%\'))';
+    }
+    return $where;
+}
+
+add_filter( 'posts_where', 'draft_special_search_posts_where', 10, 2 );
+function draft_special_search_posts_where( $where, $wp_query ) {
+    global $wpdb;
+    if ( $not_draft_search = $wp_query->get( 'not_draft_search' ) ) {
+       $where .= ' AND ((' . $wpdb->posts . '.post_title NOT LIKE \'%' . esc_sql( $wpdb->esc_like( $not_draft_search ) ) . '%\'))';
+    }
+    return $where;
+}
+add_action( 'wp_ajax_tutor_json_searchstudents', 'tutor_json_searchstudents');
+function tutor_json_searchstudents() {
+	global $wpdb;
+
+	$term = sanitize_text_field( tutor_utils()->array_get( 'term', $_POST ) );
+	$term = '%' . $term . '%';
+
+	$student_res = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE display_name LIKE %s OR user_email LIKE %s", $term, $term ) );
+	$students    = array();
+	if ( tutor_utils()->count( $student_res ) ) {
+		foreach ( $student_res as $student ) {
+			$students[ $student->ID ] = sprintf(
+				esc_html__( '%1$s (#%2$s - %3$s)', 'tutor-pro' ),
+				$student->display_name,
+				$student->ID,
+				$student->user_email
+			);
+		}
+	}
+
+	wp_send_json( $students );
+}
+
+add_filter('ure_show_additional_capabilities_section', 'ure_show_additional_capabilities_section');
+add_filter('ure_bulk_grant_roles',  'ure_show_additional_capabilities_section');
 
  
+function ure_show_additional_capabilities_section($show) {
+    $user = wp_get_current_user(); //var_dump($user->roles);
+    if (in_array('administrator', $user->roles)) {
+        $show = false;
+    }
+
+    return $show;
+}
+
+add_filter('ure_users_select_primary_role', 'ure_users_select_primary_role', 10, 1);
+function ure_users_select_primary_role($select) {
+
+    $user = wp_get_current_user(); //var_dump($user->roles);
+    if (in_array('administrator', $user->roles) || in_array('admins', $user->roles) || in_array('tutor_instructor', $user->roles) || in_array('staff', $user->roles)) {
+        $select = false;
+    }
+    
+    return $select;
+}
+
+add_filter('show_admin_bar', '__return_false');
+
+
+add_action( 'init', 'blockusers_init' );
+function blockusers_init() {
+if ( is_admin() && ! current_user_can( 'administrator' ) &&
+! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+wp_redirect( home_url() );
+exit;
+}
+}

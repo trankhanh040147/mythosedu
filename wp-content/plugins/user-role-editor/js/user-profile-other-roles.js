@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
     
     ure_init_controls('');
     ure_init_controls('_2');          
-            
+    ure_init_controls('_3');                  
 });    
 
 

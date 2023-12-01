@@ -6,7 +6,7 @@
 		'paid' => __( 'Paid', 'tutor' ),
 	);
 
-	$course_levels     = tutor_utils()->course_levels();
+	$course_levels     = tutor_utils()->get_course_levels();
 	$supported_filters = tutor_utils()->get_option( 'supported_course_filters', array() );
 	$supported_filters = array_keys( $supported_filters );
 	?>
@@ -71,7 +71,7 @@
 				<?php
 					$key = '';
 				foreach ( $course_levels as  $value => $title ) {
-					if ( $key == 'all_levels' ) {
+					if ( $value == 'all_levels' ) {
 						continue;
 					}
 					?>

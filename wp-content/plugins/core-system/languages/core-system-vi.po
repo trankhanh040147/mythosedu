@@ -1,0 +1,535 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Richard\n"
+"POT-Creation-Date: 2017-11-21 14:49+0700\n"
+"PO-Revision-Date: 2018-04-18 15:52+0700\n"
+"Last-Translator: \n"
+"Language-Team: Richard<nguyenkha252@gmail.com>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: bess-fu.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2;_t;trans\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+msgid "Login"
+msgstr "Đăng nhập"
+
+msgid "Please input your username and password."
+msgstr "Vui lòng nhập vào tài khoản và mật khẩu"
+
+msgid "Username"
+msgstr "Tài khoản"
+
+msgid "Password"
+msgstr "Mật khẩu"
+
+msgid "Remember Me?"
+msgstr "Tự động đăng nhập"
+
+msgid "Log In"
+msgstr "Đăng nhập"
+
+msgid "Forgot your password ?"
+msgstr "Quên mật khẩu?"
+
+msgid "no worries, click <a href=\"%s\" id=\"forget-password\"> here </a> to reset your password."
+msgstr "đừng lo lắng, nhấn vào <a href=\"%s\" id=\"forget-password\"> đây </a> để đặt lại mật khẩu."
+
+msgid "Dashboard"
+msgstr "Bảng tin"
+
+msgid "page-dashboard"
+msgstr "bang-tin"
+
+msgid "Manage Members"
+msgstr "Hồ sơ nhân viên"
+
+msgid "manage-members"
+msgstr "ho-so-nhan-vien"
+
+msgid "Manage Targets"
+msgstr "Quản lý mục tiêu"
+
+msgid "manage-targets"
+msgstr "quan-ly-muc-tieu"
+
+msgid "Home page"
+msgstr "Trang chủ"
+
+msgid "home-page"
+msgstr "trang-chu"
+
+msgid "Description"
+msgstr "Mô tả"
+
+msgid "Update Post"
+msgstr "Lưu Thông Báo"
+
+msgid "Save Post"
+msgstr "Đăng Thông Báo"
+
+msgid "Invalid nonce when save orgchart"
+msgstr "Mã bảo vệ không đúng khi lưu orgchart"
+
+msgid "You do not permission to edit orgchart"
+msgstr "Bạn không có quyền tạo/chỉnh sửa orgchart"
+
+msgid "Invalid nonce when save user"
+msgstr "Mã bảo vệ không đúng khi lưu thông báo"
+
+msgid "You do not permission to edit page"
+msgstr "Bạn không có quyền tạo/chỉnh sửa thông báo"
+
+msgid "An error occured, please try again later"
+msgstr "Có lỗi xảy ra, vui lòng thao tác lại"
+
+msgid "Register User"
+msgstr "Tạo Tài Khoản"
+
+msgid "Name"
+msgstr "Họ và tên"
+
+msgid "Email"
+msgstr "Thư điện tử"
+
+msgid "Avatar"
+msgstr "Hình đại diện"
+
+msgid "Role"
+msgstr "Cấp bậc"
+
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+msgid "Position Name"
+msgstr "Chức vụ hiển thị"
+
+msgid "Create"
+msgstr "Tạo mới"
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "Description New Node"
+msgstr "Mô tả cho 1 người dùng mới"
+
+msgid "User not found with ID %s"
+msgstr "Không tìm thấy người dùng có ID là %s"
+
+msgid "Not allow user permission"
+msgstr "Người dùng không có quyền truy cập"
+
+msgid "Nonce invalid"
+msgstr "Mã bảo vệ không hợp lệ"
+
+msgid "Update user: nonce invalid"
+msgstr "Cập nhật nhân viên: Mã bảo vệ không hợp lệ"
+
+msgid "Create user: nonce invalid"
+msgstr "Thêm nhân viên: Mã bảo vệ không hợp lệ"
+
+msgid "Re-Password"
+msgstr "Lặp lại mật khẩu"
+
+msgid "Password at least 8 characters"
+msgstr "Mật khẩu ít nhất 8 ký tự"
+
+msgid "Password and Re-Password not matching"
+msgstr "Mật khẩu và lặp lại mật khẩu chưa trùng khớp"
+
+msgid "Invalid user ID."
+msgstr "ID của nhân viên không hợp lệ."
+
+msgid "Cannot create a user with an empty login name."
+msgstr "Không thể tạo nhân viên với tên đăng nhập rỗng"
+
+msgid "Username may not be longer than 60 characters."
+msgstr "Tên đăng nhập không thể vượt quá 60 ký tự."
+
+msgid "Sorry, that username already exists!"
+msgstr "Xin lỗi, tên đăng nhập này đã tồn tại!"
+
+msgid "Sorry, that username is not allowed."
+msgstr "Xin lỗi, tên đăng nhập không được chấp nhận."
+
+msgid "Nicename may not be longer than 50 characters."
+msgstr "Tên hiển thị không vượt quá 50 ký tự."
+
+msgid "Sorry, that email address is already used!"
+msgstr "Xin lỗi, thư điện tử này đã được dùng cho nhân viên khác rồi!"
+
+msgid "Sorry, an error occurred."
+msgstr "Xin lỗi, có 1 lỗi xảy ra."
+
+msgid "Cancel"
+msgstr "Huỷ bỏ"
+
+msgid "Back to members list"
+msgstr "Trở về danh sách nhân viên"
+
+msgid "Save"
+msgstr "Lưu"
+
+msgid "Create New"
+msgstr "Thêm mới"
+
+msgid "List Members"
+msgstr "Danh sách nhân viên"
+
+msgid "Manage Sites"
+msgstr "Quản lý hệ thống KPI"
+
+msgid "Manage Users"
+msgstr "Quản lý người dùng KPI"
+
+msgid "Update Member"
+msgstr "Chỉnh sửa thông tin nhân viên"
+
+msgid "Register Member"
+msgstr "Thêm nhân viên"
+
+msgid "Settings"
+msgstr "Cấu hình"
+
+msgid "page-settings"
+msgstr "cau-hinh"
+
+msgid "Profile"
+msgstr "Hồ sơ"
+
+msgid "page-profile"
+msgstr "ho-so"
+
+msgid "Calendar"
+msgstr "Lịch"
+
+msgid "calendar"
+msgstr "lich"
+
+msgid "Inboxs"
+msgstr "Tin nhắn"
+
+msgid "inboxs"
+msgstr "tin-nhan"
+
+msgid "To Do"
+msgstr "Công việc"
+
+msgid "to-do"
+msgstr "cong-viec"
+
+msgid "Logout"
+msgstr "Đăng xuất"
+
+msgid "Reset"
+msgstr "Thiết lập lại"
+
+msgid "logout"
+msgstr "dang-xuat"
+
+msgid "User Level 0"
+msgstr "Nhân Viên"
+
+msgid "Level 0"
+msgstr "Nhân Viên"
+
+msgid "User Level 1"
+msgstr "Phòng Ban"
+
+msgid "Level 1"
+msgstr "Phòng Ban"
+
+msgid "User Level 2"
+msgstr "Ban Giám Đốc"
+
+msgid "Level 2"
+msgstr "Ban Giám Đốc"
+
+msgid "User Administrator"
+msgstr "Quản Trị Viên"
+
+msgid "General manager"
+msgstr "Tổng giám đốc"
+
+msgid "general-manager"
+msgstr "tong-giam-doc"
+
+msgid "Deputy General Director Regular"
+msgstr "P.TGĐ thường trực"
+
+msgid "deputy-general-director-regular"
+msgstr "ptgd-thuong-truc"
+
+msgid "Deputy General Director"
+msgstr "P.TGĐ"
+
+msgid "deputy-general-director"
+msgstr "ptgd"
+
+msgid "Finance Division Department"
+msgstr "Phòng tài chính"
+
+msgid "finance-division-department"
+msgstr "phong-tai-chinh"
+
+msgid "Human Resource Department"
+msgstr "Phòng hành chính nhân sự"
+
+msgid "human-resource-department"
+msgstr "phong-hanh-chinh-nhan-su"
+
+msgid "Project Advisory Office Department"
+msgstr "Phòng tư vấn dự án"
+
+msgid "project-advisory-office-department"
+msgstr "phong-tu-van-du-an"
+
+msgid "Customer Care Department"
+msgstr "Phòng chăm sóc khách hàng"
+
+msgid "customer-care-department"
+msgstr "phong-cham-soc-khach-hang"
+
+msgid "Manager HR Department"
+msgstr "Trưởng phòng"
+
+msgid "manager-hr-department"
+msgstr "truong-phong-nhan-su"
+
+msgid "Deputy HR Department"
+msgstr "Phó phòng"
+
+msgid "deputy-hr-department"
+msgstr "pho-phong-nhan-su"
+
+msgid "Manager FD Department"
+msgstr "Trưởng phòng"
+
+msgid "manager-fd-department"
+msgstr "truong-phong-tai-chinh"
+
+msgid "Deputy FD Department"
+msgstr "Phó phòng"
+
+msgid "deputy-fd-department"
+msgstr "pho-phong-tai-chinh"
+
+msgid "Tax Specialist"
+msgstr "CV Thuế"
+
+msgid "tax-specialist"
+msgstr "cv-thue"
+
+msgid "Financial Officer"
+msgstr "CV Tài chính"
+
+msgid "financial-officer"
+msgstr "cv-tai-chinh"
+
+msgid "Administrative Officer"
+msgstr "CV Hành chính"
+
+msgid "administrative-officer"
+msgstr "cv-hanh-chinh"
+
+msgid "Specialist recruiting and training"
+msgstr "CV tuyển dụng và đào tạo"
+
+msgid "specialist-recruiting-and-training"
+msgstr "cv-tuyen-dung-va-dao-tao"
+
+msgid "Jobs Description"
+msgstr "Mô tả công việc"
+
+msgid "Notification"
+msgstr "Thông báo"
+
+msgid "page-notification"
+msgstr "thong-bao"
+
+msgid "Save and Exit"
+msgstr "Lưu và Trở Về Danh Sách"
+
+msgid "Exports"
+msgstr "Xuất tập tin"
+
+msgid "page-exports"
+msgstr "xuat-tap-tin"
+
+msgid "User Managers"
+msgstr "Tài khoản quản trị"
+
+msgid "user-managers"
+msgstr "tai-khoan-quan-tri"
+
+msgid "User User Managers"
+msgstr "Quản trị cấp quản lý"
+
+msgid "User Employers"
+msgstr "Quản trị cấp nhân viên"
+
+msgid "Time has expired"
+msgstr "Đã hết hạn nhập liệu. Vui lòng tải lại trang."
+
+msgid "Please! Login to use application"
+msgstr "Vui lòng đăng nhập để sử dụng ứng dụng"
+
+msgid "You haven't permission"
+msgstr "Bạn không có quyền"
+
+msgid "Admin site"
+msgstr "Tổng Giám Đốc"
+
+msgid "Extend Admin site"
+msgstr "Quản trị hệ thống"
+
+msgid "Role Manager"
+msgstr "Ban Quản Lý"
+
+msgid "Role User Manager"
+msgstr "Quản trị ban quản lý"
+
+msgid "Role HR"
+msgstr "Quản trị nhân sự"
+
+msgid "Role Employer"
+msgstr "Nhân viên"
+
+msgid "Role User Employer"
+msgstr "Quản trị nhân viên"
+
+msgid "forgot-password"
+msgstr "quen-mat-khau"
+
+msgid "Forgot Password"
+msgstr "Quên mật khẩu"
+
+msgid "Company Title"
+msgstr "Cơ cấu tổ chức"
+
+msgid "company-title"
+msgstr "co-cau-to-chuc"
+
+msgid "Organizational Structure"
+msgstr "Hệ thống chức danh"
+
+msgid "organizational-structure"
+msgstr "he-thong-chuc-danh"
+
+msgid "page-announce"
+msgstr "thong-bao"
+
+msgid "Change password"
+msgstr "Đổi mật khẩu"
+
+msgid "change-password"
+msgstr "doi-mat-khau"
+
+msgid "Leave"
+msgstr "Nghỉ phép"
+
+msgid "Timesheet"
+msgstr "Bảng chấm công"
+
+msgid "page-leave"
+msgstr "nghi-phep"
+
+msgid "page-timesheet"
+msgstr "bang-cham-cong"
+
+msgid "Annual leave"
+msgstr "Nghỉ phép năm"
+
+msgid "Paid leave"
+msgstr "Nghỉ phép hưởng lương"
+
+msgid "Paternity leave"
+msgstr "Nghỉ sinh con"
+
+msgid "Maternity leave"
+msgstr "Nghỉ thai sản"
+
+msgid "Sick leave"
+msgstr "Nghỉ ốm"
+
+msgid "Marriage leave"
+msgstr "Kết hôn"
+
+msgid "Child marriage"
+msgstr "Con kết hôn"
+
+msgid "The father or mother died"
+msgstr "Cha hoặc mẹ chết"
+
+msgid "Father-in-law, Mother-in-law died"
+msgstr "Cha chồng (vợ) hoặc mẹ chồng (vợ) chết"
+
+msgid "Husband or wife dies"
+msgstr "Chồng hoặc vợ chết"
+
+msgid "Child died"
+msgstr "Con chết"
+
+msgid "Leave for other reasons"
+msgstr "Lý do khác"
+
+msgid "Business"
+msgstr "Công tác"
+
+msgid "page-business"
+msgstr "cong-tac"
+
+msgid "Keepingtime type"
+msgstr "Loại chấm công"
+
+msgid "keepingtime-type"
+msgstr "loai-cham-cong"
+
+msgid "Overtime"
+msgstr "Làm ngoài giờ"
+
+msgid "By paid by insurance"
+msgstr "Bảo hiểm thanh toán"
+
+msgid "Business trip"
+msgstr "Công tác"
+
+msgid "Holiday"
+msgstr "Nghỉ lễ"
+
+msgid "Absent without permission"
+msgstr "Nghỉ không phép"
+
+msgid "Paid Leave"
+msgstr "Nghỉ hưởng lương"
+
+msgid "Unpaid Leave"
+msgstr "Nghỉ không lương"
+
+msgid "Tardiness"
+msgstr "Đi trễ"
+
+msgid "Work on time"
+msgstr "Đi làm"
+
+msgid "timekeeping-overtime"
+msgstr "cham-cong-ngoai-gio"
+
+msgid "grants-user"
+msgstr "cap-quyen-nhan-vien"
+
+msgid "Grants user"
+msgstr "Cấp quyền nhân viên"
+
+msgid ""
+msgstr ""
+
+#msgid ""
+#msgstr ""

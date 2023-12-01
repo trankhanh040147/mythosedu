@@ -77,6 +77,19 @@ class RestAPI {
 	init all routes for api
 	*/
 	public function init_routes() {
+		//nhathuy_api
+		register_rest_route(
+			$this->namespace,
+			'/enroll_course',
+			array(
+				'methods' => "POST",
+				'callback' => array(
+					$this->courseObj, 'enroll_course'
+				),
+				'permission_callback' => '__return_true'
+			)
+		);
+		
 		//courses
 		register_rest_route(
 			$this->namespace,

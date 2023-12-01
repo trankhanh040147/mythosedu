@@ -17,7 +17,8 @@
 	$attempted_count   = is_array( $previous_attempts ) ? count( $previous_attempts ) : 0;
 	$questions_order   = tutor_utils()->get_quiz_option( $quiz_id, 'questions_order', 'rand' );
 	$attempts_allowed  = tutor_utils()->get_quiz_option( $quiz_id, 'attempts_allowed', 0 );
-	$passing_grade     = tutor_utils()->get_quiz_option( $quiz_id, 'passing_grade', 0 );
+	$grade_category = tutor_utils()->get_quiz_option($quiz_id, 'grade_category');
+	$passing_grade = tutor_utils()->get_grade_value($grade_category,$course->ID);
 	$feedback_mode     = tutor_utils()->get_quiz_option( $quiz_id, 'feedback_mode', 0 );
 
 	$attempt_remaining = (int) $attempts_allowed - (int) $attempted_count;

@@ -165,6 +165,9 @@ get_header(); ?>
 
                                                             for($i=0; $i < $cntPosts; $i++) {
                                                                 $url_img = wp_get_attachment_url( get_post_thumbnail_id($___postsDat[$i]->ID), 'thumbnail' ); 
+																$courses_categories = get_the_terms($___postsDat[$i]->ID,'course-category');
+																$courses_category_first = ($courses_categories && count($courses_categories))?$courses_categories[0]->name:'Uncategory';
+																$_tutor_course_start_date = get_post_meta( $___postsDat[$i]->ID, '_tutor_course_start_date', true);
                                                             ?>
                                                                 <!--- render course item -->
                                                                
@@ -172,11 +175,32 @@ get_header(); ?>
                                                                     
                                                                     <div class="__wishlist"><a href="#"><i class="__ic_heart"></i></a></div>
                                                                     <div class="___cert_item_img"><img src="<?php echo $url_img;?>" alt=""></div>
-                                                                    
-                                                                    <span class="__txt_blur">Workshop - 011</span>
+                                                                    <div class="tutor-d-flex">
+																		<span class="__txt_blur"><?php echo $courses_category_first;?></span>
+																		<?php
+																			$children_ids = get_post_meta( $___postsDat[$i]->ID, '_tutor_course_children', true );
+																			$children_ids_arr = array();
+																			if($children_ids)
+																				$children_ids_arr = explode(" ",trim($children_ids));
+																			if (count($children_ids_arr)) {
+																		?>
+																			<div class="parent_course_icon" style="width:90%;text-align:right">
+																				<span class="">
+																					<i class="tutor-icon-layer-filled"></i>
+																				</span>
+																			</div>
+																		<?php
+																			}
+																		?>
+																	</div>
                                                                     <div class="___cert_item_title"><a href="/courses/<?php echo $___postsDat[$i]->post_name;?>"><?php echo $___postsDat[$i]->post_title;?></a></div>
                                                                     <div class="___course_date">
-                                                                        <i class="_ic_date"></i> <span>31/07/2022</span>
+                                                                        <?php if($_tutor_course_start_date){?>
+																		<i class="_ic_date"></i> <span><?php echo $_tutor_course_start_date;?></span>
+																		<?php
+																			}
+																		?>
+
 
                                                                         <?php 
                                                                         $prices = array(
@@ -260,6 +284,9 @@ $args = array(
                                 if($url_img == "") {
                                     $url_img = get_template_directory_uri() . "/dist/img/img_default.jpg";
                                 }
+								$courses_categories = get_the_terms($course->ID,'course-category');
+								$courses_category_first = ($courses_categories && count($courses_categories))?$courses_categories[0]->name:'Uncategory';
+								$_tutor_course_start_date = get_post_meta( $course->ID, '_tutor_course_start_date', true);
                         ?>
                         
                             <div class="col-md-3  __border_raiuds_6 __course_box">
@@ -267,14 +294,35 @@ $args = array(
                                 <div class="__wishlist"><a href="#"><i class="__ic_heart"></i></a></div>
                                 <div class="___cert_item_img"><img src="<?php echo $url_img;?>" alt=""></div>
                                 
-                                <span class="__txt_blur">Workshop - 011</span>
+                                <div class="tutor-d-flex">
+									<span class="__txt_blur"><?php echo $courses_category_first;?></span>
+									<?php
+										$children_ids = get_post_meta( $course->ID, '_tutor_course_children', true );
+										$children_ids_arr = array();
+										if($children_ids)
+											$children_ids_arr = explode(" ",trim($children_ids));
+										if (count($children_ids_arr)) {
+									?>
+											<div class="parent_course_icon" style="width:90%;text-align:right">
+												<span class="">
+													<i class="tutor-icon-layer-filled"></i>
+												</span>
+											</div>
+									<?php
+										}
+									?>
+								</div>
                                 <div class="___cert_item_title">
                                     <a href="/courses/<?php echo $course->post_name;?>">
                                         <?php echo esc_html( $course->post_title ); ?>
                                     </a>
                                 </div>
                                 <div class="___course_date">
-                                    <i class="_ic_date"></i> <span>31/07/2022</span>
+                                    <?php if($_tutor_course_start_date){?>
+																		<i class="_ic_date"></i> <span><?php echo $_tutor_course_start_date;?></span>
+																		<?php
+																			}
+																		?>
 
                                     <?php 
                                     $prices = array(

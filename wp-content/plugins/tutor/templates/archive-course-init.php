@@ -1,6 +1,17 @@
 <?php
 	do_action( 'tutor_course/archive/before_loop' );
-
+	
+	global $wp_query;
+	$found_courses = $wp_query->found_posts;
+	if(current_user_can('administrator') || current_user_can(tutor()->instructor_role)){
+?>
+		<div class="text-regular-caption tutor-color-black-60">
+			<?php esc_html_e( 'Found courses: ', 'tutor' ); ?>
+			<span class="tutor-fs-7 tutor-fw-medium tutor-color-black"><?php echo $found_courses; ?></span>
+		</div>
+<?php
+	}
+	
 if ( have_posts() ) :
 	/* Start the Loop */
 

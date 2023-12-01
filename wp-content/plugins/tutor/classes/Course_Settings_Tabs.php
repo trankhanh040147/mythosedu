@@ -83,9 +83,24 @@ class Course_Settings_Tabs{
 
         $filtered['general']['fields']['_tutor_course_settings[_tutor_grade_point_average]'] = array(
             'type'        => 'text',
-            'label'       => __('GPA', 'tutor'),
-            'value'     => number_format(tutor_utils()->get_course_settings(get_the_ID(), '_tutor_grade_point_average', 80), 2),
-            'desc'      => __('grade point average of course.', 'tutor'),
+            'label'       => __('Passing Grade (%)', 'tutor'),
+            'value'     => number_format(tutor_utils()->get_course_settings(get_the_ID(), '_tutor_grade_point_average', 80), 0),
+            'desc'      => __('Passing Grade of course.', 'tutor'),
+        );
+		
+		$_tutor_show_feedback = get_post_meta(get_the_ID(), '_tutor_show_feedback', true);
+        $feedback_enabled = 'no'===$_tutor_show_feedback ?  false : true;
+        
+        $filtered['general']['fields']['_tutor_show_feedback'] = array(
+            'type'        => 'toggle_switch',
+            'label'       => __('Show Feedback', 'tutor'),
+            'options'	  => array(
+                array(
+                    'checked' => $feedback_enabled,
+                    'value' => 'yes',
+                    'hint' => __('Hide/Show Feedback section for your course', 'tutor')
+                )
+            )
         );
 
         return $filtered;

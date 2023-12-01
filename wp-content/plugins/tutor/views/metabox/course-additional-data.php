@@ -4,6 +4,7 @@ $course_id = get_the_ID();
 // Extract: $duration, $durationHours, $durationMinutes, $durationSeconds
 extract( tutor_utils()->get_course_duration( $course_id, true ) );
 
+$speaker           = get_post_meta( $course_id, '_tutor_course_speaker', true );
 $benefits          = get_post_meta( $course_id, '_tutor_course_benefits', true );
 $requirements      = get_post_meta( $course_id, '_tutor_course_requirements', true );
 $target_audience   = get_post_meta( $course_id, '_tutor_course_target_audience', true );
@@ -12,6 +13,13 @@ $material_includes = get_post_meta( $course_id, '_tutor_course_material_includes
 
 
 <?php do_action( 'tutor_course_metabox_before_additional_data' ); ?>
+
+<div class="tutor-mb-32">
+    <label class="text-medium-body tutor-font-size-16 color-text-primary">
+        <?php _e( 'Speaker', 'tutor' ); ?>
+    </label>
+    <input class="tutor-form-control tutor-mb-4" type="text" value="<?php echo $speaker; ?>" name="tutor_course_speaker">
+</div>
 
 <div class="tutor-mb-32">
     <label class="text-medium-body tutor-font-size-16 color-text-primary">

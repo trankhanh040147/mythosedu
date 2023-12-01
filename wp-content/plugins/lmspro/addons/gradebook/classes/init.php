@@ -128,6 +128,13 @@ class init {
 							'default' => '4.0',
 							'desc'    => __( 'Insert the highest limit of grade point out of which the final results will be calculated', 'tutor-pro' ),
 						),
+						array(
+							'key'     => 'grade_category',
+							'type'    => 'textarea',
+							'label'   => __( 'List of defined grade categories', 'tutor-pro' ),
+							'placeholder' => 'Mini Test 1&#13;Mini Test 2&#13;Quiz',
+							'desc'    => __( 'name (one per line)', 'tutor-pro' ),
+						),
 					),
 				),
 			),

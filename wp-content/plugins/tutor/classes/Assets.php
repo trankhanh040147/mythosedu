@@ -200,7 +200,7 @@ class Assets {
 		global $post;
 
 		if ( is_admin() ) {
-			if ( ! empty( $_GET['taxonomy'] ) && ( $_GET['taxonomy'] === 'course-category' || $_GET['taxonomy'] === 'course-tag' ) ) {
+			if ( ! empty( $_GET['taxonomy'] ) && ( $_GET['taxonomy'] === 'course-category' || $_GET['taxonomy'] === 'course-tag' || $_GET['taxonomy'] === 'course-level' ) ) {
 				$localize_data['open_tutor_admin_menu'] = true;
 			}
 		} else {
@@ -425,7 +425,19 @@ class Assets {
 				}
 			}
 		}
+		$tutor_frontend_main_class = tutor_utils()->get_option( 'tutor_frontend_main_class' );
 
+		if ( $tutor_frontend_main_class ) {
+			$to_add[] = $tutor_frontend_main_class;
+		}
+		
+		 if( is_user_logged_in() ) {
+			 $currentuser = wp_get_current_user();
+			 $currentroles = ( array ) $currentuser->roles;
+			 foreach($currentroles as $cr){
+				 $to_add[] = "tutor_current_role_".$cr;				 
+			 }
+		 }
 		// Remove duplicate classes if any
 		$to_add = array_unique($to_add);
 

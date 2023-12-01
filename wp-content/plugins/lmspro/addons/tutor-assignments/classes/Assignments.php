@@ -93,7 +93,7 @@ class Assignments {
 	public function frontend_dashboard_nav_items( $nav_items ) {
 		$nav_items['assignments'] = array(
 			'title'    => __( 'Assignments', 'tutor-pro' ),
-			'icon'     => 'tutor-icon-assignment',
+			'icon'     => 'tutor-icon-fav-full-filled',
 			'auth_cap' => tutor()->instructor_role,
 		);
 		return $nav_items;

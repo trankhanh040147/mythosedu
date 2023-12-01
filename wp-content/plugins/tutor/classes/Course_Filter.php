@@ -24,7 +24,7 @@ class Course_Filter {
 
 		$page             = ( isset( $_post['page'] ) && is_numeric( $_post['page'] ) && $_post['page'] > 0 ) ? sanitize_text_field( $_post['page'] ) : 1;
 		$args = array(
-			'post_status'    => 'publish',
+			'post_status'    => array('publish'),
 			'post_type'      => 'courses',
 			/* 'meta_query' =>  [
 									'relation' => 'OR',
@@ -107,7 +107,7 @@ class Course_Filter {
 							
 		$user_id = get_current_user_id();
 		$vus_member = nl2br( strip_tags( get_user_meta( $user_id, '_tutor_vus_member', true ) ) );
-		$vus_member	= $vus_member ? $vus_member : 'External';
+		$vus_member	= $vus_member ? $vus_member : 'Internal';
 		/* if($vus_member=='Internal'){
 			$level_price[] = array(
 								'relation' => 'OR',
@@ -137,8 +137,8 @@ class Course_Filter {
 		
 		
 		$search_key              = sanitize_text_field( tutils()->array_get( 'keyword', $_post, null ) );
-		$search_key ? $args['s'] = $search_key : 0;
-
+		$search_key ? $args['search_filter'] = $search_key : 0;
+		$args['not_draft_search'] = 'Auto Draft';
 		if ( isset( $_post['tutor_course_filter'] ) ) {
 			switch ( $_post['tutor_course_filter'] ) {
 				case 'newest_first':

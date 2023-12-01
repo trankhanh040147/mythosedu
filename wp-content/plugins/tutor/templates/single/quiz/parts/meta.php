@@ -80,7 +80,7 @@
 				<input type="hidden" value="<?php echo $quiz_id; ?>" name="quiz_id"/>
 				<input type="hidden" value="tutor_start_quiz" name="tutor_action"/>
 
-				<button type="submit" class="tutor-btn tutor-btn-md reattempt-btn" name="start_quiz_btn" value="start_quiz">
+				<button id="reattemptbtn" style="display:none" type="submit" class="tutor-btn tutor-btn-md reattempt-btn" name="start_quiz_btn" value="start_quiz">
 					<?php esc_html_e( 'Reattempt', 'tutor' ); ?>
 				</button>
 			</form>

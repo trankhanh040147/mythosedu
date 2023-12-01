@@ -264,7 +264,36 @@ final class Tutor {
 	/**
 	 * Do some task during plugin activation
 	 */
-	public static function tutor_activate() {
+	public static function tutor_activate() {		
+		global $wpdb;
+		$database_name  = $wpdb->dbname;
+		
+		//add column posts.tqm_course_code
+		$table_posts  = $wpdb->prefix."posts";
+		$column_tqm_course_code  = "tqm_course_code";
+		
+		$result_tqm =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_posts."` LIKE '".$column_tqm_course_code."'");
+		if(empty($result_tqm))
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_posts."` ADD `".$column_tqm_course_code."` VARCHAR(100) default '';"));
+		
+		//add column users.Branch_ID,users.Branch_Name,users.Manage_Branchs,
+		$table_users  = $wpdb->prefix."users";
+		$result_ID =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_ID'");
+		if(empty($result_ID))
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Branch_ID` VARCHAR(20) default '';"));
+		
+		$result_Name =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_Name'");
+		if(empty($result_Name))
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Branch_Name` VARCHAR(100) default '';"));
+		
+		$result_Manage =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Branchs'");
+		if(empty($result_Manage))
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Manage_Branchs` VARCHAR(255) default '';"));
+		
+		$result_ManageUsers =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Users'");
+		if(empty($result_ManageUsers))
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Manage_Users` VARCHAR(1000) default '';"));
+
 		$version = get_option( 'tutor_version' );
 		if ( ! function_exists( 'tutor_time' ) ) {
 			include tutor()->path . 'includes/tutor-general-functions.php';
@@ -330,7 +359,32 @@ final class Tutor {
 	}
 
 	// Run task on deactivation
-	public static function tutor_deactivation() {
+	public static function tutor_deactivation() {		
+		global $wpdb;
+		$database_name  = $wpdb->dbname;
+		
+		$table_name  = $wpdb->prefix."posts";
+		$column_name  = "tqm_course_code";		
+		$result_tqm =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_name."` LIKE '".$column_name."'");
+		if($result_tqm)
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_name."` DROP `".$column_name."` ;"));
+		
+		$table_users  = $wpdb->prefix."users";
+		$result_ID =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_ID'");
+		if($result_ID)
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Branch_ID` ;"));
+		
+		$result_Name =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_Name'");
+		if($result_Name)
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Branch_Name` ;"));
+		
+		$result_Manage =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Branchs'");
+		if($result_Manage)
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Manage_Branchs` ;"));
+		
+		$result_ManageUsers =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Users'");
+		if($result_ManageUsers)
+			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Manage_Users` ;"));
 		wp_clear_scheduled_hook( 'tutor_once_in_day_run_schedule' );
 	}
 

@@ -199,6 +199,9 @@ class Lesson extends Tutor_Base {
 
 			if ( $lesson_id ) {
 				do_action( 'tutor/lesson/created', $lesson_id );
+				// Now save quiz settings
+				$h5p_option = tutor_utils()->sanitize_array( $_POST['h5p_option'] );
+				update_post_meta($lesson_id, 'tutor_h5p_option', $h5p_option);
 			} else {
 				wp_send_json_error( array( 'message' => __( 'Couldn\'t create lesson.', 'tutor' ) ) );
 			}
@@ -207,6 +210,10 @@ class Lesson extends Tutor_Base {
 
 			do_action( 'tutor/lesson_update/before', $lesson_id );
 			wp_update_post( $lesson_data );
+			
+			$h5p_option = tutor_utils()->sanitize_array( $_POST['h5p_option'] );
+			update_post_meta($lesson_id, 'tutor_h5p_option', $h5p_option);
+			
 			if ( $_lesson_thumbnail_id ) {
 				update_post_meta( $lesson_id, '_thumbnail_id', $_lesson_thumbnail_id );
 			} else {

@@ -143,6 +143,29 @@ $max_filesize = floatval(ini_get('upload_max_filesize')) * (1024 * 1024);
 				<input class="tutor-form-control" type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" name="phone_number" value="<?php esc_html_e( filter_var( get_user_meta( $user->ID, 'phone_number', true ), FILTER_SANITIZE_NUMBER_INT ) ); ?>" placeholder="<?php esc_attr_e( 'Phone Number', 'tutor' ); ?>">
 			</div>
 		</div>
+		<div class="tutor-row">
+			<div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-12 tutor-col-lg-6 tutor-mb-32">
+				<label class="tutor-form-label tutor-color-black-60">
+					<?php esc_html_e( 'Gender', 'tutor' ); ?>
+				</label>
+				<?php 
+					$_tutor_gender = esc_attr( get_user_meta( $user->ID, '_tutor_gender', true ) ); 
+					if(!$_tutor_gender) $_tutor_gender = 'Others';
+				?>
+				<select name="_tutor_gender" id="tutor_gender" class="tutor-form-select">
+					<option value="Male" <?php if($_tutor_gender=='Male') echo 'selected="selected"';?>>Male</option>
+					<option value="Female" <?php if($_tutor_gender=='Female') echo 'selected="selected"';?>>Female</option>
+					<option value="Others" <?php if($_tutor_gender=='Others') echo 'selected="selected"';?>>Others</option>
+				</select>
+			</div>
+
+			<div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-12 tutor-col-lg-6 tutor-mb-32">
+				<label class="tutor-form-label tutor-color-black-60">
+					<?php esc_html_e( 'D.O.B', 'tutor' ); ?>
+				</label>
+				<input class="tutor-form-control" type="date" name="_tutor_age" value="<?php esc_html_e( get_user_meta( $user->ID, '_tutor_age', true )); ?>" placeholder="<?php esc_attr_e( 'Age', 'tutor' ); ?>">
+			</div>
+		</div>
 
 		<div class="tutor-row">
 			<div class="tutor-col-12 tutor-mb-32">
@@ -182,6 +205,7 @@ $max_filesize = floatval(ini_get('upload_max_filesize')) * (1024 * 1024);
 				</div>
 			</div>
 		</div>
+		<!-- 
 		<div class="tutor-row">
 			<div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-12 tutor-col-lg-6 tutor-mb-32">
 				<label class="tutor-form-label tutor-color-black-60">
@@ -190,7 +214,7 @@ $max_filesize = floatval(ini_get('upload_max_filesize')) * (1024 * 1024);
 				</label>
 				<?php 
 				$_tutor_vus_member = esc_attr( get_user_meta( $user->ID, '_tutor_vus_member', true ) ); 
-				if(!$_tutor_vus_member) $_tutor_vus_member = 'External';
+				if(!$_tutor_vus_member) $_tutor_vus_member = 'Internal';
 				?>
 				<select class="tutor-form-select" name="_tutor_vus_member" id="tutor_vus_member">
 					<option value="Internal" <?php if($_tutor_vus_member=='Internal') echo 'selected="selected"';?>>Internal</option>
@@ -198,6 +222,7 @@ $max_filesize = floatval(ini_get('upload_max_filesize')) * (1024 * 1024);
 				</select>
 			</div>
 		</div>
+		-->
 		<?php do_action( 'tutor_profile_edit_input_after', $user ); ?>
 
 		<div class="tutor-row">

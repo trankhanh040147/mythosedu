@@ -31,4 +31,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 		</div>
     </div>
+	<?php
+		$children_ids = get_post_meta( get_the_ID(), '_tutor_course_children', true );
+		$children_ids_arr = array();
+		if($children_ids)
+			$children_ids_arr = explode(" ",trim($children_ids));
+		if (count($children_ids_arr)) {
+	?>
+		<div class="parent_course_icon" style="width:90%;text-align:right">
+			<span class="">
+				<i class="tutor-icon-layer-filled"></i>
+			</span>
+		</div>
+	<?php
+		}
+	?>
 </div>

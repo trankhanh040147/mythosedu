@@ -857,6 +857,22 @@ class Options_V2
 								),
 								'desc'    => __('Choose preferred filter options you\'d like to show on the course archive page.', 'tutor'),
 							),
+							array(
+								'key'     => 'tutor_frontend_main_class',
+								'type'  => 'text',
+								'label' => __( 'Main Class', 'tutor' ),
+								'default' => 'tutor_custom_class',
+								'desc'  => __('Define classname to edit in theme stylesheet','tutor'),
+							),
+							array(
+								'key'     => 'tutor_frontend_background_image_custom',
+								'type'  => 'upload_bg',
+								'label' => __( 'Main Background Image', 'tutor' ),
+								'desc'  => __(
+									'<p>Size: <strong>1920 x 1080 pixels;</strong> File Support:<strong>jpg, .jpeg or .png.</strong></p>',
+									'tutor'
+								)
+							),
 						),
 					),
 					'layout'          => array(

@@ -583,13 +583,335 @@ class Utils {
 			FROM 	{$wpdb->posts}
 			WHERE 	post_status IN ({$post_status})
 					AND ID NOT IN('$exclude_query')
-					AND post_type = %s;
+					AND post_type = %s  AND (post_title NOT LIKE '%Auto Draft%') ;
 			",
 				$course_post_type
 			)
 		);
 
 		return $query;
+	}
+	
+	public function get_user_manage_users_total_count($user_id) {
+		global $wpdb;
+		$entry = $wpdb->get_row( "SELECT Manage_Users FROM {$wpdb->users} 
+									WHERE ID = {$user_id}");
+		$manage_users = "";
+		if (isset($entry)){					
+			$manage_users =  $entry->Manage_Users;
+		}
+		//if(!$manage_users) return 0;
+		$manage_users_arr = explode(",",$manage_users);
+		//return count($manage_users_arr);
+		
+		$manage_branchs = $this->get_user_manage_branchs($user_id);
+		if(!$manage_branchs) return count($manage_users_arr);
+		
+		$manage_branchs_arr = explode(",",$manage_branchs);
+		$manage_branchs_arr_new = array();
+		if(count($manage_branchs_arr)){
+			foreach($manage_branchs_arr as $br){
+				$manage_branchs_arr_new[] = "'".$br."'";
+			}
+			$manage_branchs_new = implode(',',$manage_branchs_arr_new);
+		}
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT distinct ID
+			FROM 	{$wpdb->users}
+			WHERE Branch_ID IN ({$manage_branchs_new})
+			"
+			)
+		);
+		$res=array();
+		if(isset($query)){
+			foreach($query as $q){
+				$res[]=$q->ID;
+			}
+		}
+			
+		return count(array_unique(array_merge($manage_users_arr,$res)));
+		
+	}
+	
+	public function get_branchs( ) {
+		global $wpdb;
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT Branch_ID,
+					Branch_Name
+			FROM 	{$wpdb->users}
+			WHERE Branch_ID <>''
+				AND Branch_Name <>''
+			"
+			)
+		);
+		$branchs = _BRANCHS_;
+		if(isset($query)){
+			foreach ($query as $branch){
+				$branchs[$branch->Branch_ID]=$branch->Branch_Name;		        
+	        }
+		}
+		return $branchs;
+	}
+	
+	public function get_user_manage_branchs($user_id) {
+		global $wpdb;
+		$entry = $wpdb->get_row( "SELECT Manage_Branchs FROM {$wpdb->users} 
+									WHERE ID = {$user_id}");
+		if (isset($entry)){					
+			return $entry->Manage_Branchs;
+		}
+		return "";
+	}
+	
+	public function get_user_manage_users($user_id) {
+		global $wpdb;
+		$entry = $wpdb->get_row( "SELECT Manage_Users FROM {$wpdb->users} 
+									WHERE ID = {$user_id}");
+		if (isset($entry)){					
+			return $entry->Manage_Users;
+		}
+		return "";
+	}
+	
+	public function get_user_manage_branchs_total_count($user_id) {
+		global $wpdb;
+		$manage_branchs = $this->get_user_manage_branchs($user_id);
+		if(!$manage_branchs) return 0;
+		$manage_branchs_arr = explode(",",$manage_branchs);
+		return count($manage_branchs_arr);
+	}
+	public function get_user_manage_branchs_name($manage_branchs) {
+		global $wpdb;
+		if(!$manage_branchs) return "";
+		$manage_branchs_arr = explode(",",$manage_branchs);
+		$manage_branchs_arr_new = array();
+		$res=array();
+		if(count($manage_branchs_arr)){
+			foreach($manage_branchs_arr as $br){
+				if (array_key_exists($br, _BRANCHS_)) {
+					$res[]=_BRANCHS_[$br];
+				}
+				$manage_branchs_arr_new[] = "'".$br."'";
+			}
+			$manage_branchs_new = implode(',',$manage_branchs_arr_new);
+		}
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT Branch_Name
+			FROM 	{$wpdb->users}
+			WHERE Branch_ID IN ({$manage_branchs_new})
+			"
+			)
+		);
+		
+		if(isset($query)){
+			foreach($query as $q){
+				if(!in_array($q->Branch_Name,$res))
+					$res[]=$q->Branch_Name;
+			}
+		}
+			
+		return implode(', ',$res);
+	}
+	
+	public function get_user_manage_users_name($manage_users) {
+		global $wpdb;
+		if(!$manage_users) return "";
+		
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT display_name
+			FROM 	{$wpdb->users}
+			WHERE ID IN ({$manage_users})
+			"
+			)
+		);
+		
+		if(isset($query)){
+			foreach($query as $q){
+				$res[]=$q->display_name;
+			}
+		}
+			
+		return implode(', ',$res);
+	}
+	
+	public function get_user_manage_branchs_all($user_id, $offset, $per_page) {
+		global $wpdb;
+		$manage_branchs = $this->get_user_manage_branchs($user_id);
+		if(!$manage_branchs) return null;
+		
+		$manage_branchs_arr = explode(",",$manage_branchs);
+		$manage_branchs_arr_new = array();
+		$res=array();
+		
+		if(count($manage_branchs_arr)){
+			foreach($manage_branchs_arr as $br){
+				foreach($manage_branchs_arr as $br){
+					if (array_key_exists($br, _BRANCHS_)) {
+						$res[$br]=_BRANCHS_[$br];
+					}
+					$manage_branchs_arr_new[] = "'".$br."'";
+				}
+				$manage_branchs_arr_new[] = "'".$br."'";
+			}
+			$manage_branchs_new = implode(',',$manage_branchs_arr_new);
+		}
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT distinct Branch_ID,Branch_Name 
+			FROM 	{$wpdb->users} 
+			WHERE Branch_ID IN ({$manage_branchs_new}) 			
+			ORDER BY Branch_ID	 
+			LIMIT {$offset}, {$per_page}  
+			"
+			)
+		);
+		if(isset($query)){
+			foreach($query as $q){
+				if(!in_array($q->Branch_ID,$res))
+					$res[$q->Branch_ID]=$q->Branch_Name;
+			}
+		}
+		return $res;
+	}
+	public function get_courses_for_staff($user_id) {
+		global $wpdb;
+		$manage_users_arr = $this->get_user_manage_students_all($user_id, 0, 1000);
+		$manage_users_new = "";
+		if(count($manage_users_arr)){
+			foreach($manage_users_arr as $us){
+				$manage_users_arr_new[] = "'".$us['ID']."'";
+			}
+			$manage_users_new = implode(',',$manage_users_arr_new);
+		}
+		$query_courses = $wpdb->get_results(
+			$wpdb->prepare(
+			"SELECT distinct p2.* 
+			FROM 	{$wpdb->posts} p1
+			INNER JOIN {$wpdb->posts} p2
+			ON p1.post_parent = p2.ID 
+			WHERE p1.post_author IN ({$manage_users_new}) 
+			ORDER BY ID DESC
+			"
+			)
+		);
+		return $query_courses;
+	}
+	public function get_students_for_course($course_id,$user_id) {
+		global $wpdb;
+		$manage_users_arr = $this->get_user_manage_students_all($user_id, 0, 1000);
+		$manage_users_new = "";
+		if(count($manage_users_arr)){
+			foreach($manage_users_arr as $us){
+				$manage_users_arr_new[] = "'".$us['ID']."'";
+			}
+			$manage_users_new = implode(',',$manage_users_arr_new);
+		}
+		
+		$where_manage = (current_user_can( 'administrator' ))?'': "AND student.id IN ({$manage_users_new}) ";
+		$student_data = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT student.*,enrol.post_modified enrolled_at
+			FROM   	{$wpdb->posts} enrol
+					INNER JOIN {$wpdb->users} student
+						    ON enrol.post_author = student.id
+			WHERE  	enrol.post_type = %s
+					AND enrol.post_parent = %d
+					AND enrol.post_status = %s
+					{$where_manage}   
+			ORDER BY enrol.post_modified DESC		
+					;
+			",
+				'tutor_enrolled',
+				$course_id,
+				'completed'
+			),ARRAY_A
+		);
+
+		return $student_data;
+	}
+	public function get_user_manage_students_all($user_id, $offset, $per_page) {
+		global $wpdb;
+		$entry_u = $wpdb->get_row( "SELECT Manage_Users FROM {$wpdb->users} 
+									WHERE ID = {$user_id}");
+		
+		$manage_users_new = "";
+		if (isset($entry_u)){
+			$manage_users =  $entry_u->Manage_Users;
+			$manage_users_arr = explode(",",$manage_users);
+			$manage_usres_arr_new = array();
+			if(count($manage_users_arr)){
+				foreach($manage_users_arr as $us){
+					$manage_users_arr_new[] = "'".$us."'";
+				}
+				$manage_users_new = implode(',',$manage_users_arr_new);
+			}			
+		}
+		$manage_branchs_new = "";
+		$query_users_in_branchs = array();
+		$manage_branchs = $this->get_user_manage_branchs($user_id);
+		if($manage_branchs){
+			$manage_branchs_arr = explode(",",$manage_branchs);
+			$manage_branchs_arr_new = array();
+			if(count($manage_branchs_arr)){
+				foreach($manage_branchs_arr as $br){
+					$manage_branchs_arr_new[] = "'".$br."'";
+				}
+				$manage_branchs_new = implode(',',$manage_branchs_arr_new);
+			}
+		}
+		
+		if(!$manage_users_new && ! $manage_branchs_new)
+			return null;
+		elseif($manage_users_new && ! $manage_branchs_new)
+			$str_cond = " WHERE ID IN ({$manage_users_new}) ";
+		elseif(!$manage_users_new &&  $manage_branchs_new)
+			$str_cond = " WHERE Branch_ID IN ({$manage_branchs_new}) ";
+		elseif($manage_users_new &&  $manage_branchs_new)
+			$str_cond = " WHERE ID IN ({$manage_users_new})  
+							OR  Branch_ID IN ({$manage_branchs_new}) ";	
+			
+		$query_users = $wpdb->get_results(
+			$wpdb->prepare(
+			"SELECT distinct * 
+			FROM 	{$wpdb->users} 
+			".$str_cond." 
+			ORDER BY ID 
+			LIMIT {$offset}, {$per_page} 
+			"
+			),ARRAY_A
+		);
+		return $query_users;
+	}
+	
+	public function get_students_all($cid='',$offset=0, $per_page=0) {
+		global $wpdb;
+		$users_all = get_users( array('role'    => 'subscriber'));
+		$users_new = "";
+		$usres_arr_new = array();
+		foreach ( $users_all as $user ) {
+			 $users_arr_new[] = "'".$user->ID."'";
+		}	
+		$users_new = implode(',',$users_arr_new);
+		$str_cond = " WHERE 1 ";
+		if($users_new)
+			$str_cond.= " AND ID IN ({$users_new}) ";
+		if($cid)
+			$str_cond.= " AND Branch_ID = '{$cid}' ";
+		if($per_page){$str_limit = " LIMIT {$offset}, {$per_page} ";}
+		$query_users = $wpdb->get_results(
+			$wpdb->prepare(
+			"SELECT distinct * 
+			FROM 	{$wpdb->users} 
+			".$str_cond." 
+			ORDER BY ID 
+			".$str_limit.""
+			),ARRAY_A
+		);
+		return $query_users;
 	}
 
 	/**
@@ -612,6 +934,22 @@ class Utils {
 			array(
 				'post_type'      => $course_post_type,
 				'author'         => $instructor_id,
+				'post_status'    => array( 'publish', 'pending' ),
+				'posts_per_page' => 5,
+			)
+		);
+
+		return $courses;
+	}
+	public function get_courses_for_instructors_admin_role( $instructor_id = 0 ) {
+		global $wpdb;
+
+		$course_post_type = tutor()->course_post_type;
+
+		global $current_user;
+		$courses = get_posts(
+			array(
+				'post_type'      => $course_post_type,
 				'post_status'    => array( 'publish', 'pending' ),
 				'posts_per_page' => 5,
 			)
@@ -644,7 +982,8 @@ class Utils {
 				'orderby'          => 'date',
 				'order'            => 'DESC',
 				'exclude'          => $exclude_courses,
-				'posts_per_page' => $limit,
+				'posts_per_page' => $limit,				
+				'not_draft_search' 	=> 'Auto Draft',
 			)
 		);
 
@@ -692,11 +1031,12 @@ class Utils {
 									  'value' => ''
 									]
 								 ],//NhatHuy: explore course - display only parent course
-				'post_status'    => array( 'publish' ),
-				'orderby'          => 'date',
-				'order'            => 'DESC',
-				'exclude'          => $exclude_course,
-				'posts_per_page' => $limit,
+				'post_status'    	=> array( 'publish' ),
+				'orderby'          	=> 'date',
+				'order'            	=> 'DESC',
+				'exclude'         	=> $exclude_course,
+				'posts_per_page' 	=> $limit,
+				'not_draft_search' 	=> 'Auto Draft',
 			)
 		);
 
@@ -798,6 +1138,39 @@ class Utils {
 			",
 				$instructor_id,
 				'_tutor_instructor_course_id',
+				$course_post_type,
+				$offset,
+				$limit
+			),
+			OBJECT
+		);
+
+		return $pageposts;
+	}
+	
+	public function get_courses_by_instructor_admin_role( $instructor_id = 0, $post_status = array( 'publish' ), int $offset = 0, int $limit = PHP_INT_MAX ) {
+		global $wpdb;
+		$offset           = sanitize_text_field( $offset );
+		$limit            = sanitize_text_field( $limit );
+		
+		$course_post_type = tutor()->course_post_type;
+
+		if ( $post_status === 'any' ) {
+			$where_post_status = '';
+		} else {
+			$post_status       = (array) $post_status;
+			$statuses          = "'" . implode( "','", $post_status ) . "'";
+			$where_post_status = "AND $wpdb->posts.post_status IN({$statuses}) ";
+		}
+
+		$pageposts = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT $wpdb->posts.*
+			FROM 	$wpdb->posts 			
+			WHERE	1 = 1 {$where_post_status}
+					AND $wpdb->posts.post_type = %s
+			ORDER BY $wpdb->posts.post_date DESC LIMIT %d, %d;
+			",
 				$course_post_type,
 				$offset,
 				$limit
@@ -1006,6 +1379,7 @@ class Utils {
 		$course_contents  = tutor_utils()->get_course_contents_by_id( $course_id );
 		$totalContents    = $this->count( $course_contents );
 		$totalContents    = $totalContents ? $totalContents : 0;
+		//$totalContents+=1;	//auto+ 1 to add false quiz
 		$completedCount   = $completed_lesson;
 		if ( tutor_utils()->count( $course_contents ) ) {
 			foreach ( $course_contents as $content ) {
@@ -1036,7 +1410,7 @@ class Utils {
 		$percent_complete = 0;
 
 		if ( $totalContents > 0 && $completedCount > 0 ) {
-			$percent_complete = number_format( ( $completedCount * 100 ) / $totalContents );
+			$percent_complete = number_format( ( $completedCount * 100 ) / ($totalContents+1) );
 		}
 
 		if ( $get_stats ) {
@@ -2146,7 +2520,7 @@ class Utils {
 
 		$course_ids = (array) $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT comment_post_ID AS course_id
+				"SELECT distinct comment_post_ID AS course_id
 			FROM 	{$wpdb->comments}
 			WHERE 	comment_agent = %s
 					AND comment_type = %s
@@ -2160,6 +2534,23 @@ class Utils {
 		);
 
 		return $course_ids;
+	}
+	
+	public function get_earned_marks( $course_id =0, $user_id = 0 ) {
+		global $wpdb;
+
+		$user_id = $this->get_user_id( $user_id );
+		$entry = $wpdb->get_row( "SELECT cmm.meta_value FROM ".$wpdb->comments." cm LEFT JOIN ".$wpdb->commentmeta." cmm  
+									ON  cm.comment_ID = cmm.comment_id   
+									WHERE cm.comment_post_ID = '" . $course_id . "'   
+										AND cm.comment_author = '" . $user_id . "'  
+										AND cmm.meta_key = 'earned_marks' "); 
+		
+		if (isset($entry)){					
+			$earned_marks = $entry->meta_value;
+		}
+
+		return $earned_marks;
 	}
 
 	/**
@@ -2357,12 +2748,19 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 				$child_courses = array_intersect($children_ids_arr,$active_courses);
 				$num_child = count($child_courses);
 				if($num_child)
-					foreach($child_courses as $cid){
-						$ii+=1;
+					foreach($child_courses as $key=>$cid){
+							$post_child   = get_post( $cid );
+							if(!$post_child) {unset($child_courses[$key]);continue;}
+					}
+				$num_child = count($child_courses);
+				if($num_child)
+					foreach($child_courses as $key=>$cid){
 						//if(in_array($cid, $active_courses)){
 							$post_child   = get_post( $cid );
-							if($ii==1) $post_child->firstsub = $ii;
-							if($ii==$num_child) $post_child->lastsub = $ii;
+							if(!$post_child)  continue;
+							$ii+=1;
+							if($ii==1) {$post_child->firstsub = $ii;$post->firstchild=$cid;}
+							if ($key === array_key_last($child_courses))  $post_child->lastsub = $key;
 							$post_child->rowadd = $post->ID;
 							$post_child->subchild = '_'.str_pad($ii, 3, '0', STR_PAD_LEFT).'_';
 							$key = $post_child->rowadd.$post_child->subchild.$cid;
@@ -2380,6 +2778,196 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 			
 			ksort( $learning_posts );
 			//var_dump($sort_ancestors_posts);
+			
+			return $learning_posts; 
+
+		};
+
+		return false;
+	}
+	
+	//parent course percents
+	public function parent_course_percents(  $course_id, $user_id = 0 ) {
+		$user_id             = $this->get_user_id( $user_id );
+		$children_ids = get_post_meta( $course_id, '_tutor_course_children', true );
+		if(!$children_ids) return "notparent"; 
+		$children_ids_arr = explode(" ",$children_ids);
+		if(!count($children_ids_arr)) return "notparent";
+
+		$enrolled_courses_ids_by_user	= $this->get_enrolled_courses_ids_by_user( $user_id );
+		$enrolled_childs 				= array_intersect($children_ids_arr,$enrolled_courses_ids_by_user);
+		if(!count($enrolled_childs)) return "notparent";
+
+		$completed_courses_ids_by_user  = $this->get_completed_courses_ids_by_user( $user_id );
+		$completed_childs 				= array_intersect($children_ids_arr,$completed_courses_ids_by_user);
+		$percentage = number_format((count($completed_childs)/ count($enrolled_childs))*100);
+						global $wpdb;
+						$table_comments = $wpdb->prefix . 'comments';
+						$is_completed_course_parent = $this->is_completed_course( $course_id );
+						if($percentage>=100 && !$is_completed_course_parent){
+							$date = date( 'Y-m-d H:i:s', tutor_time() );
+							$wpdb->insert( $table_comments, array(
+																'comment_post_ID'  => $course_id,
+																'comment_author'   => $user_id,
+																'comment_date'     => $date,
+																'comment_date_gmt' => get_gmt_from_date( $date ),
+																'comment_content'  => $date,
+																'comment_approved' => 'approved',
+																'comment_agent'    => 'TutorLMSPlugin',
+																'comment_type'     => 'course_completed',
+																'user_id'          => $user_id,
+															) );
+						}
+		return $percentage;
+	}
+	public function get_active_courses_by_user_learning_parent( $user_id = 0, $offset = 0, $posts_per_page = -1 ) {
+		$user_id             = $this->get_user_id( $user_id );
+		$course_ids          = $this->get_completed_courses_ids_by_user( $user_id );
+		$enrolled_course_ids = $this->get_enrolled_courses_ids_by_user( $user_id );
+		$active_courses      = array_diff( $enrolled_course_ids, $course_ids );
+
+		if ( count( $active_courses ) ) {
+			$course_post_type = tutor()->course_post_type;
+			$course_args      = array(
+				'post_type'      => $course_post_type,
+				'meta_query' =>  [
+									'relation' => 'OR',
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => 'NOT EXISTS',
+									],
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => '=',
+									  'value' => ''
+									]
+								 ],
+				'post_status'    => 'publish',
+				'post__in'       => $active_courses,
+				'posts_per_page' => $posts_per_page,
+				'offset'         => $offset,
+			);
+
+			$normal_query = new \WP_Query( $course_args );
+			
+			$filtered_posts = $normal_query->posts;
+			
+			$learning_posts      = array();
+			$added_posts      = array();
+			foreach( $filtered_posts as $post ) {
+				//echo $post->ID;
+				$children_ids = get_post_meta( $post->ID, '_tutor_course_children', true );
+				$children_ids_arr = explode(" ",$children_ids);
+				$ii=0;
+				$post->rowadd = $post->ID;
+				$post->subchild ='';
+				$child_courses = array_intersect($children_ids_arr,$active_courses);
+				$num_child = count($child_courses);
+				/* if($num_child)
+					foreach($child_courses as $cid){
+						$ii+=1;
+						
+							$post_child   = get_post( $cid );
+							if($ii==1) {$post_child->firstsub = $ii;$post->firstchild=$cid;}
+							if($ii==$num_child) $post_child->lastsub = $ii;
+							$post_child->rowadd = $post->ID;
+							$post_child->subchild = '_'.str_pad($ii, 3, '0', STR_PAD_LEFT).'_';
+							$key = $post_child->rowadd.$post_child->subchild.$cid;
+							$learning_posts[$key] = $post_child;
+							$added_posts[$cid] = $cid; 						
+						
+					} */
+				if (!array_key_exists($post->ID, $added_posts)){
+					if($ii) $post->countsub = $ii;
+					$key = $post->rowadd.'---'; 
+					$learning_posts[$key] = $post; 
+					$added_posts[$post->ID] = $post->ID;
+				}					
+			}
+			
+			ksort( $learning_posts );
+			//var_dump($sort_ancestors_posts);
+			
+			return $learning_posts; 
+
+		};
+
+		return false;
+	}
+
+	public function get_completed_courses_by_user_learning( $user_id = 0, $offset = 0, $posts_per_page = -1 ) {
+		$user_id             = $this->get_user_id( $user_id );
+		//$active_courses      = $this->get_completed_courses_ids_by_user( $user_id );
+		$course_ids          = $this->get_completed_courses_ids_by_user( $user_id );
+		$enrolled_course_ids = $this->get_enrolled_courses_ids_by_user( $user_id );
+		$active_courses      = array_diff( $enrolled_course_ids, $course_ids );
+
+		if ( count( $enrolled_course_ids ) ) {
+			$course_post_type = tutor()->course_post_type;
+			$course_args      = array(
+				'post_type'      => $course_post_type,
+				'meta_query' =>  [
+									'relation' => 'OR',
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => 'NOT EXISTS',
+									],
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => '=',
+									  'value' => ''
+									]
+								 ],
+				'post_status'    => 'publish',
+				'post__in'       => $enrolled_course_ids,
+				'posts_per_page' => $posts_per_page,
+				'offset'         => $offset,
+			);
+
+			$normal_query = new \WP_Query( $course_args );
+			
+			$filtered_posts = $normal_query->posts;
+			
+			$learning_posts      = array();
+			$added_posts      = array();
+			foreach( $filtered_posts as $post ) {//var_dump($post);
+				//echo $post->ID;
+				$children_ids = get_post_meta( $post->ID, '_tutor_course_children', true );
+				$children_ids_arr = explode(" ",$children_ids);
+				$ii=0;
+				$post->rowadd = $post->ID;
+				$post->subchild ='';
+				$child_courses = array_intersect($children_ids_arr,$course_ids);
+				$num_child = count($child_courses);
+				if($num_child){
+					foreach($child_courses as $cid){
+						$ii+=1;
+						//if(in_array($cid, $active_courses)){
+							$post_child   = get_post( $cid );
+							if($ii==1) $post_child->firstsub = $ii;
+							if($ii==$num_child) $post_child->lastsub = $ii;
+							$post_child->rowadd = $post->ID;
+							$post_child->subchild = '_'.str_pad($ii, 3, '0', STR_PAD_LEFT).'_';
+							$key = $post_child->rowadd.$post_child->subchild.$cid;
+							$learning_posts[$key] = $post_child;
+							$added_posts[$cid] = $cid; 						
+						//}
+					}
+					if($ii) $post->countsub = $ii;
+					$key = $post->rowadd.'---'; 
+					$learning_posts[$key] = $post; 
+					$added_posts[$post->ID] = $post->ID;
+				}	
+				if (!array_key_exists($post->ID, $added_posts) && in_array($post->ID,$course_ids)){
+					if($ii) $post->countsub = $ii;
+					$key = $post->rowadd.'---'; 
+					$learning_posts[$key] = $post; 
+					$added_posts[$post->ID] = $post->ID;
+				}					
+			}
+			
+			ksort( $learning_posts );
+			//var_dump($learning_posts);
 			
 			return $learning_posts; 
 
@@ -2673,7 +3261,6 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		if ( ! $course_id ) {
 			return false;
 		}
-
 		do_action( 'tutor_before_enroll', $course_id );
 		$user_id = $this->get_user_id( $user_id );
 		$title   = __( 'Course Enrolled', 'tutor' ) . ' &ndash; ' . date( get_option( 'date_format' ) ) . ' @ ' . date( get_option( 'time_format' ) );
@@ -2761,6 +3348,165 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		}
 
 		return false;
+	}
+	
+	public function do_unenroll( $course_id = 0, $user_id = 0 ) {
+		if ( ! $course_id || !$user_id) {
+			return false;
+		}
+		global $wpdb;
+		if ( $this->is_enrolled( $course_id, $user_id ) ) {
+			$getEnrolledInfo = $wpdb->query(
+				$wpdb->prepare(
+					"DELETE 
+				FROM 	{$wpdb->posts}
+				WHERE 	post_type = %s
+						AND post_parent = %d
+						AND post_author = %d
+						AND post_status = %s;
+				",
+					'tutor_enrolled',
+					$course_id,
+					$user_id,
+					'completed'
+				)
+			);
+			return;
+		}
+	}
+	
+	//nhathuy-api-function
+	public function do_enroll_api( $course_id = 0, $tqm_course_code = "", $students, $staff_id = 0 ) {
+		global $wpdb;
+		if (!$course_id && $tqm_course_code) {
+			$table_name  = $wpdb->prefix."posts";
+			$column_name  = "tqm_course_code";
+			$entry = $wpdb->get_row( "SELECT * FROM ".$table_name." WHERE ".$column_name." = '" . $tqm_course_code . "'");
+			if (isset($entry)){					
+				$course_id = $entry->ID;
+			}
+		}
+		
+		if (!$course_id || empty($students)) {
+			return false;
+		}
+		$add_students_arr = explode( ";", $students );
+		$add_students_ids_arr = array();
+		$table_name_users  = $wpdb->prefix."users";	
+		if(count($add_students_arr)){
+			$total_enroll = 0;	
+			foreach($add_students_arr as $student){
+				$student_arr 			= explode( ",", $student );				
+				$student_email 			= isset($student_arr[0]) ? trim($student_arr[0]) : '';
+				$student_branch_id 		= isset($student_arr[1]) ? trim($student_arr[1]) : '';
+				$student_branch_name 	= isset($student_arr[2]) ? trim($student_arr[2]) : '';
+				$student_gender 		= isset($student_arr[3]) ? trim($student_arr[3]) : '';
+				$student_age 			= isset($student_arr[4]) ? trim($student_arr[4]) : '';
+				
+				if (filter_var($student_email, FILTER_VALIDATE_EMAIL)) {
+					$user_id_add = email_exists($student_email);
+					if ( !$user_id_add ){
+					    $user_data = array(
+							'user_login' => $student_email,
+							'user_email' => $student_email,
+							'role'       =>  'subscriber',
+							'user_pass'  => $student_email,
+						);
+
+						$user_id_add = wp_insert_user( $user_data );
+						
+						if ($user_id_add) {
+							update_user_meta( $user_id_add, '_tutor_vus_member', 'Internal' );
+							if($student_gender)	update_user_meta( $user_id_add, '_tutor_gender', $student_gender );
+							if($student_age)	update_user_meta( $user_id_add, '_tutor_age', $student_age );
+							$table_name_users  = $wpdb->prefix."users";
+							$wpdb->query( $wpdb->prepare("UPDATE $table_name_users 
+											SET Branch_ID = %s, Branch_Name = %s  
+											WHERE ID = %d",$student_branch_id,$student_branch_name, $user_id_add)
+								);
+						}
+				    }
+				    if ( $user_id_add ){
+						$add_students_ids_arr[] = strval($user_id_add);						
+					    $is_enrolled = tutor_utils()->is_enrolled( $course_id, $user_id_add );
+						if ( !$is_enrolled ) {
+							do_action( 'tutor_before_enroll', $course_id );
+							$title   = __( 'Course Enrolled', 'tutor' ) . ' &ndash; ' . date( get_option( 'date_format' ) ) . ' @ ' . date( get_option( 'time_format' ) );
+							$enroll_data = apply_filters(
+								'tutor_enroll_data',
+								array(
+									'post_type'   => 'tutor_enrolled',
+									'post_title'  => $title,
+									'post_status' => 'completed',
+									'post_author' => $user_id_add,
+									'post_parent' => $course_id,
+								)
+							);
+
+							// Insert the post into the database
+							$isEnrolled = wp_insert_post( $enroll_data );
+							$children_ids = get_post_meta( $course_id, '_tutor_course_children', true );
+							$children_ids_arr = array();
+							if($children_ids)
+								$children_ids_arr = explode(" ",trim($children_ids));
+							if(count($children_ids_arr)){
+								foreach($children_ids_arr as $cid){
+									$is_purchasable_child = tutor_utils()->is_course_purchasable( $cid );
+									if ( !$is_purchasable_child ) {
+										$title       = __( 'Course Enrolled', 'tutor-pro' ) . ' &ndash; ' . date_i18n( get_option( 'date_format' ) ) . ' @ ' . date_i18n( get_option( 'time_format' ) );
+										$enroll_data_child = apply_filters(
+											'tutor_enroll_data',
+											array(
+												'post_type'   => 'tutor_enrolled',
+												'post_title'  => $title,
+												'post_status' => 'completed',
+												'post_author' => $user_id_add,
+												'post_parent' => $cid,
+											)
+										);
+
+										// Insert the post into the database
+										$is_enrolled_child = wp_insert_post( $enroll_data_child );
+									}	
+									
+								}
+							}
+							if ( $isEnrolled ) {
+								if(defined("__SENDEMAIL_ON_OFF") && __SENDEMAIL_ON_OFF == '__MAIL_ON'){
+									$subject = 'Course Enrolled';
+									$body = "Hi, you was enrolled a course on traininghub-uat.vus.edu.vn";
+									$headers = array('Content-Type: text/html; charset=UTF-8');
+									wp_mail( $student_email, $subject, $body, $headers );
+								}
+								do_action( 'tutor_after_enroll', $course_id, $isEnrolled );
+
+								if ( $enroll_data['post_status'] == 'completed' ) {
+									do_action( 'tutor_after_enrolled', $course_id, $user_id_add, $isEnrolled );
+								}
+
+								// Mark Current User as Students with user meta data
+								update_user_meta( $user_id, '_is_tutor_student', tutor_time() );
+							}
+						}
+					}	
+					//////}
+				}
+			}
+		}
+		if($staff_id){
+			$entry = $wpdb->get_row( "SELECT * FROM ".$table_name_users." WHERE ID = '" . $staff_id . "'");
+			if (isset($entry)){					
+				$Manage_Users = $entry->Manage_Users;
+			}
+			$Manage_Users_arr = explode(",",$Manage_Users);
+			$add_students_ids_arr_m = array_unique (array_merge($Manage_Users_arr,$add_students_ids_arr));
+			$add_students_ids_arr_str = implode(",",$add_students_ids_arr_m);
+			$wpdb->query( $wpdb->prepare("UPDATE $table_name_users 
+											SET Manage_Users = %s  
+											WHERE ID = %d",$add_students_ids_arr_str, $staff_id)
+								);
+		}
+		return true;
 	}
 
 	/**
@@ -3055,14 +3801,31 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 	public function tutor_dashboard_pages() {
 		$nav_items = apply_filters( 'tutor_dashboard/nav_items', $this->default_menus() );
 
-		$instructor_nav_items = apply_filters( 'tutor_dashboard/instructor_nav_items', $this->instructor_menus() );
-
-		$nav_items = array_merge( $nav_items, $instructor_nav_items );
+		//$instructor_nav_items = apply_filters( 'tutor_dashboard/instructor_nav_items', $this->instructor_menus() );
+				
+		if(current_user_can( 'administrator' ))
+			$allcourses_nav_items = apply_filters( 'tutor_dashboard/allcourses_nav_items', $this->admin_allcourses_menus() );
+		elseif(current_user_can( 'shop_manager' ))
+			$allcourses_nav_items = apply_filters( 'tutor_dashboard/allcourses_nav_items', $this->staff_allcourses_menus() );
+		elseif(current_user_can( 'tutor_instructor' ))
+			$allcourses_nav_items = apply_filters( 'tutor_dashboard/allcourses_nav_items', $this->instructor_menus() );
+		if($allcourses_nav_items)
+			$nav_items = array_merge( $nav_items, $allcourses_nav_items );
+		
+		if(current_user_can( 'administrator' ))
+			$analytics_nav_items = apply_filters( 'tutor_dashboard/analytics_nav_items', $this->analytics_menus() );
+		elseif(current_user_can( 'shop_manager' ))
+			$analytics_nav_items = apply_filters( 'tutor_dashboard/analytics_nav_items', $this->staff_menus() );
+		elseif(current_user_can( 'st_lt' ))
+			$analytics_nav_items = apply_filters( 'tutor_dashboard/analytics_nav_items', $this->stlt_menus() );	
+		if($analytics_nav_items)
+			$nav_items = array_merge( $nav_items, $analytics_nav_items );
+		
 
 		$new_navs      = apply_filters(
 			'tutor_dashboard/bottom_nav_items',
 			array(
-				'separator-2' => array(
+				'separator-3' => array(
 					'title' => '',
 					'type'  => 'separator',
 				),
@@ -3133,10 +3896,14 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 				'index'            => array(
 					'title' => __( 'Dashboard', 'tutor' ),
 					'icon'  => 'tutor-icon-dashboard-filled',
+				),				
+				'learning-courses'         => array(
+					'title' => __( 'Learning Courses', 'tutor' ),
+					'icon'  => 'tutor-icon-book-open-filled',
 				),
-				'wishlist'         => array(
-					'title' => __( 'Wishlist', 'tutor' ),
-					'icon'  => 'tutor-icon-fav-full-filled',
+				'completed-courses'         => array(
+					'title' => __( 'Completed Courses', 'tutor' ),
+					'icon'  => 'tutor-icon-college-graduation-filled',
 				),
 				'settings'    => array(
 					'title' => __( 'Settings', 'tutor' ),
@@ -3525,6 +4292,32 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 					AND enrollment.post_status = %s;
 			",
 				$instructor_id,
+				$course_post_type,
+				'publish',
+				'tutor_enrolled',
+				'completed'
+			)
+		);
+
+		return (int) $count;
+	}
+	
+	public function get_total_students_admin_role() {
+		global $wpdb;
+
+		$course_post_type = tutor()->course_post_type;
+
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(enrollment.ID)
+			FROM 	{$wpdb->posts} enrollment
+					INNER  JOIN {$wpdb->posts} course
+							ON enrollment.post_parent=course.ID
+			WHERE 	course.post_type = %s
+					AND course.post_status = %s
+					AND enrollment.post_type = %s
+					AND enrollment.post_status = %s;
+			",
 				$course_post_type,
 				'publish',
 				'tutor_enrolled',
@@ -4940,6 +5733,99 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 
 		return $default;
 	}
+	
+	//huynhn//
+	public function get_h5p_option( $post_id = 0, $option_key = '', $default = false ) {
+		$post_id         = $this->get_post_id( $post_id );
+		$get_option_meta = maybe_unserialize( get_post_meta( $post_id, 'tutor_h5p_option', true ) );
+
+		if ( ! $option_key && ! empty( $get_option_meta ) ) {
+			return $get_option_meta;
+		}
+
+		$value = $this->avalue_dot( $option_key, $get_option_meta );
+		if ( $value > 0 || $value !== false ) {
+			return $value;
+		}
+
+		return $default;
+	}
+	
+	public function h5p_used( $post_id = 0, $h5p_id=0 ) {
+		echo $post_id         = $this->get_post_id( $post_id );
+		global $wpdb;
+		$_sql = "SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key = 'tutor_h5p_option'";
+
+		$results = $wpdb->get_results( $_sql );
+		$newres = array();
+		foreach($results as $res){
+			if($res->post_id==$post_id)  continue;
+			$get_option_meta = maybe_unserialize( $res->meta_value );
+			if (empty( $get_option_meta ) ) continue;
+			$value = $this->avalue_dot( 'h5p_id', $get_option_meta );
+			if ( $value > 0 ) $newres[] = $value;			
+		}
+		return $newres;
+	}
+	
+	public function get_grade_categories() {
+		$grade_category = get_tutor_option('grade_category');
+		$grade_categories = array();
+		if ($grade_category){
+			$grade_category_arr = explode( "\n", $grade_category );
+			foreach($grade_category_arr as $grade){
+				$grade_categories[] = trim($grade);				
+			}
+		}
+		return $grade_categories;
+	}
+	
+	public function get_course_grades($course_id) {
+		$_tutor_course_grades = get_post_meta($course_id, '_tutor_course_grades', true);
+		$course_grades = maybe_unserialize($_tutor_course_grades);
+		return $course_grades;
+	}
+	
+	public function get_grade_categories_old() {
+		$grade_category = get_tutor_option('grade_category');
+		$grade_categories = array();
+		if ($grade_category){
+			$grade_category_arr = explode( "\n", $grade_category );
+			foreach($grade_category_arr as $grade){
+				$grade_arr 		= explode( ":", $grade );				
+				$grade_name 	= isset($grade_arr[0]) ? trim($grade_arr[0]) : '';
+				$grade_value	= isset($grade_arr[1]) ? trim($grade_arr[1]) : '';
+				$grade_categories[] = array($grade_name,$grade_value);				
+			}
+		}		
+		return $grade_categories;
+	}
+	
+	public function get_grade_value($gradekey,$course_id=0) {
+		$_tutor_course_grades = get_post_meta($course_id, '_tutor_course_grades', true);
+		$course_grades = maybe_unserialize($_tutor_course_grades);
+		foreach($course_grades as $key=>$coursegrade){
+			if($key==$gradekey){
+				return intval($coursegrade[1]);
+			}
+		}
+		return 0;
+	}
+	
+	public function get_grade_value_old($gradename) {
+		$grade_category = get_tutor_option('grade_category');
+		$grade_categories = array();
+		if ($grade_category){
+			$grade_category_arr = explode( "\n", $grade_category );
+			foreach($grade_category_arr as $grade){
+				$grade_arr 		= explode( ":", $grade );				
+				$grade_name 	= isset($grade_arr[0]) ? trim($grade_arr[0]) : '';
+				$grade_value	= isset($grade_arr[1]) ? trim($grade_arr[1]) : '';
+				if($grade_name == $gradename) return $grade_value; 
+			}
+		}		
+		return 0;
+	}
 
 	/**
 	 * @param int $quiz_id
@@ -5934,7 +6820,24 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 
 		return $levels;
 	}
-	
+	public function get_course_levels() {
+		$args = apply_filters(
+			'tutor_get_course_levels_args',
+			array(
+				'taxonomy'   => 'course-level',
+				'hide_empty' => false,
+			)
+		);
+
+		$terms = get_terms( $args );
+
+		$children = array();
+		foreach ( $terms as $term ) {
+			$children[ $term->slug ] = $term->name;
+		}
+//var_dump($children);
+		return $children;
+	}
 	/** NhatHuy - NoteBegin */
 	/** NhatHuy - Course type */
 	/**
@@ -6337,6 +7240,7 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 			'course',
 			'edit-course-category',
 			'edit-course-tag',
+			'edit-course-level',
 			'tutor-lms_page_tutor-students',
 			'tutor-lms_page_tutor-instructors',
 			'tutor-lms_page_question_answer',
@@ -7189,7 +8093,16 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		global $wpdb;
 
 		//$_sql = $wpdb->prepare("SELECT * FROM {$wpdb->posts} WHERE (post_type LIKE 'courses%') AND (post_status = 'publish') AND (ID NOT IN (%d) ) ORDER BY ID DESC", $post_ID);
-		$_sql = "SELECT * FROM {$wpdb->posts} WHERE (post_type LIKE 'courses%') AND (post_status = 'publish') ORDER BY ID DESC";
+		$_sql = "SELECT * FROM {$wpdb->posts} WHERE (post_type LIKE 'courses%') AND (post_status = 'publish') AND (post_title NOT LIKE '%Auto Draft%') ORDER BY ID DESC";
+
+		$results = $wpdb->get_results( $_sql );
+
+		return $results;
+
+	}
+	public function get_h5p_list() {
+		global $wpdb;
+		$_sql = "SELECT * FROM {$wpdb->prefix}h5p_contents WHERE disable != '1' ORDER BY id DESC";
 
 		$results = $wpdb->get_results( $_sql );
 
@@ -7775,7 +8688,190 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 
 		return $contents;
 	}
+//Huynhn
+public function get_course_h5p_points( $course_id = 0,$user_id = 0 ) {
+	
+	$all_lessons = tutor_utils()->get_course_contents_by_id($course_id);
+	$earned_percentage = 0;
+	if(!count($all_lessons)) return $earned_percentage;	
+	$grades = array();
+    foreach ($all_lessons as $lession_of_course){
+            $h5p_id = tutor_utils()->get_h5p_option($lession_of_course->ID, 'h5p_id');
+			if(!$h5p_id) continue;
+			$add_h5p_points = tutor_utils()->get_h5p_option($lession_of_course->ID, 'enable_h5p_points_to_course');
+			if(!$add_h5p_points) continue;
+			$grade_category = tutor_utils()->get_h5p_option($lession_of_course->ID, 'grade_category');
+			if(!$grade_category)  continue;
+			//$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);
+			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+			$max_score =$attempt_of_h5p->max_score;
+			$score =$attempt_of_h5p->score;
+			if(!isset($grades[$grade_category])) $grades[$grade_category] = array();
+			$grades[$grade_category][]=array('score'=>$score,'max_score'=>$max_score);//echo $score;
+			//if($max_score){
+			//	$earned_percentage+= number_format(($score/ $max_score)*$passing_grade);
+			//}
+    }	
+	if(!count($grades)) return $earned_percentage;
+	foreach ($grades as $key=>$grade){
+		$mark=0;//echo $key;
+		foreach ($grade as $test){///echo $test['score'];
+			if($test['max_score']) $mark+=number_format($test['score']/$test['max_score'],2);
+		}
+		if(count($grade)){
+			$passing_grade = tutor_utils()->get_grade_value($key,$course_id);
+			$earned_percentage+= number_format(($mark/count($grade))*$passing_grade);
+		}			
+	}
+	return $earned_percentage;
+}
+
+//Huynhn
+public function h5p_points_answered_all( $course_id = 0,$user_id = 0 ) {
+	
+	$all_lessons = tutor_utils()->get_course_contents_by_id($course_id);
+	//$completed = true;
+	if (count($all_lessons)){
+        foreach ($all_lessons as $lession_of_course){
+            $h5p_id = tutor_utils()->get_h5p_option($lession_of_course->ID, 'h5p_id');
+			if(!$h5p_id) continue;
+			$add_h5p_points = tutor_utils()->get_h5p_option($lession_of_course->ID, 'enable_h5p_points_to_course');
+			if(!$add_h5p_points) continue;
+			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+			if($attempt_of_h5p === NULL)
+				return false;
+        }
+    }
+	return true;
+}
+public function get_course_quiz_points( $course_id = 0,$user_id = 0 ) {
+	
+	$all_quizs = tutor_utils()->get_course_quizs_by_id($course_id);		
+	$earned_percentage = 0;
+	if(!isset($all_quizs)||!count($all_quizs)) return $earned_percentage;	
+	$grades = array();
+    //if (isset($all_quizs) && count($all_quizs)){
+        foreach ($all_quizs as $quiz_of_course){
+            $add_quiz_points = tutor_utils()->get_quiz_option($quiz_of_course->ID, 'enable_quiz_points_to_course');
+			if(!$add_quiz_points) continue;
+			$grade_category = tutor_utils()->get_quiz_option($quiz_of_course->ID, 'grade_category');
+			//$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);
+			$attempt_of_quiz = tutor_utils()->get_quiz_attempt($quiz_of_course->ID,$user_id);
+			$max_score=$attempt_of_quiz->total_marks;
+			$score =$attempt_of_quiz->earned_marks;	
+			if(!isset($grades[$grade_category])) $grades[$grade_category] = array();
+			$grades[$grade_category][]=array('score'=>$score,'max_score'=>$max_score);
+			
+			//if($max_score){
+			//	$earned_percentage+= number_format(($score/ $max_score)*$passing_grade);
+			//}
+        }
+	if(!count($grades)) return $earned_percentage;
+	foreach ($grades as $key=>$grade){
+		$mark=0;
+		foreach ($grade as $test){
+			if($test['max_score']) $mark+=number_format($test['score']/$test['max_score'],2);
+		}
+		if(count($grade)){
+			//echo $key;
+			$passing_grade = tutor_utils()->get_grade_value($key,$course_id);
+			$earned_percentage+= number_format(($mark/count($grade))*$passing_grade);
+		}			
+	}	
+    //}
+	return $earned_percentage;
+}
+
+//Huynhn
+public function quiz_points_answered_all( $course_id = 0,$user_id = 0 ) {
+	
+	$all_quizs = tutor_utils()->get_course_quizs_by_id($course_id);
+	//$completed = true;
+	if (isset($all_quizs) && count($all_quizs)){
+        foreach ($all_quizs as $quiz_of_course){
+            $add_quiz_points = tutor_utils()->get_quiz_option($quiz_of_course->ID, 'enable_quiz_points_to_course');
+			if(!$add_quiz_points) continue;
+			$attempt_of_quiz = tutor_utils()->get_quiz_attempt($quiz_of_course->ID,$user_id);
+			if($attempt_of_quiz === NULL)
+				return false;
+        }
+    }
+	return true;
+}
+
+public function get_course_total_points( $course_id = 0,$user_id = 0 ) {
+	
+	$earned_percentage = 0;
+	$grades = array();
+	$all_lessons = tutor_utils()->get_course_contents_by_id($course_id);	
+	//if(!count($all_lessons)) return $earned_percentage;	
+    if(isset($all_lessons) && count($all_lessons))
+		foreach ($all_lessons as $lession_of_course){
+            $h5p_id = tutor_utils()->get_h5p_option($lession_of_course->ID, 'h5p_id');
+			if(!$h5p_id) continue;
+			$add_h5p_points = tutor_utils()->get_h5p_option($lession_of_course->ID, 'enable_h5p_points_to_course');
+			if(!$add_h5p_points) continue;
+			$grade_category = tutor_utils()->get_h5p_option($lession_of_course->ID, 'grade_category');
+			if(!$grade_category)  continue;
+			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+			$max_score =$attempt_of_h5p->max_score;
+			$score =$attempt_of_h5p->score;
+			if(!isset($grades[$grade_category])) $grades[$grade_category] = array();
+			$grades[$grade_category][]=array('score'=>$score,'max_score'=>$max_score);			
+		}
+	
+	$all_quizs = tutor_utils()->get_course_quizs_by_id($course_id);		
+	//if(!isset($all_quizs)||!count($all_quizs)) return $earned_percentage;
+	if(isset($all_quizs) && count($all_quizs))
+        foreach ($all_quizs as $quiz_of_course){
+            $add_quiz_points = tutor_utils()->get_quiz_option($quiz_of_course->ID, 'enable_quiz_points_to_course');
+			if(!$add_quiz_points) continue;
+			$grade_category = tutor_utils()->get_quiz_option($quiz_of_course->ID, 'grade_category');
+			$attempt_of_quiz = tutor_utils()->get_quiz_attempt($quiz_of_course->ID,$user_id);
+			$max_score=$attempt_of_quiz->total_marks;
+			$score =$attempt_of_quiz->earned_marks;	
+			if(!isset($grades[$grade_category])) $grades[$grade_category] = array();
+			$grades[$grade_category][]=array('score'=>$score,'max_score'=>$max_score);
+        }
+	if(!count($grades)) return $earned_percentage;
+	foreach ($grades as $key=>$grade){
+		$mark=0;//echo $key;
+		foreach ($grade as $test){//echo $test['max_score'];
+			if($test['max_score']) $mark+=number_format($test['score']/$test['max_score'],2);
+		}
+		if(count($grade)){
+			$passing_grade = tutor_utils()->get_grade_value($key,$course_id);
+			$earned_percentage+= number_format(($mark/count($grade))*$passing_grade);
+		}			
+	}    
+	return $earned_percentage;
+}	
 //NhatHuy	
+	public function get_course_quizs_by_id( $course_id = 0 ) {
+		global $wpdb;
+
+		$course_id = $this->get_post_id( $course_id );
+
+		$contents = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT items.*
+			FROM 	{$wpdb->posts} topic
+					INNER JOIN {$wpdb->posts} items
+							ON topic.ID = items.post_parent
+			WHERE 	topic.post_parent = %d 
+					AND items.post_status = %s 
+					AND items.post_type = %s 
+			ORDER BY topic.menu_order ASC,
+					items.menu_order ASC;
+			",
+				$course_id,
+				'publish',
+				'tutor_quiz'
+			)
+		);
+
+		return $contents;
+	}
 	
 	public function get_total_courses_children_topics( $course_id ) {
 		global $wpdb;
@@ -7866,6 +8962,18 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 			$attempt = $wpdb->get_row( $wpdb->prepare( "SELECT * {$from_string} ORDER BY attempt_id DESC LIMIT 1; ", $quiz_id, $user_id ) );
 		}
 
+		return $attempt;
+	}
+	
+	//Huynhn
+	public function get_h5p_attempt( $h5p_id = 0, $user_id = 0, $course_id = 0 ) {
+		global $wpdb;
+		$user_id = $this->get_user_id( $user_id );
+		$course_id    = $this->get_post_id( $course_id );
+		$attempt = false;
+		$from_string       = " FROM `wp_h5p_results` WHERE content_id = %d AND user_id = %d AND course_id = %d  ";
+		$attempt = $wpdb->get_row( $wpdb->prepare( "SELECT * {$from_string} ORDER BY score DESC LIMIT 1; ", $h5p_id, $user_id, $course_id ) );
+//var_dump($attempt);die();
 		return $attempt;
 	}
 
@@ -8531,7 +9639,7 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		if ( $this->is_enrolled( $course_id, $user_id ) ) {
 			return true;
 		}
-		if ( $course_content_access && ( current_user_can( 'administrator' ) || current_user_can( tutor()->instructor_role ) ) ) {
+		if ( $course_content_access && ( current_user_can( 'administrator' )||current_user_can( 'shop_manager' )||current_user_can( 'st_lt' ) || current_user_can( tutor()->instructor_role ) ) ) {
 			return true;
 		}
 		// Check Lesson edit access to support page builders (eg: Oxygen)
@@ -9692,34 +10800,109 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		return array(
 			'separator-1'   => array(
 				'title'    => __( 'Instructor', 'tutor' ),
+				'show_ui'  => true,
 				'auth_cap' => tutor()->instructor_role,
 				'type'     => 'separator',
 			),
-			'create-course' => array(
-				'title'    => __( 'Create Course', 'tutor' ),
-				'show_ui'  => false,
-				'auth_cap' => tutor()->instructor_role,
-			),
 			'my-courses'    => array(
-				'title'    => __( 'My Courses', 'tutor' ),
+				'title'    => __( 'All Courses', 'tutor' ),
 				'auth_cap' => tutor()->instructor_role,
 				'icon'     => 'tutor-icon-space-filled',
 			),
-			'announcements' => array(
-				'title'    => __( 'Announcements', 'tutor' ),
-				'auth_cap' => tutor()->instructor_role,
-				'icon'     => 'tutor-icon-speaker-filled',
+		);
+	}
+	public function admin_allcourses_menus(): array {
+		return array(
+			'separator-1'   => array(
+				'title'    => __( '', 'tutor' ),
+				'auth_cap' => 'administrator',
+				'type'     => 'separator',
 			),
-			'withdraw'      => array(
-				'title'    => __( 'Withdrawals', 'tutor' ),
-				'auth_cap' => tutor()->instructor_role,
-				'icon'     => 'tutor-icon-wallet-filled',
+			'my-courses'    => array(
+				'title'    => __( 'All Courses', 'tutor' ),
+				'auth_cap' => 'administrator',
+				'icon'     => 'tutor-icon-space-filled',
 			),
-			'quiz-attempts' => array(
-				'title'    => __( 'Quiz Attempts', 'tutor' ),
-				'auth_cap' => tutor()->instructor_role,
-				'icon'     => 'tutor-icon-quiz-filled',
+		);
+	}
+	public function staff_allcourses_menus(): array {
+		return array(
+			'separator-1'   => array(
+				'title'    => __( '', 'tutor' ),
+				'auth_cap' => 'shop_manager',
+				'type'     => 'separator',
 			),
+			'my-courses'    => array(
+				'title'    => __( 'All Courses', 'tutor' ),
+				'auth_cap' => 'shop_manager',
+				'icon'     => 'tutor-icon-space-filled',
+			),
+		);
+	}
+	
+	public function staff_menus(): array {
+		return array(
+			'separator-2'   => array(
+				'title'    => __( 'Staff', 'tutor' ),
+				'auth_cap' => 'shop_manager',
+				'type'     => 'separator',
+			),
+			'learning-analytics' => array(
+				'title'    => __( 'Learning Analytics', 'tutor' ),
+				'show_ui'  => true,
+				'auth_cap' => 'shop_manager',
+				'icon'     => 'tutor-icon-report-filled',
+			),
+			'learning-report' => array(
+				'title'    => __( 'Learning Report', 'tutor' ),
+				'show_ui'  => false,
+				'auth_cap' => 'shop_manager',
+				'icon'     => 'tutor-icon-report-filled',
+			),
+		);
+	}
+	
+	public function stlt_menus(): array {
+		return array(
+			'separator-2'   => array(
+				'title'    => __( 'Senior Teacher', 'tutor' ),
+				'auth_cap' => 'st_lt',
+				'type'     => 'separator',
+			),
+			'learning-analytics' => array(
+				'title'    => __( 'Learning Analytics', 'tutor' ),
+				'show_ui'  => true,
+				'auth_cap' => 'st_lt',
+				'icon'     => 'tutor-icon-report-filled',
+			),
+			'learning-report' => array(
+				'title'    => __( 'Learning Report', 'tutor' ),
+				'show_ui'  => false,
+				'auth_cap' => 'st_lt',
+				'icon'     => 'tutor-icon-report-filled',
+			),
+		);
+	}
+	
+	public function analytics_menus(): array {
+		return array(
+			'separator-2'   => array(
+				'title'    => __( 'Analytics', 'tutor' ),
+				'auth_cap' => 'administrator',
+				'type'     => 'separator',
+			),
+			'learning-analytics' => array(
+				'title'    => __( 'Learning Analytics', 'tutor' ),
+				'show_ui'  => true,
+				'auth_cap' => 'administrator',
+				'icon'     => 'tutor-icon-report-filled',
+			),
+			'learning-report' => array(
+				'title'    => __( 'Learning Report', 'tutor' ),
+				'show_ui'  => false,
+				'auth_cap' => 'administrator',
+				'icon'     => 'tutor-icon-report-filled',
+			)
 		);
 	}
 
@@ -9736,41 +10919,62 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 			'index'            => array(
 				'title' => __( 'Dashboard', 'tutor' ),
 				'icon'  => 'tutor-icon-dashboard-filled',
-			),
+			), 
 			'my-profile'       => array(
 				'title' => __( 'My Profile', 'tutor' ),
 				'icon'  => 'tutor-icon-man-user-filled',
 			),
-			/*
-			// by llh
-			'enrolled-courses' => array(
-				'title' => __( 'Enrolled  Courses', 'tutor' ),
+			'learning-courses'         => array(
+				'title' => __( 'Learning Courses', 'tutor' ),
+				'show_ui'  => true,
+				'auth_cap'  => 'st_lt',
+				'icon'  => 'tutor-icon-book-open-filled',
+			),
+			'completed-courses'         => array(
+				'title' => __( 'Completed Courses', 'tutor' ),
+				'show_ui'  => true,
+				'auth_cap'  => 'st_lt',
 				'icon'  => 'tutor-icon-college-graduation-filled',
 			),
+			'enrolled-courses' => array(
+				'title' => __( 'Enrolled  Courses', 'tutor' ),
+				'show_ui'  => false,
+				'icon'  => 'tutor-icon-college-graduation-filled',
+			), 
 			'wishlist'         => array(
 				'title' => __( 'Wishlist', 'tutor' ),
+				'show_ui'  => false,
 				'icon'  => 'tutor-icon-fav-full-filled',
 			),
 			
 			'reviews'          => array(
 				'title' => __( 'Reviews', 'tutor' ),
+				'show_ui'  => false,
 				'icon'  => 'tutor-icon-star-full-filled',
 			),
 			'my-quiz-attempts' => array(
 				'title' => __( 'My Quiz Attempts', 'tutor' ),
+				'show_ui'  => false,
 				'icon'  => 'tutor-icon-quiz-attempt-filled',
 			),
-			*/
 			'purchase_history' => array(
 				'title' => __( 'Order History', 'tutor' ),
+				'show_ui'  => false,
 				'icon'  => 'tutor-icon-cart-filled',
 			),
-			/*
 			'question-answer'  => array(
 				'title' => __( 'Question & Answer', 'tutor' ),
 				'icon'  => 'tutor-icon-question-filled',
+			),			
+			'enroll-students'  => array(
+				'title' => __( 'Enroll Students', 'tutor' ),
+				'icon'  => 'tutor-icon-college-graduation-filled',
+			),			
+			'create-course'  => array(
+				'title' => __( 'create course', 'tutor' ),
+				'icon'  => 'tutor-icon-college-graduation-filled',
+				'show_ui'  => false,
 			),
-			*/
 		);
 	}
 

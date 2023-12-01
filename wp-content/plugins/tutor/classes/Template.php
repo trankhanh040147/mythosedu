@@ -359,9 +359,8 @@ class Template extends Tutor_Base {
 								
 						// $template  = tutor_get_template( end( $full_path ) == 'create-course' ? implode( '/', $full_path ) : 'dashboard' );
 						$template  = tutor_get_template( end( $full_path ) == 'create-course' ? 'dashboard.create-course' : 'dashboard' );
-						
-						if(!current_user_can('administrator') && ! current_user_can('tutor_instructor') && !$dashboard_page_name)
-							$template  = tutor_get_template('dashboard-student');	
+						if(current_user_can( 'subscriber' ) && !$dashboard_page_name)
+							$template  = tutor_get_template('dashboard-student');
 
 						/**
 						 * Check page page permission
@@ -375,6 +374,11 @@ class Template extends Tutor_Base {
 						if ( $auth_cap && ! current_user_can( $auth_cap ) ) {
 							$template = tutor_get_template( 'permission-denied' );
 						}
+						
+						if( end( $full_path ) == 'completed-courses')
+							$template  = tutor_get_template('dashboard.completed-courses');
+						if( end( $full_path ) == 'learning-courses')
+							$template  = tutor_get_template('dashboard.learning-courses');
 					} else {
 						$template = tutor_get_template( 'login' );
 					}
@@ -404,6 +408,11 @@ class Template extends Tutor_Base {
 				}
 			} else {
 				$template = tutor_get_template( 'login' );
+			}
+			// Forcefully show quiz if it is public and not paid
+			$course_id = $this->get_root_post_parent_id( get_the_ID() );
+			if ( get_post_meta( $course_id, '_tutor_is_public_course', true ) == 'yes' && ! tutor_utils()->is_course_purchasable( $course_id ) ) {
+				$template = tutor_get_template( 'single-quiz' );
 			}
 			return $template;
 		}
@@ -483,6 +492,21 @@ class Template extends Tutor_Base {
 			if ( isset( $_GET['course_ID'] ) && '' !== $_GET['course_ID'] ) {
 				return;
 			}
+			global $wpdb;
+			/* echo "DELETE FROM `wp_posts` 
+											WHERE `post_type` = 'courses' 
+											AND  `post_status` = 'draft' 
+											AND  `post_title` = 'Auto Draft' 
+											AND `post_date` < DATE_ADD( NOW(), INTERVAL -1 Minute );";die();
+			$wpdb->query( $wpdb->prepare("DELETE FROM `wp_posts` 
+											WHERE `post_type` = 'courses' 
+											AND  `post_status` = 'draft' 
+											AND  `post_title` = 'Auto Draft' 
+											AND `post_date` < DATE_ADD( NOW(), INTERVAL -1 Minute );")
+									);; */
+			 
+			
+	//die();
 			$post_id = wp_insert_post(
 				array(
 					'post_title'  => __( 'Auto Draft', 'tutor' ),

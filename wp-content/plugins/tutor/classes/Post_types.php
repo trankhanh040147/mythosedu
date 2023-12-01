@@ -74,7 +74,7 @@ class Post_types{
 			'has_archive'               => true,
 			'hierarchical'              => false,
 			'menu_position'             => null,
-			'taxonomies'                => array( 'course-category', 'course-tag' ),
+			'taxonomies'                => array( 'course-category', 'course-tag', 'course-level' ),
 			'supports'                  => array( 'title', 'editor', 'thumbnail', 'excerpt', 'author'),
 			'show_in_rest'              => true,
 
@@ -160,6 +160,38 @@ class Post_types{
 		);
 
 		register_taxonomy( 'course-tag', $this->course_post_type, $args );
+		
+		$labels = array(
+			'name'                       => _x( 'Difficulty Levels', 'taxonomy general name', 'tutor' ),
+			'singular_name'              => _x( 'Difficulty Level', 'taxonomy singular name', 'tutor' ),
+			'search_items'               => __( 'Search Levels', 'tutor' ),
+			'popular_items'              => __( 'Popular Levels', 'tutor' ),
+			'all_items'                  => __( 'All Levels', 'tutor' ),
+			'parent_item'                => null,
+			'parent_item_colon'          => null,
+			'edit_item'                  => __( 'Edit Level', 'tutor' ),
+			'update_item'                => __( 'Update Level', 'tutor' ),
+			'add_new_item'               => __( 'Add New Level', 'tutor' ),
+			'new_item_name'              => __( 'New Level Name', 'tutor' ),
+			'separate_items_with_commas' => __( 'Separate Levels with commas', 'tutor' ),
+			'add_or_remove_items'        => __( 'Add or remove Levels', 'tutor' ),
+			'choose_from_most_used'      => __( 'Choose from the most used Levels', 'tutor' ),
+			'not_found'                  => __( 'No Levels found.', 'tutor' ),
+			'menu_name'                  => __( 'Levels', 'tutor' ),
+		);
+
+		$args = array(
+			'hierarchical'          => false,
+			'labels'                => $labels,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'show_in_rest'          => true,
+			'rewrite'               => array( 'slug' => 'course-level' ),
+		);
+
+		register_taxonomy( 'course-level', $this->course_post_type, $args );
 	}
 
 	public function register_lesson_post_types() {
