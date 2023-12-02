@@ -440,7 +440,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 							
 									<?php 
 									// check is public course
-									//if(tutor_utils()->_tutor_is_public_course($course_id) == "yes") {
+									if(tutor_utils()->_tutor_is_public_course($course_id) == "yes") {
 									?>
 
 										<button type="submit" class="__check_enroll_course tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
@@ -456,7 +456,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 
 
 									<?php 
-									//}
+									}
 									?>
 
 									

@@ -2800,25 +2800,8 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 
 		$completed_courses_ids_by_user  = $this->get_completed_courses_ids_by_user( $user_id );
 		$completed_childs 				= array_intersect($children_ids_arr,$completed_courses_ids_by_user);
-		$percentage = number_format((count($completed_childs)/ count($enrolled_childs))*100);
-						global $wpdb;
-						$table_comments = $wpdb->prefix . 'comments';
-						$is_completed_course_parent = $this->is_completed_course( $course_id );
-						if($percentage>=100 && !$is_completed_course_parent){
-							$date = date( 'Y-m-d H:i:s', tutor_time() );
-							$wpdb->insert( $table_comments, array(
-																'comment_post_ID'  => $course_id,
-																'comment_author'   => $user_id,
-																'comment_date'     => $date,
-																'comment_date_gmt' => get_gmt_from_date( $date ),
-																'comment_content'  => $date,
-																'comment_approved' => 'approved',
-																'comment_agent'    => 'TutorLMSPlugin',
-																'comment_type'     => 'course_completed',
-																'user_id'          => $user_id,
-															) );
-						}
-		return $percentage;
+		
+		return $percentage = number_format((count($completed_childs)/ count($enrolled_childs))*100);
 	}
 	public function get_active_courses_by_user_learning_parent( $user_id = 0, $offset = 0, $posts_per_page = -1 ) {
 		$user_id             = $this->get_user_id( $user_id );
@@ -7503,6 +7486,38 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		} else {
 			return number_format_i18n( $price );
 		}
+	}
+
+	/**
+	 * @param int $_tutor_is_public_course
+	 *
+	 * @return int|string
+	 *
+	 * Get the price format
+	 *
+	 * @since v.1.1.2
+	 */
+	public function _tutor_is_public_course( $course_id = 0 ) {
+		global $wpdb;
+
+		$_is_public_course = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT meta_value
+					FROM 	{$wpdb->prefix}postmeta
+					WHERE 	post_id = %d AND meta_key = '_tutor_is_public_course'
+			",
+				$course_id
+			)
+		);
+
+		//var_dump($_is_public_course->meta_value);
+
+		$_check_is_public_course = "no";
+		if ( $_is_public_course->meta_value ) {
+			$_check_is_public_course = $_is_public_course->meta_value;
+		}
+
+		return $_check_is_public_course;
 	}
 
 	/**
