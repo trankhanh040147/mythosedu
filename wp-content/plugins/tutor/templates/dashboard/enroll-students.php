@@ -122,10 +122,25 @@ $active_cid   	        = isset($_GET['cid']) ? sanitize_text_field($_GET['cid'])
                 </label> 
         </div>
 		<div class="tutor-input-search mb-3">
-			<div class="tutor-input-group tutor-form-control-has-icon tutor-form-control-lg">
-				<span class="tutor-icon-search-filled tutor-input-group-icon color-black-50"></span>
-				<input id="myInput_student" type="text" class="tutor-form-control"  placeholder="Search Student (Name,Email...)">		
+			<div class="tutor-row __fillter_box">
+				<div class="tutor-col-md-5">
+					<div class="tutor-input-group tutor-form-control-has-icon tutor-form-control-lg">
+						<span class="tutor-icon-search-filled tutor-input-group-icon color-black-50"></span>
+						<input id="myInput_student" type="text" class="tutor-form-control"  placeholder="Search Student (Name,Email...)">		
+					</div>
+				</div>
+				<div class="tutor-col-md-7">
+					<p class="_lbl">Status</p>
+					<select>
+						<option>Enrolled</option>
+						<option>Not yet enrolled</option>
+						<option>Completed</option>
+						<option>Cancelled</option>
+					</select>
+				</div>
 			</div>
+
+			
         </div>
 		
         <div id="table-enroll-students">			

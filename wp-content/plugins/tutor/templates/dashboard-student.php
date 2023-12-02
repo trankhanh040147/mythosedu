@@ -193,13 +193,23 @@ do_action('tutor_dashboard/before/wrap');
 							
 							foreach ($courses_in_progress as $post) :
 							setup_postdata($post);
+								$post_countsub	= $post->countsub;
 								$tutor_course_img = get_tutor_course_thumbnail_src();
 								extract( tutor_utils()->get_course_duration( get_the_ID(), true ) );
 								$course_progress  = tutor_utils()->get_course_completed_percent( get_the_ID(), 0, true );
 								$completed_number = 0 === (int) $course_progress['completed_count'] ? 1 : (int) $course_progress['completed_count'];
 								$completed_percent = tutor_utils()->parent_course_percents(get_the_ID());
+								$is_completed = tutor_utils()->is_completed_course( get_the_ID(), get_current_user_id() );
 								if ($completed_percent == "notparent")
 									$completed_percent = tutor_utils()->get_course_total_points( get_the_ID() );
+								$GPA = tutor_utils()->get_course_settings(get_the_ID(), '_tutor_grade_point_average');								
+								if($completed_percent>=$GPA){
+									$status = "<span class='tutor-color-success'>passed</span>";
+								}	
+								else {
+									$status = "<span class='tutor-color-danger-100'>failed</span>";
+								}
+								
 								$sub_class = "not_course_sub_class";
 								if(($post->rowadd) && ($post->rowadd == $rowadd)) {
 									if($rowadd) $sub_class = "course_sub_class";
@@ -211,7 +221,7 @@ do_action('tutor_dashboard/before/wrap');
 								}
 								elseif($sub_class == "course_sub_class"){
 									$lesson_url = "#";
-									if($post->firstsub)
+									if($is_completed || $post->unlock)
 										$lesson_url = tutor_utils()->get_course_first_lesson(get_the_ID(),tutor()->lesson_post_type);
 								}
 								else
@@ -271,15 +281,22 @@ do_action('tutor_dashboard/before/wrap');
 												<div class="tutor-col-lg-12 tutor-d-flex">
 													<div class="tutor-col-lg-8">
 														<span class="progress-percentage tutor-fs-7 tutor-fw-normal tutor-color-muted">
+															<?php esc_html_e( 'Progress: ', 'tutor' ); ?>
 															<span class="tutor-fs-7 tutor-fw-medium tutor-color-black ">
 																<?php echo esc_html( $completed_percent . '%' ); ?>
-															</span><?php esc_html_e( 'Complete', 'tutor' ); ?>
+															</span>
+															<?php	if($is_completed && !$post_countsub): ?>
+																<span class="tutor-fs-7 tutor-fw-medium tutor-color-muted">
+																	<?php echo  esc_html_e( ' - ','tutor'  ); ?>
+																</span>
+																<?php echo $status;?>
+															<?php	endif; ?>
 														</span>
 													</div>
-													<?php	if($sub_class == "course_sub_class" && !$post->firstsub): ?>
+													<?php	if($sub_class == "course_sub_class" && !$post->unlock && !$is_completed): ?>
 													<div class="tutor-col-lg-4 tutor-div-locked">
 														<i class="tutor-icon-lock-filled tutor-icon-locked"></i>
-														<span class="tutor-fs-7 tutor-fw-medium tutor-color-muted tutor-text-locked">locked</span>
+														<span class="tutor-fs-7 tutor-fw-medium tutor-color-muted tutor-text-locked"><?php echo "locked";?></span>
 													</div>
 													<?php endif; ?>
 												</div>

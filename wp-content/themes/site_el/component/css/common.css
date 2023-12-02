@@ -79,6 +79,39 @@ li.tutor-dashboard-menu-item.tutor-dashboard-menu-announcements {
   outline: none !important;
 }
 
+
+.tutor-start-quiz-wrapper {
+	background: #f2f2f2;
+border-radius: 8px;
+-webkit-border-radius: 8px;
+-ms-border-radius: 8px;
+-moz-border-radius: 8px;
+box-shadow: 1px 1px 1px 1px #ddd;
+-webkit-box-shadow: 1px 1px 1px 1px #ddd;
+-ms-box-shadow: 1px 1px 1px 1px #ddd;
+-moz-box-shadow: 1px 1px 1px 1px #ddd;
+padding-bottom: 30px;
+}
+
+.tutor-btn.tutor-btn-primary {
+	width: 100%;
+	margin-bottom: 20px;
+	background: #222f6e !important;
+	padding: 9px 21px !important;
+	float: left;
+	margin-right: 20px;
+}
+
+.tutor-page-wrap .tutor-btn {
+	padding: 9px 21px !important;
+	background: #222f6e !important;
+}
+
+.tutor-page-wrap .tutor-btn.tutor-btn-sm {
+	max-width: initial !important;
+}
+
+
 .tutor-report-menu .tutor-nav li {
   float: left;
 display: block;
@@ -390,8 +423,47 @@ header ul.navbar-nav .nav-link:hover{
 .tutor-btn, ._btn_red {
   width: 100%;
     margin-bottom: 20px;
-    background: #bb1413 !important;
-    padding: 5px 21px !important;
+    background: #052455 !important;
+    padding: 8px 21px !important;
+}
+
+.quiz-flash-message {
+  display: none !important;
+}
+
+.tutor_quiz-template-default .tutor-btn.tutor-btn-sm {
+  max-width: inherit !important;
+  background: #0e66f2 !important;
+}
+
+.tutor_quiz-template-default .tutor-color-muted, .tutor_quiz-template-default .question-marks {
+  color: #888;
+  padding: 0px;
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+}
+
+.quiz-question-ans-choice-area {
+  margin: 20px 0 0 10px !important;
+padding: 0 0 0 14px;
+}
+
+#tutor-answering-quiz {
+  background: #f2f2f2;
+padding: 20px;
+border-radius: 8px;
+-webkit-border-radius: 8px;
+-ms-border-radius: 8px;
+-moz-border-radius: 8px;
+}
+
+.flash-info {
+  display: none;
+}
+
+.tutor-ui-table-wrapper [class^="tutor-icon-"], .tutor-ui-table-wrapper [class*=" tutor-icon-"] {
+  font-size: 24px;
+  color: #FFF !important;
 }
 
 .courses-template-default .container-fluid.text-regular-caption {
@@ -405,6 +477,10 @@ form input[type="radio"] {
 
 .tutor-ui-table-wrapper .tutor-btn, .tutor-ui-table-wrapper ._btn_red {
   margin-bottom: 0;
+}
+
+.tutor-ui-table-wrapper .tutor-btn.tutor-btn-tertiary {
+  background: #a6a6a6 !important;
 }
 
 
@@ -446,6 +522,7 @@ form input[type="radio"] {
   max-width: 1290px;
   padding: 30px 0 0 0;
   position: relative;
+  width: 90%;
 }
 .tutor-component-popup-container > div {
   min-width: 360px !important;
@@ -1318,6 +1395,18 @@ header .et_builder_inner_content {
   border: none;
   color: #666;
 }
+._lbl {
+  max-width: 200px;
+float: left;
+margin-right: 20px;
+}
+
+.__fillter_box {
+  margin-top: 20px;
+padding: 0 !important;
+margin-left: 0 !important;
+}
+
 .et_pb_searchsubmit {
   opacity: 0;
   position: relative;

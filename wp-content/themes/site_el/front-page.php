@@ -169,6 +169,10 @@ get_header(); ?>
 																$courses_category_first = ($courses_categories && count($courses_categories))?$courses_categories[0]->name:'Uncategory';
 																$_tutor_course_start_date = get_post_meta( $___postsDat[$i]->ID, '_tutor_course_start_date', true);
                                                             ?>
+
+                                                                <?php
+                                                                if($___postsDat[$i]->post_title != "Auto Draft") {
+                                                                ?>
                                                                 <!--- render course item -->
                                                                
                                                                 <div class="___cert_item __cdetail __border_raiuds_6">
@@ -218,6 +222,10 @@ get_header(); ?>
                                                                     
                                                                 </div>
 
+                                                                <?php
+                                                                } // endif Auto Draft
+                                                                ?>
+
                                                             <?php
                                                             }
 
@@ -248,13 +256,7 @@ get_header(); ?>
 
         <?php ?>
 
-        <section class="__bg_white pt-4 pb-3 animate fadeInUp ftco-animated">
-            <div class="container">
-                <div class="row">
-                    <img src="<?php echo $home_sub_banner;?>" class="_border_radius_10">
-                </div>
-            </div>
-        </section>
+        
 <?php
 /*
         <section class="__bg_white pt-4 mt-5 pb-3 animate fadeInUp ftco-animated">

@@ -2746,7 +2746,7 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 				$ii=0;
 				$post->rowadd = $post->ID;
 				$post->subchild ='';
-				$child_courses = array_intersect($children_ids_arr,$active_courses);
+				$child_courses = array_intersect($children_ids_arr,$enrolled_course_ids);
 				$num_child = count($child_courses);
 				if($num_child)
 					foreach($child_courses as $key=>$cid){
@@ -2754,13 +2754,17 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 							if(!$post_child) {unset($child_courses[$key]);continue;}
 					}
 				$num_child = count($child_courses);
-				if($num_child)
+				if($num_child){
+					$firstsub = false;					
+					$unlock = false;					
 					foreach($child_courses as $key=>$cid){
 						//if(in_array($cid, $active_courses)){
 							$post_child   = get_post( $cid );
 							if(!$post_child)  continue;
+							$is_completed = tutor_utils()->is_completed_course( $cid, $user_id );
 							$ii+=1;
-							if($ii==1) {$post_child->firstsub = $ii;$post->firstchild=$cid;}
+							if(!$unlock && !$is_completed) {$post_child->unlock = $ii;$post->firstchild=$cid;$unlock=true;}
+							if($ii==1) {$post_child->firstsub = $ii;$firstsub=true;}
 							if ($key === array_key_last($child_courses))  $post_child->lastsub = $key;
 							$post_child->rowadd = $post->ID;
 							$post_child->subchild = '_'.str_pad($ii, 3, '0', STR_PAD_LEFT).'_';
@@ -2769,6 +2773,7 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 							$added_posts[$cid] = $cid; 						
 						//}
 					}
+				}	
 				if (!array_key_exists($post->ID, $added_posts)){
 					if($ii) $post->countsub = $ii;
 					$key = $post->rowadd.'---'; 
@@ -3414,6 +3419,30 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 			);
 			return;
 		}
+	}
+	public function do_uncompleted( $course_id = 0, $user_id = 0 ) {
+		if ( ! $course_id || !$user_id) {
+			return false;
+		}
+		global $wpdb;
+		
+			$getcompletedInfo = $wpdb->query(
+				$wpdb->prepare(
+					"DELETE 
+				FROM 	{$wpdb->comments}
+				WHERE 	comment_agent = %s
+						AND comment_post_ID = %d
+						AND user_id = %d
+						AND comment_type = %s;
+				",
+					'TutorLMSPlugin',
+					$course_id,
+					$user_id,
+					'course_completed'
+				)
+			);
+			return;
+		
 	}
 	
 	//nhathuy-api-function

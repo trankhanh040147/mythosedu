@@ -691,6 +691,7 @@ class Course extends Tutor_Base {
 		$children_ids = trim(get_post_meta( $course_id, '_tutor_course_children', true ));
 		$children_ids_arr = $children_ids? explode(" ",$children_ids):array();
 		if (is_array($children_ids_arr) && count($children_ids_arr) ){
+			tutor_utils()->do_uncompleted( $course_id , $user_id);
 			foreach ( $children_ids_arr as $child_id ){
 				tutor_utils()->do_unenroll( $child_id , $user_id);
 			}			
