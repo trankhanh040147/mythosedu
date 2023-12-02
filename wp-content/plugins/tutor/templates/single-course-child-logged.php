@@ -607,22 +607,23 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 										// check is public course
 										if(__USING_ASA_SYSTEM == "YES") {
 											$course_id = get_the_ID();
+									
 											$is_public = get_post_meta( $course_id, '_tutor_is_public_course', true ) == 'yes';
-										if($is_public) {
-										?>
-											<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
-											<?php esc_html_e( 'Enroll', 'tutor' ); ?>
-											</button>
-										<?php 
-										} else {
-											// for not ASA system
-										?>
-											<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
+											if($is_public) {
+											?>
+												<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
 												<?php esc_html_e( 'Enroll', 'tutor' ); ?>
 												</button>
-										<?php 
+											<?php 
+											} else {
+											?>
+												<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
+												<?php esc_html_e( 'Enroll', 'tutor' ); ?>
+												</button>
+											<?php 
+											}
 										}
-										?>
+											?>
 									</form>									
 								</div>
 								<a href="#" class=" tutor-mt-16 tutor-btn-ghost tutor-btn-ghost-fd action-btn tutor-fs-6 tutor-fw-normal tutor-color-black tutor-course-wishlist-btn" data-course-id="<?php echo get_the_ID(); ?>">

@@ -460,7 +460,6 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 
 
 									<?php 
-									}
 									} else {
 										// for not ASA system
 									?>
@@ -478,6 +477,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 
 									<?php 
 									}
+								}
 									
 									?>
 										

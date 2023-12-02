@@ -641,16 +641,18 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 											?>
 											</button>
 											<?php 
-											} else {
-												// for not ASA system
-											?>
+											} // end public
+										} else {
+										// for not ASA system
+										?>
 												<button type="submit" class="__check_enroll_course tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
 												<?php esc_html_e( 'Enroll', 'tutor' ); 
 												?>
 												</button>
-											<?php 
-											}
-											?>
+										<?php 
+											
+										}
+										?>
 
 										
 									</form>
