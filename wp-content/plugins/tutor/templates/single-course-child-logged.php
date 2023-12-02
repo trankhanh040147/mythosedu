@@ -606,15 +606,9 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 										<?php 
 										// check is public course
 										if(__USING_ASA_SYSTEM == "YES") {
-										$is_public = get_post_meta( $course_id, '_tutor_is_public_course', true ) == 'yes';
+											$course_id = get_the_ID();
+											$is_public = get_post_meta( $course_id, '_tutor_is_public_course', true ) == 'yes';
 										if($is_public) {
-										?>
-											<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
-											<?php esc_html_e( 'Enroll', 'tutor' ); ?>
-											</button>
-										<?php 
-										}
-										} else {
 										?>
 											<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
 											<?php esc_html_e( 'Enroll', 'tutor' ); ?>
