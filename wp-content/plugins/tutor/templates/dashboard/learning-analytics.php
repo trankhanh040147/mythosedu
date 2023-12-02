@@ -158,14 +158,14 @@ elseif(current_user_can( 'shop_manager')||current_user_can( 'st_lt')){
 											$active_students = 0;
 											$average_rate = 0;
 											foreach($students as $sid){	
-												$completed_percent = tutor_utils()->parent_course_percents($course->ID, $sid);
-												$completed_percent = intval($completed_percent);	
-												//$h5p_p = tutor_utils()->get_course_total_points( $course->ID, $sid );
-												//$h5p_p+= tutor_utils()->get_course_quiz_points( $course->ID, $sid );
-												if($completed_percent){
-													$active_students+=1;
+												$completed_percent = tutor_utils()->parent_course_percents_average($course->ID, $sid);
+												if ($completed_percent == "notparent")
+														$completed_percent = tutor_utils()->get_course_total_points($course->ID, $sid);
+												$completed_percent = intval($completed_percent);			
+												if($completed_percent){													
 													$average_rate+=$completed_percent;
 												}
+												$active_students+=1;
 											}
 											echo $active_students;
 										?>

@@ -56,7 +56,13 @@
                     <option value=""><?php _e( 'Select a Course', 'tutor-pro' ); ?></option>
 	                <?php
 	                foreach ($courses as $course){
-		                echo "<option value='{$course->ID}'>{$course->post_title}</option>";
+						$parent_ids = get_post_meta( $course->ID, '_tutor_course_parent', true );
+						$parent_ids_arr = array();
+						if($parent_ids)
+							$parent_ids_arr = explode(" ",trim($parent_ids));
+						if ( count($parent_ids_arr)) continue;
+						echo "<option value='{$course->ID}'>{$course->post_title}</option>";
+						
 	                }
 	                ?>
                 </select>
