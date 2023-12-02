@@ -37,6 +37,9 @@ define( 'DB_NAME', 'u199319889_mythosedu_v1' );
 /** Hostname của database */
 define('DB_HOST', 'localhost');
 
+/** Database charset sử dụng để tạo bảng database. */
+define('DB_CHARSET', 'utf8mb4');
+
 
 /** Kiểu database collate. Đừng thay đổi nếu không hiểu rõ. */
 define('DB_COLLATE', '');
