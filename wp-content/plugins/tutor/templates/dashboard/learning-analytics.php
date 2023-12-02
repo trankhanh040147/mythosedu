@@ -110,6 +110,12 @@ elseif(current_user_can( 'shop_manager')||current_user_can( 'st_lt')){
 						</th>
 						<th class="tutor-table-rows-sorting">
 							<div class="inline-flex-center tutor-color-black-60">
+								<span class="text-regular-small"><?php esc_html_e( 'Average Pass Rate', 'tutor' ); ?></span>
+								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
+							</div>
+						</th>
+						<th class="tutor-table-rows-sorting">
+							<div class="inline-flex-center tutor-color-black-60">
 								<span class="text-regular-small"><?php esc_html_e( 'Passing Grade', 'tutor' ); ?></span>
 								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
 							</div>
@@ -156,33 +162,53 @@ elseif(current_user_can( 'shop_manager')||current_user_can( 'st_lt')){
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
 										<?php  
 											$active_students = 0;
+											$passed_students = 0;
 											$average_rate = 0;
+											$GPA = tutor_utils()->get_course_settings($course->ID, '_tutor_grade_point_average');
+											$completed_count = 0;
+											$passed_count = 0;
 											foreach($students as $sid){	
 												$completed_percent = tutor_utils()->parent_course_percents_average($course->ID, $sid);
 												if ($completed_percent == "notparent")
 														$completed_percent = tutor_utils()->get_course_total_points($course->ID, $sid);
-												$completed_percent = intval($completed_percent);			
-												if($completed_percent){													
-													$average_rate+=$completed_percent;
-												}
+												$completed_percent = intval($completed_percent);
+												$is_completed_course = tutor_utils()->is_completed_course( $course->ID, $sid);
+												if($is_completed_course){
+													$completed_count+=1;
+													if($completed_percent>=$GPA){
+														$passed_count+=1;
+														$average_rate+=$completed_percent;
+														$passed_students+=1;
+													}	
+												}		
+												//if($completed_percent){													
+												//	$average_rate+=$completed_percent;
+												//}
 												$active_students+=1;
 											}
 											echo $active_students;
 										?>
 									</div>
 								</td>
+								<td data-th="<?php esc_html_e( 'passinggrade', 'tutor' ); ?>">
+									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
+										<?php  
+											if($passed_students)
+												echo $average_rate=round($average_rate/$passed_students, 2)."%";
+										?>
+									</div>
+								</td>
 								<td data-th="<?php esc_html_e( 'averagepassrate', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
 										<?php  
-											if($active_students)
-												echo $average_rate=round($average_rate/$active_students, 2)."%";
+											if($completed_count)
+												echo $average_rate=round(($passed_count/$completed_count)*100, 2)."%";
 										?>
 									</div>
 								</td>
 								<td data-th="<?php esc_html_e( 'gpa', 'tutor' ); ?>">
 									<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
-										<?php  
-											$GPA = tutor_utils()->get_course_settings($course->ID, '_tutor_grade_point_average');
+										<?php
 											echo round($GPA)."%";
 										?>
 									</span>
