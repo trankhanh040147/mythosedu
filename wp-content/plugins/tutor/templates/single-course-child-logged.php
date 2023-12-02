@@ -464,6 +464,19 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
                             </div>
 							
 						</div>
+
+						<?php
+						// AAAA
+						if($_GET['mode'] == "TEST") {
+							echo "123456 -------";
+						//$graphServiceClient = new GraphServiceClient($requestAdapter);
+
+						//$result = $graphServiceClient->me()->get();
+						//var_dump($result);
+						
+						}
+						?>
+
 						<?php if($tutor_course_start_date): ?>
 						<div class=" text-regular-body tutor-color-black-60 tutor-d-flex tutor-align-items-center">
 							<div class="tutor-d-flex tutor-align-items-center">
@@ -502,7 +515,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 						}	
 						elseif($course_enrolled){	// if course enrolled
 							 ?>
-								<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
+								<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex">
 									<span class="tutor-icon-26 tutor-color-success tutor-icon-purchase-filled tutor-mr-8"></span>
 									<span class="tutor-color-success">
 									<?php esc_html_e( 'You enrolled in this course on', 'tutor' ); ?>
@@ -516,12 +529,12 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 							if($is_completed_course){	
 							 ?>
 							 </div>
-							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
+							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex">
 									<span class="tutor-fs-5 text-bold-small tutor-color-success">
 									<?php esc_html_e( 'Course Completed', 'tutor' ); ?>
 									</span>
 							</div>
-							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">		
+							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex">		
 									<a href="<?php echo $lesson_url;?>">
 									<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-16 tutor-enroll-course-button">
 									<?php esc_html_e( 'Learn Again', 'tutor' ); ?>
@@ -533,7 +546,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 							else{	
 							 ?>
 							 </div>
-							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
+							 <div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex">
 									<?php
 									$courses_in_progress = tutor_utils()->get_active_courses_by_user_learning( get_current_user_id() );
 									//var_dump($courses_in_progress);
@@ -606,21 +619,26 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 										<?php 
 										// check is public course
 										if(__USING_ASA_SYSTEM == "YES") {
-										if(tutor_utils()->_tutor_is_public_course($course_id) == "yes") {
-										?>
-											<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
-											<?php esc_html_e( 'Enroll', 'tutor' ); ?>
-											</button>
-										<?php 
-										}
+											$course_id = get_the_ID();
+									
+											$is_public = get_post_meta( $course_id, '_tutor_is_public_course', true ) == 'yes';
+											if($is_public) {
+											?>
+												<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
+												<?php esc_html_e( 'Enroll', 'tutor' ); ?>
+												</button>
+												<?php 
+											} // end public
 										} else {
+										// for not ASA system
 										?>
-											<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
-											<?php esc_html_e( 'Enroll', 'tutor' ); ?>
-											</button>
-										<?php 
+												<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
+												<?php esc_html_e( 'Enroll', 'tutor' ); ?>
+												</button>
+											<?php 
+											
 										}
-										?>
+											?>
 									</form>									
 								</div>
 								<a href="#" class=" tutor-mt-16 tutor-btn-ghost tutor-btn-ghost-fd action-btn tutor-fs-6 tutor-fw-normal tutor-color-black tutor-course-wishlist-btn" data-course-id="<?php echo get_the_ID(); ?>">
@@ -631,7 +649,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 							elseif(current_user_can('administrator')||current_user_can('shop_manager')){
 							?>
 								</div>
-								<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
+								<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex">
 										<a href="<?php echo $lesson_url;?>">
 										<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-16 tutor-enroll-course-button">
 										<?php esc_html_e( 'Preview', 'tutor' ); ?>
@@ -651,6 +669,8 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 			
             <!-- end of /.tutor-course-details-page-main-right -->
         </div>
+		<?php
+		/*
 		<div class=" tutor-align-items-center mt-4">
 				<div class="tutor-fs-5 tutor-fw-bold mb-3">
 					<?php _e('FREQUENTLY BOUGHT TOGETHER', 'tutor'); ?>
@@ -664,20 +684,12 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 								foreach ($wishlists as $post) {
 									setup_postdata($post);
 
-									/**
-									 * @hook tutor_course/archive/before_loop_course
-									 * @type action
-									 * Usage Idea, you may keep a loop within a wrap, such as bootstrap col
-									 */
+								
 									do_action('tutor_course/archive/before_loop_course');
 
 									tutor_load_template('loop.course');
 
-									/**
-									 * @hook tutor_course/archive/after_loop_course
-									 * @type action
-									 * Usage Idea, If you start any div before course loop, you can end it here, such as </div>
-									 */
+									
 									do_action('tutor_course/archive/after_loop_course');
 								}
 								wp_reset_postdata();
@@ -689,6 +701,7 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 				</div>
 			</div>
         <!-- end of /.tutor-course-details-page-main -->
+		<?php */ ?>
     </div>
 </div>
 

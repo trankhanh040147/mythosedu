@@ -209,7 +209,7 @@ body.post-type-archive-courses {
 }
 body main {
   min-height: calc(100vh - 127px);
-  background: #F5F5F5;
+  background: transparent;
   overflow-x: hidden;
   width: 100%;
   display: block;
@@ -391,7 +391,11 @@ header ul.navbar-nav .nav-link:hover{
   width: 100%;
     margin-bottom: 20px;
     background: #bb1413 !important;
-    padding: 10px 15px !important;  
+    padding: 5px 21px !important;
+}
+
+.courses-template-default .container-fluid.text-regular-caption {
+  padding-left: 0 !important;
 }
 
 form input[type="radio"] {
@@ -439,17 +443,20 @@ form input[type="radio"] {
 }
 
 .tutor-container {
-  max-width: 1100px;
+  max-width: 1290px;
   padding: 30px 0 0 0;
   position: relative;
+}
+.tutor-component-popup-container > div {
+  min-width: 360px !important;
 }
 
 body.single-lesson {
   background: #fff;
 }
 body.single-lesson .tutor-lesson-page-main-right {
-  padding: 15px 0 20px 30px;
-  background: #f5f5f5;
+  padding: 15px 10px 20px 11px;
+  background: #F5FAFF;
 }
 
 
@@ -474,13 +481,18 @@ body.single-lesson .tutor-container {
   margin-top: 10px;
 }
 .tutor-lessons-under-topic .tutor-single-lesson-items {
-  padding: 15px 0 0 0;
+  padding: 10px 5px;
 }
 .tutor-lessons-under-topic .tutor-single-lesson-items.active {
-  background-color: #f5f5f5 !important;
-
+  background-color: #0B57D0 !important;
+  border-radius: 6px;
+  margin-top: 8px;
 }
 
+
+.tutor-lessons-under-topic .tutor-single-lesson-items.active a span {
+  color: #fff !important;
+}
 
 .tutor-container .tutor-px-20, .tutor-container .tutor-default-tab .tab-header-item {
   padding: 10px !important;
@@ -513,8 +525,8 @@ body.single-lesson .tutor-container {
   -moz-border-radius: 12px !important;
   border: 2px solid #e9edfb;
   */
-
 }
+
 
 .filter-widget-title {
   font-size: 18px !important;
@@ -556,8 +568,18 @@ form label {
 
 
 .tutor-single-course-sidebar .tutor-course-sidebar-card {
-  background: #fff;
+  background: #f4f7ff;
   top: 36px !important;
+  border: none !important;
+  box-shadow: -1px 0px 5px #cdcfd5 !important;
+  -webkit-box-shadow: -1px 0px 5px #cdcfd5 !important;
+  -ms-box-shadow: -1px 0px 5px #cdcfd5 !important;
+  -moz-box-shadow: -1px 0px 5px #cdcfd5 !important;
+}
+
+
+.tutor-single-course-sidebar .tutor-course-sidebar-card .pl-5 {
+  padding-left: 0 !important;
 }
 
 .single .course-student-page-right .tutor-price-box-thumbnail img {
@@ -770,7 +792,15 @@ position:unset !important;
 
 
 .container {
-  max-width: 1100px;
+  padding: 2% 0;
+  width: 90%;
+  max-width: 1290px;
+}
+
+.___cert_item  .parent_course_icon {
+  width: 100% !important;
+text-align: right;
+position: absolute !important;
 }
 .logged .highligh .row {
   background: #F7F8FE;
@@ -1301,7 +1331,7 @@ button, html [type="button"], [type="reset"], [type="submit"] {
   .et_pb_row {
     padding: 2% 0;
     width: 90%;
-    max-width: 1100px;
+    max-width: 1290px;
     margin: auto;
     position: relative;
 }

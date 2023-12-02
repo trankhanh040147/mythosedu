@@ -255,7 +255,8 @@ get_header(); ?>
                 </div>
             </div>
         </section>
-
+<?php
+/*
         <section class="__bg_white pt-4 mt-5 pb-3 animate fadeInUp ftco-animated">
             <div class="container">
                 <div class="row">
@@ -346,6 +347,9 @@ $args = array(
             </div>
         </section>
 
+        */
+        ?>
+
         <section class="__bg_white pt-4 mt-5 pb-3 animate fadeInUp ftco-animated">
             <div class="container __not_margin_padding">
                 <div class="row">
@@ -368,6 +372,8 @@ $args = array(
             </div>
         </section>
 
+        <?php
+        /*
         <section class="__bg_white mt-3 mb-4 pb-3 animate fadeInUp ftco-animated">
             <div class="container">
                 <div class="row mb-5">
@@ -401,6 +407,8 @@ $args = array(
                 </div>
             </div>
         </section>
+        */
+        ?>
 
     </main>
     <!-- ./ Mainsite -->
