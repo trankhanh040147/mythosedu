@@ -22,12 +22,12 @@
 			'title' => __( 'Students', 'tutor' ),
 			'role'  => $role ,
 		),
-		/* 'learning' => array(
+		 'learning' => array(
 			'url'   => esc_url( $learning_url ),
 			'title' => __( 'Learning', 'tutor' ),
 			'show_ui'  => false,
 			'role'  => $role ,
-		), */
+		), 
 	);
 
 	$learning_report_menus  = apply_filters( 'tutor_dashboard/nav_items/learning-report/nav_items', $learning_report_menus );

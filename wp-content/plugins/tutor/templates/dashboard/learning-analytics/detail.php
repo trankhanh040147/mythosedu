@@ -153,13 +153,16 @@ if($age_count)
 					<?php if (is_array($students) && count($students) ) : ?>					
 						<?php
 						foreach ( $students as $student ) :
-							$h5p_p = tutor_utils()->get_course_total_points( $active_cid, $student );
+							//$h5p_p = tutor_utils()->get_course_total_points( $active_cid, $student );
 							//$h5p_p+= tutor_utils()->get_course_quiz_points( $active_cid, $student );
+							$completed_percent = tutor_utils()->parent_course_percents($active_cid, $student);
+							$completed_percent = intval($completed_percent);													
 							$is_completed_course = tutor_utils()->is_completed_course( $active_cid, $student );
-							if($h5p_p)
+							$status="";
+							if($completed_percent)
 								$status = "<span class='tutor-color-muted'>learning</span>";
 							if($is_completed_course){
-								if($h5p_p>=$GPA){
+								if($completed_percent>=$GPA){
 									$status = "<span class='tutor-color-success'>passed</span>";
 								}	
 								else {
@@ -181,7 +184,7 @@ if($age_count)
 								</td>
 								<td data-th="<?php esc_html_e( 'progress', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
-										<?php if($h5p_p)	echo $h5p_p."%"; ?>
+										<?php if($completed_percent)	echo $completed_percent."%"; ?>
 									</div>
 								</td>
 								<td data-th="<?php esc_html_e( 'status', 'tutor' ); ?>">

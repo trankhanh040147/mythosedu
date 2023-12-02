@@ -26,7 +26,19 @@ if(current_user_can( 'administrator' )){
 												'post_type'  => $course_post_type,
 												'post_status'    => 'publish',
 												'posts_per_page' => '-1',
-												'not_draft_search' 	=> 'Auto Draft',					
+												'not_draft_search' 	=> 'Auto Draft',
+				'meta_query' =>  [
+									'relation' => 'OR',
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => 'NOT EXISTS',
+									],
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => '=',
+									  'value' => ''
+									]
+								 ],					
 											) ));
 	
 	$staff_courses = get_posts( array(
@@ -34,7 +46,19 @@ if(current_user_can( 'administrator' )){
 									'post_status'    => 'publish',
 									'posts_per_page' => $per_page,
 									'offset'         => $offset	,
-									'not_draft_search' 	=> 'Auto Draft',				
+									'not_draft_search' 	=> 'Auto Draft',
+				'meta_query' =>  [
+									'relation' => 'OR',
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => 'NOT EXISTS',
+									],
+									[
+									  'key' => '_tutor_course_parent',
+									  'compare' => '=',
+									  'value' => ''
+									]
+								 ],				
 								) );		
 }
 elseif(current_user_can( 'shop_manager')||current_user_can( 'st_lt')){
@@ -133,12 +157,14 @@ elseif(current_user_can( 'shop_manager')||current_user_can( 'st_lt')){
 										<?php  
 											$active_students = 0;
 											$average_rate = 0;
-											foreach($students as $sid){												
-												$h5p_p = tutor_utils()->get_course_total_points( $course->ID, $sid );
+											foreach($students as $sid){	
+												$completed_percent = tutor_utils()->parent_course_percents($course->ID, $sid);
+												$completed_percent = intval($completed_percent);	
+												//$h5p_p = tutor_utils()->get_course_total_points( $course->ID, $sid );
 												//$h5p_p+= tutor_utils()->get_course_quiz_points( $course->ID, $sid );
-												if($h5p_p){
+												if($completed_percent){
 													$active_students+=1;
-													$average_rate+=$h5p_p;
+													$average_rate+=$completed_percent;
 												}
 											}
 											echo $active_students;

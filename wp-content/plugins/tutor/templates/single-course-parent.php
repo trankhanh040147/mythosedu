@@ -631,15 +631,28 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 										<input type="hidden" name="tutor_course_action" value="_tutor_course_enroll_now">
 										<?php 
 										// check is public course
+										if(__USING_ASA_SYSTEM == "YES") {
 										if(tutor_utils()->_tutor_is_public_course($course_id) == "yes") {
 										?>
 											<button type="submit" class="__check_enroll_course tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
 											<?php esc_html_e( 'Enroll', 'tutor' ); 
 											?>
 											</button>
+											<?php 
+										}
+										} else {
+										?>
+
+											<button type="submit" class="__check_enroll_course tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
+											<?php esc_html_e( 'Enroll', 'tutor' ); 
+											?>
+											</button>
+
 										<?php 
 										}
+										
 										?>
+										
 									</form>
 								</div>
 								<a href="#" class=" tutor-mt-16 tutor-btn-ghost tutor-btn-ghost-fd action-btn tutor-fs-6 tutor-fw-normal tutor-color-black tutor-course-wishlist-btn" data-course-id="<?php echo get_the_ID(); ?>">
