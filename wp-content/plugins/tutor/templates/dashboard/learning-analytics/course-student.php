@@ -46,12 +46,6 @@ $paged    = 1;
 						</th>
 						<th class="tutor-table-rows-sorting">
 							<div class="inline-flex-center tutor-color-black-60">
-								<span class="text-regular-small"><?php esc_html_e( 'Passing Grade', 'tutor' ); ?></span>
-								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
-							</div>
-						</th>
-						<th class="tutor-table-rows-sorting">
-							<div class="inline-flex-center tutor-color-black-60">
 								<span class="text-regular-small"><?php esc_html_e( 'Average Grade', 'tutor' ); ?></span>
 								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
 							</div>
@@ -59,6 +53,12 @@ $paged    = 1;
 						<th class="tutor-table-rows-sorting">
 							<div class="inline-flex-center tutor-color-black-60">
 								<span class="text-regular-small"><?php esc_html_e( 'Status', 'tutor' ); ?></span>
+								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
+							</div>
+						</th>
+						<th class="tutor-table-rows-sorting">
+							<div class="inline-flex-center tutor-color-black-60">
+								<span class="text-regular-small"><?php esc_html_e( 'Passing Grade', 'tutor' ); ?></span>
 								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
 							</div>
 						</th>
@@ -92,11 +92,6 @@ $paged    = 1;
 										<?php echo get_the_title( $child_id ); ?>
 									</span>
 								</td>
-								<td data-th="<?php esc_html_e( 'passing-grade', 'tutor' ); ?>">
-									<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
-										<?php echo $GPA; ?>
-									</span>
-								</td>
 								<td data-th="<?php esc_html_e( 'progress', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
 										<?php if($completed_percent)	echo $completed_percent."%"; ?>
@@ -106,6 +101,11 @@ $paged    = 1;
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
 										<?php  echo $status;?>
 									</div>
+								</td>
+								<td data-th="<?php esc_html_e( 'passing-grade', 'tutor' ); ?>">
+									<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
+										<?php echo $GPA; ?>%
+									</span>
 								</td>
 							</tr>
 							<?php endforeach; ?>

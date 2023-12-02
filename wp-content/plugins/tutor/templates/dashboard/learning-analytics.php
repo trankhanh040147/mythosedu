@@ -181,10 +181,9 @@ elseif(current_user_can( 'shop_manager')||current_user_can( 'st_lt')){
 														$passed_students+=1;
 													}	
 												}		
-												//if($completed_percent){													
-												//	$average_rate+=$completed_percent;
-												//}
-												$active_students+=1;
+												if($is_completed_course || $completed_percent){													
+													$active_students+=1;
+												}												
 											}
 											echo $active_students;
 										?>

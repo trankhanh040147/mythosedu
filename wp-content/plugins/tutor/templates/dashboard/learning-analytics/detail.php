@@ -151,6 +151,11 @@ if($age_count)
 								<span class="tutor-icon-ordering-a-to-z-filled a-to-z-sort-icon tutor-icon-22"></span>
 							</div>
 						</th>
+						<th class="">
+							<div class="inline-flex-center tutor-color-black-60">
+								<span class="text-regular-small">Unenroll</span>
+							</div>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -182,7 +187,7 @@ if($age_count)
 							<tr>
 								<td data-th="<?php esc_html_e( 'teacher', 'tutor' ); ?>">
                                     <a href="<?php echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-analytics/course-student' );?>?cid=<?php echo $active_cid;?>&sid=<?php echo $student;?>">
-										<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
+										<span class="tutor-fs-7 tutor-fw-medium  tutor-color-primary-main">
 											<?php esc_html_e( $u_data->display_name ); ?>
 										</span>
 									</a>
@@ -208,6 +213,15 @@ if($age_count)
 											echo round($GPA)."%";
 										?>
 									</span>
+								</td>
+								<td data-th="<?php esc_html_e( 'unenroll', 'tutor' ); ?>">
+									<form class='tutor-enrol-course-form' method='post'>
+										<input type='hidden' name='tutor_course_id' value='<?php echo $active_cid;?>'>
+										<input type='hidden' name='tutor_student_id' value='<?php echo $student;?>'>
+										<input type='hidden' name='tutor_course_action' value='_tutor_course_unenroll_now'>
+										<button type='submit' class='tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-sm tutor-enroll-course-button'>
+										Unenroll</button>
+									</form>
 								</td>
 							</tr>
 							<?php endforeach; ?>
