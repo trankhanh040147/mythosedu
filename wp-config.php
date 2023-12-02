@@ -21,16 +21,16 @@
 
 // ** Thiết lập MySQL - Bạn có thể lấy các thông tin này từ host/server ** //
 /** Tên database MySQL */
-define('DB_NAME', 'vus_traininghub_uat');
+define('DB_NAME', 'u199319889_mythosedu_uat');
 //define( 'DB_NAME', 'live_vus_traininghub' );
 
 
 /** Username của database */
- define('DB_USER', 'pma');
+ define('DB_USER', 'root');
 //define('DB_USER', 'root');
 
 /** Mật khẩu của database */
- define('DB_PASSWORD', 'PVs2021nMdhihd@d4dm.coHn!..');
+ define('DB_PASSWORD', '040147');
 //define('DB_PASSWORD', '12345678@');
 
 /** Hostname của database */
@@ -60,7 +60,8 @@ define('AUTH_SALT',        'xqA,;dafSU]!j#^uL_K@z78dH7ItfYW^:UocJUA62MVwf8[$zykT
 define('SECURE_AUTH_SALT', 'c]7DisxGuYG`Nh-Vsm[_Z2GKe#/I5ersM&w*gK?<f6b7$I|M|EINyP|_,:L`Ln:F');
 define('LOGGED_IN_SALT',   ':g6U$&2<X1=to, V=O5%S|PKa-jP!vPq[MfyUvp;YJQ[_`KmOPd55aV!g IKo2v]');
 define('NONCE_SALT',       'Sun*q4U-!k@F.&&d!!/;t~$g^s_nnphD93fr}>zx|Y3nz-A8a;$vk)w~=(Z>HOk[');
-
+define('DDL_DOMAIN', 	   'fde29680ad2415b53c394d35299d167b' );
+define('DDL_INTERNAL',    true );
 /**#@-*/
 
 /**

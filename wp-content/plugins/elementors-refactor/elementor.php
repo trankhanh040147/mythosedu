@@ -63,9 +63,10 @@ if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
  *
  * @return void
  */
-function elementor_load_plugin_textdomain() {
-	load_plugin_textdomain( 'elementor' );
-}
+
+// function elementor_load_plugin_textdomain() {
+// 	load_plugin_textdomain( 'elementor' );
+// }
 
 /**
  * Drag & Drop Layout admin notice for minimum PHP version.
@@ -76,12 +77,12 @@ function elementor_load_plugin_textdomain() {
  *
  * @return void
  */
-function elementor_fail_php_version() {
-	/* translators: %s: PHP version */
-	$message = sprintf( esc_html__( 'Drag & Drop Layout requires PHP version %s+, plugin is currently NOT RUNNING.', 'elementor' ), '5.6' );
-	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
-	echo wp_kses_post( $html_message );
-}
+// function elementor_fail_php_version() {
+// 	/* translators: %s: PHP version */
+// 	$message = sprintf( esc_html__( 'Drag & Drop Layout requires PHP version %s+, plugin is currently NOT RUNNING.', 'elementor' ), '5.6' );
+// 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
+// 	echo wp_kses_post( $html_message );
+// }
 
 #require_once ELEMENTOR_PATH . 'elementor-pro/elementor-pro.php';
 
@@ -94,9 +95,9 @@ function elementor_fail_php_version() {
  *
  * @return void
  */
-function elementor_fail_wp_version() {
-	/* translators: %s: WordPress version */
-	$message = sprintf( esc_html__( 'Drag & Drop Layout requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'elementor' ), '5.0' );
-	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
-	echo wp_kses_post( $html_message );
-}
+// function elementor_fail_wp_version() {
+// 	/* translators: %s: WordPress version */
+// 	$message = sprintf( esc_html__( 'Drag & Drop Layout requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'elementor' ), '5.0' );
+// 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
+// 	echo wp_kses_post( $html_message );
+// }
