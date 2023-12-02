@@ -79,21 +79,13 @@ $enrolled_course_ids = tutor_utils()->get_enrolled_courses_ids_by_user( $active_
                             if ( 'publish' !== get_post_status( $course ) ) {
                                 continue;
                             }
-							$parent_ids = get_post_meta( $course, '_tutor_course_parent', true );
-							$parent_ids_arr = array();
-							if($parent_ids)
-								$parent_ids_arr = explode(" ",trim($parent_ids));
-							if ( count($parent_ids_arr)) continue;
-							$completed_percent = tutor_utils()->parent_course_percents_average($course, $active_sid );
-							if ($completed_percent == "notparent")
-									$completed_percent = tutor_utils()->get_course_total_points( $course, $active_sid );
-							$completed_percent = intval($completed_percent);													
-							
+							$h5p_p = tutor_utils()->get_course_total_points( $course, $active_sid );
+							//$h5p_p+= tutor_utils()->get_course_quiz_points( $course, $active_sid );
 							$is_completed_course = tutor_utils()->is_completed_course( $course, $active_sid );
-							if($completed_percent)
+							if($h5p_p)
 								$status = "<span class='tutor-color-muted'>learning</span>";
 							if($is_completed_course){
-								if($completed_percent>=$GPA){
+								if($h5p_p>=$GPA){
 									$status = "<span class='tutor-color-success'>passed</span>";
 								}	
 								else {
@@ -119,7 +111,7 @@ $enrolled_course_ids = tutor_utils()->get_enrolled_courses_ids_by_user( $active_
 								</td>
 								<td data-th="<?php esc_html_e( 'progress', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
-										<?php	echo $completed_percent."%"; ?>
+										<?php if($h5p_p)	echo $h5p_p."%"; ?>
 									</div>
 								</td>
 								<td data-th="<?php esc_html_e( 'status', 'tutor' ); ?>">

@@ -2800,66 +2800,9 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 
 		$completed_courses_ids_by_user  = $this->get_completed_courses_ids_by_user( $user_id );
 		$completed_childs 				= array_intersect($children_ids_arr,$completed_courses_ids_by_user);
-		$percentage = number_format((count($completed_childs)/ count($enrolled_childs))*100);
-						global $wpdb;
-						$table_comments = $wpdb->prefix . 'comments';
-						$is_completed_course_parent = $this->is_completed_course( $course_id );
-						if($percentage>=100 && !$is_completed_course_parent){
-							$date = date( 'Y-m-d H:i:s', tutor_time() );
-							$wpdb->insert( $table_comments, array(
-																'comment_post_ID'  => $course_id,
-																'comment_author'   => $user_id,
-																'comment_date'     => $date,
-																'comment_date_gmt' => get_gmt_from_date( $date ),
-																'comment_content'  => $date,
-																'comment_approved' => 'approved',
-																'comment_agent'    => 'TutorLMSPlugin',
-																'comment_type'     => 'course_completed',
-																'user_id'          => $user_id,
-															) );
-						}
-		return $percentage;
+		
+		return $percentage = number_format((count($completed_childs)/ count($enrolled_childs))*100);
 	}
-	
-	//parent course percents
-	public function parent_course_percents_average(  $course_id, $user_id = 0 ) {
-		$user_id             = $this->get_user_id( $user_id );
-		$children_ids = get_post_meta( $course_id, '_tutor_course_children', true );
-		if(!$children_ids) return "notparent"; 
-		$children_ids_arr = explode(" ",$children_ids);
-		if(!count($children_ids_arr)) return "notparent";
-
-		$enrolled_courses_ids_by_user	= $this->get_enrolled_courses_ids_by_user( $user_id );
-		$enrolled_childs 				= array_intersect($children_ids_arr,$enrolled_courses_ids_by_user);
-		if(!count($enrolled_childs)) return "notparent";
-		$total_point = 0;
-		foreach($enrolled_childs as $child_id){
-			$total_point+= $this->get_course_total_points( $child_id, $user_id );			
-		}
-		$percents_average = number_format($total_point/count($enrolled_childs));
-		$completed_courses_ids_by_user  = $this->get_completed_courses_ids_by_user( $user_id );
-		$completed_childs 				= array_intersect($children_ids_arr,$completed_courses_ids_by_user);
-		$percentage = number_format((count($completed_childs)/ count($enrolled_childs))*100);
-						global $wpdb;
-						$table_comments = $wpdb->prefix . 'comments';
-						$is_completed_course_parent = $this->is_completed_course( $course_id );
-						if($percentage>=100 && !$is_completed_course_parent){
-							$date = date( 'Y-m-d H:i:s', tutor_time() );
-							$wpdb->insert( $table_comments, array(
-																'comment_post_ID'  => $course_id,
-																'comment_author'   => $user_id,
-																'comment_date'     => $date,
-																'comment_date_gmt' => get_gmt_from_date( $date ),
-																'comment_content'  => $date,
-																'comment_approved' => 'approved',
-																'comment_agent'    => 'TutorLMSPlugin',
-																'comment_type'     => 'course_completed',
-																'user_id'          => $user_id,
-															) );
-						}
-		return $percents_average;
-	}
-	
 	public function get_active_courses_by_user_learning_parent( $user_id = 0, $offset = 0, $posts_per_page = -1 ) {
 		$user_id             = $this->get_user_id( $user_id );
 		$course_ids          = $this->get_completed_courses_ids_by_user( $user_id );
@@ -7546,29 +7489,6 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 	}
 
 	/**
-	 * @return mixed
-	 *
-	 * Get currency symbol from activated plugin, WC,EDD
-	 *
-	 * @since  v.1.3.4
-	 */
-	public function currency_symbol() {
-		 $enable_tutor_edd = tutor_utils()->get_option( 'enable_tutor_edd' );
-		$monetize_by       = $this->get_option( 'monetize_by' );
-
-		$symbol = '&#36;';
-		if ( $enable_tutor_edd && function_exists( 'edd_currency_symbol' ) ) {
-			$symbol = edd_currency_symbol();
-		}
-
-		if ( $monetize_by === 'wc' && function_exists( 'get_woocommerce_currency_symbol' ) ) {
-			$symbol = get_woocommerce_currency_symbol();
-		}
-
-		return apply_filters( 'get_tutor_currency_symbol', $symbol );
-	}
-
-	/**
 	 * @param int $_tutor_is_public_course
 	 *
 	 * @return int|string
@@ -7598,6 +7518,29 @@ public function wpse_huy_apply_sort_course( $active_courses=array(), $posts ) {
 		}
 
 		return $_check_is_public_course;
+	}
+
+	/**
+	 * @return mixed
+	 *
+	 * Get currency symbol from activated plugin, WC,EDD
+	 *
+	 * @since  v.1.3.4
+	 */
+	public function currency_symbol() {
+		 $enable_tutor_edd = tutor_utils()->get_option( 'enable_tutor_edd' );
+		$monetize_by       = $this->get_option( 'monetize_by' );
+
+		$symbol = '&#36;';
+		if ( $enable_tutor_edd && function_exists( 'edd_currency_symbol' ) ) {
+			$symbol = edd_currency_symbol();
+		}
+
+		if ( $monetize_by === 'wc' && function_exists( 'get_woocommerce_currency_symbol' ) ) {
+			$symbol = get_woocommerce_currency_symbol();
+		}
+
+		return apply_filters( 'get_tutor_currency_symbol', $symbol );
 	}
 
 	/**
@@ -11184,5 +11127,42 @@ public function get_course_total_points( $course_id = 0,$user_id = 0 ) {
 		} else {
 			get_footer();
 		}
+	}
+
+
+	// Get students by Campus
+	public function get_students_by_campus($cid='',$offset=0, $per_page=0,$campus) {
+		global $wpdb;
+		$users_all = get_users( array('role'    => 'subscriber'));
+		$users_new = "";
+		$usres_arr_new = array();
+		foreach ( $users_all as $user ) {
+			 $users_arr_new[] = "'".$user->ID."'";
+		}
+		$users_new = implode(',',$users_arr_new);
+		$campus_values = explode(',', $campus);
+		$campus_values = array_map(function($value) {
+			return "'" . $value . "'";
+		}, $campus_values);
+		$campus_conditions = array();
+		foreach ($campus_values as $campus_value) {
+			$campus_conditions[] = "Manage_Branchs = {$campus_value}";
+		}
+		$str_cond = " WHERE (" . implode(' OR ', $campus_conditions) . ")";
+		if($users_new)
+			$str_cond.= " AND ID IN ({$users_new}) ";
+		if($cid)
+			$str_cond.= " AND Branch_ID = '{$cid}' ";
+		if($per_page){$str_limit = " LIMIT {$offset}, {$per_page} ";}
+		$query_users = $wpdb->get_results(
+			$wpdb->prepare(
+			"SELECT distinct * 
+			FROM 	{$wpdb->users} 
+			".$str_cond." 
+			ORDER BY ID 
+			".$str_limit.""
+			),ARRAY_A
+		);
+		return $query_users ;
 	}
 }

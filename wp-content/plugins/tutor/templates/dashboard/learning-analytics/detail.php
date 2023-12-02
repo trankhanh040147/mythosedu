@@ -49,10 +49,6 @@ $age_total=0;
 $age_count=0;
 
 foreach ( $students as $student ) {
-    $user_existed = get_userdata( $student );
-	if ( $user_existed === false ) {
-		continue;
-	}
 	$_tutor_vus_member = esc_attr( get_user_meta( $student, '_tutor_vus_member', true ) );
 	if($_tutor_vus_member=='Internal') $internal_count+=1;
 	else $external_count+=1;
@@ -157,20 +153,13 @@ if($age_count)
 					<?php if (is_array($students) && count($students) ) : ?>					
 						<?php
 						foreach ( $students as $student ) :
-                            $user_existed = get_userdata( $student );
-							if ( $user_existed === false ) {
-								continue;
-							}
-							$completed_percent = tutor_utils()->parent_course_percents_average($active_cid, $student);
-							if ($completed_percent == "notparent")
-									$completed_percent = tutor_utils()->get_course_total_points( $active_cid, $student);
-							$completed_percent = intval($completed_percent);													
+							$h5p_p = tutor_utils()->get_course_total_points( $active_cid, $student );
+							//$h5p_p+= tutor_utils()->get_course_quiz_points( $active_cid, $student );
 							$is_completed_course = tutor_utils()->is_completed_course( $active_cid, $student );
-							$status="";
-							if($completed_percent)
+							if($h5p_p)
 								$status = "<span class='tutor-color-muted'>learning</span>";
 							if($is_completed_course){
-								if($completed_percent>=$GPA){
+								if($h5p_p>=$GPA){
 									$status = "<span class='tutor-color-success'>passed</span>";
 								}	
 								else {
@@ -181,11 +170,9 @@ if($age_count)
 							?>
 							<tr>
 								<td data-th="<?php esc_html_e( 'teacher', 'tutor' ); ?>">
-                                    <a href="<?php echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-analytics/course-student' );?>?cid=<?php echo $active_cid;?>&sid=<?php echo $student;?>">
-										<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
-											<?php esc_html_e( $u_data->display_name ); ?>
-										</span>
-									</a>
+									<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
+										<?php esc_html_e( $u_data->display_name ); ?>
+									</span>
 								</td>
 								<td data-th="<?php esc_html_e( 'campus', 'tutor' ); ?>">
 									<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
@@ -194,7 +181,7 @@ if($age_count)
 								</td>
 								<td data-th="<?php esc_html_e( 'progress', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
-										<?php echo $completed_percent."%"; ?>
+										<?php if($h5p_p)	echo $h5p_p."%"; ?>
 									</div>
 								</td>
 								<td data-th="<?php esc_html_e( 'status', 'tutor' ); ?>">

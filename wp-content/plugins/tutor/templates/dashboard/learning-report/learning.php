@@ -34,11 +34,6 @@ $st   	        = isset($_GET['st']) ? sanitize_text_field($_GET['st']) : '';
 			<option value="./?cid=&st=<?php echo $st;?>"><?php _e( 'Please select a course', 'tutor' ); ?></option>
                 <?php
                     foreach ($staff_courses as $course) {
-						$parent_ids = get_post_meta( $course, '_tutor_course_parent', true );
-						$parent_ids_arr = array();
-						if($parent_ids)
-							$parent_ids_arr = explode(" ",trim($parent_ids));
-						if ( count($parent_ids_arr)) continue;
                         echo '<option value="./?cid=' . $course->ID . '&st='.$st.'" ' . ($active_cid == $course->ID ? 'selected="selected"' : '') . '>
                             ' . $course->post_title . '
                         </option>';
@@ -115,18 +110,15 @@ if (is_array($students_all) && count($students_all) ) {
 					<?php if ( is_array($students_all) && count($students_all) ) : ?>
 						<?php
 						foreach ( $students_all as $student ) :
-							$completed_percent = tutor_utils()->parent_course_percents_average( $active_cid, $student['ID'] );
-							if ($completed_percent == "notparent")
-								$completed_percent = tutor_utils()->get_course_total_points($active_cid, $student['ID'] );
-							$completed_percent = intval($completed_percent);			
-												
+							$h5p_p = tutor_utils()->get_course_total_points( $active_cid, $student['ID'] );
+							//$h5p_p+= tutor_utils()->get_course_quiz_points( $active_cid, $student['ID'] );
 							$is_completed_course = tutor_utils()->is_completed_course( $active_cid, $student['ID'] );
 							
 							$status = "<span class='tutor-color-muted'>learning</span>";
 							$completed_at = "";
 							if($is_completed_course){
 								$completed_at = $is_completed_course->completion_date;
-								if($completed_percent>=$GPA){
+								if($h5p_p>=$GPA){
 									$status = "<span class='tutor-color-success'>passed</span>";
 									if($st=='f') continue; 
 								}	
@@ -158,7 +150,7 @@ if (is_array($students_all) && count($students_all) ) {
 								</td>
 								<td data-th="<?php esc_html_e( 'Earned Marks', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
-										<?php esc_html_e( $completed_percent); ?>%
+										<?php esc_html_e( $h5p_p); ?>%
 									</div>
 								</td>
 								<td data-th="<?php esc_html_e( 'Status', 'tutor' ); ?>">
