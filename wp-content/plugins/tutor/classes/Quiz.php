@@ -503,7 +503,7 @@ class Quiz {
 		$quiz_points_answered_all = tutor_utils()->quiz_points_answered_all( $course_id );
 		$earned_percentage= tutor_utils()->get_course_total_points( $course_id );
 		if($h5p_points_answered_all && $quiz_points_answered_all && !$is_completed_course){
-		
+			$table_comments = $wpdb->prefix . 'comments';
 			//$GPA = tutor_utils()->get_course_settings($course_id, '_tutor_grade_point_average');
 			//$earned_percentage = $all_earned_marks > 0 ? (number_format(($all_earned_marks * 100) / $all_total_marks)) : 0;
 			//if($earned_percentage>=$GPA){
@@ -534,11 +534,43 @@ class Quiz {
 					'user_id'          => $user_id,
 				);
 
-				$wpdb->insert( $wpdb->comments, $data );
+				$wpdb->insert( $table_comments, $data );
 				$lastid = $wpdb->insert_id;		
 				if($lastid)
 					update_comment_meta( $lastid, 'earned_marks', $earned_percentage );				
 				$permalink = get_the_permalink( $course_id );
+				
+				$children_ids = get_post_meta( $course_id, '_tutor_course_children', true );
+				$children_ids_arr = array();
+				if($children_ids)
+					$children_ids_arr = explode(" ",trim($children_ids));
+				$parent_id = wp_get_post_parent_id($course_id);
+				$parent_ids = get_post_meta( $course_id, '_tutor_course_parent', true );
+				$parent_ids_arr = array();
+				if($parent_ids)
+					$parent_ids_arr = explode(" ",trim($parent_ids));
+				if ( count($parent_ids_arr)) {
+					foreach($parent_ids_arr as $p_id){
+						$completed_percent = tutor_utils()->parent_course_percents($p_id);
+						$completed_percent = intval($completed_percent);
+						$is_completed_course_parent = tutor_utils()->is_completed_course( $p_id );
+						if($completed_percent>=100 && !$is_completed_course_parent){
+							$date = date( 'Y-m-d H:i:s', tutor_time() );
+							$wpdb->insert( $table_comments, array(
+																'comment_post_ID'  => $p_id,
+																'comment_author'   => $user_id,
+																'comment_date'     => $date,
+																'comment_date_gmt' => get_gmt_from_date( $date ),
+																'comment_content'  => $date,
+																'comment_approved' => 'approved',
+																'comment_agent'    => 'TutorLMSPlugin',
+																'comment_type'     => 'course_completed',
+																'user_id'          => $user_id,
+															) );
+						}
+					}
+				}
+				
 				wp_redirect( $permalink );
 				exit;
 			//}

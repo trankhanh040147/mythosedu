@@ -78,11 +78,11 @@ if (is_array($students_all) && count($students_all) ) {
 							?>
 							<tr>
 								<td data-th="<?php esc_html_e( 'Email', 'tutor' ); ?>">
-									<!--<a href="<?php echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-analytics/student' );?>?sid=<?php echo $student['ID'];?>">-->
+									<a href="<?php echo tutor_utils()->get_tutor_dashboard_page_permalink( 'learning-analytics/student' );?>?sid=<?php echo $student['ID'];?>">
 									<span class="tutor-fs-7 tutor-fw-medium tutor-color-primary-main1">
 										<?php esc_html_e( $student['user_email'] ); ?>
 									</span>
-									<!--</a>-->
+									</a>
 								</td>
 								<td data-th="<?php esc_html_e( 'Branch Code', 'tutor' ); ?>">
 									<div class="td-tutor-rating tutor-fs-6 tutor-fw-normal tutor-color-black-60">
