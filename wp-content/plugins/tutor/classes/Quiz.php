@@ -504,9 +504,9 @@ class Quiz {
 		$earned_percentage= tutor_utils()->get_course_total_points( $course_id );
 		if($h5p_points_answered_all && $quiz_points_answered_all && !$is_completed_course){
 			$table_comments = $wpdb->prefix . 'comments';
-			//$GPA = tutor_utils()->get_course_settings($course_id, '_tutor_grade_point_average');
+			$GPA = tutor_utils()->get_course_settings($course_id, '_tutor_grade_point_average');
 			//$earned_percentage = $all_earned_marks > 0 ? (number_format(($all_earned_marks * 100) / $all_total_marks)) : 0;
-			//if($earned_percentage>=$GPA){
+			if($earned_percentage>=$GPA){
 				$date = date( 'Y-m-d H:i:s', tutor_time() );
 
 				// Making sure that, hash is unique
@@ -573,7 +573,7 @@ class Quiz {
 				
 				wp_redirect( $permalink );
 				exit;
-			//}
+			}
 		}
 			
 		//echo $add_quiz_pionts = tutor_utils()->get_quiz_option($quiz_id, 'enable_quiz_points_to_course');

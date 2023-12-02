@@ -833,7 +833,7 @@ class Utils {
 
 		return $student_data;
 	}
-	public function get_user_manage_students_all($user_id, $offset, $per_page) {
+	public function get_user_manage_students_all($user_id, $offset=0, $per_page=1000) {
 		global $wpdb;
 		$entry_u = $wpdb->get_row( "SELECT Manage_Users FROM {$wpdb->users} 
 									WHERE ID = {$user_id}");
@@ -873,14 +873,15 @@ class Utils {
 		elseif($manage_users_new &&  $manage_branchs_new)
 			$str_cond = " WHERE ID IN ({$manage_users_new})  
 							OR  Branch_ID IN ({$manage_branchs_new}) ";	
-			
+		$str_limit = "";
+		if($per_page){$str_limit = " LIMIT {$offset}, {$per_page} ";}	
 		$query_users = $wpdb->get_results(
 			$wpdb->prepare(
 			"SELECT distinct * 
 			FROM 	{$wpdb->users} 
 			".$str_cond." 
 			ORDER BY ID 
-			LIMIT {$offset}, {$per_page} 
+			".$str_limit."
 			"
 			),ARRAY_A
 		);
@@ -8775,7 +8776,7 @@ public function get_course_h5p_points( $course_id = 0,$user_id = 0 ) {
 			$grade_category = tutor_utils()->get_h5p_option($lession_of_course->ID, 'grade_category');
 			if(!$grade_category)  continue;
 			//$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);
-			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$lession_of_course->ID);
 			$max_score =$attempt_of_h5p->max_score;
 			$score =$attempt_of_h5p->score;
 			if(!isset($grades[$grade_category])) $grades[$grade_category] = array();
@@ -8809,7 +8810,7 @@ public function h5p_points_answered_all( $course_id = 0,$user_id = 0 ) {
 			if(!$h5p_id) continue;
 			$add_h5p_points = tutor_utils()->get_h5p_option($lession_of_course->ID, 'enable_h5p_points_to_course');
 			if(!$add_h5p_points) continue;
-			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$lession_of_course->ID);
 			if($attempt_of_h5p === NULL)
 				return false;
         }
@@ -8885,7 +8886,7 @@ public function get_course_total_points( $course_id = 0,$user_id = 0 ) {
 			if(!$add_h5p_points) continue;
 			$grade_category = tutor_utils()->get_h5p_option($lession_of_course->ID, 'grade_category');
 			if(!$grade_category)  continue;
-			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+			$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$lession_of_course->ID);
 			$max_score =$attempt_of_h5p->max_score;
 			$score =$attempt_of_h5p->score;
 			if(!isset($grades[$grade_category])) $grades[$grade_category] = array();
@@ -9038,13 +9039,13 @@ public function get_course_total_points( $course_id = 0,$user_id = 0 ) {
 	}
 	
 	//Huynhn
-	public function get_h5p_attempt( $h5p_id = 0, $user_id = 0, $course_id = 0 ) {
+	public function get_h5p_attempt( $h5p_id = 0, $user_id = 0, $lesson_id = 0 ) {
 		global $wpdb;
 		$user_id = $this->get_user_id( $user_id );
-		$course_id    = $this->get_post_id( $course_id );
+		$lesson_id    = $this->get_post_id( $lesson_id );
 		$attempt = false;
-		$from_string       = " FROM `wp_h5p_results` WHERE content_id = %d AND user_id = %d AND course_id = %d  ";
-		$attempt = $wpdb->get_row( $wpdb->prepare( "SELECT * {$from_string} ORDER BY score DESC LIMIT 1; ", $h5p_id, $user_id, $course_id ) );
+		$from_string       = " FROM `wp_h5p_results` WHERE content_id = %d AND user_id = %d AND lesson_id = %d  ";
+		$attempt = $wpdb->get_row( $wpdb->prepare( "SELECT * {$from_string} ORDER BY score DESC LIMIT 1; ", $h5p_id, $user_id, $lesson_id ) );
 //var_dump($attempt);die();
 		return $attempt;
 	}

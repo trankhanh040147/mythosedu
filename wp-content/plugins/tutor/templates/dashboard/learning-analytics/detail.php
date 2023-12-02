@@ -64,13 +64,17 @@ foreach ( $students as $student ) {
 	
 	$age = get_user_meta( $student, '_tutor_age', true );
 	if($age){
-	$tz  = new DateTimeZone('Asia/Ho_Chi_Minh');
-	$_tutor_age = DateTime::createFromFormat('Y-m-d', $age, $tz)->diff(new DateTime('now', $tz))->y;
-	$_tutor_age = intval($_tutor_age);
-	if($_tutor_age) {
-		$age_total+=$_tutor_age;
-		$age_count+=1;
-	}
+		$tz  = new DateTimeZone('Asia/Ho_Chi_Minh');
+		$format =  'Y-m-d';
+		$_tutor_age = DateTime::createFromFormat($format, $age, $tz);
+		if($_tutor_age && $_tutor_age->format($format) === $age) {
+			$_tutor_age = $_tutor_age->diff(new DateTime('now', $tz))->y;
+			$_tutor_age = intval($_tutor_age);
+			if($_tutor_age) {
+				$age_total+=$_tutor_age;
+				$age_count+=1;
+			}
+		}	
 	}
 }
 if($age_count)

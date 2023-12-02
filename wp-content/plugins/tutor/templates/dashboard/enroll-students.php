@@ -5,34 +5,9 @@
  * @version 1.4.3
  */
 
+$user_id				= get_current_user_id(); 
+$active_cid   	        = isset($_GET['cid']) ? sanitize_text_field($_GET['cid']) : '';
 ?>
-<?php 
-$current_campus = wp_get_current_user()->data->Manage_Branchs;
-$students_all =tutor_utils()->get_students_by_campus($active_cid,$offset, $per_page,$current_campus);
-
-$learner_id= 121;
-$course_id = 2106;
-//print_r($students_all);
-
-
-// Retrieve the list of courses
-$courses = tutor_utils()->get_courses();
-// Check if there are courses available
-if (!empty($courses)) {
-    // Loop through the courses and display their details
-    foreach ($courses as $course) {
-        $course_id = $course->ID;
-        $course_title = $course->post_title;
-        $course_permalink = get_permalink($course_id);
-
-        // Display course information
-       // echo "<a href='$course_permalink'>$course_id ------ $course_title</a><br>";
-    }
-} else {
-    //echo "No courses available.";
-}
-
-?>  
 <div class="tutor-fs-5 tutor-fw-medium tutor-color-black tutor-mb-16"><?php esc_html_e('Enroll Students', 'tutor'); ?></div>
 
 <div class="tutor-dashboard-content-inner enroll-students">
@@ -42,60 +17,8 @@ if (!empty($courses)) {
     <form action="" id="new-enroll_student-form" method="post">
         <input type="hidden" name="tutor_action" value="enrol_student">
 
-        <?php echo apply_filters('student_enrolled_to_course_msg', ''); ?>
+        <?php do_action('tutor_add_new_enroll_student_form_fields_before'); ?>
 
-        <?php  ?>
-        
-		<?php do_action('tutor_add_new_enroll_student_form_fields_before'); ?>
-
-        <div class="tutor-enroll-field-row">
-            <div class="tutor-enroll-field-label">
-                <label for="">
-					<?php _e('Add Students', 'tutor-pro'); ?>
-
-                    <span class="tutor-required-fields">*</span>
-                </label>
-            </div>
-            <div class="tutor-option-field">
-				<textarea name="add_students" id="add_students" rows="5" cols="60"  class="tutor-form-control tutor-mb-12" placeholder="Email, Branch_ID, Branch_Name, Gender, Age"></textarea>
-            </div>
-			<div class="tutor-enroll-field-label"></div>
-			<div class="tutor-option-field">
-                <?php _e('Students list: Email, Branch_ID, Branch_Name, Gender, Age (one per line)', 'tutor-pro'); ?>
-            </div>
-        </div>
-
-        <div class="tutor-enroll-field-row">
-            
-                <label for="">
-					<?php _e('Or enroll users by list:', 'tutor-pro'); ?>
-
-                    <span class="tutor-required-fields">*</span>
-                </label> 
-        </div>
-        <div id="table-enroll-students">
-            <?php
-                echo '<table>';
-                echo '<tr><th><input id="select-all" type="checkbox" value="all"></th><th>ID</th><th>Email</th><th>Action</th></tr>';
-                foreach ($students_all as $subarray) {
-                    $id = $subarray['ID'];
-                    $userName = $subarray['display_name'];
-                    $userEmail = $subarray['user_email'];
-                    $showEnroll = tutor_utils()->get_enrolled_courses_ids_by_user($id);
-                    //print_r($showEnroll);
-                    echo '<tr>';
-                    echo "<td><input type='checkbox' name='selected_ids[]' class='user-checkbox' value='$id'></td>";
-                    echo "<td>$userName</td>";
-                    echo "<td>$userEmail</td>";
-                    if(!empty($showEnroll)){
-                        echo '<td><a id="enrolled">Enrolled</a> / <a id="cancle">Cancle</a></td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</table>';
-            ?>
-        </div>
-		
         <div class="tutor-enroll-field-row">
             <div class="tutor-enroll-field-label">
                 <label>
@@ -106,10 +29,10 @@ if (!empty($courses)) {
 
             <div class="tutor-option-field">
                 <?php
-                $courses = tutor_utils()->get_courses(array(get_the_ID()), array('publish', 'private'));
+                $courses = tutor_utils()->get_courses(array(get_the_ID()), array('publish'));
                 ?>
-                <select name="course_id" class="tutor_select2" required="required">
-                    <option value=""><?php _e( 'Select a Course', 'tutor-pro' ); ?></option>
+                <select class="tutor-form-select tutor-select-redirector">
+                    <option value="./"><?php _e( 'Select a Course', 'tutor-pro' ); ?></option>
 	                <?php
 	                foreach ($courses as $course){
 						$parent_ids = get_post_meta( $course->ID, '_tutor_course_parent', true );
@@ -117,12 +40,120 @@ if (!empty($courses)) {
 						if($parent_ids)
 							$parent_ids_arr = explode(" ",trim($parent_ids));
 						if ( count($parent_ids_arr)) continue;
-						echo "<option value='{$course->ID}'>{$course->post_title}</option>";
-						
+						echo "<option value='./?cid=" . $course->ID ."' ".($active_cid == $course->ID ? "selected='selected'" : "") . ">{$course->post_title}</option>";
 	                }
 	                ?>
                 </select>
             </div>
+        </div>
+		<?php
+			
+						
+				//if($vus_member=="Internal"){	//if internal member
+					
+				//if external coure but free for internal member
+					//if(isset($course_type['course_type']) && isset($course_type['internal_pay_ot_not']) &&  $course_type['course_type'] == 'forexternal' && $course_type['internal_pay_ot_not'] == 'on') 
+					//$course_price = 0;
+				//}
+		
+			if($active_cid){			
+		?>
+		<div id="table-enroll-students" class="table_course_to_enroll mb-3">
+         <?php	   
+				echo '<table>';
+                //echo '<tr><th>Course</th><th>Type</th><th>Price</th></tr>';
+                
+                    //$s_id = $subarray['ID'];
+                    $courseName = get_the_title($active_cid);
+					$course_type = get_post_meta( $active_cid, '_tutor_course_type', true);
+					$course_type = maybe_unserialize($course_type);
+					$course_price = tutor_utils()->get_course_price( $active_cid);
+                    if(isset($course_type['course_type']) && isset($course_type['internal_pay_ot_not']) &&  $course_type['course_type'] == 'forexternal' && $course_type['internal_pay_ot_not'] == 'on') 
+						{$course_type = "For External (Free For Internal)"; $free_internal=true;}
+					elseif(isset($course_type['course_type']) &&  $course_type['course_type'] == 'forexternal') {$course_type = "For External"; $for_external=true;}
+						else $course_type = "For Internal";
+                    echo '<tr>';
+                    echo "<td>$courseName</td>";
+                    echo "<td>$course_type</td>";
+					echo "<td>$course_price</td>";
+                    echo '</tr>';
+					$child_ids = get_post_meta( $active_cid, '_tutor_course_children', true );
+					$child_ids_arr = array();
+					if($child_ids)
+						$child_ids_arr = explode(" ",trim($child_ids));
+					if ( count($child_ids_arr)){
+						foreach ($child_ids_arr as $sub_course) {
+							$courseName = get_the_title($sub_course);
+							$course_type = get_post_meta( $sub_course, '_tutor_course_type', true);
+							$course_type = maybe_unserialize($course_type);//var_dump($course_type['course_type']);
+							$course_price = tutor_utils()->get_course_price( $sub_course);
+							if(isset($course_type['course_type']) && isset($course_type['internal_pay_ot_not']) &&  $course_type['course_type'] == 'forexternal' && $course_type['internal_pay_ot_not'] == 'on') 
+							{$course_type = "For External (Free For Internal)";$free_internal=true;}
+							elseif(isset($course_type['course_type']) &&  $course_type['course_type'] == 'forexternal') {$course_type = "For External"; $for_external=true;}
+								else $course_type = "For Internal";
+							echo '<tr>';
+							echo "<td>$courseName</td>";
+							echo "<td>$course_type</td>";
+							echo "<td>$course_price</td>";
+							echo '</tr>';
+						}
+					}
+                
+                echo '</table>';
+            ?>
+        </div>
+		<?php echo apply_filters('student_enrolled_to_course_msg', ''); ?>	
+		<?php
+			}
+			if($for_external){
+		?>
+			<div class="tnotice tnotice--danger">
+        <div class="tnotice__icon">¡</div>
+        <div class="tnotice__content"><p class="tnotice__type">Error</p><p class="tnotice__message"><?php _e('Can not enroll to external course(s)', 'tutor-pro'); ?></p>
+        </div>
+    	</div>
+		<?php	
+			}
+			elseif($active_cid){
+		?>		
+        <div class="tutor-enroll-field-row">            
+                <label for="" class='tutor-fw-bold'>
+					<?php _e('Please select below students and enroll to course', 'tutor-pro'); ?>
+                </label> 
+        </div>
+		<div class="tutor-input-search mb-3">
+			<div class="tutor-input-group tutor-form-control-has-icon tutor-form-control-lg">
+				<span class="tutor-icon-search-filled tutor-input-group-icon color-black-50"></span>
+				<input id="myInput_student" type="text" class="tutor-form-control"  placeholder="Search Student (Name,Email...)">		
+			</div>
+        </div>
+		
+        <div id="table-enroll-students">			
+            <?php				
+				$students_all = ( current_user_can( 'administrator' ) ) ? tutor_utils()->get_students_all():tutor_utils()->get_user_manage_students_all($user_id);
+                echo '<table>';
+                echo '<tbody id="myTable_student"><tr><th><input id="select-all" type="checkbox" value="all"></th><th>Student</th><th>Email</th><th></th><th></th></tr>';
+                foreach ($students_all as $subarray) {
+                    $s_id = $subarray['ID'];
+                    $userName = $subarray['display_name'];
+                    $userEmail = $subarray['user_email'];
+                    $is_enrolled = tutor_utils()->is_enrolled( $active_cid, $s_id );
+                    $vus_member = nl2br( strip_tags( get_user_meta( $s_id, '_tutor_vus_member', true ) ) );				
+					$vus_member = ($vus_member=="External")?"External":"Internal";
+					if($vus_member=="External") continue;
+					$tr_class=($is_enrolled)?" class='tr_student text-success' ":" class='tr_student' ";
+                    echo "<tr $tr_class ><td>";
+                    if(!$is_enrolled){ echo "<input type='checkbox' name='selected_ids[]' class='user-checkbox' value='$s_id'>";}
+                    echo "</td><td>$userName</td>";
+                    echo "<td>$userEmail</td>";
+					echo "<td></td>";
+                    if($is_enrolled){
+                        echo '<td><a id="enrolled" class="text-success">Enrolled</a></td>';
+                    }
+                    echo '</tr>';
+                }
+                echo '</tbody></table>';
+            ?>
         </div>
 
 		<?php do_action('tutor_add_new_enroll_student_form_fields_after'); ?>
@@ -139,6 +170,7 @@ if (!empty($courses)) {
                 </div>
             </div>
         </div>
+		<?php } ?>
     </form>
 </div>    
 </div>
@@ -146,18 +178,26 @@ if (!empty($courses)) {
     // Get the "Select All" checkbox element
     const selectAllCheckbox = document.getElementById('select-all');
   
-    // Get all the user checkboxes
-    const userCheckboxes = document.querySelectorAll('.user-checkbox');
-  
     // Add a click event listener to the "Select All" checkbox
     selectAllCheckbox.addEventListener('click', function () {
-      const isChecked = this.checked;
+	  // Get all the user checkboxes
+      const userCheckboxes = document.querySelectorAll('.tr_student:not([style*="display:none"]):not([style*="display: none"]) .user-checkbox');	
+      
+	  const isChecked = this.checked;
   
       // Set the checked state of all user checkboxes to match the "Select All" checkbox
       userCheckboxes.forEach(function (checkbox) {
         checkbox.checked = isChecked;
       });
     });
+	jQuery(document).ready(function($){
+	  $("#myInput_student").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$(".tr_student").filter(function() {
+		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	  });
+	});
 </script>
 <script src='/wp-content/plugins/tutor/assets/packages/select2/select2.full.min.js?ver=2.0.0' id='tutor-select2-js'></script>
 

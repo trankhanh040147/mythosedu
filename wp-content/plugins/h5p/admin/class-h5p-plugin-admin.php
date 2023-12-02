@@ -747,6 +747,7 @@ class H5P_Plugin_Admin {
     $content_id = filter_input(INPUT_POST, 'contentId', FILTER_VALIDATE_INT);
 	 
 	$course_id = filter_input(INPUT_GET, 'courseId');
+	$lesson_id = filter_input(INPUT_GET, 'lessonId');
 	if (!$course_id) {
       H5PCore::ajaxError(__('Invalid course', $this->plugin_slug));
       exit;
@@ -773,10 +774,10 @@ class H5P_Plugin_Admin {
         "SELECT id
         FROM {$wpdb->prefix}h5p_results
         WHERE user_id = %d 
-		AND course_id = %d 
+		AND lesson_id = %d 
         AND content_id = %d ",
         $user_id,
-        $course_id,
+        $lesson_id,
         $content_id
     ));
 
@@ -816,7 +817,7 @@ class H5P_Plugin_Admin {
       // Insert new results
       $data['user_id'] = $user_id;
       $format[] = '%d';
-	  $data['course_id'] = $course_id;
+	  $data['lesson_id'] = $lesson_id;
       $format[] = '%d';
       $data['content_id'] = $content_id;
       $format[] = '%d';
@@ -848,6 +849,7 @@ class H5P_Plugin_Admin {
 	$earned_percentage= tutor_utils()->get_course_total_points( $course_id );
 	if($h5p_points_answered_all && $quiz_points_answered_all && !$is_completed_course){
 		$table_comments = $wpdb->prefix . 'comments';
+		if($earned_percentage>=$GPA){
 		$date = date( 'Y-m-d H:i:s', tutor_time() );
 
 		do {
@@ -909,7 +911,7 @@ class H5P_Plugin_Admin {
 					}
 				}
 	}
-	
+	}
 	$lesson_url          = tutor_utils()->get_course_first_lesson($course_id,tutor()->lesson_post_type);
     // Success
     H5PCore::ajaxSuccess( array("completed" => $insert_finish, "GPA" => $GPA, "earned_percentage" => strval($earned_percentage), 'lesson_url' => $lesson_url));

@@ -185,8 +185,8 @@ else:
 													if(!$h5p_id) continue;
 													//echo $grade_category = tutor_utils()->get_h5p_option($lession_of_course->ID, 'grade_category');
 													//if($grade_category!=$grade_key) continue;
-													$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);													
-													$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$course_id);
+													//$passing_grade = tutor_utils()->get_grade_value($grade_category,$course_id);													
+													$attempt_of_h5p = tutor_utils()->get_h5p_attempt($h5p_id,$user_id,$lession_of_course->ID);
 													$max_score =$attempt_of_h5p->max_score;
 													$score =$attempt_of_h5p->score;
 													if($max_score){
