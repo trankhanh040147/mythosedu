@@ -21,21 +21,22 @@
 
 // ** Thiết lập MySQL - Bạn có thể lấy các thông tin này từ host/server ** //
 /** Tên database MySQL */
-define('DB_NAME', 'u199319889_mythosedu_uat');
+// define('DB_NAME', 'u199319889_mythosedu_uat');
+define( 'DB_NAME', 'u199319889_mythosedu_v1' );
 
 
 /** Username của database */
- define('DB_USER', 'root');
+//  define('DB_USER', 'root');
+ define( 'DB_USER', 'u199319889_root_v1' );
+
 
 /** Mật khẩu của database */
  define('DB_PASSWORD', '040147');
-//define('DB_PASSWORD', '12345678@');
+ define( 'DB_PASSWORD', 'Mythosedu47' );
 
 /** Hostname của database */
 define('DB_HOST', 'localhost');
 
-/** Database charset sử dụng để tạo bảng database. */
-define('DB_CHARSET', 'utf8mb4');
 
 /** Kiểu database collate. Đừng thay đổi nếu không hiểu rõ. */
 define('DB_COLLATE', '');
