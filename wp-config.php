@@ -3,8 +3,8 @@
 /**
  * Cấu hình cơ bản cho WordPress
  *
- * Trong quá trình cài đặt, file "wp-config.php" sẽ được tạo dựa trên nội dung 
- * mẫu của file này. Bạn không bắt buộc phải sử dụng giao diện web để cài đặt, 
+ * Trong quá trình cài đặt, file "wp-config.php" sẽ được tạo dựa trên nội dung
+ * mẫu của file này. Bạn không bắt buộc phải sử dụng giao diện web để cài đặt,
  * chỉ cần lưu file này lại với tên "wp-config.php" và điền các thông tin cần thiết.
  *
  * File này chứa các thiết lập sau:
@@ -26,12 +26,12 @@ define('DB_NAME', 'vus_traininghub_uat');
 
 
 /** Username của database */
-//define('DB_USER', 'pma');
-define('DB_USER', 'root');
+ define('DB_USER', 'pma');
+//define('DB_USER', 'root');
 
 /** Mật khẩu của database */
-// define('DB_PASSWORD', 'PVs2021nMdhihd@d4dm.coHn!..');
-define('DB_PASSWORD', '123456');
+ define('DB_PASSWORD', 'PVs2021nMdhihd@d4dm.coHn!..');
+//define('DB_PASSWORD', '12345678@');
 
 /** Hostname của database */
 define('DB_HOST', 'localhost');
@@ -41,7 +41,6 @@ define('DB_CHARSET', 'utf8mb4');
 
 /** Kiểu database collate. Đừng thay đổi nếu không hiểu rõ. */
 define('DB_COLLATE', '');
-
 /**#@+
  * Khóa xác thực và salt.
  *
@@ -83,24 +82,70 @@ $table_prefix  = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
-/******************* ON OFF SENDMAIL ***************************/
+
+/******************* TRAININGHUB SETTTINGS ***************************/
 define('__SENDEMAIL_ON_OFF', '__MAIL_ON'); // __MAIL_ON: enable; __MAIL_OFF: disible
 define('_DELETE_DRAFT_', 5); // number of minutes to delete draft courses
+
+define('__USING_ASA_SYSTEM', 'NO'); // number of minutes to delete draft courses
+
 define('_BRANCHS_', array(
-							'HCM'=>"TP HCM",
-							'HNO'=>"Ha Noi",
-							'DNG'=>"Da Nang",
-							'DLA'=>"Da Lat",
-							'HPO'=>"Hai Phong",
-							'CTO'=>"Can Tho"
-						));
+        "DNI_HV"=>"Đồng Nai - Hùng Vương",
+        "DongXoai"=>"Đồng Xoài",
+        "HCM_DXH"=>"Đỗ Xuân Hợp",
+        "HCM_HB"=>"Hòa Bình",
+        "HCM_GR"=>"Green River",
+        "HCM_HTP"=>"Huỳnh Tân Phát",
+        "HCM_LQD"=>"Lê Quang Định",
+        "HCM_NK2"=>"Nguyễn Kiệm",
+        "HCM_NO"=>"Nguyễn Oanh",
+        "HCM_STCC"=>"Củ Chi",
+        "HCM_HG"=>"Hậu Giang",
+        "HCM_HHG"=>"Hà Huy Giáp",
+        "HCM_KDV"=>"Kinh Dương Vương",
+        "HCM_KH"=>"Khánh Hội",
+        "HCM_TN"=>"Trần Não",
+        "HCM_TVD"=>"Tô Vĩnh Diện",
+        "HCM_LTT"=>"Lê Trọng Tấn",
+        "HCM_MS"=>"Morning Star",
+        "HCM_NAT"=>"Nguyễn Ảnh Thủ",
+        "HCM_NAT2"=>"Nguyễn Ảnh Thủ 2",
+        "HCM_NCT"=>"Nguyễn Chí Thanh",
+        "HCM_NDT"=>"Nguyễn Duy Trinh",
+        "HCM_NKV"=>"Nguyễn Khắc Viện",
+        "HCM_NTMK"=>"Nguyễn Thị Minh Khai",
+        "HCM_NTT"=>"Nguyễn Thị Thập",
+        "HCM_NVTA"=>"Nguyễn Văn Tăng",
+        "HCM_NVTH"=>"Nguyễn Văn Thủ",
+        "HCM_OL"=>"Online",
+        "HCM_PVH"=>"Phan Văn Hớn",
+        "HCM_PVD"=>"Phạm Văn Đồng",
+        "HCM_PXL"=>"Phan Xích Long",
+        "HCM_QT"=>"Quang Trung",
+        "LA-TA"=>"Long An - Tân An",
+        "HCM_TC"=>"Trường Chinh",
+        "TGG_LTK"=>"Tiền Giang - Lý Thường Kiệt",
+        "HCM_TK"=>"Tô Ký",
+        "HCM_TK2"=>"Tô Ký 2",
+        "HCM_TL"=>"Tên Lửa",
+        "TNH_304"=>"Tây Ninh - 30/4",
+        "HCM_TNV"=>"Tô Ngọc Vân",
+        "HCM_UT"=>"Út Tịch",
+        "HCM_PTB"=>"Vĩnh Long - Phạm Thái Bướng",
+        "BRV_TCD"=>"Vũng Tàu - Trương Công Định",
+        "HCM_VVV"=>"Võ Văn Vân"
+));
+
+/******************* ./END TRAININGHUB SETTTINGS ***************************/
+
 /* Đó là tất cả thiết lập, ngưng sửa từ phần này trở xuống. Chúc bạn viết blog vui vẻ. */
 
 define('FS_METHOD', 'direct');
 
 /** Đường dẫn tuyệt đối đến thư mục cài đặt WordPress. */
 if (!defined('ABSPATH'))
-	define('ABSPATH', dirname(__FILE__) . '/');
+        define('ABSPATH', dirname(__FILE__) . '/');
 
 /** Thiết lập biến và include file. */
 require_once(ABSPATH . 'wp-settings.php');
+
