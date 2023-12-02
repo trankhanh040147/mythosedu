@@ -464,6 +464,19 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
                             </div>
 							
 						</div>
+
+						<?php
+						// AAAA
+						if($_GET['mode'] == "TEST") {
+							echo "123456 -------";
+						//$graphServiceClient = new GraphServiceClient($requestAdapter);
+
+						//$result = $graphServiceClient->me()->get();
+						//var_dump($result);
+						
+						}
+						?>
+
 						<?php if($tutor_course_start_date): ?>
 						<div class=" text-regular-body tutor-color-black-60 tutor-d-flex tutor-align-items-center">
 							<div class="tutor-d-flex tutor-align-items-center">
@@ -614,14 +627,16 @@ if($bannerurl)	$style = " background-image: url(".$bannerurl.")!important; ";
 												<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
 												<?php esc_html_e( 'Enroll', 'tutor' ); ?>
 												</button>
-											<?php 
-											} else {
-											?>
+												<?php 
+											} // end public
+										} else {
+										// for not ASA system
+										?>
 												<button type="submit" class="tutor-btn add_to_cart_btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
 												<?php esc_html_e( 'Enroll', 'tutor' ); ?>
 												</button>
 											<?php 
-											}
+											
 										}
 											?>
 									</form>									
