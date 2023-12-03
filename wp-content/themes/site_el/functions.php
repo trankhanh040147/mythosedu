@@ -430,54 +430,495 @@ wp_redirect( home_url() );
 exit;
 }
 }
-function enqueue_my_scripts() {
-	wp_enqueue_script('my-script-3', get_template_directory_uri() . '/assets/js/swiper.js', array('jquery'), '1.2', false);
+
+
+function custom_get_course() {
+    ob_start(); // Start output buffering to capture the shortcode content
+    ?>
+ <section class="__bg_white pt-4 pb-3 ___cats_tabs_session animate fadeInUp ftco-animated">
+            <div class="container">
+                <div class="row pt-1 pb-2">
+                    <div class="col-md-12 p-0">
+                        <h6 class="text-bold" style="color:#B12528 !important;"><?php _e("COURSES",TPL_DOMAIN_LANG); ?></h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="cats">
+                    <!-- Box 2 -->
+                    <div class="___yl_content_box ___yl_certificates_box ___cats_tabs_box">
+                        <!-- . -->
+                        <div class="___yl_certificates_tab  __course_tabs">
+                            <ul class="nav nav-pills mb-3" id="certificates_Tab" role="tablist">
+                                <?php
+                                $id = 1;
+                                $args = array(
+                                            'taxonomy' => 'course-category',
+                                            'orderby' => 'name',
+                                            'order'   => 'ASC'
+                                        );
+
+                                $cats = get_categories($args);
+
+                                foreach($cats as $cat) {
+                                    //echo get_category_link( $cat->term_id ) 
+                                    //echo  $cat->term_id ."--";
+                                    $__clsActive_head = "";
+                                    if($id == 1) {
+                                        $__clsActive_head = " active";
+                                    }
+                                ?>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link <?php echo  $__clsActive_head; ?>" id="pills-<?php echo $cat->term_id; ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?php echo  $cat->term_id; ?>"
+                                             type="button" role="tab" aria-controls="pills-<?php echo  $cat->term_id; ?>" >
+                                             <?php echo $cat->name; ?>
+                                        </button>
+                                    </li>
+                                <?php
+                                    $id ++;
+                                }
+                                ?>
+                            </ul>
+                            <!------ Tab content -->
+                            <div class="tab-content" id="certificates_TabContent">
+                        
+                                <?php
+                                    $idx = 1;
+                                    $__clsAct = "";
+                                    foreach($cats as $cat) {
+                                        //echo get_category_link( $cat->term_id )
+                                        if($idx == 1) {
+                                            $__clsAct = "show active";
+                                        } else {
+                                            $__clsAct = "";
+                                        }
+                                        
+                                ?>
+
+                                        <div class="tab-pane fade <?php echo  $__clsAct; ?> " id="pills-<?php echo  $cat->term_id; ?>" role="tabpanel" aria-labelledby="pills-<?php echo  $cat->term_id; ?>-tab">
+                                        
+                                        <!-- <div class="row pt-1 pb-2">
+                                            <div class="col-md-6 ">
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <a href="/courses?course-category=<?php //echo $cat->slug; ?>&course-name=<?php //echo $cat->name; ?>">View all</a>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="___ranking_table_wrap overflow-auto ___custom_scrollbar">
+                                                <div class=" __course_slick __slick_slide ">
+                                                        
+                                                    
+                                                            <?php
+                                                            $___postsDat = get_posts(array(
+                                                                'post_type' => 'courses',
+                                                                'tax_query' => array(
+                                                                    array(
+                                                                    'taxonomy' => 'course-category',
+                                                                    'field' => 'term_id',
+                                                                    'terms' =>  $cat->term_id)
+                                                                ),
+																'meta_query'=>[
+																	'relation' => 'OR',
+																	[
+																	  'key' => '_tutor_course_parent',
+																	  'compare' => 'NOT EXISTS',
+																	],
+																	[
+																	  'key' => '_tutor_course_parent',
+																	  'compare' => '=',
+																	  'value' => ''
+																	]
+																 ])
+                                                            );
+                                                            //echo $cat->term_id . "::" . count($___postsDat);
+                                                            $cntPosts =  count($___postsDat);
+                                                            //var_dump($___postsDat);
+
+                                                            for($i=0; $i < $cntPosts; $i++) {
+                                                                $url_img = wp_get_attachment_url( get_post_thumbnail_id($___postsDat[$i]->ID), 'thumbnail' ); 
+																$courses_categories = get_the_terms($___postsDat[$i]->ID,'course-category');
+																$courses_category_first = ($courses_categories && count($courses_categories))?$courses_categories[0]->name:'Uncategory';
+																$_tutor_course_start_date = get_post_meta( $___postsDat[$i]->ID, '_tutor_course_start_date', true);
+                                                            
+                                                            
+                                                                $post_id = $___postsDat[$i]->ID;
+
+
+		$_tutor_course_start_date = get_post_meta( $post_id, '_tutor_course_start_date', false );
+		$_tutor_course_start_time = get_post_meta( $post_id, '_tutor_course_start_time', false );
+		$_tutor_course_start_date_time = $_tutor_course_start_date[0] . " " . $_tutor_course_start_time[0] .":00";
+		$timestamp_start_date = strtotime($_tutor_course_start_date_time); //echo $timestamp_start_date . "<br/>"; // Outputs: 1557964800
+
+		
+		$_tutor_course_end_date = get_post_meta( $post_id, '_tutor_course_end_date', false );
+		$_tutor_course_end_time = get_post_meta( $post_id, '_tutor_course_end_time', false );
+		$_tutor_course_end_date_time = $_tutor_course_end_date[0] . " " . $_tutor_course_end_time[0] .":00";
+		$timestamp_end_date = strtotime($_tutor_course_end_date_time); //echo $timestamp_end_date . "<br/>"; // Outputs: 1557964800
+
+		// check course in time
+		if($_tutor_course_start_date[0] != "" || $_tutor_course_end_date[0] != "") {
+			if(check_current_time_bettwen_start_end($timestamp_start_date, $timestamp_end_date)) {	
+                                                            ?>
+                                                                <!--- render course item -->
+                                                               
+                                                                <div class="___cert_item __cdetail __border_raiuds_6">
+                                                                    
+                                                                    <div class="__wishlist"><a href="#"><i class="__ic_heart"></i></a></div>
+                                                                    <div class="___cert_item_img"><img src="<?php echo $url_img;?>" alt=""></div>
+                                                                    <div class="tutor-d-flex">
+																		<span class="__txt_blur"><?php echo $courses_category_first;?></span>
+																		<?php
+																			$children_ids = get_post_meta( $___postsDat[$i]->ID, '_tutor_course_children', true );
+																			$children_ids_arr = array();
+																			if($children_ids)
+																				$children_ids_arr = explode(" ",trim($children_ids));
+																			if (count($children_ids_arr)) {
+																		?>
+																			<div class="parent_course_icon" style="width:90%;text-align:right">
+																				<span class="">
+																					<i class="tutor-icon-layer-filled"></i>
+																				</span>
+																			</div>
+																		<?php
+																			}
+																		?>
+																	</div>
+                                                                    <div class="___cert_item_title"><a href="/courses/<?php echo $___postsDat[$i]->post_name;?>"><?php echo $___postsDat[$i]->post_title;?></a></div>
+                                                                    <div class="___course_date">
+                                                                        <?php if($_tutor_course_start_date){?>
+																		<i class="_ic_date"></i> <span><?php echo $_tutor_course_start_date;?></span>
+																		<?php
+																			}
+																		?>
+
+
+                                                                        <?php 
+                                                                        $prices = array(
+                                                                            'regular_price' => 0,
+                                                                            'sale_price'    => 0,
+                                                                        );
+
+                                                                        $product_id = $___postsDat[$i]->ID;
+                                                                        //echo $product_id;                                                     
+                                                                        $price = get_post_meta( $product_id, 'edd_price', true);
+                                                                        $price_sale = get_post_meta( $product_id, 'edd_price', true);
+                                                                        //echo "--|".$price."--".$price_sale;
+                                                                    ?>
+                                                                    </div>
+                                                                    
+                                                                </div>
+<?php
+            } // end check time
+        } else {
+?>
+<!--- render course item -->
+                                                               
+<div class="___cert_item __cdetail __border_raiuds_6">
+                                                                    
+    <div class="__wishlist"><a href="#"><i class="__ic_heart"></i></a></div>
+    <div class="___cert_item_img"><img src="<?php echo $url_img;?>" alt=""></div>
+    <div class="tutor-d-flex">
+        <span class="__txt_blur"><?php echo $courses_category_first;?></span>
+        <?php
+            $children_ids = get_post_meta( $___postsDat[$i]->ID, '_tutor_course_children', true );
+            $children_ids_arr = array();
+            if($children_ids)
+                $children_ids_arr = explode(" ",trim($children_ids));
+            if (count($children_ids_arr)) {
+        ?>
+            <div class="parent_course_icon" style="width:90%;text-align:right">
+                <span class="">
+                    <i class="tutor-icon-layer-filled"></i>
+                </span>
+            </div>
+        <?php
+            }
+        ?>
+    </div>
+    <div class="___cert_item_title"><a href="/courses/<?php echo $___postsDat[$i]->post_name;?>"><?php echo $___postsDat[$i]->post_title;?></a></div>
+    <div class="___course_date">
+        <?php if($_tutor_course_start_date){?>
+        <i class="_ic_date"></i> <span><?php echo $_tutor_course_start_date;?></span>
+        <?php
+            }
+        ?>
+
+
+        <?php 
+        $prices = array(
+            'regular_price' => 0,
+            'sale_price'    => 0,
+        );
+
+        $product_id = $___postsDat[$i]->ID;
+        //echo $product_id;                                                     
+        $price = get_post_meta( $product_id, 'edd_price', true);
+        $price_sale = get_post_meta( $product_id, 'edd_price', true);
+        //echo "--|".$price."--".$price_sale;
+    ?>
+    </div>
+    
+</div>
+<?php
 }
+?>
+                                                            <?php
+                                                            } // end for course item
 
-// Gắn action để chạy chức năng
-add_action('wp_enqueue_scripts', 'enqueue_my_scripts');
+                                                            
+                                                            ?>
 
-function enqueue_my_styles() {
-  
-wp_enqueue_style('my-style', get_template_directory_uri() . '/assets/css/swiper.min.css', array(), '1.1', 'all');
-}
-// Gắn action để chạy chức năng
-add_action('wp_enqueue_scripts', 'enqueue_my_styles');
 
-function tutor_course_categories_shortcode($atts) {
-    ob_start();
 
-    // Kiểm tra xem plugin Tutor LMS đã được kích hoạt hay chưa
-    if (class_exists('TUTOR')) {
-        // Lấy danh sách các danh mục khóa học
-        $course_categories = tutor()->course->get_categories();
+                                                </div>
+                                            </div>
+                                        </div>
 
-        if ($course_categories) {
-            ?>
-            <div class="swiper swiper-container">
-                <div class="swiper-wrapper">
-                    <?php foreach ($course_categories as $category) : ?>
-                        <div class="swiper-slide">
-                            <h2><?php echo esc_html($category->name); ?></h2>
+                                <?php
+                                        $idx ++;
+                                    }
+                                ?>
+
+                                
                         </div>
-                    <?php endforeach; ?>
+                        </div>                                        
+                        <!-- . -->
+                    </div>
+                    <!-- ./ Box 2 -->
+                    </div>
+                </div><!-- ./ row -->
+            </div><!-- ./ container -->
+        </section>
+    <?php
+    return ob_get_clean(); // Return the captured content from output buffering
+}
+add_shortcode('custom_get_course', 'custom_get_course');
+
+
+
+function _convert($content) {
+
+    if(!mb_check_encoding($content, 'UTF-8')
+
+        OR !($content === mb_convert_encoding(mb_convert_encoding($content, 'UTF-32', 'UTF-8' ), 'UTF-8', 'UTF-32'))) {
+
+
+
+        $content = mb_convert_encoding($content, 'UTF-8');
+
+
+
+        if (mb_check_encoding($content, 'UTF-8')) {
+
+            // log('Converted to UTF-8');
+
+        } else {
+
+            // log('Could not converted to UTF-8');
+
+        }
+
+    }
+
+    return $content;
+
+}
+
+function add_or_update_users($data) {
+
+    global $wpdb;
+
+    $u_email = ""; // is email
+
+    if( isset($data[4]) ) {
+        $u_email = trim($data[4]);
+        $_user_pass = $u_email;
+        $_BirthDate = trim($data[3]); // is BirthDate;
+        $_gender = trim($data[2]); // echo $_gender;
+        $first_name = trim($data[1]); //first_name
+        if($_gender == "Nam" || $_gender == "nam") {
+            $_gender = "Male";
+        }
+        if($_gender == "Nữ" || $_gender == "nữ") {
+            $_gender = "Female";
+        }
+        $_DepartmentName = trim($data[5]); // department
+        $_user_registered = trim($data[8]); // start date
+        $u_phone = trim($data[7]); // is phone
+        
+
+        $_user_registered = date('Y-m-d H:i:s', strtotime($_user_registered));
+    
+        $db_res = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE user_email LIKE %s", $u_email ) );
+        $cntData = count($db_res);
+        if( $cntData > 0) {
+            //update user
+            $result = $wpdb->update(
+                $wpdb->prefix .'users', 
+                array( 
+                    'DepartmentName' => $_DepartmentName,
+                    'user_registered' => $_user_registered
+                ), 
+                array(
+                    "user_email" => $u_email
+                ) 
+            );
+
+            $_db_user_id = $db_res[0]->ID; 
+            $result = update_user_meta( $_db_user_id, 'gender', $_gender);
+            $result = update_user_meta( $_db_user_id, '_tutor_gender', $_gender);
+            $result = update_user_meta($_db_user_id,'billing_phone',$u_phone);
+
+            $result = update_user_meta($_db_user_id,'phone_number',$u_phone);
+            $result = update_user_meta($_db_user_id,'_tutor_age',$_BirthDate);
+            $result = update_user_meta($_db_user_id,'_tutor_profile_job_title',$_DepartmentName);
+            $result = add_user_meta($_db_user_id,'_fullname',$first_name);
+
+        } else {
+            //echo $_DepartmentName;die();
+            // add users
+            $userdata = array(
+                'user_login' =>  $u_email,
+                'user_pass'  =>  $_user_pass, // kiem tra passwords
+                'user_email' =>  $u_email,
+                'user_registered' =>  $_user_registered,
+                'DepartmentName' =>  $_DepartmentName
+            );
+            
+            $user_id = wp_insert_user( ($userdata) ) ;
+
+            $result = $wpdb->update(
+                $wpdb->prefix .'users', 
+                array( 
+                    'DepartmentName' => $_DepartmentName
+                ), 
+                array(
+                    "ID" => $user_id
+                ) 
+            );
+
+
+            $result = add_user_meta( $user_id, 'gender', $_gender);
+            $result = add_user_meta( $user_id, '_tutor_gender', $_gender);
+            $result = add_user_meta($user_id,'billing_phone',$u_phone);
+
+            $result = add_user_meta($user_id,'phone_number',$u_phone);
+            $result = add_user_meta($user_id,'_tutor_age',$_BirthDate);
+            $result = add_user_meta($user_id,'_tutor_profile_job_title',$_DepartmentName);
+            $result = add_user_meta($user_id,'_fullname',$first_name);
+        }
+    }
+    
+}
+
+
+/**
+ * Check rank time with current time.
+ */
+function check_current_time_bettwen_start_end($timestamp_start_date, $timestamp_end_date) {
+    $response_check = false;
+    $_UTC_7 = 7;
+    $current_date = date('Y-m-d');
+    $current_hour = (int) date('H') + $_UTC_7; //echo $current_hour . "<br/>"; // Outputs: 1557964800
+    $current_min = date('i');
+    $current_sec = date('s');
+
+    //$current_date_time = date('Y-m-d H:i:s'); echo $current_date;
+    $current_date = $current_date . " " . $current_hour . ":" . $current_min . ":" . $current_sec;
+    $timestamp_current_date = strtotime($current_date); //echo $timestamp_current_date . "<br/>"; // Outputs: 1557964800
+
+    // check course in time
+    if($timestamp_start_date <= $timestamp_current_date && $timestamp_current_date <= $timestamp_end_date) {
+
+        $response_check = true;
+    }
+
+    return $response_check;
+
+}
+
+/**
+ * Register a custom menu page.
+ */
+function wpdocs_register_my_custom_menu_page(){
+	add_menu_page( 
+		__( 'V-IMPORT', 'domain' ),
+		'V-IMPORT',
+		'manage_options',
+		'vsync',
+		'my_v_sync_content_page',
+		plugins_url( 'myplugin/images/icon.png' ),
+		60
+	); 
+}
+add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
+
+
+/**
+ * Display a custom menu page
+ */
+function my_v_sync_content_page(){
+    //ob_start(); // Start output buffering to capture the shortcode content
+    ?>
+    <h2 style="margin-top:60px;"> Import Data:</h2>
+    <p>Template file : <a href="/users_template.csv">Template File</a></p>
+    <div class="container">
+        <form method='post' action='<?= $_SERVER['REQUEST_URI']; ?>' enctype='multipart/form-data'>
+            <div class="input-group">
+                <div class="custom-file">
+                    <label class="custom-file-label" for="customFileInput">Select File:</label>
+                    <input type="file" class="custom-file-input" id="customFileInput" name="import_file">
+                </div>
+                <div class="input-group-append">
+                    <input type="submit" name="butimport" value="Submit" class="btn btn-primary">
                 </div>
             </div>
+        </form>
+    </div>
 
-            <script>
-                var swiper = new Swiper('.swiper-container', {
-                    slidesPerView: 3,
-      spaceBetween: 30,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-                });
-            </script>
-            <?php
+    <?php
+    // Import CSV
+    if(isset($_POST['butimport'])){
+
+        // File extension
+        $extension = pathinfo($_FILES['import_file']['name'], PATHINFO_EXTENSION);
+    
+        // If file extension is 'csv'
+        if(!empty($_FILES['import_file']['name']) && $extension == 'csv'){
+    
+            $totalInserted = 0;
+        
+            // Open file in read mode
+            $csvFile = fopen($_FILES['import_file']['tmp_name'], 'r');
+        
+            fgetcsv($csvFile); // Skipping header row
+        
+            // Read file
+            $i = 1;
+            echo "<ul class='_list_item'>";
+            while(($csvData = fgetcsv($csvFile)) !== FALSE) {
+                //$csvData = array_map("utf8_encode", $csvData);
+                $csvData = _convert($csvData);
+        
+                // Row column length
+                $dataLen = count($csvData);
+        
+                // // Skip row if length != 4
+                // if( !($dataLen == 4) ) continue;
+        
+                // Assign value to variables
+                $Name = trim($csvData[1]);
+                $Department = trim($csvData[5]); 
+                $Email = trim($csvData[4]); 
+                if($Email != "") {
+                    echo "<li>" . $i . ". " . $Name . " - " . $Department . " - " . $Email . "</li>"; 
+                    add_or_update_users($csvData);
+                }
+
+                $i ++;
+            }
+            echo "</ul>";
         }
     }
 
-    return ob_get_clean();
 }
-add_shortcode('tutor_course_categories', 'tutor_course_categories_shortcode');
