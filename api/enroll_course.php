@@ -1,7 +1,7 @@
 <?php
 require_once( dirname( dirname( __FILE__ ) ) . '../wp-load.php' );
 
-//$url= "https://traininghub-uat.vus.edu.vn/wp-json/tutor/v1/enroll_course";
+
 echo $url= "http://vus.test/wp-json/tutor/v1/enroll_course";
 $body = array(
 		'course_id'    => 2106,

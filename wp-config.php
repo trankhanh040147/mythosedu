@@ -104,7 +104,7 @@ define('_DEFINE_GROUPS_USER', array(
   
 define('_BRANCHS_', array(
         "HNI_CTM"=>"Cơ sở Hà Nội - CTM",
- "HCM_VPTT"=>"Văn Phòng Trung Tâm VUS Hồ Chí Minh",
+ "HCM_VPTT"=>"Văn Phòng Trung Tâm  Hồ Chí Minh",
  "HCM_NTMK"=>"Cơ sở Hồ Chí Minh - Nguyễn Thị Minh Khai",
  "HCM_ADV"=>"Cơ sở Hồ Chí Minh - An Dương Vương",
  "HCM_BH"=>"Cơ sở Hồ Chí Minh - Bà Hom",
@@ -137,7 +137,7 @@ define('_BRANCHS_', array(
  "HCM_TN"=>"Cơ sở Hồ Chí Minh - Kids Trần Não",
  "HCM_TVD"=>"Cơ sở Hồ Chí Minh - Kids Tô Vĩnh Diện",
  "HCM_TK2"=>"Cơ sở Hồ Chí Minh - Tô Ký 2",
- "HNI_VPTT"=>"Văn Phòng Trung Tâm VUS Hà Nội",
+ "HNI_VPTT"=>"Văn Phòng Trung Tâm  Hà Nội",
  "HNI_NLB"=>"Cơ sở Hà Nội - Nguyễn Lương Bằng",
  "HNI_GP"=>"Cơ sở Hà Nội - Golden Palace",
  "HNI_TCT"=>"Cơ sở Hà Nội - Times City",
@@ -187,8 +187,8 @@ define('_BRANCHS_', array(
  "HNI_AH"=>"Cơ sở Hà Nội - An Hưng",
  "HCM_HD"=>"Cơ sở Hồ Chí Minh - Hoàng Diệu",
  "KGG_BTH"=>"Cơ sở Kiên Giang - Ba Tháng Hai",
- "DEV_HCM"=>"CÔNG TY TNNH VUS DEVELOPMENT",
- "MGM_HCM"=>"CÔNG TY TNHH VUS MANAGEMENT",
+ "DEV_HCM"=>"CÔNG TY TNNH  DEVELOPMENT",
+ "MGM_HCM"=>"CÔNG TY TNHH  MANAGEMENT",
  "KTM_TP"=>"Cơ sở Kon Tum - Trần Phú",
  "EDU_SSU"=>"Summer BMT",
  "LDG_PDP"=>"Cơ sở Lâm Đồng - Phan Đình Phùng",
