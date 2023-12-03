@@ -430,3 +430,55 @@ wp_redirect( home_url() );
 exit;
 }
 }
+function enqueue_my_scripts() {
+	wp_enqueue_script('my-script-3', get_template_directory_uri() . '/assets/js/swiper.js', array('jquery'), '1.2', false);
+}
+
+// Gắn action để chạy chức năng
+add_action('wp_enqueue_scripts', 'enqueue_my_scripts');
+
+function enqueue_my_styles() {
+  
+wp_enqueue_style('my-style', get_template_directory_uri() . '/assets/css/swiper.min.css', array(), '1.1', 'all');
+}
+// Gắn action để chạy chức năng
+add_action('wp_enqueue_scripts', 'enqueue_my_styles');
+
+function tutor_course_categories_shortcode($atts) {
+    ob_start();
+
+    // Kiểm tra xem plugin Tutor LMS đã được kích hoạt hay chưa
+    if (class_exists('TUTOR')) {
+        // Lấy danh sách các danh mục khóa học
+        $course_categories = tutor()->course->get_categories();
+
+        if ($course_categories) {
+            ?>
+            <div class="swiper swiper-container">
+                <div class="swiper-wrapper">
+                    <?php foreach ($course_categories as $category) : ?>
+                        <div class="swiper-slide">
+                            <h2><?php echo esc_html($category->name); ?></h2>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <script>
+                var swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 3,
+      spaceBetween: 30,
+      freeMode: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+                });
+            </script>
+            <?php
+        }
+    }
+
+    return ob_get_clean();
+}
+add_shortcode('tutor_course_categories', 'tutor_course_categories_shortcode');
