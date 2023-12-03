@@ -818,7 +818,7 @@ body.tutor-screen-course-builder .grade_inactive .grade_item {
 }
 
 @media screen and (max-width:767px) {
-	.___right_menu_lst {
+	body .___right_menu_lst {
 		display: flex !important;
 		align-items: start !important;
 	}
