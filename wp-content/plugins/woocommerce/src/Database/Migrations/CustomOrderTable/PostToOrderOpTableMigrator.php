@@ -5,6 +5,9 @@
 
 namespace Automattic\WooCommerce\Database\Migrations\CustomOrderTable;
 
+use Automattic\WooCommerce\Database\Migrations\MetaToCustomTableMigrator;
+use Automattic\WooCommerce\Internal\DataStores\Orders\OrdersTableDataStore;
+
 /**
  * Helper class to migrate records from the WordPress post table
  * to the custom order operations table.
@@ -18,33 +21,27 @@ class PostToOrderOpTableMigrator extends MetaToCustomTableMigrator {
 	 *
 	 * @return array Config.
 	 */
-	public function get_schema_config(): array {
+	protected function get_schema_config(): array {
 		global $wpdb;
-		// TODO: Remove hardcoding.
-		$this->table_names = array(
-			'orders'    => $wpdb->prefix . 'wc_orders',
-			'addresses' => $wpdb->prefix . 'wc_order_addresses',
-			'op_data'   => $wpdb->prefix . 'wc_order_operational_data',
-			'meta'      => $wpdb->prefix . 'wc_orders_meta',
-		);
 
 		return array(
 			'source'      => array(
 				'entity' => array(
-					'table_name'             => $this->table_names['orders'],
-					'meta_rel_column'        => 'id',
-					'destination_rel_column' => 'id',
-					'primary_key'            => 'id',
+					'table_name'             => $wpdb->posts,
+					'meta_rel_column'        => 'ID',
+					'destination_rel_column' => 'ID',
+					'primary_key'            => 'ID',
 				),
 				'meta'   => array(
 					'table_name'        => $wpdb->postmeta,
+					'meta_id_column'    => 'meta_id',
 					'meta_key_column'   => 'meta_key',
 					'meta_value_column' => 'meta_value',
 					'entity_id_column'  => 'post_id',
 				),
 			),
 			'destination' => array(
-				'table_name'        => $this->table_names['op_data'],
+				'table_name'        => OrdersTableDataStore::get_operational_data_table_name(),
 				'source_rel_column' => 'order_id',
 				'primary_key'       => 'id',
 				'primary_key_type'  => 'int',
@@ -58,9 +55,9 @@ class PostToOrderOpTableMigrator extends MetaToCustomTableMigrator {
 	 *
 	 * @return \string[][] Config.
 	 */
-	public function get_core_column_mapping(): array {
+	protected function get_core_column_mapping(): array {
 		return array(
-			'id' => array(
+			'ID' => array(
 				'type'        => 'int',
 				'destination' => 'order_id',
 			),
@@ -115,16 +112,8 @@ class PostToOrderOpTableMigrator extends MetaToCustomTableMigrator {
 				'type'        => 'date_epoch',
 				'destination' => 'date_paid_gmt',
 			),
-			'_paid_date'                    => array( // For compatibility with WC < 2.6.
-				'type'        => 'date',
-				'destination' => 'date_paid_gmt',
-			),
 			'_date_completed'               => array(
 				'type'        => 'date_epoch',
-				'destination' => 'date_completed_gmt',
-			),
-			'_completed_date'               => array( // For compatibility with WC < 2.6.
-				'type'        => 'date',
 				'destination' => 'date_completed_gmt',
 			),
 			'_order_shipping_tax'           => array(

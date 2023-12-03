@@ -14,10 +14,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
+if (!defined('GETID3_INCLUDEPATH')) { // prevent path-exposing attacks that access modules directly on public webservers
+	exit;
+}
 
 define('EBML_ID_CHAPTERS',                  0x0043A770); // [10][43][A7][70] -- A system to define basic menus and partition data. For more detailed information, look at the Chapters Explanation.
 define('EBML_ID_SEEKHEAD',                  0x014D9B74); // [11][4D][9B][74] -- Contains the position of other level 1 elements.
-define('EBML_ID_Tags',                      0x0254C367); // [12][54][C3][67] -- Element containing elements specific to Tracks/Chapters. A list of valid Tags can be found <http://www.matroska.org/technical/specs/tagging/index.html>.
+define('EBML_ID_TAGS',                      0x0254C367); // [12][54][C3][67] -- Element containing elements specific to Tracks/Chapters. A list of valid tags can be found <http://www.matroska.org/technical/specs/tagging/index.html>.
 define('EBML_ID_INFO',                      0x0549A966); // [15][49][A9][66] -- Contains miscellaneous general information and statistics on the file.
 define('EBML_ID_TRACKS',                    0x0654AE6B); // [16][54][AE][6B] -- A top-level block of information with many tracks described.
 define('EBML_ID_SEGMENT',                   0x08538067); // [18][53][80][67] -- This element contains all other top-level (level 1) elements. Typically a Matroska file is composed of 1 segment.
@@ -54,8 +57,8 @@ define('EBML_ID_SEGMENTFAMILY',                 0x0444); //         [44][44] -- 
 define('EBML_ID_DATEUTC',                       0x0461); //         [44][61] -- Date of the origin of timecode (value 0), i.e. production date.
 define('EBML_ID_TAGLANGUAGE',                   0x047A); //         [44][7A] -- Specifies the language of the tag specified, in the Matroska languages form.
 define('EBML_ID_TAGDEFAULT',                    0x0484); //         [44][84] -- Indication to know if this is the default/original language to use for the given tag.
-define('EBML_ID_TAGBINARY',                     0x0485); //         [44][85] -- The values of the Tag if it is binary. Note that this cannot be used in the same SimpleTag as Tagstring.
-define('EBML_ID_TagsTRING',                     0x0487); //         [44][87] -- The value of the Tag.
+define('EBML_ID_TAGBINARY',                     0x0485); //         [44][85] -- The values of the Tag if it is binary. Note that this cannot be used in the same SimpleTag as TagString.
+define('EBML_ID_TAGSTRING',                     0x0487); //         [44][87] -- The value of the Tag.
 define('EBML_ID_DURATION',                      0x0489); //         [44][89] -- Duration of the segment (based on TimecodeScale).
 define('EBML_ID_CHAPPROCESSPRIVATE',            0x050D); //         [45][0D] -- Some optional data attached to the ChapProcessCodecID information. For ChapProcessCodecID = 1, it is the "DVD level" equivalent.
 define('EBML_ID_CHAPTERFLAGENABLED',            0x0598); //         [45][98] -- Specify wether the chapter is enabled. It can be enabled/disabled by a Control Track. When disabled, the movie should skip all the content between the TimeStart and TimeEnd of this chapter.
@@ -111,10 +114,10 @@ define('EBML_ID_BITDEPTH',                      0x2264); //         [62][64] -- 
 define('EBML_ID_CODECPRIVATE',                  0x23A2); //         [63][A2] -- Private data only known to the codec.
 define('EBML_ID_TARGETS',                       0x23C0); //         [63][C0] -- Contain all UIDs where the specified meta data apply. It is void to describe everything in the segment.
 define('EBML_ID_CHAPTERPHYSICALEQUIV',          0x23C3); //         [63][C3] -- Specify the physical equivalent of this ChapterAtom like "DVD" (60) or "SIDE" (50), see complete list of values.
-define('EBML_ID_TAGCHAPTERUID',                 0x23C4); //         [63][C4] -- A unique ID to identify the Chapter(s) the Tags belong to. If the value is 0 at this level, the Tags apply to all chapters in the Segment.
-define('EBML_ID_TAGTRACKUID',                   0x23C5); //         [63][C5] -- A unique ID to identify the Track(s) the Tags belong to. If the value is 0 at this level, the Tags apply to all tracks in the Segment.
-define('EBML_ID_TAGATTACHMENTUID',              0x23C6); //         [63][C6] -- A unique ID to identify the Attachment(s) the Tags belong to. If the value is 0 at this level, the Tags apply to all the attachments in the Segment.
-define('EBML_ID_TAGEDITIONUID',                 0x23C9); //         [63][C9] -- A unique ID to identify the EditionEntry(s) the Tags belong to. If the value is 0 at this level, the Tags apply to all editions in the Segment.
+define('EBML_ID_TAGCHAPTERUID',                 0x23C4); //         [63][C4] -- A unique ID to identify the Chapter(s) the tags belong to. If the value is 0 at this level, the tags apply to all chapters in the Segment.
+define('EBML_ID_TAGTRACKUID',                   0x23C5); //         [63][C5] -- A unique ID to identify the Track(s) the tags belong to. If the value is 0 at this level, the tags apply to all tracks in the Segment.
+define('EBML_ID_TAGATTACHMENTUID',              0x23C6); //         [63][C6] -- A unique ID to identify the Attachment(s) the tags belong to. If the value is 0 at this level, the tags apply to all the attachments in the Segment.
+define('EBML_ID_TAGEDITIONUID',                 0x23C9); //         [63][C9] -- A unique ID to identify the EditionEntry(s) the tags belong to. If the value is 0 at this level, the tags apply to all editions in the Segment.
 define('EBML_ID_TARGETTYPE',                    0x23CA); //         [63][CA] -- An informational string that can be used to display the logical level of the target like "ALBUM", "TRACK", "MOVIE", "CHAPTER", etc (see TargetType).
 define('EBML_ID_TRACKTRANSLATE',                0x2624); //         [66][24] -- The track identification for the given Chapter Codec.
 define('EBML_ID_TRACKTRANSLATETRACKID',         0x26A5); //         [66][A5] -- The binary value used to represent this track in the chapter codec data. The format depends on the ChapProcessCodecID used.
@@ -221,14 +224,14 @@ class getid3_matroska extends getid3_handler
 	 *
 	 * @var bool
 	 */
-	public static $hide_clusters    = true;
+	public $hide_clusters    = true;
 
 	/**
 	 * True to parse the whole file, not only header [default: FALSE].
 	 *
 	 * @var bool
 	 */
-	public static $parse_whole_file = false;
+	public $parse_whole_file = false;
 
 	/*
 	 * Private parser settings/placeholders.
@@ -264,9 +267,9 @@ class getid3_matroska extends getid3_handler
 			}
 		}
 
-		// extract Tags
-		if (isset($info['matroska']['Tags']) && is_array($info['matroska']['Tags'])) {
-			foreach ($info['matroska']['Tags'] as $key => $infoarray) {
+		// extract tags
+		if (isset($info['matroska']['tags']) && is_array($info['matroska']['tags'])) {
+			foreach ($info['matroska']['tags'] as $key => $infoarray) {
 				$this->ExtractCommentsSimpleTag($infoarray);
 			}
 		}
@@ -329,7 +332,7 @@ class getid3_matroska extends getid3_handler
 								break;*/
 						}
 
-						$info['video']['streams'][] = $track_info;
+						$info['video']['streams'][$trackarray['TrackUID']] = $track_info;
 						break;
 
 					case 2: // Audio
@@ -362,7 +365,7 @@ class getid3_matroska extends getid3_handler
 								// create temp instance
 								$getid3_temp = new getID3();
 								if ($track_info['dataformat'] != 'flac') {
-									$getid3_temp->openfile($this->getid3->filename);
+									$getid3_temp->openfile($this->getid3->filename, $this->getid3->info['filesize'], $this->getid3->fp);
 								}
 								$getid3_temp->info['avdataoffset'] = $info['matroska']['track_data_offsets'][$trackarray['TrackNumber']]['offset'];
 								if ($track_info['dataformat'][0] == 'm' || $track_info['dataformat'] == 'flac') {
@@ -478,7 +481,7 @@ class getid3_matroska extends getid3_handler
 								break;
 						}
 
-						$info['audio']['streams'][] = $track_info;
+						$info['audio']['streams'][$trackarray['TrackUID']] = $track_info;
 						break;
 				}
 			}
@@ -507,6 +510,30 @@ class getid3_matroska extends getid3_handler
 			$info['mime_type'] = ($info['matroska']['doctype'] == 'webm' ? 'audio/webm' : 'audio/x-matroska');
 		} elseif (isset($info['mime_type'])) {
 			unset($info['mime_type']);
+		}
+
+		// use _STATISTICS_TAGS if available to set audio/video bitrates
+		if (!empty($info['matroska']['tags'])) {
+			$_STATISTICS_byTrackUID = array();
+			foreach ($info['matroska']['tags'] as $key1 => $value1) {
+				if (!empty($value1['Targets']['TagTrackUID'][0]) && !empty($value1['SimpleTag'])) {
+					foreach ($value1['SimpleTag'] as $key2 => $value2) {
+						if (!empty($value2['TagName']) && isset($value2['TagString'])) {
+							$_STATISTICS_byTrackUID[$value1['Targets']['TagTrackUID'][0]][$value2['TagName']] = $value2['TagString'];
+						}
+					}
+				}
+			}
+			foreach (array('audio','video') as $avtype) {
+				if (!empty($info[$avtype]['streams'])) {
+					foreach ($info[$avtype]['streams'] as $trackUID => $trackdata) {
+						if (!isset($trackdata['bitrate']) && !empty($_STATISTICS_byTrackUID[$trackUID]['BPS'])) {
+							$info[$avtype]['streams'][$trackUID]['bitrate'] = (int) $_STATISTICS_byTrackUID[$trackUID]['BPS'];
+							@$info[$avtype]['bitrate'] += $info[$avtype]['streams'][$trackUID]['bitrate'];
+						}
+					}
+				}
+			}
 		}
 
 		return true;
@@ -559,7 +586,7 @@ class getid3_matroska extends getid3_handler
 					$info['matroska']['segment'][0]['length'] = $top_element['length'];
 
 					while ($this->getEBMLelement($element_data, $top_element['end'])) {
-						if ($element_data['id'] != EBML_ID_CLUSTER || !self::$hide_clusters) { // collect clusters only if required
+						if ($element_data['id'] != EBML_ID_CLUSTER || !$this->hide_clusters) { // collect clusters only if required
 							$info['matroska']['segments'][] = $element_data;
 						}
 						switch ($element_data['id']) {
@@ -591,7 +618,7 @@ class getid3_matroska extends getid3_handler
 												$this->warning('seek_entry[target_id] unexpectedly not set at '.$seek_entry['offset']);
 												break;
 											}
-											if (($seek_entry['target_id'] != EBML_ID_CLUSTER) || !self::$hide_clusters) { // collect clusters only if required
+											if (($seek_entry['target_id'] != EBML_ID_CLUSTER) || !$this->hide_clusters) { // collect clusters only if required
 												$info['matroska']['seek'][] = $seek_entry;
 											}
 											break;
@@ -614,8 +641,10 @@ class getid3_matroska extends getid3_handler
 											while ($this->getEBMLelement($subelement, $track_entry['end'], array(EBML_ID_VIDEO, EBML_ID_AUDIO, EBML_ID_CONTENTENCODINGS, EBML_ID_CODECPRIVATE))) {
 												switch ($subelement['id']) {
 
-													case EBML_ID_TRACKNUMBER:
 													case EBML_ID_TRACKUID:
+														$track_entry[$subelement['id_name']] = getid3_lib::PrintHexBytes($subelement['data'], true, false);
+														break;
+													case EBML_ID_TRACKNUMBER:
 													case EBML_ID_TRACKTYPE:
 													case EBML_ID_MINCACHE:
 													case EBML_ID_MAXCACHE:
@@ -876,7 +905,7 @@ class getid3_matroska extends getid3_handler
 								break;
 
 							case EBML_ID_CUES: // A top-level element to speed seeking access. All entries are local to the segment. Should be mandatory for non "live" streams.
-								if (self::$hide_clusters) { // do not parse cues if hide clusters is "ON" till they point to clusters anyway
+								if ($this->hide_clusters) { // do not parse cues if hide clusters is "ON" till they point to clusters anyway
 									$this->current_offset = $element_data['end'];
 									break;
 								}
@@ -932,8 +961,8 @@ class getid3_matroska extends getid3_handler
 								$info['matroska']['cues'] = $cues_entry;
 								break;
 
-							case EBML_ID_Tags: // Element containing elements specific to Tracks/Chapters.
-								$Tags_entry = array();
+							case EBML_ID_TAGS: // Element containing elements specific to Tracks/Chapters.
+								$tags_entry = array();
 
 								while ($this->getEBMLelement($subelement, $element_data['end'], false)) {
 									switch ($subelement['id']) {
@@ -963,11 +992,11 @@ class getid3_matroska extends getid3_handler
 																case EBML_ID_TAGEDITIONUID:
 																case EBML_ID_TAGCHAPTERUID:
 																case EBML_ID_TAGATTACHMENTUID:
-																	$targets_entry[$sub_sub_subelement['id_name']][] = getid3_lib::BigEndian2Int($sub_sub_subelement['data']);
+																	$targets_entry[$sub_sub_subelement['id_name']][] = getid3_lib::PrintHexBytes($sub_sub_subelement['data'], true, false);
 																	break;
 
 																default:
-																	$this->unhandledElement('Tags.tag.targets', __LINE__, $sub_sub_subelement);
+																	$this->unhandledElement('tags.tag.targets', __LINE__, $sub_sub_subelement);
 																	break;
 															}
 														}
@@ -979,19 +1008,19 @@ class getid3_matroska extends getid3_handler
 														break;
 
 													default:
-														$this->unhandledElement('Tags.tag', __LINE__, $sub_subelement);
+														$this->unhandledElement('tags.tag', __LINE__, $sub_subelement);
 														break;
 												}
 											}
-											$Tags_entry[] = $tag_entry;
+											$tags_entry[] = $tag_entry;
 											break;
 
 										default:
-											$this->unhandledElement('Tags', __LINE__, $subelement);
+											$this->unhandledElement('tags', __LINE__, $subelement);
 											break;
 									}
 								}
-								$info['matroska']['Tags'] = $Tags_entry;
+								$info['matroska']['tags'] = $tags_entry;
 								break;
 
 							case EBML_ID_ATTACHMENTS: // Contain attached files.
@@ -1217,12 +1246,12 @@ class getid3_matroska extends getid3_handler
 									}
 									$this->current_offset = $subelement['end'];
 								}
-								if (!self::$hide_clusters) {
+								if (!$this->hide_clusters) {
 									$info['matroska']['cluster'][] = $cluster_entry;
 								}
 
 								// check to see if all the data we need exists already, if so, break out of the loop
-								if (!self::$parse_whole_file) {
+								if (!$this->parse_whole_file) {
 									if (isset($info['matroska']['info']) && is_array($info['matroska']['info'])) {
 										if (isset($info['matroska']['tracks']['tracks']) && is_array($info['matroska']['tracks']['tracks'])) {
 											if (count($info['matroska']['track_data_offsets']) == count($info['matroska']['tracks']['tracks'])) {
@@ -1391,8 +1420,8 @@ class getid3_matroska extends getid3_handler
 	private function ExtractCommentsSimpleTag($SimpleTagArray) {
 		if (!empty($SimpleTagArray['SimpleTag'])) {
 			foreach ($SimpleTagArray['SimpleTag'] as $SimpleTagKey => $SimpleTagData) {
-				if (!empty($SimpleTagData['TagName']) && !empty($SimpleTagData['Tagstring'])) {
-					$this->getid3->info['matroska']['comments'][strtolower($SimpleTagData['TagName'])][] = $SimpleTagData['Tagstring'];
+				if (!empty($SimpleTagData['TagName']) && !empty($SimpleTagData['TagString'])) {
+					$this->getid3->info['matroska']['comments'][strtolower($SimpleTagData['TagName'])][] = $SimpleTagData['TagString'];
 				}
 				if (!empty($SimpleTagData['SimpleTag'])) {
 					$this->ExtractCommentsSimpleTag($SimpleTagData);
@@ -1416,7 +1445,7 @@ class getid3_matroska extends getid3_handler
 
 				case EBML_ID_TAGNAME:
 				case EBML_ID_TAGLANGUAGE:
-				case EBML_ID_TagsTRING:
+				case EBML_ID_TAGSTRING:
 				case EBML_ID_TAGBINARY:
 					$simpletag_entry[$element['id_name']] = $element['data'];
 					break;
@@ -1820,8 +1849,8 @@ class getid3_matroska extends getid3_handler
 			$EBMLidList[EBML_ID_TAGLANGUAGE]                = 'TagLanguage';
 			$EBMLidList[EBML_ID_TAGNAME]                    = 'TagName';
 			$EBMLidList[EBML_ID_TAGTRACKUID]                = 'TagTrackUID';
-			$EBMLidList[EBML_ID_Tags]                       = 'Tags';
-			$EBMLidList[EBML_ID_TagsTRING]                  = 'Tagstring';
+			$EBMLidList[EBML_ID_TAGS]                       = 'Tags';
+			$EBMLidList[EBML_ID_TAGSTRING]                  = 'TagString';
 			$EBMLidList[EBML_ID_TARGETS]                    = 'Targets';
 			$EBMLidList[EBML_ID_TARGETTYPE]                 = 'TargetType';
 			$EBMLidList[EBML_ID_TARGETTYPEVALUE]            = 'TargetTypeValue';

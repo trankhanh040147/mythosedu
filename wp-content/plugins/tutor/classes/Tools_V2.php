@@ -3,13 +3,10 @@
 /**
  * Options for TutorLMS
  *
- * @since v.2.0
- *
- * @author Themeum
- * @url https://themeum.com
- *
- * @package TutorLMS/Certificate
- * @version 2.0
+ * @package Tutor\Tools
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
  */
 
 namespace Tutor;
@@ -20,11 +17,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Tools class
+ *
+ * @since 2.0.0
+ */
 class Tools_V2 {
 
+	/**
+	 * Environment status
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	private $environment_status;
+
+	/**
+	 * Tools filed
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var mixed
+	 */
 	private $tools_fields;
 
+	/**
+	 * Apply settings
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void send wp_json response
+	 */
 	public function tutor_apply_settings() {
 		$tutor_settings_log = get_option( 'tutor_settings_log' );
 		$apply_id           = $this->get_request_data( 'apply_id' );
@@ -34,65 +58,59 @@ class Tools_V2 {
 		wp_send_json_success( $tutor_settings_log[ $apply_id ] );
 	}
 
+	/**
+	 * Get request data
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param mixed $var var.
+	 *
+	 * @return mixed
+	 */
 	public function get_request_data( $var ) {
-		return isset( $_REQUEST[ $var ] ) ? $_REQUEST[ $var ] : null;
+		return Input::sanitize_request_data( $var, null );
 	}
 
 	/**
-	 * tutor_default_settings
+	 * Tools page
 	 *
-	 * @return JSON
+	 * @since 2.0.0
+	 *
+	 * @return void including template
 	 */
-	public function tutor_default_settings() {
-		$attr = $this->get_setting_fields();
-		foreach ( $attr as $sections ) {
-			foreach ( $sections['sections'] as $section ) {
-				foreach ( $section['blocks'] as $blocks ) {
-					foreach ( $blocks['fields'] as $field ) {
-						if ( isset( $field['default'] ) ) {
-							$attr_default[ $field['key'] ] = $field['default'];
-						}
-					}
-				}
-			}
-		}
-
-		update_option( 'tutor_option', $attr_default );
-
-		wp_send_json_success( $attr_default );
-	}
-
 	public function load_tools_page() {
 		$tools_fields = $this->get_tools_fields();
 		$tutor_setup  = array( 'tutor-setup' => $tools_fields['tutor-setup'] );
 		unset( $tools_fields['tutor-setup'] );
 		$tools_fields = array_merge( $tools_fields, $tutor_setup );
 
-		$active_tab = tutor_utils()->array_get( 'sub_page', $_GET, 'status' );
+		$active_tab = Input::get( 'sub_page', 'status' );
 		include tutor()->path . '/views/options/tools.php';
 	}
 
 	/**
 	 * Function options_tools
 	 *
-	 * @return void
+	 * @since 2.0.0
+	 *
+	 * @return array
 	 */
 	private function get_tools_fields() {
 		global $wpdb;
 
 		if ( $this->tools_fields ) {
-			// Return fields if already prepared
+			// Return fields if already prepared.
 			return $this->tools_fields;
 		}
 
 		$attr_tools = array(
-			'status'        => array(
+			'status'         => array(
 				'label'     => __( 'Status', 'tutor' ),
 				'slug'      => 'status',
 				'desc'      => __( 'Status Settings', 'tutor' ),
 				'template'  => 'status',
 				'view_path' => tutor()->path . 'views/options/template/',
-				'icon'      => 'tutor-icon-chart-filled',
+				'icon'      => 'tutor-icon-chart-pie',
 				'blocks'    => array(
 					'wordpress_environment' => array(
 						'label'      => __( 'WordPress environment', 'tutor' ),
@@ -173,7 +191,7 @@ class Tools_V2 {
 								array(
 									'key'     => 'wordpress_cron',
 									'type'    => 'info_col',
-									'label'   => __( 'WordPress corn', 'tutor' ),
+									'label'   => __( 'WordPress Cron', 'tutor' ),
 									'status'  => ! empty( _get_cron_array() ) ? 'success' : 'default',
 									'default' => $this->status( 'wordpress_cron' ),
 
@@ -236,27 +254,11 @@ class Tools_V2 {
 
 								),
 								array(
-									'key'     => 'wordpress_debug_mode',
-									'type'    => 'info_col',
-									'label'   => __( 'WordPress debug mode', 'tutor' ),
-									'status'  => 'default',
-									'default' => $this->status( 'wordpress_debug_mode' ),
-
-								),
-								array(
 									'key'     => 'language',
 									'type'    => 'info_col',
 									'label'   => __( 'Language', 'tutor' ),
 									'status'  => 'default',
 									'default' => $this->status( 'language' ),
-
-								),
-								array(
-									'key'     => 'wordpress_debug_mode',
-									'type'    => 'info_col',
-									'label'   => __( 'WordPress debug mode', 'tutor' ),
-									'status'  => 'default',
-									'default' => $this->status( 'wordpress_debug_mode' ),
 
 								),
 							),
@@ -308,32 +310,43 @@ class Tools_V2 {
 					),
 				),
 			),
-			'import_export' => array(
+			'import_export'  => array(
 				'label'     => __( 'Import/Export', 'tutor' ),
 				'slug'      => 'import_export',
 				'desc'      => __( 'Import/Export Settings', 'tutor' ),
 				'template'  => 'import_export',
 				'view_path' => tutor()->path . 'views/options/template/',
-				'icon'      => 'tutor-icon-import-export-filled',
+				'icon'      => 'tutor-icon-import-export',
 				'blocks'    => array(),
 			),
-			'tutor_pages'   => array(
+			'tutor_pages'    => array(
 				'label'     => __( 'Tutor Pages', 'tutor' ),
 				'slug'      => 'tutor_pages',
 
 				'desc'      => __( 'Tutor Pages Settings', 'tutor' ),
 				'template'  => 'tutor_pages',
 				'view_path' => tutor()->path . 'views/options/template/',
-				'icon'      => 'tutor-icon-review-line',
+				'icon'      => 'tutor-icon-page-review',
 				'blocks'    => array(
 					'block' => array(),
 				),
 			),
-			'tutor-setup'   => array(
+			'tutor_rest_api' => array(
+				'label'     => __( 'Rest API', 'tutor' ),
+				'slug'      => 'tutor_rest_api',
+				'desc'      => __( 'Token List', 'tutor' ),
+				'template'  => 'manage-tokens',
+				'view_path' => tutor()->path . 'views/pages/tools/',
+				'icon'      => 'tutor-icon-api',
+				'blocks'    => array(
+					'block' => array(),
+				),
+			),
+			'tutor-setup'    => array(
 				'label'  => __( 'Setup Wizard', 'tutor' ),
 				'slug'   => 'tutor-setup',
 				'desc'   => __( 'Setup Wizard Settings', 'tutor' ),
-				'icon'   => 'tutor-icon-earth-filled',
+				'icon'   => 'tutor-icon-earth',
 				'blocks' => array(
 					'block' => array(),
 				),
@@ -347,10 +360,17 @@ class Tools_V2 {
 		return $this->tools_fields;
 	}
 
+	/**
+	 * Get environment info
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return array
+	 */
 	private function get_environment_info() {
 
 		if ( $this->environment_status ) {
-			// Use runtime cache for repetitve call
+			// Use runtime cache for repetitive call.
 			return $this->environment_status;
 		}
 
@@ -380,7 +400,7 @@ class Tools_V2 {
 			'wp_cron'                   => ! ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ),
 			'language'                  => get_locale(),
 			'external_object_cache'     => wp_using_ext_object_cache(),
-			'server_info'               => isset( $_SERVER['SERVER_SOFTWARE'] ) ? wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) : '',
+			'server_info'               => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '',
 			'php_version'               => phpversion(),
 			'php_post_max_size'         => tutor_utils()->let_to_num( ini_get( 'post_max_size' ) ),
 			'php_max_execution_time'    => ini_get( 'max_execution_time' ),
@@ -401,6 +421,15 @@ class Tools_V2 {
 		return $this->environment_status;
 	}
 
+	/**
+	 * Status
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $type type.
+	 *
+	 * @return mixed
+	 */
 	public function status( $type = '' ) {
 
 		$data         = array();
@@ -413,19 +442,10 @@ class Tools_V2 {
 
 		$latest_version = get_transient( 'tutor_system_status_wp_version_check' );
 
-		if ( false === $latest_version ) {
-			$version_check = wp_remote_get( 'https://api.wordpress.org/core/version-check/1.7/' );
-			$api_response  = json_decode( wp_remote_retrieve_body( $version_check ), true );
-
-			$latest_version = ( $api_response && isset( $api_response['offers'], $api_response['offers'][0], $api_response['offers'][0]['version'] ) )
-				? $api_response['offers'][0]['version']
-				: $environment['wp_version'];
-			set_transient( 'tutor_system_status_wp_version_check', $latest_version, DAY_IN_SECONDS );
-		}
-
-		$data['wordpress_version'] = ( version_compare( $environment['wp_version'], $latest_version, '<' ) )
-			? sprintf( esc_html__( '%1$s - There is a newer version of WordPress available (%2$s)', 'tutor' ), esc_html( $environment['wp_version'] ), esc_html( $latest_version ) )
-			: esc_html( $environment['wp_version'] );
+		// WordPress already has efficient update notification mechanism.
+		// We don't need to slow down the page for no reason.
+		// phpcs:disable WordPress.WP.I18n.MissingTranslatorsComment
+		$data['wordpress_version'] = esc_html( $environment['wp_version'] );
 
 		$data['tutor_version'] = esc_html( $environment['version'] );
 
@@ -495,11 +515,13 @@ class Tools_V2 {
 	}
 
 	/**
-	 * @param array $field
+	 * Generate Option Field
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $field fields.
 	 *
 	 * @return string
-	 *
-	 * Generate Option Field
 	 */
 	public function generate_field( $field = array() ) {
 		ob_start();
@@ -508,29 +530,60 @@ class Tools_V2 {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Get field type template
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $field field.
+	 *
+	 * @return string
+	 */
 	public function field_type( $field = array() ) {
 		ob_start();
 		include tutor()->path . "views/options/field-types/{$field['type']}.php";
 		return ob_get_clean();
 	}
 
+	/**
+	 * Blocks template content
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $blocks field.
+	 *
+	 * @return string
+	 */
 	public function blocks( $blocks = array() ) {
 		ob_start();
 		include tutor()->path . 'views/options/option_blocks.php';
 		return ob_get_clean();
 	}
 
+	/**
+	 * Template content
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $section field.
+	 *
+	 * @return string
+	 */
 	public function template( $section = array() ) {
 		ob_start();
 		include $section['view_path'] . $section['template'] . '.php';
 		return ob_get_clean();
 	}
+
 	/**
-	 * Load template inside template dirctory
+	 * Load template inside template directory
 	 *
-	 * @param  mixed $template_slug
-	 * @param  mixed $section
-	 * @return void
+	 * @since 2.0.0
+	 *
+	 * @param  string $template_slug template slug.
+	 * @param  array  $section sections array.
+	 *
+	 * @return string
 	 */
 	public function view_template( $template_slug, $section = array() ) {
 		ob_start();

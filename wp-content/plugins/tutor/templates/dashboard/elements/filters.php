@@ -3,16 +3,22 @@
  * Filter Template for the front end
  * contain basic fields for filter/sorting table data
  *
- * @package Filter
- *
- * @since v2.0.0
+ * @package Tutor\Templates
+ * @subpackage Dashboard\Elements
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
  */
 
-$courses       = ( current_user_can( 'administrator' ) ) ? tutor_utils()->get_courses() : tutor_utils()->get_courses_by_instructor();
+use TUTOR\Input;
+use Tutor\Models\CourseModel;
+
+$courses = ( current_user_can( 'administrator' ) ) ? CourseModel::get_courses() : CourseModel::get_courses_by_instructor();
+
 // Filter params.
-$course_id    = isset( $_GET['course-id'] ) ? sanitize_text_field( $_GET['course-id'] ) : '';
-$order_filter = isset( $_GET['order'] ) ? $_GET['order'] : 'DESC';
-$date_filter  = isset( $_GET['date'] ) ? $_GET['date'] : '';
+$course_id    = Input::get( 'course-id', '' );
+$order_filter = Input::get( 'order', 'DESC' );
+$date_filter  = Input::get( 'date', '' );
 ?>
 <div class="tutor-row">
 	<div class="tutor-col-12 tutor-col-md-6">

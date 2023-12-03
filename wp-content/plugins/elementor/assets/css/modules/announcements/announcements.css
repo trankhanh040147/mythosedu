@@ -7,31 +7,34 @@
   height: 100%;
   align-items: center;
   justify-content: center;
-  color: #3A3F45;
+  color: var(--e-a-color-txt);
   font-family: Roboto, Arial, Helvetica, sans-serif;
   z-index: 9998;
 }
 #e-announcements-root .announcements-container {
-  width: 637px;
-  background-color: #ffffff;
+  width: 640px;
+  max-width: 100%;
+  background-color: var(--e-a-bg-default);
+  border-radius: var(--e-a-border-radius);
   z-index: 9998;
 }
 #e-announcements-root .announcements-container .announcements-heading-container {
   display: flex;
   align-items: center;
   padding: 16px 32px;
-  border-bottom: 1px solid #D5D8DC;
+  border-block-end: var(--e-a-border);
 }
 #e-announcements-root .announcements-container .announcements-heading-container .eicon-elementor {
-  color: #ffffff;
-  background-color: #0C0D0E;
+  color: var(--e-a-color-logo);
+  background-color: var(--e-a-bg-logo);
   border-radius: 50%;
   padding: 8px;
 }
 #e-announcements-root .announcements-container .announcements-heading-container .heading-title {
   margin-inline-start: 12px;
   text-transform: uppercase;
-  font-size: 13px;
+  font-weight: 700;
+  color: var(--e-a-color-txt-active);
 }
 #e-announcements-root .announcements-container .announcements-heading-container .close-button {
   margin-inline-start: auto;
@@ -43,25 +46,39 @@
   cursor: pointer;
   outline: inherit;
 }
+#e-announcements-root .announcements-container .announcements-heading-container .close-button:hover {
+  color: var(--e-a-color-txt-hover);
+}
 #e-announcements-root .announcements-container .announcement-body-container .announcement-body-media img {
   width: 100%;
   max-height: 360px;
   object-fit: contain;
 }
 #e-announcements-root .announcements-container .announcement-body-container .announcement-body-content {
-  padding: 32px;
+  padding: 30px;
 }
 #e-announcements-root .announcements-container .announcement-body-container .announcement-body-content .announcement-body-title {
   font-size: 18px;
   font-weight: 700;
-  color: #0C0D0E;
-  padding: 20px 0 12px;
+  color: var(--e-a-color-txt-accent);
+  padding-block-end: 15px;
 }
 #e-announcements-root .announcements-container .announcement-body-container .announcement-body-content .announcement-body-description {
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  color: #515962;
+  color: var(--e-a-color-txt);
+}
+#e-announcements-root .announcements-container .announcement-body-container .announcement-body-content p {
+  margin-block-end: 15px;
+}
+#e-announcements-root .announcements-container .announcement-body-container .announcement-body-content ul {
+  margin-inline-start: 20px;
+  margin-block-end: 15px;
+}
+#e-announcements-root .announcements-container .announcement-body-container .announcement-body-content li {
+  list-style: disc;
+  margin-block-end: 5px;
 }
 #e-announcements-root .announcements-container .announcement-footer-container {
   display: flex;
@@ -70,25 +87,32 @@
 }
 #e-announcements-root .announcements-container .announcement-footer-container .button-item {
   margin-inline-start: 12px;
-  padding: 12px;
-  color: #524CFF;
-  font-size: 18px;
-  font-weight: 500;
-  border-radius: 3px;
-  padding: 12px 16px;
-  text-decoration: none;
-  font-family: Roboto, Arial, Helvetica, sans-serif;
+  padding: 8px 16px;
+  outline: none;
+  border: none;
+  border-radius: var(--e-a-border-radius);
+  transition: var(--e-a-transition-hover);
+  background: transparent;
+  color: var(--e-a-color-txt);
+  cursor: pointer;
+}
+#e-announcements-root .announcements-container .announcement-footer-container .button-item:hover {
+  background: var(--e-a-bg-hover);
+  color: var(--e-a-color-txt-hover);
+}
+#e-announcements-root .announcements-container .announcement-footer-container .button-item:disabled {
+  background: transparent;
+  color: var(--e-a-color-txt-disabled);
 }
 #e-announcements-root .announcements-container .announcement-footer-container .button-item.primary {
-  color: #ffffff;
-  background-color: #524CFF;
-  border: 1px solid #524CFF;
+  background-color: var(--e-a-btn-bg-accent);
+  color: var(--e-a-btn-color-invert);
 }
 #e-announcements-root .announcements-container .announcement-footer-container .button-item.primary:hover {
-  background-color: #4C43E5;
+  background-color: var(--e-a-btn-bg-accent-hover);
 }
-#e-announcements-root .announcements-container .announcement-footer-container .button-item.secondary {
-  border: 1px solid #524CFF;
+#e-announcements-root .announcements-container .announcement-footer-container .button-item.primary:active {
+  background-color: var(--e-a-btn-bg-accent-active);
 }
 #e-announcements-root .announcements-screen-overlay {
   position: fixed;

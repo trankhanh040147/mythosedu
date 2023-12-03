@@ -1,0 +1,78 @@
+
+---Downloaded files---
+The import files for: University were successfully downloaded!
+Initial max execution time = 360
+Files info:
+Site URL = https://mythosedu.com
+Data file = /home/u199319889/domains/mythosedu.com/public_html/wp-content/uploads/2023/11/demo-content-import-file_2023-11-04__05-10-36.xml
+Widget file = /home/u199319889/domains/mythosedu.com/public_html/wp-content/uploads/2023/11/demo-widgets-import-file_2023-11-04__05-10-36.json
+Customizer
+
+---Importing widgets---
+Sidebar : 
+
+Search - No Title - Imported
+Recent Posts - No Title - Imported
+Categories - No Title - Imported
+
+Footer Widget 1 : 
+
+Text - No Title - Imported
+Text - No Title - Imported
+
+Footer Widget 2 : 
+
+Navigation Menu - Quick Links - Imported
+
+Footer Widget 3 : 
+
+Navigation Menu - Resources - Imported
+
+Footer Widget 4 : 
+
+Navigation Menu - Support - Imported
+
+Footer Social Media : 
+
+Custom HTML - No Title - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---Importing widgets---
+Sidebar : 
+
+Search - No Title - Widget already exists
+Recent Posts - No Title - Widget already exists
+Categories - No Title - Widget already exists
+
+Footer Widget 1 : 
+
+Text - No Title - Widget already exists
+Text - No Title - Widget already exists
+
+Footer Widget 2 : 
+
+Navigation Menu - Quick Links - Widget already exists
+
+Footer Widget 3 : 
+
+Navigation Menu - Resources - Widget already exists
+
+Footer Widget 4 : 
+
+Navigation Menu - Support - Widget already exists
+
+Footer Social Media : 
+
+Custom HTML - No Title - Widget already exists
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---tutormate_after_import---
+

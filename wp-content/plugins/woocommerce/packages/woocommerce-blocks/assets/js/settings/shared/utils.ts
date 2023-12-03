@@ -21,8 +21,35 @@ export const getSetting = < T >(
 	filter = ( val: unknown, fb: unknown ) =>
 		typeof val !== 'undefined' ? val : fb
 ): T => {
-	const value = name in allSettings ? allSettings[ name ] : fallback;
+	let value = fallback;
+
+	if ( name in allSettings ) {
+		value = allSettings[ name ];
+	} else if ( name.includes( '_data' ) ) {
+		// This handles back compat with payment data _data properties after the move to camelCase and the dedicated
+		// paymentMethodData setting.
+		const nameWithoutData = name.replace( '_data', '' );
+		const paymentMethodData = getSetting(
+			'paymentMethodData',
+			{}
+		) as Record< string, unknown >;
+
+		value =
+			nameWithoutData in paymentMethodData
+				? paymentMethodData[ nameWithoutData ]
+				: fallback;
+	}
+
 	return filter( value, fallback ) as T;
+};
+
+export const getSettingWithCoercion = < T >(
+	name: string,
+	fallback: T,
+	typeguard: ( val: unknown, fb: unknown ) => val is T
+): T => {
+	const value = name in allSettings ? allSettings[ name ] : fallback;
+	return typeguard( value, fallback ) ? value : fallback;
 };
 
 /**
@@ -36,8 +63,8 @@ export const getSetting = < T >(
  * For the purpose of these comparisons all pre-release versions are normalized
  * to `rc`.
  *
- * @param {string} setting Setting name (e.g. wpVersion or wcVersion).
- * @param {string} version Version to compare.
+ * @param {string}                          setting  Setting name (e.g. wpVersion or wcVersion).
+ * @param {string}                          version  Version to compare.
  * @param {compareVersions.CompareOperator} operator Comparison operator.
  */
 const compareVersionSettingIgnorePrerelease = (
@@ -97,3 +124,17 @@ export const isWcVersion = (
  */
 export const getAdminLink = ( path: string ): string =>
 	getSetting( 'adminUrl' ) + path;
+
+/**
+ * Get payment method data from the paymentMethodData setting.
+ */
+export const getPaymentMethodData = (
+	paymentMethodId: string,
+	defaultValue: null | unknown = null
+) => {
+	const paymentMethodData = getSetting( 'paymentMethodData', {} ) as Record<
+		string,
+		unknown
+	>;
+	return paymentMethodData[ paymentMethodId ] ?? defaultValue;
+};

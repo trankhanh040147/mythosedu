@@ -22,13 +22,16 @@ class GoogleAnalytics {
 	 */
 	public function __construct( AssetApi $asset_api ) {
 		$this->asset_api = $asset_api;
-		$this->init();
 	}
 
 	/**
 	 * Hook into WP.
 	 */
-	protected function init() {
+	public function init() {
+		// Require Google Analytics Integration to be activated.
+		if ( ! class_exists( 'WC_Google_Analytics_Integration', false ) ) {
+			return;
+		}
 		add_action( 'init', array( $this, 'register_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'script_loader_tag', array( $this, 'async_script_loader_tags' ), 10, 3 );
@@ -46,9 +49,22 @@ class GoogleAnalytics {
 	 */
 	public function enqueue_scripts() {
 		$settings = $this->get_google_analytics_settings();
+		$prefix   = strstr( strtoupper( $settings['ga_id'] ), '-', true );
 
 		// Require tracking to be enabled with a valid GA ID.
-		if ( ! stristr( $settings['ga_id'], 'G-' ) || apply_filters( 'woocommerce_ga_disable_tracking', ! wc_string_to_bool( $settings['ga_event_tracking_enabled'] ) ) ) {
+		if ( ! in_array( $prefix, [ 'G', 'GT' ], true ) ) {
+			return;
+		}
+
+		/**
+		 * Filter to disable Google Analytics tracking.
+		 *
+		 * @internal Matches filter name in GA extension.
+		 * @since 4.9.0
+		 *
+		 * @param boolean $disable_tracking If true, tracking will be disabled.
+		 */
+		if ( apply_filters( 'woocommerce_ga_disable_tracking', ! wc_string_to_bool( $settings['ga_event_tracking_enabled'] ) ) ) {
 			return;
 		}
 

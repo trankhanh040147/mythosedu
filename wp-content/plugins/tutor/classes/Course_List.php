@@ -1,18 +1,25 @@
 <?php
 /**
- * Course List class
+ * Manage Course List
  *
- * @package Course List
- * @since v2.0.0
+ * @package Tutor
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
  */
 
 namespace TUTOR;
+
+use Tutor\Helpers\QueryHelper;
+use Tutor\Models\CourseModel;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 /**
- * Announcements class for handling logics
+ * Course List class
+ *
+ * @since 2.0.0
  */
 class Course_List {
 	/**
@@ -22,6 +29,7 @@ class Course_List {
 	 */
 
 	use Backend_Page_Trait;
+
 	/**
 	 * Page Title
 	 *
@@ -37,7 +45,10 @@ class Course_List {
 	public $bulk_action = true;
 
 	/**
-	 * Handle dependencies
+	 * Constructor
+	 *
+	 * @return void
+	 * @since 2.0.0
 	 */
 	public function __construct() {
 		$this->page_title = __( 'Courses', 'tutor' );
@@ -52,30 +63,31 @@ class Course_List {
 		 *
 		 * @since v2.0.0
 		 */
-		add_action( 'wp_ajax_tutor_change_course_status', array( __CLASS__, 'tutor_change_course_status' ) );
+		add_action( 'wp_ajax_tutor_change_course_status', array( $this, 'tutor_change_course_status' ) );
 		/**
 		 * Handle ajax request for delete course
 		 *
 		 * @since v2.0.0
 		 */
-		add_action( 'wp_ajax_tutor_course_delete', array( __CLASS__, 'tutor_course_delete' ) );
-		add_action( 'wp_ajax_tabs_key_value_all', array( __CLASS__, 'tabs_key_value_all' ) );
+		add_action( 'wp_ajax_tutor_course_delete', array( $this, 'tutor_course_delete' ) );
 	}
 
 	/**
 	 * Prepare bulk actions that will show on dropdown options
 	 *
 	 * @return array
-	 * @since v2.0.0
+	 * @since 2.0.0
 	 */
 	public function prepare_bulk_actions(): array {
-		$actions    = array(
+		$actions = array(
 			$this->bulk_action_default(),
 			$this->bulk_action_publish(),
 			$this->bulk_action_pending(),
 			$this->bulk_action_draft(),
 		);
-		$active_tab = isset( $_GET['data'] ) ? $_GET['data'] : '';
+
+		$active_tab = Input::get( 'data', '' );
+
 		if ( 'trash' === $active_tab ) {
 			array_push( $actions, $this->bulk_action_delete() );
 		}
@@ -88,21 +100,26 @@ class Course_List {
 	/**
 	 * Available tabs that will visible on the right side of page navbar
 	 *
-	 * @param string $course_id selected course id | optional.
-	 * @param string $date selected date | optional.
-	 * @param string $search search by user name or email | optional.
+	 * @param string  $category_slug category slug.
+	 * @param integer $course_id course ID.
+	 * @param string  $date selected date | optional.
+	 * @param string  $search search by user name or email | optional.
+	 *
 	 * @return array
+	 *
 	 * @since v2.0.0
 	 */
-	public function tabs_key_value( $course_id, $date, $search ): array {
+	public function tabs_key_value( $category_slug, $course_id, $date, $search ): array {
 		$url = get_pagenum_link();
 
-		$all       = self::count_course( 'all', $course_id, $date, $search );
-		$mine      = self::count_course( 'mine', $course_id, $date, $search );
-		$published = self::count_course( 'publish', $course_id, $date, $search );
-		$draft     = self::count_course( 'draft', $course_id, $date, $search );
-		$pending   = self::count_course( 'pending', $course_id, $date, $search );
-		$trash     = self::count_course( 'trash', $course_id, $date, $search );
+		$all       = self::count_course( 'all', $category_slug, $course_id, $date, $search );
+		$mine      = self::count_course( 'mine', $category_slug, $course_id, $date, $search );
+		$published = self::count_course( 'publish', $category_slug, $course_id, $date, $search );
+		$draft     = self::count_course( 'draft', $category_slug, $course_id, $date, $search );
+		$pending   = self::count_course( 'pending', $category_slug, $course_id, $date, $search );
+		$trash     = self::count_course( 'trash', $category_slug, $course_id, $date, $search );
+		$private   = self::count_course( 'private', $category_slug, $course_id, $date, $search );
+		$future    = self::count_course( 'future', $category_slug, $course_id, $date, $search );
 
 		$tabs = array(
 			array(
@@ -136,6 +153,18 @@ class Course_List {
 				'url'   => $url . '&data=pending',
 			),
 			array(
+				'key'   => 'future',
+				'title' => __( 'Scheduled', 'tutor' ),
+				'value' => $future,
+				'url'   => $url . '&data=future',
+			),
+			array(
+				'key'   => 'private',
+				'title' => __( 'Private', 'tutor' ),
+				'value' => $private,
+				'url'   => $url . '&data=private',
+			),
+			array(
 				'key'   => 'trash',
 				'title' => __( 'Trash', 'tutor' ),
 				'value' => $trash,
@@ -143,52 +172,6 @@ class Course_List {
 			),
 		);
 		return apply_filters( 'tutor_course_tabs', $tabs );
-	}
-
-	public function tabs_key_value_all() {
-
-		$all       = self::count_course( 'all' );
-		$mine      = self::count_course( 'mine' );
-		$published = self::count_course( 'publish' );
-		$draft     = self::count_course( 'draft' );
-		$pending   = self::count_course( 'pending' );
-		$trash     = self::count_course( 'trash' );
-
-		$tabs = array(
-			array(
-				'key'   => 'all',
-				'title' => __( 'All', 'tutor' ),
-				'value' => $all,
-			),
-			array(
-				'key'   => 'mine',
-				'title' => __( 'Mine', 'tutor' ),
-				'value' => $mine,
-			),
-			array(
-				'key'   => 'published',
-				'title' => __( 'Published', 'tutor' ),
-				'value' => $published,
-			),
-			array(
-				'key'   => 'draft',
-				'title' => __( 'Draft', 'tutor' ),
-				'value' => $draft,
-			),
-			array(
-				'key'   => 'pending',
-				'title' => __( 'Pending', 'tutor' ),
-				'value' => $pending,
-			),
-			array(
-				'key'   => 'trash',
-				'title' => __( 'Trash', 'tutor' ),
-				'value' => $trash,
-			),
-		);
-
-		return $tabs;
-		// return apply_filters( 'tutor_course_tabs', $tabs );
 	}
 
 	/**
@@ -200,8 +183,10 @@ class Course_List {
 	 * @param string $course_id selected course id | optional.
 	 * @param string $date selected date | optional.
 	 * @param string $search_term search by user name or email | optional.
+	 *
 	 * @return int
-	 * @since v2.0.0
+	 *
+	 * @since 2.0.0
 	 */
 	protected static function count_course( string $status, $category_slug = '', $course_id = '', $date = '', $search_term = '' ): int {
 		$user_id       = get_current_user_id();
@@ -216,9 +201,8 @@ class Course_List {
 		);
 
 		if ( 'all' === $status || 'mine' === $status ) {
-			$args['post_status'] = array( 'publish', 'pending', 'draft', 'trash', 'private' );
+			$args['post_status'] = array( 'publish', 'pending', 'draft', 'private', 'future' );
 		} else {
-			$status              = $status === 'published' ? 'publish' : $status;
 			$args['post_status'] = array( $status );
 		}
 
@@ -273,17 +257,22 @@ class Course_List {
 	/**
 	 * Handle bulk action for enrollment cancel | delete
 	 *
-	 * @return string JSON response.
-	 * @since v2.0.0
+	 * @return void
+	 * @since 2.0.0
 	 */
 	public function course_list_bulk_action() {
-		// check nonce.
-		tutor_utils()->checking_nonce();
-		$action   = isset( $_POST['bulk-action'] ) ? sanitize_text_field( $_POST['bulk-action'] ) : '';
-		$bulk_ids = isset( $_POST['bulk-ids'] ) ? sanitize_text_field( $_POST['bulk-ids'] ) : '';
 
+		tutor_utils()->checking_nonce();
+
+		// Check if user is privileged.
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( tutor_utils()->error_message() );
+		}
+
+		$action   = Input::post( 'bulk-action', '' );
+		$bulk_ids = Input::post( 'bulk-ids', '' );
 		if ( '' === $action || '' === $bulk_ids ) {
-			wp_send_json_error(array('message' => __('Please select appropriate action', 'tutor')));
+			wp_send_json_error( array( 'message' => __( 'Please select appropriate action', 'tutor' ) ) );
 			exit;
 		}
 
@@ -291,10 +280,10 @@ class Course_List {
 			// Do action before delete.
 			do_action( 'before_tutor_course_bulk_action_delete', $bulk_ids );
 
-			$delete_courses = self::delete_course( $bulk_ids );
+			$delete_courses = self::bulk_delete_course( $bulk_ids );
 
 			do_action( 'after_tutor_course_bulk_action_delete', $bulk_ids );
-			$delete_courses ? wp_send_json_success() : wp_send_json_error(array('message' => __('Could not delete selected courses', 'tutor')));
+			$delete_courses ? wp_send_json_success() : wp_send_json_error( array( 'message' => __( 'Could not delete selected courses', 'tutor' ) ) );
 			exit;
 		}
 
@@ -310,7 +299,12 @@ class Course_List {
 
 		do_action( 'after_tutor_course_bulk_action_update', $action, $bulk_ids );
 
-		$update_status ? wp_send_json_success() : wp_send_json_error(array('message' => 'Could not update course status', 'tutor'));
+		$update_status ? wp_send_json_success() : wp_send_json_error(
+			array(
+				'message' => 'Could not update course status',
+				'tutor',
+			)
+		);
 
 		exit;
 	}
@@ -318,16 +312,37 @@ class Course_List {
 	/**
 	 * Handle ajax request for updating course status
 	 *
-	 * @return json response
-	 * @since v2.0.0
+	 * @return void
+	 * @since 2.0.0
 	 */
 	public static function tutor_change_course_status() {
 		tutor_utils()->checking_nonce();
-		$status = sanitize_text_field( $_POST['status'] );
-		$id     = sanitize_text_field( $_POST['id'] );
 
-		self::update_course_status( $status, $id );
+		// Check if user is privileged.
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( tutor_utils()->error_message() );
+		}
 
+		$status = Input::post( 'status' );
+		$id     = Input::post( 'id' );
+		$course = get_post( $id );
+
+		if ( CourseModel::POST_TYPE !== $course->post_type ) {
+			wp_send_json_error( tutor_utils()->error_message() );
+		}
+
+		$args = array(
+			'ID'          => $id,
+			'post_status' => $status,
+		);
+
+		if ( CourseModel::STATUS_FUTURE === $course->post_status && CourseModel::STATUS_PUBLISH === $status ) {
+			$args['post_status']   = CourseModel::STATUS_PUBLISH;
+			$args['post_date']     = current_time( 'mysql' );
+			$args['post_date_gmt'] = current_time( 'mysql', 1 );
+		}
+
+		wp_update_post( $args );
 		wp_send_json_success();
 		exit;
 	}
@@ -335,49 +350,46 @@ class Course_List {
 	/**
 	 * Handle ajax request for deleting course
 	 *
-	 * @return json response
-	 * @since v2.0.0
+	 * @since 2.0.0
+	 *
+	 * @return void JSON response
 	 */
 	public static function tutor_course_delete() {
 		tutor_utils()->checking_nonce();
-		$id     = sanitize_text_field( $_POST['id'] );
-		$announcements = get_posts(array('post_type'=>'tutor_announcements','post_parent'=>$id));
-		foreach ($announcements as $announcement) {
-			wp_delete_post( $announcement->ID, true );
+
+		// Check if user is privileged.
+		$roles = array( User::ADMIN, User::INSTRUCTOR );
+		if ( ! User::has_any_role( $roles ) ) {
+			wp_send_json_error( tutor_utils()->error_message() );
 		}
-		$delete = self::delete_course( $id );
 
+		$id     = Input::post( 'id', 0, Input::TYPE_INT );
+		$delete = CourseModel::delete_course( $id );
 
-		// $delete = Announcements::delete_announcements( $action, $bulk_ids )( $id );
-		return wp_send_json( $delete );
+		if ( $delete ) {
+			wp_send_json_success( __( 'Course has been deleted ', 'tutor' ) );
+		} else {
+			wp_send_json_error( __( 'Course delete failed ', 'tutor' ) );
+		}
+
 		exit;
 	}
 
 	/**
-	 * Execute bulk action for enrollments ex: complete | cancel
+	 * Execute bulk delete action
 	 *
 	 * @param string $bulk_ids ids that need to update.
 	 * @return bool
-	 * @since v2.0.0
+	 * @since 2.0.0
 	 */
-	public static function delete_course( $bulk_ids ): bool {
-		global $wpdb;
-		$post_table = $wpdb->posts;
-		$bulk_ids   = sanitize_text_field( $bulk_ids );
-		$delete     = $wpdb->query(
-			$wpdb->prepare(
-				" DELETE FROM {$post_table}
-				WHERE ID IN ($bulk_ids)
-					AND 1 = %d
-			",
-				1
-			)
-		);
+	public static function bulk_delete_course( $bulk_ids ): bool {
+		$bulk_ids = explode( ',', sanitize_text_field( $bulk_ids ) );
 
-		// Delete course meta.
-		$delete ? self::permanently_delete_course_meta( $bulk_ids ) : 0;
+		foreach ( $bulk_ids as $post_id ) {
+			CourseModel::delete_course( $post_id );
+		}
 
-		return false === $delete ? false : true;
+		return true;
 	}
 
 	/**
@@ -385,8 +397,10 @@ class Course_List {
 	 *
 	 * @param string $status for updating course status.
 	 * @param string $bulk_ids comma separated ids.
+	 *
 	 * @return bool
-	 * @since v2.0.0
+	 *
+	 * @since 2.0.0
 	 */
 	public static function update_course_status( string $status, $bulk_ids ): bool {
 		global $wpdb;
@@ -394,42 +408,25 @@ class Course_List {
 		$status     = sanitize_text_field( $status );
 		$bulk_ids   = sanitize_text_field( $bulk_ids );
 
-		$update     = $wpdb->query(
+		$ids       = array_map( 'intval', explode( ',', $bulk_ids ) );
+		$in_clause = QueryHelper::prepare_in_clause( $ids );
+
+		$update = $wpdb->query(
 			$wpdb->prepare(
-				"UPDATE {$post_table}
-				SET post_status = %s
-				WHERE ID IN ($bulk_ids)",
+				"UPDATE {$post_table} SET post_status = %s WHERE ID IN ($in_clause)", //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$status
 			)
 		);
 
 		return true;
 	}
-	/**
-	 * Count quiz for a course
-	 *
-	 * @param int $course_id | required.
-	 */
-	public static function get_all_quiz_by_course( int $course_id ): int {
-		global $wpdb;
-		$quiz_number = $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT COUNT(ID) FROM {$wpdb->posts}
-			WHERE post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_type ='topics' AND post_parent = %d AND post_status = 'publish')
-			AND post_type ='tutor_quiz'
-			AND post_status = 'publish'",
-				$course_id
-			)
-		);
-		return $quiz_number ? $quiz_number : 0;
-	}
 
 	/**
-	 * Get course enrollments with student info
+	 * Get course enrollment list with student info
 	 *
 	 * @param  int $course_id int | required.
 	 * @return array
-	 * @since v2.0.0
+	 * @since 2.0.0
 	 */
 	public static function course_enrollments_with_student_details( int $course_id ) {
 		global $wpdb;
@@ -455,7 +452,7 @@ class Course_List {
 
 		foreach ( $enrollments as $enrollment ) {
 			$course_progress = tutor_utils()->get_course_completed_percent( $course_id, $enrollment->enroll_author );
-			if ( $course_progress == 100 ) {
+			if ( 100 == $course_progress ) {
 				$course_completed++;
 			} else {
 				$course_inprogress++;
@@ -471,25 +468,14 @@ class Course_List {
 	}
 
 	/**
-	 * Delete post meta permanently
+	 * Check wheather course is public or not
 	 *
-	 * @param string $bulk_ids | comma separated ids.
-	 *
-	 * @return bool
-	 *
-	 * @since v2.0.0
+	 * @param integer $course_id  course id to check with.
+	 * @return boolean  true if public otherwise false.
+	 * @since 1.0.0
 	 */
-	public static function permanently_delete_course_meta( $bulk_ids ): bool {
-		global $wpdb;
-		$wpdb->query(
-			$wpdb->prepare(
-				" DELETE FROM {$wpdb->postmeta}
-				WHERE post_id IN ($bulk_ids)
-					AND 1 = %d
-			",
-				1
-			)
-		);
-		return true;
+	public static function is_public( int $course_id ): bool {
+		$is_public = get_post_meta( $course_id, '_tutor_is_public_course', true );
+		return 'yes' === $is_public ? true : false;
 	}
 }

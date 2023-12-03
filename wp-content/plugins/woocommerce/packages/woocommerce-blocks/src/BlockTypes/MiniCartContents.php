@@ -1,14 +1,10 @@
 <?php
 namespace Automattic\WooCommerce\Blocks\BlockTypes;
 
-use Automattic\WooCommerce\Blocks\Package;
-use Automattic\WooCommerce\Blocks\Assets;
-use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
-use Automattic\WooCommerce\StoreApi\Utilities\CartController;
 use Automattic\WooCommerce\Blocks\Utils\StyleAttributesUtils;
 
 /**
- * Mini Cart class.
+ * Mini-Cart Contents class.
  *
  * @internal
  */
@@ -44,20 +40,29 @@ class MiniCartContents extends AbstractBlock {
 	 * @return null
 	 */
 	protected function get_block_type_script( $key = null ) {
-		// The frontend script is a dependency of the Mini Cart block so it's
+		// The frontend script is a dependency of the Mini-Cart block so it's
 		// already lazy-loaded.
 		return null;
 	}
 
 	/**
-	 * Render the markup for the Mini Cart contents block.
+	 * Get the frontend style handle for this block type.
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content.
+	 * @return string[]
+	 */
+	protected function get_block_type_style() {
+		return array_merge( parent::get_block_type_style(), [ 'wc-blocks-packages-style' ] );
+	}
+
+	/**
+	 * Render the markup for the Mini-Cart Contents block.
 	 *
+	 * @param array    $attributes Block attributes.
+	 * @param string   $content    Block content.
+	 * @param WP_Block $block      Block instance.
 	 * @return string Rendered block type output.
 	 */
-	protected function render( $attributes, $content ) {
+	protected function render( $attributes, $content, $block ) {
 		if ( is_admin() || WC()->is_rest_api_request() ) {
 			// In the editor we will display the placeholder, so no need to
 			// print the markup.
@@ -70,30 +75,23 @@ class MiniCartContents extends AbstractBlock {
 	/**
 	 * Enqueue frontend assets for this block, just in time for rendering.
 	 *
-	 * @param array $attributes  Any attributes that currently are available from the block.
+	 * @param array    $attributes  Any attributes that currently are available from the block.
+	 * @param string   $content    The block content.
+	 * @param WP_Block $block    The block object.
 	 */
-	protected function enqueue_assets( array $attributes ) {
-		parent::enqueue_assets( $attributes );
+	protected function enqueue_assets( array $attributes, $content, $block ) {
+		parent::enqueue_assets( $attributes, $content, $block );
 		$text_color = StyleAttributesUtils::get_text_color_class_and_style( $attributes );
 		$bg_color   = StyleAttributesUtils::get_background_color_class_and_style( $attributes );
 
 		$styles = array(
 			array(
-				'selector'   => '.wc-block-mini-cart__drawer .components-modal__header',
-				'properties' => array(
-					array(
-						'property' => 'color',
-						'value'    => $text_color ? $text_color['value'] : false,
-					),
-				),
-			),
-			array(
 				'selector'   => array(
 					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-checkout',
 					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-checkout:hover',
 					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-checkout:focus',
-					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-cart:hover',
-					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-cart:focus',
+					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-cart.wc-block-components-button:hover',
+					'.wc-block-mini-cart__footer .wc-block-mini-cart__footer-actions .wc-block-mini-cart__footer-cart.wc-block-components-button:focus',
 					'.wc-block-mini-cart__shopping-button a:hover',
 					'.wc-block-mini-cart__shopping-button a:focus',
 				),
@@ -115,6 +113,9 @@ class MiniCartContents extends AbstractBlock {
 		);
 
 		$parsed_style = '';
+		if ( array_key_exists( 'width', $attributes ) ) {
+			$parsed_style .= ':root{--drawer-width: ' . esc_html( $attributes['width'] ) . '}';
+		}
 
 		foreach ( $styles as $style ) {
 			$selector = is_array( $style['selector'] ) ? implode( ',', $style['selector'] ) : $style['selector'];
@@ -140,4 +141,29 @@ class MiniCartContents extends AbstractBlock {
 			$parsed_style
 		);
 	}
+
+	/**
+	 * Get list of Mini-Cart Contents block & its inner-block types.
+	 *
+	 * @return array;
+	 */
+	public static function get_mini_cart_block_types() {
+		$block_types = [];
+
+		$block_types[] = 'MiniCartContents';
+		$block_types[] = 'EmptyMiniCartContentsBlock';
+		$block_types[] = 'FilledMiniCartContentsBlock';
+		$block_types[] = 'MiniCartFooterBlock';
+		$block_types[] = 'MiniCartItemsBlock';
+		$block_types[] = 'MiniCartProductsTableBlock';
+		$block_types[] = 'MiniCartShoppingButtonBlock';
+		$block_types[] = 'MiniCartCartButtonBlock';
+		$block_types[] = 'MiniCartCheckoutButtonBlock';
+		$block_types[] = 'MiniCartTitleBlock';
+		$block_types[] = 'MiniCartTitleItemsCounterBlock';
+		$block_types[] = 'MiniCartTitleLabelBlock';
+
+		return $block_types;
+	}
+
 }

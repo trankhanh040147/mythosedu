@@ -1,3 +1,7 @@
+/**
+ * External dependencies
+ */
+import { getSetting } from '@woocommerce/settings';
 
 export const sharedAttributeBlockTypes = [
 	'woocommerce/product-best-sellers',
@@ -13,7 +17,7 @@ export default {
 	 */
 	columns: {
 		type: 'number',
-		default: wc_product_block_data.default_columns,
+		default: getSetting( 'defaultColumns', 3 ),
 	},
 
 	/**
@@ -21,7 +25,7 @@ export default {
 	 */
 	rows: {
 		type: 'number',
-		default: wc_product_block_data.default_rows,
+		default: getSetting( 'defaultRows', 3 ),
 	},
 
 	/**
@@ -54,10 +58,27 @@ export default {
 	contentVisibility: {
 		type: 'object',
 		default: {
+			image: true,
 			title: true,
 			price: true,
 			rating: true,
 			button: true,
 		},
+	},
+
+	/**
+	 * Are we previewing?
+	 */
+	isPreview: {
+		type: 'boolean',
+		default: false,
+	},
+
+	/**
+	 * Whether to display in stock, out of stock or backorder products.
+	 */
+	stockStatus: {
+		type: 'array',
+		default: Object.keys( getSetting( 'stockStatusOptions', [] ) ),
 	},
 };

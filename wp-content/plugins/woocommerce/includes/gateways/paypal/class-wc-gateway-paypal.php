@@ -7,8 +7,10 @@
  * @class       WC_Gateway_Paypal
  * @extends     WC_Payment_Gateway
  * @version     2.3.0
- * @package     WooCommerce/Classes/Payment
+ * @package     WooCommerce\Classes\Payment
  */
+
+use Automattic\Jetpack\Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -34,13 +36,49 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 	public static $log = false;
 
 	/**
+	 * Whether the test mode is enabled.
+	 *
+	 * @var bool
+	 */
+	public $testmode;
+
+	/**
+	 * Whether the debug mode is enabled.
+	 *
+	 * @var bool
+	 */
+	public $debug;
+
+	/**
+	 * Email address to send payments to.
+	 *
+	 * @var string
+	 */
+	public $email;
+
+	/**
+	 * Receiver email.
+	 *
+	 * @var string
+	 */
+	public $receiver_email;
+
+	/**
+	 * Identity token.
+	 *
+	 * @var string
+	 */
+	public $identity_token;
+
+
+	/**
 	 * Constructor for the gateway.
 	 */
 	public function __construct() {
 		$this->id                = 'paypal';
 		$this->has_fields        = false;
 		$this->order_button_text = __( 'Proceed to PayPal', 'woocommerce' );
-		$this->method_title      = __( 'PayPal', 'woocommerce' );
+		$this->method_title      = __( 'PayPal Standard', 'woocommerce' );
 		/* translators: %s: Link to WC system status page */
 		$this->method_description = __( 'PayPal Standard redirects customers to PayPal to enter their payment information.', 'woocommerce' );
 		$this->supports           = array(
@@ -68,10 +106,11 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 			$this->description  = trim( $this->description );
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		// Actions.
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ) );
 		add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
 		if ( ! $this->is_valid_for_use() ) {
 			$this->enabled = 'no';
@@ -81,8 +120,13 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 
 			if ( $this->identity_token ) {
 				include_once dirname( __FILE__ ) . '/includes/class-wc-gateway-paypal-pdt-handler.php';
-				new WC_Gateway_Paypal_PDT_Handler( $this->testmode, $this->identity_token );
+				$pdt_handler = new WC_Gateway_Paypal_PDT_Handler( $this->testmode, $this->identity_token );
+				$pdt_handler->set_receiver_email( $this->receiver_email );
 			}
+		}
+
+		if ( 'yes' === $this->enabled ) {
+			add_filter( 'woocommerce_thankyou_order_received_text', array( $this, 'order_received_text' ), 10, 2 );
 		}
 	}
 
@@ -249,7 +293,7 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Check if this gateway is enabled and available in the user's country.
+	 * Check if this gateway is available in the user's country based on currency.
 	 *
 	 * @return bool
 	 */
@@ -277,7 +321,7 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 			?>
 			<div class="inline error">
 				<p>
-					<strong><?php esc_html_e( 'Gateway disabled', 'woocommerce' ); ?></strong>: <?php esc_html_e( 'PayPal does not support your store currency.', 'woocommerce' ); ?>
+					<strong><?php esc_html_e( 'Gateway disabled', 'woocommerce' ); ?></strong>: <?php esc_html_e( 'PayPal Standard does not support your store currency.', 'woocommerce' ); ?>
 				</p>
 			</div>
 			<?php
@@ -288,7 +332,7 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 	 * Initialise Gateway Settings Form Fields.
 	 */
 	public function init_form_fields() {
-		$this->form_fields = include 'includes/settings-paypal.php';
+		$this->form_fields = include __DIR__ . '/includes/settings-paypal.php';
 	}
 
 	/**
@@ -380,17 +424,17 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 
 		$this->log( 'Refund Result: ' . wc_print_r( $result, true ) );
 
-		switch ( strtolower( $result->ACK ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+		switch ( strtolower( $result->ACK ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			case 'success':
 			case 'successwithwarning':
 				$order->add_order_note(
 					/* translators: 1: Refund amount, 2: Refund ID */
-					sprintf( __( 'Refunded %1$s - Refund ID: %2$s', 'woocommerce' ), $result->GROSSREFUNDAMT, $result->REFUNDTRANSACTIONID ) // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+					sprintf( __( 'Refunded %1$s - Refund ID: %2$s', 'woocommerce' ), $result->GROSSREFUNDAMT, $result->REFUNDTRANSACTIONID ) // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				);
 				return true;
 		}
 
-		return isset( $result->L_LONGMESSAGE0 ) ? new WP_Error( 'error', $result->L_LONGMESSAGE0 ) : false; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+		return isset( $result->L_LONGMESSAGE0 ) ? new WP_Error( 'error', $result->L_LONGMESSAGE0 ) : false; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 
 	/**
@@ -408,24 +452,25 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 			if ( is_wp_error( $result ) ) {
 				$this->log( 'Capture Failed: ' . $result->get_error_message(), 'error' );
 				/* translators: %s: Paypal gateway error message */
-				$order->add_order_note( sprintf( __( 'Payment could not captured: %s', 'woocommerce' ), $result->get_error_message() ) );
+				$order->add_order_note( sprintf( __( 'Payment could not be captured: %s', 'woocommerce' ), $result->get_error_message() ) );
 				return;
 			}
 
 			$this->log( 'Capture Result: ' . wc_print_r( $result, true ) );
 
-			// phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+			// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			if ( ! empty( $result->PAYMENTSTATUS ) ) {
 				switch ( $result->PAYMENTSTATUS ) {
 					case 'Completed':
 						/* translators: 1: Amount, 2: Authorization ID, 3: Transaction ID */
 						$order->add_order_note( sprintf( __( 'Payment of %1$s was captured - Auth ID: %2$s, Transaction ID: %3$s', 'woocommerce' ), $result->AMT, $result->AUTHORIZATIONID, $result->TRANSACTIONID ) );
-						update_post_meta( $order->get_id(), '_paypal_status', $result->PAYMENTSTATUS );
-						update_post_meta( $order->get_id(), '_transaction_id', $result->TRANSACTIONID );
+						$order->update_meta_data( '_paypal_status', $result->PAYMENTSTATUS );
+						$order->set_transaction_id( $result->TRANSACTIONID );
+						$order->save();
 						break;
 					default:
 						/* translators: 1: Authorization ID, 2: Payment status */
-						$order->add_order_note( sprintf( __( 'Payment could not captured - Auth ID: %1$s, Status: %2$s', 'woocommerce' ), $result->AUTHORIZATIONID, $result->PAYMENTSTATUS ) );
+						$order->add_order_note( sprintf( __( 'Payment could not be captured - Auth ID: %1$s, Status: %2$s', 'woocommerce' ), $result->AUTHORIZATIONID, $result->PAYMENTSTATUS ) );
 						break;
 				}
 			}
@@ -446,8 +491,63 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 			return;
 		}
 
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$suffix  = Constants::is_true( 'SCRIPT_DEBUG' ) ? '' : '.min';
+		$version = Constants::get_constant( 'WC_VERSION' );
 
-		wp_enqueue_script( 'woocommerce_paypal_admin', WC()->plugin_url() . '/includes/gateways/paypal/assets/js/paypal-admin' . $suffix . '.js', array(), WC_VERSION, true );
+		wp_enqueue_script( 'woocommerce_paypal_admin', WC()->plugin_url() . '/includes/gateways/paypal/assets/js/paypal-admin' . $suffix . '.js', array(), $version, true );
+	}
+
+	/**
+	 * Custom PayPal order received text.
+	 *
+	 * @since 3.9.0
+	 * @param string   $text Default text.
+	 * @param WC_Order $order Order data.
+	 * @return string
+	 */
+	public function order_received_text( $text, $order ) {
+		if ( $order && $this->id === $order->get_payment_method() ) {
+			return esc_html__( 'Thank you for your payment. Your transaction has been completed, and a receipt for your purchase has been emailed to you. Log into your PayPal account to view transaction details.', 'woocommerce' );
+		}
+
+		return $text;
+	}
+
+	/**
+	 * Determines whether PayPal Standard should be loaded or not.
+	 *
+	 * By default PayPal Standard isn't loaded on new installs or on existing sites which haven't set up the gateway.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return bool Whether PayPal Standard should be loaded.
+	 */
+	public function should_load() {
+		$option_key  = '_should_load';
+		$should_load = $this->get_option( $option_key );
+
+		if ( '' === $should_load ) {
+
+			// New installs without PayPal Standard enabled don't load it.
+			if ( 'no' === $this->enabled && WC_Install::is_new_install() ) {
+				$should_load = false;
+			} else {
+				$should_load = true;
+			}
+
+			$this->update_option( $option_key, wc_bool_to_string( $should_load ) );
+		} else {
+			$should_load = wc_string_to_bool( $should_load );
+		}
+
+		/**
+		 * Allow third-parties to filter whether PayPal Standard should be loaded or not.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param bool              $should_load Whether PayPal Standard should be loaded.
+		 * @param WC_Gateway_Paypal $this        The WC_Gateway_Paypal instance.
+		 */
+		return apply_filters( 'woocommerce_should_load_paypal_standard', $should_load, $this );
 	}
 }

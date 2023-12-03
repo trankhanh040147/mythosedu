@@ -133,6 +133,48 @@ class Price_List extends Base_Widget {
 				'title_field' => '{{{ title }}}',
 			]
 		);
+
+		$this->add_control(
+			'title_tag',
+			[
+				'label' => esc_html__( 'Title HTML Tag', 'elementor-pro' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'h1' => 'H1',
+					'h2' => 'H2',
+					'h3' => 'H3',
+					'h4' => 'H4',
+					'h5' => 'H5',
+					'h6' => 'H6',
+					'div' => 'div',
+					'span' => 'span',
+					'p' => 'p',
+				],
+				'default' => 'span',
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'description_tag',
+			[
+				'label' => esc_html__( 'Description HTML Tag', 'elementor-pro' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'h1' => 'H1',
+					'h2' => 'H2',
+					'h3' => 'H3',
+					'h4' => 'H4',
+					'h5' => 'H5',
+					'h6' => 'H6',
+					'div' => 'div',
+					'span' => 'span',
+					'p' => 'p',
+				],
+				'default' => 'p',
+			]
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -473,7 +515,7 @@ class Price_List extends Base_Widget {
 			$image_src = $image_src[0];
 		}
 
-		return sprintf( '<img src="%s" alt="%s" />', $image_src, $item['title'] );
+		return sprintf( '<img src="%s" alt="%s" loading="lazy" />', $image_src, $item['title'] );
 	}
 
 	private function render_item_header( $item ) {
@@ -533,9 +575,9 @@ class Price_List extends Base_Widget {
 				<?php if ( ! empty( $item['title'] ) || ! empty( $item['price'] ) ) : ?>
 					<div class="elementor-price-list-header">
 					<?php if ( ! empty( $item['title'] ) ) : ?>
-						<span <?php $this->print_render_attribute_string( $title_repeater_setting_key ); ?>>
+						<<?php Utils::print_validated_html_tag( $settings['title_tag'] ); ?> <?php $this->print_render_attribute_string( $title_repeater_setting_key ); ?>>
 							<?php $this->print_unescaped_setting( 'title', 'price_list', $index ); ?>
-						</span>
+						</<?php Utils::print_validated_html_tag( $settings['title_tag'] ); ?>>
 					<?php endif; ?>
 						<?php if ( 'none' != $settings['separator_style'] ) : ?>
 							<span class="elementor-price-list-separator"></span>
@@ -546,9 +588,9 @@ class Price_List extends Base_Widget {
 				</div>
 				<?php endif; ?>
 					<?php if ( ! empty( $item['item_description'] ) ) : ?>
-						<p <?php $this->print_render_attribute_string( $description_repeater_setting_key ); ?>>
+						<<?php Utils::print_validated_html_tag( $settings['description_tag'] ); ?> <?php $this->print_render_attribute_string( $description_repeater_setting_key ); ?>>
 							<?php $this->print_unescaped_setting( 'item_description', 'price_list', $index ); ?>
-						</p>
+						</<?php Utils::print_validated_html_tag( $settings['description_tag'] ); ?>>
 					<?php endif; ?>
 			</div>
 				<?php
@@ -575,12 +617,15 @@ class Price_List extends Base_Widget {
 		?>
 		<ul class="elementor-price-list">
 			<#
+				var titleTag = elementor.helpers.validateHTMLTag( settings.title_tag );
+				var descriptionTag = elementor.helpers.validateHTMLTag( settings.description_tag );
+
 				for ( var i in settings.price_list ) {
 					var item = settings.price_list[i],
 						item_open_wrap = '<li class="elementor-price-list-item">',
 						item_close_wrap = '</li>';
 					if ( item.link.url ) {
-						item_open_wrap = '<li><a href="' + item.link.url + '" class="elementor-price-list-item">';
+						item_open_wrap = '<li><a href="' + _.escape( item.link.url ) + '" class="elementor-price-list-item">';
 						item_close_wrap = '</a></li>';
 					}
 
@@ -600,7 +645,7 @@ class Price_List extends Base_Widget {
 						var image_url = elementor.imagesManager.getImageUrl( image );
 
 						if ( image_url ) { #>
-							<div class="elementor-price-list-image"><img src="{{ image_url }}" alt="{{ item.title }}"></div>
+							<div class="elementor-price-list-image"><img src="{{ image_url }}" alt="{{ item.title }}" loading="lazy" /></div>
 						<# } #>
 
 					<# } #>
@@ -613,7 +658,7 @@ class Price_List extends Base_Widget {
 								<div class="elementor-price-list-header">
 
 								<# if ( ! _.isEmpty( item.title ) ) { #>
-									<span class="elementor-price-list-title">{{{ item.title }}}</span>
+									<{{ titleTag }} class="elementor-price-list-title">{{{ item.title }}}</{{ titleTag }}>
 								<# } #>
 
 								<# if ( 'none' != settings.separator_style ) { #>
@@ -628,7 +673,7 @@ class Price_List extends Base_Widget {
 							<# } #>
 
 							<# if ( ! _.isEmpty( item.item_description ) ) { #>
-								<p class="elementor-price-list-description">{{{ item.item_description }}}</p>
+								<{{descriptionTag}} class="elementor-price-list-description">{{{ item.item_description }}}</{{descriptionTag}}>
 							<# } #>
 
 						</div>

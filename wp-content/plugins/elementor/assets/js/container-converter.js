@@ -1,4 +1,4 @@
-/*! elementor - v3.12.0 - 29-03-2023 */
+/*! elementor - v3.17.0 - 01-11-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -360,6 +360,8 @@ var map = function map() {
     var deviceKey = (0, _utils.getDeviceKey)('flex_gap', breakpoint);
     var newValue = {
       size: deviceValue,
+      column: '' + deviceValue,
+      row: '' + deviceValue,
       unit: 'px'
     };
     return [deviceKey, newValue];
@@ -437,6 +439,8 @@ var map = function map(_ref) {
       };
       value = 'custom' === value ? sectionSettings.gap_columns_custom : {
         size: sizesMap[value],
+        column: '' + sizesMap[value],
+        row: '' + sizesMap[value],
         unit: 'px'
       };
       return ['flex_gap', value];
@@ -566,12 +570,6 @@ var Migrator = /*#__PURE__*/function () {
     key: "migrate",
     value:
     /**
-     * Migrations configuration by `elType`.
-     *
-     * @type {Object}
-     */
-
-    /**
      * Migrate element settings into new settings object, using a map object.
      *
      * @param {Object} settings - Settings to migrate.
@@ -662,6 +660,11 @@ var Migrator = /*#__PURE__*/function () {
   return Migrator;
 }();
 exports["default"] = Migrator;
+/**
+ * Migrations configuration by `elType`.
+ *
+ * @type {Object}
+ */
 (0, _defineProperty2.default)(Migrator, "config", {
   section: {
     legacyControlsMapping: _section.default,
@@ -674,6 +677,8 @@ exports["default"] = Migrator;
         flex_align_items: settings.flex_align_items || 'stretch',
         flex_gap: settings.flex_gap || {
           size: 10,
+          column: '10',
+          row: '10',
           unit: 'px'
         }
       }, isInner ? {

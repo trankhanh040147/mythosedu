@@ -29,6 +29,8 @@ class Server {
 	 */
 	public function init() {
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
+
+		\WC_REST_System_Status_V2_Controller::register_cache_clean();
 	}
 
 	/**
@@ -52,9 +54,10 @@ class Server {
 		return apply_filters(
 			'woocommerce_rest_api_get_rest_namespaces',
 			array(
-				'wc/v1' => $this->get_v1_controllers(),
-				'wc/v2' => $this->get_v2_controllers(),
-				'wc/v3' => $this->get_v3_controllers(),
+				'wc/v1'        => $this->get_v1_controllers(),
+				'wc/v2'        => $this->get_v2_controllers(),
+				'wc/v3'        => $this->get_v3_controllers(),
+				'wc-telemetry' => $this->get_telemetry_controllers(),
 			)
 		);
 	}
@@ -176,6 +179,17 @@ class Server {
 			'data-continents'          => 'WC_REST_Data_Continents_Controller',
 			'data-countries'           => 'WC_REST_Data_Countries_Controller',
 			'data-currencies'          => 'WC_REST_Data_Currencies_Controller',
+		);
+	}
+
+	/**
+	 * List of controllers in the telemetry namespace.
+	 *
+	 * @return array
+	 */
+	protected function get_telemetry_controllers() {
+		return array(
+			'tracker' => 'WC_REST_Telemetry_Controller',
 		);
 	}
 

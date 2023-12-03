@@ -1,4 +1,4 @@
-/*! elementor - v3.12.0 - 29-03-2023 */
+/*! elementor - v3.17.0 - 01-11-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -202,6 +202,7 @@ Object.defineProperty(exports, "__esModule", ({
 exports["default"] = Announcements;
 var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
 var _ = __webpack_require__(/*! ./ */ "../modules/announcements/assets/js/components/index.js");
 var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../app/assets/js/event-track/apps-event-tracking.js");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
@@ -210,8 +211,13 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function Announcements(props) {
-  var announcements = props.announcements;
-  var announcementTitle = Object.values(announcements)[0].title;
+  var announcements = props.announcements,
+    unMount = props.unMount;
+  var _useState = (0, _react.useState)(0),
+    _useState2 = (0, _slicedToArray2.default)(_useState, 2),
+    currentAnnouncement = _useState2[0],
+    setCurrentAnnouncement = _useState2[1];
+  var announcementTitle = Object.values(announcements)[0].title || '';
 
   // Send event when the popup is presented
   (0, _react.useEffect)(function () {
@@ -226,14 +232,18 @@ function Announcements(props) {
     return function () {
       return clearTimeout(timer);
     };
-  }, []);
+  }, [announcements]);
   var onCloseHandle = function onCloseHandle(eventName) {
     var eventArgs = {
       event_name: 'element_click',
       element_type: 'button'
     };
-    document.getElementById('e-announcements-root').remove();
     eventTrackingHandle(eventName, eventArgs);
+    announcements.shift();
+    if (0 === announcements.length) {
+      return unMount();
+    }
+    setCurrentAnnouncement(currentAnnouncement + 1);
   };
   var eventTrackingHandle = function eventTrackingHandle(eventName, additionalArgs) {
     var eventBaseArgs = {
@@ -255,16 +265,15 @@ function Announcements(props) {
     className: "announcements-container"
   }, /*#__PURE__*/_react.default.createElement(_.AnnouncementsHeader, {
     onClose: onCloseHandle
-  }), Object.values(announcements).map(function (announcement, index) {
-    return /*#__PURE__*/_react.default.createElement(_.Announcement, {
-      key: "announcement".concat(index),
-      announcement: announcement,
-      onClose: onCloseHandle
-    });
+  }), /*#__PURE__*/_react.default.createElement(_.Announcement, {
+    key: "announcement-".concat(currentAnnouncement),
+    announcement: announcements[0],
+    onClose: onCloseHandle
   }));
 }
 Announcements.propTypes = {
-  announcements: _propTypes.default.oneOfType([_propTypes.default.array, _propTypes.default.object]).isRequired
+  announcements: _propTypes.default.oneOfType([_propTypes.default.array, _propTypes.default.object]).isRequired,
+  unMount: _propTypes.default.func.isRequired
 };
 
 /***/ }),
@@ -295,7 +304,7 @@ function AnnouncementsHeader(props) {
     "aria-hidden": "true"
   }), /*#__PURE__*/_react.default.createElement("span", {
     className: "heading-title"
-  }, __('What’s New', 'elementor')), /*#__PURE__*/_react.default.createElement("button", {
+  }, __('Notifications', 'elementor')), /*#__PURE__*/_react.default.createElement("button", {
     className: "close-button",
     onClick: function onClick() {
       return onClose('close');
@@ -1582,6 +1591,34 @@ module.exports = wp.i18n;
 
 /***/ }),
 
+/***/ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
+/*!******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+  return arr2;
+}
+module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/arrayWithHoles.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
 /***/ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js":
 /*!***********************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
@@ -1761,6 +1798,56 @@ function _interopRequireDefault(obj) {
   };
 }
 module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
+/*!**********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+function _iterableToArrayLimit(arr, i) {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
+    try {
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+    } catch (err) {
+      _d = !0, _e = err;
+    } finally {
+      try {
+        if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+    return _arr;
+  }
+}
+module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/nonIterableRest.js":
+/*!*****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
@@ -2162,6 +2249,23 @@ module.exports = _setPrototypeOf, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
+/***/ "../node_modules/@babel/runtime/helpers/slicedToArray.js":
+/*!***************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/slicedToArray.js ***!
+  \***************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles.js */ "../node_modules/@babel/runtime/helpers/arrayWithHoles.js");
+var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit.js */ "../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
+var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
+var nonIterableRest = __webpack_require__(/*! ./nonIterableRest.js */ "../node_modules/@babel/runtime/helpers/nonIterableRest.js");
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
+}
+module.exports = _slicedToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
 /***/ "../node_modules/@babel/runtime/helpers/toPrimitive.js":
 /*!*************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/toPrimitive.js ***!
@@ -2215,6 +2319,25 @@ function _typeof(obj) {
   }, module.exports.__esModule = true, module.exports["default"] = module.exports), _typeof(obj);
 }
 module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js":
+/*!****************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+  \****************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+}
+module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
@@ -2303,7 +2426,7 @@ var AnnouncementIndex = /*#__PURE__*/function () {
     value: function () {
       var _initAnnouncement = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var _window$elementorAnno;
-        var container, announcements;
+        var container, announcements, unMount;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -2315,13 +2438,18 @@ var AnnouncementIndex = /*#__PURE__*/function () {
               }
               return _context.abrupt("return");
             case 4:
-              _context.next = 6;
+              unMount = function unMount() {
+                ReactDOM.unmountComponentAtNode(container);
+                document.getElementById('e-announcements-root').remove();
+              };
+              _context.next = 7;
               return $e.components.register(new _eComponent.default());
-            case 6:
-              ReactDOM.render( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_components.Overlay, null), /*#__PURE__*/_react.default.createElement(_components.Announcements, {
-                announcements: announcements
-              })), container);
             case 7:
+              ReactDOM.render( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_components.Overlay, null), /*#__PURE__*/_react.default.createElement(_components.Announcements, {
+                announcements: announcements,
+                unMount: unMount
+              })), container);
+            case 8:
             case "end":
               return _context.stop();
           }

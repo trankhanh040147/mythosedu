@@ -8315,7 +8315,7 @@ CSSLint.addRule({
     desc: "The box-sizing properties isn't supported in IE6 and IE7.",
     url: "https://github.com/CSSLint/csslint/wiki/Disallow-box-sizing",
     browsers: "IE6, IE7",
-    Tags: ["Compatibility"],
+    tags: ["Compatibility"],
 
     // initialization
     init: function(parser, reporter) {
@@ -9381,7 +9381,7 @@ CSSLint.addRule({
     desc: "Use of outline: none or outline: 0 should be limited to :focus rules.",
     url: "https://github.com/CSSLint/csslint/wiki/Disallow-outline%3Anone",
     browsers: "All",
-    Tags: ["Accessibility"],
+    tags: ["Accessibility"],
 
     // initialization
     init: function(parser, reporter) {

@@ -14,14 +14,10 @@ const Option = ( {
 	name,
 	onChange,
 	option,
+	disabled = false,
 }: RadioControlOptionProps ): JSX.Element => {
-	const {
-		value,
-		label,
-		description,
-		secondaryLabel,
-		secondaryDescription,
-	} = option;
+	const { value, label, description, secondaryLabel, secondaryDescription } =
+		option;
 	const onChangeValue = ( event: React.ChangeEvent< HTMLInputElement > ) =>
 		onChange( event.target.value );
 
@@ -30,7 +26,8 @@ const Option = ( {
 			className={ classnames(
 				'wc-block-components-radio-control__option',
 				{
-					'wc-block-components-radio-control__option-checked': checked,
+					'wc-block-components-radio-control__option-checked':
+						checked,
 				}
 			) }
 			htmlFor={ `${ name }-${ value }` }
@@ -47,8 +44,10 @@ const Option = ( {
 					[ `${ name }-${ value }__label` ]: label,
 					[ `${ name }-${ value }__secondary-label` ]: secondaryLabel,
 					[ `${ name }-${ value }__description` ]: description,
-					[ `${ name }-${ value }__secondary-description` ]: secondaryDescription,
+					[ `${ name }-${ value }__secondary-description` ]:
+						secondaryDescription,
 				} ) }
+				disabled={ disabled }
 			/>
 			<OptionLayout
 				id={ `${ name }-${ value }` }

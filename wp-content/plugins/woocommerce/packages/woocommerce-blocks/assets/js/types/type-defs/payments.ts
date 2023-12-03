@@ -2,16 +2,28 @@
  * External dependencies
  */
 import type { ReactNode } from 'react';
+import { ApiErrorResponse } from '@woocommerce/types';
 
 /**
  * Internal dependencies
  */
-import type { CartTotals, Cart } from './cart';
-import {
+import type { CartTotals } from './cart';
+import type {
+	CartResponse,
 	CartResponseBillingAddress,
 	CartResponseShippingAddress,
 } from './cart-response';
 import type { EmptyObjectType } from './objects';
+import type { CheckoutResponseSuccess } from './checkout';
+
+/**
+ * The shape of objects on the `globalPaymentMethods` object from `allSettings`.
+ */
+export interface GlobalPaymentMethod {
+	id: string | number;
+	title: string;
+	description: string;
+}
 
 export interface SupportsConfiguration {
 	showSavedCards?: boolean;
@@ -27,13 +39,39 @@ export interface Supports extends SupportsConfiguration {
 }
 
 export interface CanMakePaymentArgument {
-	cart: Cart;
+	cart: CanMakePaymentArgumentCart;
 	cartTotals: CartTotals;
 	cartNeedsShipping: boolean;
-	billingData: CartResponseBillingAddress;
+	billingData: CartResponseBillingAddress; // This needs to stay as billingData as third parties already use this key
 	shippingAddress: CartResponseShippingAddress;
+	billingAddress: CartResponseBillingAddress;
 	selectedShippingMethods: Record< string, unknown >;
-	paymentRequirements: Array< string >;
+	paymentRequirements: string[];
+	paymentMethods: string[];
+}
+
+export interface CanMakePaymentArgumentCart {
+	billingAddress: CartResponse[ 'billing_address' ];
+	billingData: CartResponse[ 'billing_address' ];
+	cartCoupons: CartResponse[ 'coupons' ];
+	cartErrors: ApiErrorResponse[];
+	cartFees: CartResponse[ 'fees' ];
+	cartHasCalculatedShipping: CartResponse[ 'has_calculated_shipping' ];
+	cartIsLoading: boolean;
+	cartItemErrors: CartResponse[ 'errors' ];
+	cartItems: CartResponse[ 'items' ];
+	cartItemsCount: CartResponse[ 'items_count' ];
+	cartItemsWeight: CartResponse[ 'items_weight' ];
+	cartNeedsPayment: CartResponse[ 'needs_payment' ];
+	cartNeedsShipping: CartResponse[ 'needs_shipping' ];
+	cartTotals: CartResponse[ 'totals' ];
+	extensions: CartResponse[ 'extensions' ];
+	crossSellsProducts: CartResponse[ 'cross_sells' ];
+	isLoadingRates: boolean;
+	paymentRequirements: CartResponse[ 'payment_requirements' ];
+	receiveCart: ( response: CartResponse ) => void;
+	shippingAddress: CartResponse[ 'shipping_address' ];
+	shippingRates: CartResponse[ 'shipping_rates' ];
 }
 
 export type CanMakePaymentReturnType =
@@ -90,6 +128,16 @@ export type PaymentMethods =
 	| Record< string, PaymentMethodConfigInstance >
 	| EmptyObjectType;
 
+/**
+ * Used to represent payment methods in a context where storing objects is not allowed, i.e. in data stores.
+ */
+export type PlainPaymentMethods = Record< string, { name: string } >;
+
+/**
+ * Used to represent payment methods in a context where storing objects is not allowed, i.e. in data stores.
+ */
+export type PlainExpressPaymentMethods = PlainPaymentMethods;
+
 export type ExpressPaymentMethods =
 	| Record< string, ExpressPaymentMethodConfigInstance >
 	| EmptyObjectType;
@@ -114,7 +162,17 @@ export interface ExpressPaymentMethodConfigInstance {
 	content: ReactNode;
 	edit: ReactNode;
 	paymentMethodId?: string;
+	placeOrderButtonLabel?: string;
 	supports: Supports;
 	canMakePaymentFromConfig: CanMakePaymentCallback;
 	canMakePayment: CanMakePaymentCallback;
+}
+
+export interface PaymentResult {
+	message: string;
+	paymentStatus:
+		| CheckoutResponseSuccess[ 'payment_result' ][ 'payment_status' ]
+		| 'not set';
+	paymentDetails: Record< string, string > | Record< string, never >;
+	redirectUrl: string;
 }

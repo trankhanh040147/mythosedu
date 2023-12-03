@@ -23,7 +23,7 @@ class Admin {
 	const LICENSE_DATA_FALLBACK_OPTION_NAME = self::LICENSE_DATA_OPTION_NAME . '_fallback';
 
 	/**
-	 * @deprecated 3.6.0 Use Plugin::instance()->updater instead
+	 * @deprecated 3.6.0 Use `Plugin::instance()->updater` instead.
 	 */
 	public static $updater = null;
 
@@ -85,7 +85,7 @@ class Admin {
 	}
 
 	/**
-	 * @deprecated 3.6.0 Use Plugin::instance()->updater instead
+	 * @deprecated 3.6.0 Use `Plugin::instance()->updater` instead.
 	 *
 	 * @return \ElementorPro\License\Updater
 	 */
@@ -149,7 +149,6 @@ class Admin {
 	}
 
 	public function register_page() {
-		return;
 		$menu_text = esc_html__( 'License', 'elementor-pro' );
 
 		add_submenu_page(
@@ -228,7 +227,7 @@ class Admin {
 						<small>
 							<?php // Fake link to make the user think something is going on. In fact, every refresh of this page will re-check the license status. ?>
 							<a class="button" href="<?php echo esc_url( static::get_url() . '&check-license=1' ); ?>">
-								<i class="eicon-sync"></i>
+								<i class="eicon-sync" aria-hidden="true"></i>
 								<?php echo esc_html__( 'Check license status', 'elementor-pro' ); ?>
 							</a>
 						</small>
@@ -289,12 +288,11 @@ class Admin {
 			API::STATUS_SITE_INACTIVE => esc_html__( 'Mismatch', 'elementor-pro' ),
 			API::STATUS_CANCELLED => esc_html__( 'Cancelled', 'elementor-pro' ),
 			API::STATUS_HTTP_ERROR => esc_html__( 'HTTP Error', 'elementor-pro' ),
-			API::STATUS_MISSING => esc_html__( 'Active', 'elementor-pro' ),
+			API::STATUS_MISSING => esc_html__( 'Missing', 'elementor-pro' ),
 			API::STATUS_REQUEST_LOCKED => esc_html__( 'Request Locked', 'elementor-pro' ),
 		];
-
+		$license_data['success'] = true;
 		echo esc_html__( 'Status', 'elementor-pro' ); ?>:
-		<?php $license_data['success'] = true; ?>
 		<?php if ( $license_data['success'] ) : ?>
 			<span style="color: #008000; font-style: italic;"><?php echo esc_html__( 'Active', 'elementor-pro' ); ?></span>
 
@@ -545,11 +543,6 @@ class Admin {
 
 		add_filter( 'elementor/admin/dashboard_overview_widget/footer_actions', function( $additions_actions ) {
 			unset( $additions_actions['go-pro'] );
-
-			// Keep Visible to administrator role or for the Pro license owner, remove for non-owner lower-level user types.
-			if ( ! current_user_can( 'manage_options' ) && isset( $additions_actions['find_an_expert'] ) ) {
-				unset( $additions_actions['find_an_expert'] );
-			}
 
 			if ( current_user_can( 'manage_options' ) && API::is_license_expired() ) {
 				// Using 'go-pro' key to style the 'renew' button as the 'go-pro' button

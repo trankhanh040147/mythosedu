@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.12.0 - 29-03-2023 */
+/*! elementor-pro - v3.17.0 - 01-11-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -116,7 +116,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! invariant */ "../node_modules/invariant/browser.js");
 /* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(invariant__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var create_react_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! create-react-context */ "../node_modules/create-react-context/lib/index.js");
+/* harmony import */ var create_react_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! create-react-context */ "../node_modules/@reach/router/node_modules/create-react-context/lib/index.js");
 /* harmony import */ var create_react_context__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(create_react_context__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_lifecycles_compat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-lifecycles-compat */ "../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js");
 /* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/utils */ "../node_modules/@reach/router/es/lib/utils.js");
@@ -1344,6 +1344,238 @@ var shallowCompare = function shallowCompare(obj1, obj2) {
 
 /***/ }),
 
+/***/ "../node_modules/@reach/router/node_modules/create-react-context/lib/implementation.js":
+/*!*********************************************************************************************!*\
+  !*** ../node_modules/@reach/router/node_modules/create-react-context/lib/implementation.js ***!
+  \*********************************************************************************************/
+/***/ ((module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _react = __webpack_require__(/*! react */ "react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _gud = __webpack_require__(/*! gud */ "../node_modules/gud/index.js");
+
+var _gud2 = _interopRequireDefault(_gud);
+
+var _warning = __webpack_require__(/*! warning */ "../node_modules/warning/warning.js");
+
+var _warning2 = _interopRequireDefault(_warning);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MAX_SIGNED_31_BIT_INT = 1073741823;
+
+// Inlined Object.is polyfill.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+function objectIs(x, y) {
+  if (x === y) {
+    return x !== 0 || 1 / x === 1 / y;
+  } else {
+    return x !== x && y !== y;
+  }
+}
+
+function createEventEmitter(value) {
+  var handlers = [];
+  return {
+    on: function on(handler) {
+      handlers.push(handler);
+    },
+    off: function off(handler) {
+      handlers = handlers.filter(function (h) {
+        return h !== handler;
+      });
+    },
+    get: function get() {
+      return value;
+    },
+    set: function set(newValue, changedBits) {
+      value = newValue;
+      handlers.forEach(function (handler) {
+        return handler(value, changedBits);
+      });
+    }
+  };
+}
+
+function onlyChild(children) {
+  return Array.isArray(children) ? children[0] : children;
+}
+
+function createReactContext(defaultValue, calculateChangedBits) {
+  var _Provider$childContex, _Consumer$contextType;
+
+  var contextProp = '__create-react-context-' + (0, _gud2.default)() + '__';
+
+  var Provider = function (_Component) {
+    _inherits(Provider, _Component);
+
+    function Provider() {
+      var _temp, _this, _ret;
+
+      _classCallCheck(this, Provider);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.emitter = createEventEmitter(_this.props.value), _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    Provider.prototype.getChildContext = function getChildContext() {
+      var _ref;
+
+      return _ref = {}, _ref[contextProp] = this.emitter, _ref;
+    };
+
+    Provider.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+      if (this.props.value !== nextProps.value) {
+        var oldValue = this.props.value;
+        var newValue = nextProps.value;
+        var changedBits = void 0;
+
+        if (objectIs(oldValue, newValue)) {
+          changedBits = 0; // No change
+        } else {
+          changedBits = typeof calculateChangedBits === 'function' ? calculateChangedBits(oldValue, newValue) : MAX_SIGNED_31_BIT_INT;
+          if (true) {
+            (0, _warning2.default)((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: %s', changedBits);
+          }
+
+          changedBits |= 0;
+
+          if (changedBits !== 0) {
+            this.emitter.set(nextProps.value, changedBits);
+          }
+        }
+      }
+    };
+
+    Provider.prototype.render = function render() {
+      return this.props.children;
+    };
+
+    return Provider;
+  }(_react.Component);
+
+  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[contextProp] = _propTypes2.default.object.isRequired, _Provider$childContex);
+
+  var Consumer = function (_Component2) {
+    _inherits(Consumer, _Component2);
+
+    function Consumer() {
+      var _temp2, _this2, _ret2;
+
+      _classCallCheck(this, Consumer);
+
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, _Component2.call.apply(_Component2, [this].concat(args))), _this2), _this2.state = {
+        value: _this2.getValue()
+      }, _this2.onUpdate = function (newValue, changedBits) {
+        var observedBits = _this2.observedBits | 0;
+        if ((observedBits & changedBits) !== 0) {
+          _this2.setState({ value: _this2.getValue() });
+        }
+      }, _temp2), _possibleConstructorReturn(_this2, _ret2);
+    }
+
+    Consumer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+      var observedBits = nextProps.observedBits;
+
+      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
+      : observedBits;
+    };
+
+    Consumer.prototype.componentDidMount = function componentDidMount() {
+      if (this.context[contextProp]) {
+        this.context[contextProp].on(this.onUpdate);
+      }
+      var observedBits = this.props.observedBits;
+
+      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
+      : observedBits;
+    };
+
+    Consumer.prototype.componentWillUnmount = function componentWillUnmount() {
+      if (this.context[contextProp]) {
+        this.context[contextProp].off(this.onUpdate);
+      }
+    };
+
+    Consumer.prototype.getValue = function getValue() {
+      if (this.context[contextProp]) {
+        return this.context[contextProp].get();
+      } else {
+        return defaultValue;
+      }
+    };
+
+    Consumer.prototype.render = function render() {
+      return onlyChild(this.props.children)(this.state.value);
+    };
+
+    return Consumer;
+  }(_react.Component);
+
+  Consumer.contextTypes = (_Consumer$contextType = {}, _Consumer$contextType[contextProp] = _propTypes2.default.object, _Consumer$contextType);
+
+
+  return {
+    Provider: Provider,
+    Consumer: Consumer
+  };
+}
+
+exports["default"] = createReactContext;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "../node_modules/@reach/router/node_modules/create-react-context/lib/index.js":
+/*!************************************************************************************!*\
+  !*** ../node_modules/@reach/router/node_modules/create-react-context/lib/index.js ***!
+  \************************************************************************************/
+/***/ ((module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _react = __webpack_require__(/*! react */ "react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _implementation = __webpack_require__(/*! ./implementation */ "../node_modules/@reach/router/node_modules/create-react-context/lib/implementation.js");
+
+var _implementation2 = _interopRequireDefault(_implementation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports["default"] = _react2.default.createContext || _implementation2.default;
+module.exports = exports['default'];
+
+/***/ }),
+
 /***/ "../core/app/assets/js/hooks/use-feature-lock.js":
 /*!*******************************************************!*\
   !*** ../core/app/assets/js/hooks/use-feature-lock.js ***!
@@ -1362,10 +1594,11 @@ var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _connectButton = _interopRequireDefault(__webpack_require__(/*! ../ui/connect-button */ "../core/app/assets/js/ui/connect-button.js"));
 var _utils = __webpack_require__(/*! ../utils */ "../core/app/assets/js/utils.js");
 function useFeatureLock(featureName) {
+  var _appConfig$lock, _appConfig$lock2, _appConfig$lock3;
   const appConfig = elementorAppProConfig[featureName] ?? {},
-    isLocked = appConfig.lock?.is_locked ?? false;
-  const buttonText = (0, _utils.htmlDecodeTextContent)(appConfig.lock?.button.text);
-  const buttonLink = (0, _utils.replaceUtmPlaceholders)(appConfig.lock?.button.url ?? '', appConfig.utms ?? {});
+    isLocked = ((_appConfig$lock = appConfig.lock) === null || _appConfig$lock === void 0 ? void 0 : _appConfig$lock.is_locked) ?? false;
+  const buttonText = (0, _utils.htmlDecodeTextContent)((_appConfig$lock2 = appConfig.lock) === null || _appConfig$lock2 === void 0 ? void 0 : _appConfig$lock2.button.text);
+  const buttonLink = (0, _utils.replaceUtmPlaceholders)(((_appConfig$lock3 = appConfig.lock) === null || _appConfig$lock3 === void 0 ? void 0 : _appConfig$lock3.button.url) ?? '', appConfig.utms ?? {});
   const ConnectButton = () => /*#__PURE__*/_react.default.createElement(_connectButton.default, {
     text: buttonText,
     url: buttonLink
@@ -1707,7 +1940,7 @@ class ConditionsProvider extends _baseContext.default {
   /**
    * Execute a request to save the template conditions.
    *
-   * @return {any} -
+   * @return {any} Saved conditions
    */
   saveConditions() {
     const conditions = Object.values(this.state.conditions).map(condition => condition.forDb());
@@ -1744,7 +1977,7 @@ class ConditionsProvider extends _baseContext.default {
    * Fetching subId titles.
    *
    * @param {any} condition
-   * @return {Promise<unknown>} -
+   * @return {Promise<unknown>} Titles
    */
   fetchSubIdsTitles(condition) {
     return new Promise(resolve => {
@@ -1884,7 +2117,7 @@ class ConditionsProvider extends _baseContext.default {
    * Find a condition item from the conditions state.
    *
    * @param {any} id
-   * @return {Condition|null} -
+   * @return {Condition|null} Condition
    */
   findConditionItemInState(id) {
     return Object.values(this.state.conditions).find(c => c.id === id);
@@ -1894,7 +2127,7 @@ class ConditionsProvider extends _baseContext.default {
    * Update the whole conditions state.
    *
    * @param {Function} callback
-   * @return {Promise<any>} -
+   * @return {Promise<undefined>} Conditions state
    */
   updateConditionsState(callback) {
     return new Promise(resolve => this.setState(prev => ({
@@ -1905,7 +2138,7 @@ class ConditionsProvider extends _baseContext.default {
   /**
    * Renders the provider.
    *
-   * @return {any} -
+   * @return {any} Element
    */
   render() {
     if (this.state.action.current === ConditionsProvider.actions.FETCH_CONFIG) {
@@ -2024,7 +2257,7 @@ class ConditionsConfig {
   }
 
   /**
-   * @return {Promise<ConditionsConfig>} -
+   * @return {Promise<ConditionsConfig>} Conditions config
    */
   static create() {
     if (ConditionsConfig.instance) {
@@ -2041,7 +2274,7 @@ class ConditionsConfig {
   /**
    * Get main options for condition name.
    *
-   * @return {Array} -
+   * @return {Array} Condition options
    */
   getOptions() {
     return this.getSubOptions('general', true).map(_ref => {
@@ -2061,7 +2294,7 @@ class ConditionsConfig {
    *
    * @param {string}  itemName
    * @param {boolean} isSubItem
-   * @return {Array} -
+   * @return {Array} Sub options
    */
   getSubOptions(itemName) {
     let isSubItem = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -2086,15 +2319,16 @@ class ConditionsConfig {
    * Get the autocomplete property from the conditions config
    *
    * @param {string} sub
-   * @return {{}|any} -
+   * @return {{}|any} Conditions autocomplete
    */
   getSubIdAutocomplete(sub) {
+    var _controls$;
     const config = this.config[sub];
     if (!config || !('object' === typeof config.controls)) {
       return {};
     }
     const controls = Object.values(config.controls);
-    if (!controls?.[0]?.autocomplete) {
+    if (!(controls !== null && controls !== void 0 && (_controls$ = controls[0]) !== null && _controls$ !== void 0 && _controls$.autocomplete)) {
       return {};
     }
     return controls[0].autocomplete;
@@ -2104,7 +2338,7 @@ class ConditionsConfig {
    * Calculate instances from the conditions.
    *
    * @param {Array} conditions
-   * @return {Object} -
+   * @return {Object} Conditions Instances
    */
   calculateInstances(conditions) {
     let instances = conditions.reduce((current, condition) => {
@@ -2517,7 +2751,7 @@ function useTemplatesScreenshot() {
  *
  * @param {any} template
  * @param {any} templateType
- * @return {boolean} -
+ * @return {boolean} should screenshot template
  */
 function shouldScreenshotTemplate(template) {
   let templateType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -3120,7 +3354,7 @@ var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
  * Main component.
  *
  * @param {any} props
- * @return {any} -
+ * @return {any} Element
  * @class
  */
 function ConditionSubId(props) {
@@ -3146,7 +3380,7 @@ function ConditionSubId(props) {
  * that passes as a prop
  *
  * @param {any} autocomplete
- * @return {Object} -
+ * @return {Object} Settings
  */
 function getSettings(autocomplete) {
   return {
@@ -3469,6 +3703,20 @@ var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
 var _templates = __webpack_require__(/*! ../context/templates */ "../core/app/modules/site-editor/assets/js/context/templates.js");
 var _backButton = _interopRequireDefault(__webpack_require__(/*! ../molecules/back-button */ "../core/app/modules/site-editor/assets/js/molecules/back-button.js"));
+var _hooks = __webpack_require__(/*! @elementor/hooks */ "@elementor/hooks");
+// The hook `useConfirmAction` comes from the core plugin, so it is possible that it is not available.
+const useConfirmActionFallback = _ref => {
+  let {
+    action
+  } = _ref;
+  return {
+    runAction: action,
+    dialog: {
+      isOpen: false
+    }
+  };
+};
+const useConfirmAction = _hooks.useConfirmAction ?? useConfirmActionFallback;
 function Import() {
   const {
       importTemplates,
@@ -3491,6 +3739,14 @@ function Import() {
       setImportedTemplate(response.data[0]);
     });
   }, []);
+  const {
+    runAction: uploadFile,
+    dialog,
+    checkbox
+  } = useConfirmAction({
+    doNotShowAgainKey: 'upload_json_warning_generic_message',
+    action: upload
+  });
   return /*#__PURE__*/_react.default.createElement("section", {
     className: "site-editor__import"
   }, importedTemplate && /*#__PURE__*/_react.default.createElement(_appUi.Dialog, {
@@ -3511,11 +3767,32 @@ function Import() {
     dismissButtonText: __('Go Back', 'elementor-pro'),
     dismissButtonOnClick: resetActionState,
     onClose: resetActionState
-  }), /*#__PURE__*/_react.default.createElement(_backButton.default, null), /*#__PURE__*/_react.default.createElement(_appUi.DropZone, {
+  }), dialog.isOpen && /*#__PURE__*/_react.default.createElement(_appUi.Dialog, {
+    title: __('Warning: JSON or ZIP files may be unsafe', 'elementor-pro'),
+    text: __('Uploading JSON or ZIP files from unknown sources can be harmful and put your site at risk. For maximum safety, upload only JSON or ZIP files from trusted sources.', 'elementor-pro'),
+    approveButtonColor: "link",
+    approveButtonText: __('Continue', 'elementor-pro'),
+    approveButtonOnClick: dialog.approve,
+    dismissButtonText: __('Cancel', 'elementor-pro'),
+    dismissButtonOnClick: dialog.dismiss,
+    onClose: dialog.dismiss
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "do-not-show-upload-json-warning-again",
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '5px'
+    }
+  }, /*#__PURE__*/_react.default.createElement(_appUi.Checkbox, {
+    id: "do-not-show-upload-json-warning-again",
+    type: "checkbox",
+    value: checkbox.isChecked,
+    onChange: event => checkbox.setIsChecked(!!event.target.checked)
+  }), __('Do not show this message again', 'elementor-pro'))), /*#__PURE__*/_react.default.createElement(_backButton.default, null), /*#__PURE__*/_react.default.createElement(_appUi.DropZone, {
     heading: __('Import Template To Your Library', 'elementor-pro'),
     text: __('Drag & Drop your .JSON or .zip template file', 'elementor-pro'),
     secondaryText: __('or', 'elementor-pro'),
-    onFileSelect: upload,
+    onFileSelect: uploadFile,
     isLoading: isUploading,
     filetypes: ['zip', 'json']
   }));
@@ -3871,6 +4148,7 @@ __webpack_require__(/*! ./site-editor.scss */ "../core/app/modules/site-editor/a
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function SiteEditor() {
+  var _elementorAppProConfi, _elementorAppProConfi2;
   const {
     isLocked
   } = (0, _useFeatureLock.default)('site-editor');
@@ -3879,7 +4157,7 @@ function SiteEditor() {
     id: 'import',
     text: __('import', 'elementor-pro'),
     hideText: true,
-    icon: 'eicon-download-circle-o',
+    icon: 'eicon-upload-circle-o',
     onClick: () => _router2.default.appHistory.navigate(basePath + '/import')
   }];
 
@@ -3941,7 +4219,7 @@ function SiteEditor() {
     className: "e-site-editor__content_container_secondary"
   }, /*#__PURE__*/_react.default.createElement(_appUi.Button, {
     text: __('Switch to table view', 'elementor-pro'),
-    url: elementorAppProConfig['site-editor']?.urls?.legacy_view
+    url: (_elementorAppProConfi = elementorAppProConfig['site-editor']) === null || _elementorAppProConfi === void 0 ? void 0 : (_elementorAppProConfi2 = _elementorAppProConfi.urls) === null || _elementorAppProConfi2 === void 0 ? void 0 : _elementorAppProConfi2.legacy_view
   })))));
 }
 class Module {
@@ -4002,7 +4280,7 @@ const defaultOptions = {
  *
  * @param {Array}  posts
  * @param {string} status
- * @return {Array} -
+ * @return {Array} Filtered posts
  */
 function filterPostByStatus(posts, status) {
   return posts.filter(item => status === item.status);
@@ -4028,11 +4306,10 @@ function normalizeInitialPosts(posts) {
  * Find the post id inside the posts array, update it with the attrs,
  * and make sure to return the whole posts array.
  *
- *
  * @param {Array}  posts
  * @param {number} id
  * @param {Object} attrs
- * @return {Array} -
+ * @return {Array} Posts array
  */
 function updatePostsAttrs(posts, id) {
   let attrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -4051,7 +4328,7 @@ function updatePostsAttrs(posts, id) {
  * Creates an IFrame that will create the screenshot.
  *
  * @param {Object} post
- * @return {any} -
+ * @return {HTMLIFrameElement} iframe
  */
 function createScreenshotIframe(post) {
   const iframe = document.createElement('iframe');
@@ -4067,7 +4344,6 @@ function createScreenshotIframe(post) {
  *
  * @param {Array}    inProgressPosts
  * @param {Function} setPosts
- * @return {any} -
  */
 function useIFrameMessageListener(inProgressPosts, setPosts) {
   return useCallback(message => {
@@ -4094,7 +4370,7 @@ function useIFrameMessageListener(inProgressPosts, setPosts) {
  *
  * @param {Array}  initialPosts
  * @param {number} numberOfScreenshotInParallel
- * @return {{inProgress: Array, succeed: Array, failed: Array, posts: Array, queue: Array}} -
+ * @return {{inProgress: Array, succeed: Array, failed: Array, posts: Array, queue: Array}} An array of posts, queue, inProgress, succeed, failed
  */
 function useScreenshot(initialPosts) {
   let {
@@ -4153,238 +4429,6 @@ function useScreenshot(initialPosts) {
     failed
   };
 }
-
-/***/ }),
-
-/***/ "../node_modules/create-react-context/lib/implementation.js":
-/*!******************************************************************!*\
-  !*** ../node_modules/create-react-context/lib/implementation.js ***!
-  \******************************************************************/
-/***/ ((module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _react = __webpack_require__(/*! react */ "react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _gud = __webpack_require__(/*! gud */ "../node_modules/gud/index.js");
-
-var _gud2 = _interopRequireDefault(_gud);
-
-var _warning = __webpack_require__(/*! warning */ "../node_modules/warning/warning.js");
-
-var _warning2 = _interopRequireDefault(_warning);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MAX_SIGNED_31_BIT_INT = 1073741823;
-
-// Inlined Object.is polyfill.
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-function objectIs(x, y) {
-  if (x === y) {
-    return x !== 0 || 1 / x === 1 / y;
-  } else {
-    return x !== x && y !== y;
-  }
-}
-
-function createEventEmitter(value) {
-  var handlers = [];
-  return {
-    on: function on(handler) {
-      handlers.push(handler);
-    },
-    off: function off(handler) {
-      handlers = handlers.filter(function (h) {
-        return h !== handler;
-      });
-    },
-    get: function get() {
-      return value;
-    },
-    set: function set(newValue, changedBits) {
-      value = newValue;
-      handlers.forEach(function (handler) {
-        return handler(value, changedBits);
-      });
-    }
-  };
-}
-
-function onlyChild(children) {
-  return Array.isArray(children) ? children[0] : children;
-}
-
-function createReactContext(defaultValue, calculateChangedBits) {
-  var _Provider$childContex, _Consumer$contextType;
-
-  var contextProp = '__create-react-context-' + (0, _gud2.default)() + '__';
-
-  var Provider = function (_Component) {
-    _inherits(Provider, _Component);
-
-    function Provider() {
-      var _temp, _this, _ret;
-
-      _classCallCheck(this, Provider);
-
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.emitter = createEventEmitter(_this.props.value), _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    Provider.prototype.getChildContext = function getChildContext() {
-      var _ref;
-
-      return _ref = {}, _ref[contextProp] = this.emitter, _ref;
-    };
-
-    Provider.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-      if (this.props.value !== nextProps.value) {
-        var oldValue = this.props.value;
-        var newValue = nextProps.value;
-        var changedBits = void 0;
-
-        if (objectIs(oldValue, newValue)) {
-          changedBits = 0; // No change
-        } else {
-          changedBits = typeof calculateChangedBits === 'function' ? calculateChangedBits(oldValue, newValue) : MAX_SIGNED_31_BIT_INT;
-          if (true) {
-            (0, _warning2.default)((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: %s', changedBits);
-          }
-
-          changedBits |= 0;
-
-          if (changedBits !== 0) {
-            this.emitter.set(nextProps.value, changedBits);
-          }
-        }
-      }
-    };
-
-    Provider.prototype.render = function render() {
-      return this.props.children;
-    };
-
-    return Provider;
-  }(_react.Component);
-
-  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[contextProp] = _propTypes2.default.object.isRequired, _Provider$childContex);
-
-  var Consumer = function (_Component2) {
-    _inherits(Consumer, _Component2);
-
-    function Consumer() {
-      var _temp2, _this2, _ret2;
-
-      _classCallCheck(this, Consumer);
-
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, _Component2.call.apply(_Component2, [this].concat(args))), _this2), _this2.state = {
-        value: _this2.getValue()
-      }, _this2.onUpdate = function (newValue, changedBits) {
-        var observedBits = _this2.observedBits | 0;
-        if ((observedBits & changedBits) !== 0) {
-          _this2.setState({ value: _this2.getValue() });
-        }
-      }, _temp2), _possibleConstructorReturn(_this2, _ret2);
-    }
-
-    Consumer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-      var observedBits = nextProps.observedBits;
-
-      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
-      : observedBits;
-    };
-
-    Consumer.prototype.componentDidMount = function componentDidMount() {
-      if (this.context[contextProp]) {
-        this.context[contextProp].on(this.onUpdate);
-      }
-      var observedBits = this.props.observedBits;
-
-      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
-      : observedBits;
-    };
-
-    Consumer.prototype.componentWillUnmount = function componentWillUnmount() {
-      if (this.context[contextProp]) {
-        this.context[contextProp].off(this.onUpdate);
-      }
-    };
-
-    Consumer.prototype.getValue = function getValue() {
-      if (this.context[contextProp]) {
-        return this.context[contextProp].get();
-      } else {
-        return defaultValue;
-      }
-    };
-
-    Consumer.prototype.render = function render() {
-      return onlyChild(this.props.children)(this.state.value);
-    };
-
-    return Consumer;
-  }(_react.Component);
-
-  Consumer.contextTypes = (_Consumer$contextType = {}, _Consumer$contextType[contextProp] = _propTypes2.default.object, _Consumer$contextType);
-
-
-  return {
-    Provider: Provider,
-    Consumer: Consumer
-  };
-}
-
-exports["default"] = createReactContext;
-module.exports = exports['default'];
-
-/***/ }),
-
-/***/ "../node_modules/create-react-context/lib/index.js":
-/*!*********************************************************!*\
-  !*** ../node_modules/create-react-context/lib/index.js ***!
-  \*********************************************************/
-/***/ ((module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _react = __webpack_require__(/*! react */ "react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _implementation = __webpack_require__(/*! ./implementation */ "../node_modules/create-react-context/lib/implementation.js");
-
-var _implementation2 = _interopRequireDefault(_implementation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports["default"] = _react2.default.createContext || _implementation2.default;
-module.exports = exports['default'];
 
 /***/ }),
 
@@ -5835,6 +5879,17 @@ module.exports = React;
 
 "use strict";
 module.exports = elementorAppPackages.appUi;
+
+/***/ }),
+
+/***/ "@elementor/hooks":
+/*!*********************************************!*\
+  !*** external "elementorAppPackages.hooks" ***!
+  \*********************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = elementorAppPackages.hooks;
 
 /***/ }),
 

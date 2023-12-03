@@ -125,7 +125,7 @@ class PageController {
 		}
 
 		$current_query = wp_parse_url( $current_url, PHP_URL_QUERY );
-		parse_str( $current_query, $current_pieces );
+		parse_str( (string) $current_query, $current_pieces );
 		$current_path  = empty( $current_pieces['page'] ) ? '' : $current_pieces['page'];
 		$current_path .= empty( $current_pieces['path'] ) ? '' : '&path=' . $current_pieces['path'];
 
@@ -450,6 +450,10 @@ class PageController {
 			$options['path'] = self::PAGE_ROOT . '&path=' . $options['path'];
 		}
 
+		if ( null !== $options['position'] ) {
+			$options['position'] = intval( round( $options['position'] ) );
+		}
+
 		if ( is_null( $options['parent'] ) ) {
 			add_menu_page(
 				$options['title'],
@@ -458,7 +462,7 @@ class PageController {
 				$options['path'],
 				array( __CLASS__, 'page_wrapper' ),
 				$options['icon'],
-				intval( round( $options['position'] ) )
+				$options['position']
 			);
 		} else {
 			$parent_path = $this->get_path_from_id( $options['parent'] );

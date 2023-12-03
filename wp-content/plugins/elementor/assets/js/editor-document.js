@@ -1,4 +1,4 @@
-/*! elementor - v3.12.0 - 29-03-2023 */
+/*! elementor - v3.17.0 - 01-11-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -374,22 +374,20 @@ var CommandHistoryDebounceBase = /*#__PURE__*/function (_CommandHistoryBase) {
     }
   }], [{
     key: "getInstanceType",
-    value:
-    /**
-     * Function debounce().
-     *
-     * Will debounce every function you pass in, at the same debounce flow.
-     *
-     * @param {Function}
-     */
-
-    function getInstanceType() {
+    value: function getInstanceType() {
       return 'CommandHistoryDebounceBase';
     }
   }]);
   return CommandHistoryDebounceBase;
 }(_commandHistoryBase.default);
 exports["default"] = CommandHistoryDebounceBase;
+/**
+ * Function debounce().
+ *
+ * Will debounce every function you pass in, at the same debounce flow.
+ *
+ * @param {Function}
+ */
 (0, _defineProperty2.default)(CommandHistoryDebounceBase, "debounce", undefined);
 
 /***/ }),
@@ -749,6 +747,7 @@ var CommandBase = /*#__PURE__*/function (_CommandInfra) {
      * Validate `arg.container` & `arg.containers`.
      *
      * @param {{}} args
+     * @deprecated since 3.7.0, extend `$e.modules.editor.CommandContainerBase` or `$e.modules.editor.CommandContainerInternalBase` instead.
      *
      * @throws {Error}
      */
@@ -757,7 +756,7 @@ var CommandBase = /*#__PURE__*/function (_CommandInfra) {
     value: function requireContainer() {
       var _this = this;
       var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.args;
-      _deprecation.default.deprecated('requireContainer', '3.7.0', 'Extend `$e.modules.editor.CommandContainerBase` or `$e.modules.editor.CommandContainerInternalBase`');
+      _deprecation.default.deprecated('requireContainer()', '3.7.0', 'Extend `$e.modules.editor.CommandContainerBase` or `$e.modules.editor.CommandContainerInternalBase`');
       if (!args.container && !args.containers) {
         throw Error('container or containers are required.');
       }
@@ -856,7 +855,9 @@ var CommandInfra = /*#__PURE__*/function (_ArgsObject) {
   (0, _createClass2.default)(CommandInfra, [{
     key: "currentCommand",
     get:
-    // TODO - Remove backwards compatibility.
+    /**
+     * @deprecated since 3.7.0, use `this.command` instead.
+     */
     function get() {
       _deprecation.default.deprecated('this.currentCommand', '3.7.0', 'this.command');
       return this.command;
@@ -979,12 +980,7 @@ var CommandInfra = /*#__PURE__*/function (_ArgsObject) {
     value: function onCatchApply(e) {} // eslint-disable-line no-unused-vars
   }], [{
     key: "getInstanceType",
-    value:
-    /**
-     * @type {Object}
-     */
-
-    function getInstanceType() {
+    value: function getInstanceType() {
       return 'CommandInfra';
     }
 
@@ -1025,6 +1021,9 @@ var CommandInfra = /*#__PURE__*/function (_ArgsObject) {
   return CommandInfra;
 }(_argsObject.default);
 exports["default"] = CommandInfra;
+/**
+ * @type {Object}
+ */
 (0, _defineProperty2.default)(CommandInfra, "registerConfig", null);
 
 /***/ }),
@@ -1107,7 +1106,6 @@ var _console = _interopRequireDefault(__webpack_require__(/*! elementor-api/util
  * @property {number} minor  The third number
  * @property {string} build  The fourth number
  */
-
 var softDeprecated = function softDeprecated(name, version, replacement) {
   if (elementorWebCliConfig.isDebug) {
     deprecatedMessage('soft', name, version, replacement);
@@ -1676,10 +1674,16 @@ $e.modules.editor = {
 
 // TODO: Remove, BC.
 $e.modules.document = {
+  /**
+   * @deprecated since 3.7.0, use `$e.modules.editor.document.CommandHistoryBase` instead.
+   */
   get CommandHistory() {
     elementorDevTools.deprecation.deprecated('$e.modules.document.CommandHistory', '3.7.0', '$e.modules.editor.document.CommandHistoryBase');
     return $e.modules.editor.document.CommandHistoryBase;
   },
+  /**
+   * @deprecated since 3.7.0, use `$e.modules.editor.document.CommandHistoryDebounceBase` instead.
+   */
   get CommandHistoryDebounce() {
     elementorDevTools.deprecation.deprecated('$e.modules.CommandHistoryDebounce', '3.7.0', '$e.modules.editor.document.CommandHistoryDebounceBase');
     return $e.modules.editor.document.CommandHistoryDebounceBase;

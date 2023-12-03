@@ -2,12 +2,14 @@
 namespace ElementorPro\Modules\CallToAction\Widgets;
 
 use Elementor\Controls_Manager;
+use Elementor\Control_Media;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Image_Size;
+use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Stroke;
 use Elementor\Icons_Manager;
@@ -241,21 +243,6 @@ class Call_To_Action extends Base_Widget {
 		);
 
 		$this->add_control(
-			'description',
-			[
-				'label' => esc_html__( 'Description', 'elementor-pro' ),
-				'type' => Controls_Manager::TEXTAREA,
-				'dynamic' => [
-					'active' => true,
-				],
-				'default' => esc_html__( 'Lorem ipsum dolor sit amet consectetur adipiscing elit dolor', 'elementor-pro' ),
-				'placeholder' => esc_html__( 'Enter your description', 'elementor-pro' ),
-				'separator' => 'none',
-				'rows' => 5,
-			]
-		);
-
-		$this->add_control(
 			'title_tag',
 			[
 				'label' => esc_html__( 'Title HTML Tag', 'elementor-pro' ),
@@ -273,6 +260,43 @@ class Call_To_Action extends Base_Widget {
 				'default' => 'h2',
 				'condition' => [
 					'title!' => '',
+				],
+			]
+		);
+
+		$this->add_control(
+			'description',
+			[
+				'label' => esc_html__( 'Description', 'elementor-pro' ),
+				'type' => Controls_Manager::TEXTAREA,
+				'dynamic' => [
+					'active' => true,
+				],
+				'default' => esc_html__( 'Lorem ipsum dolor sit amet consectetur adipiscing elit dolor', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Enter your description', 'elementor-pro' ),
+				'separator' => 'before',
+				'rows' => 5,
+			]
+		);
+
+		$this->add_control(
+			'description_tag',
+			[
+				'label' => esc_html__( 'Description HTML Tag', 'elementor-pro' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'h1' => 'H1',
+					'h2' => 'H2',
+					'h3' => 'H3',
+					'h4' => 'H4',
+					'h5' => 'H5',
+					'h6' => 'H6',
+					'div' => 'div',
+					'span' => 'span',
+				],
+				'default' => 'div',
+				'condition' => [
+					'description!' => '',
 				],
 			]
 		);
@@ -1049,6 +1073,14 @@ class Call_To_Action extends Base_Widget {
 			]
 		);
 
+		$this->add_group_control(
+			Group_Control_Text_Shadow::get_type(),
+			[
+				'name' => 'button_text_shadow',
+				'selector' => '{{WRAPPER}} .elementor-cta__button',
+			]
+		);
+
 		$this->start_controls_tabs( 'button_tabs' );
 
 		$this->start_controls_tab( 'button_normal',
@@ -1172,6 +1204,27 @@ class Call_To_Action extends Base_Widget {
 				'selectors' => [
 					'{{WRAPPER}} .elementor-cta__button' => 'border-radius: {{SIZE}}{{UNIT}};',
 				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'button_box_shadow',
+				'selector' => '{{WRAPPER}} .elementor-cta__button',
+			]
+		);
+
+		$this->add_responsive_control(
+			'button_padding',
+			[
+				'label' => esc_html__( 'Padding', 'elementor-pro' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'vw', 'custom' ],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-cta__button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'separator' => 'before',
 			]
 		);
 
@@ -1537,6 +1590,8 @@ class Call_To_Action extends Base_Widget {
 
 		$wrapper_tag = 'div';
 		$button_tag = 'a';
+		$title_tag = Utils::validate_html_tag( $settings['title_tag'] );
+		$description_tag = Utils::validate_html_tag( $settings['description_tag'] );
 		$bg_image = '';
 		$content_animation = $settings['content_animation'];
 		$animation_class = '';
@@ -1569,7 +1624,14 @@ class Call_To_Action extends Base_Widget {
 			$this->add_render_attribute( 'wrapper', 'data-e-bg-lazyload', '.elementor-bg' );
 		}
 
-		$this->add_render_attribute( 'background_image', 'style', $background_selector );
+		$this->add_render_attribute(
+			'background_image',
+			[
+				'style' => $background_selector,
+				'role' => 'img',
+				'aria-label' => Control_Media::get_image_alt( $settings['bg_image'] ),
+			]
+		);
 
 		$this->add_render_attribute( 'title', 'class', [
 			'elementor-cta__title',
@@ -1677,20 +1739,16 @@ class Call_To_Action extends Base_Widget {
 					</div>
 				<?php endif; ?>
 
-				<?php
-				if ( ! empty( $settings['title'] ) ) :
-					$title_tag = Utils::validate_html_tag( $settings['title_tag'] );
-
-					echo '<' . $title_tag . ' ' . $this->get_render_attribute_string( 'title' ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					$this->print_unescaped_setting( 'title' );
-					echo '</' . $title_tag . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				endif;
-				?>
+				<?php if ( ! empty( $settings['title'] ) ) : ?>
+					<<?php Utils::print_validated_html_tag( $title_tag ); ?> <?php $this->print_render_attribute_string( 'title' ); ?>>
+						<?php $this->print_unescaped_setting( 'title' ); ?>
+					</<?php Utils::print_validated_html_tag( $title_tag ); ?>>
+				<?php endif; ?>
 
 				<?php if ( ! empty( $settings['description'] ) ) : ?>
-					<div <?php $this->print_render_attribute_string( 'description' ); ?>>
+					<<?php Utils::print_validated_html_tag( $description_tag ); ?> <?php $this->print_render_attribute_string( 'description' ); ?>>
 						<?php $this->print_unescaped_setting( 'description' ); ?>
-					</div>
+					</<?php Utils::print_validated_html_tag( $description_tag ); ?>>
 				<?php endif; ?>
 
 				<?php if ( ! empty( $settings['button'] ) ) : ?>
@@ -1731,6 +1789,8 @@ class Call_To_Action extends Base_Widget {
 		<#
 			var wrapperTag = 'div',
 				buttonTag = 'a',
+				titleTag = elementor.helpers.validateHTMLTag( settings.title_tag ),
+				descriptionTag = elementor.helpers.validateHTMLTag( settings.description_tag ),
 				contentAnimation = settings.content_animation,
 				animationClass,
 				btnSizeClass = 'elementor-size-' + settings.button_size,
@@ -1798,12 +1858,19 @@ class Call_To_Action extends Base_Widget {
 				view.addRenderAttribute( 'graphic_element', 'class', animationClass );
 			}
 
-			view.addRenderAttribute( 'background_image', 'style', 'background-image: url(' + bgImageUrl + ');' );
+			view.addRenderAttribute(
+				'background_image',
+				{
+					'style': 'background-image: url(' + bgImageUrl + ');',
+					'role': 'img',
+					'aria-label': '',
+				}
+			);
+
 			view.addRenderAttribute( 'title', 'class', [ 'elementor-cta__title', 'elementor-cta__content-item', 'elementor-content-item' ] );
 			view.addRenderAttribute( 'description', 'class', [ 'elementor-cta__description', 'elementor-cta__content-item', 'elementor-content-item' ] );
 			view.addRenderAttribute( 'button', 'class', [ 'elementor-cta__button', 'elementor-button', btnSizeClass ] );
 			view.addRenderAttribute( 'graphic_element', 'class', [ 'elementor-cta__content-item', 'elementor-content-item' ] );
-
 
 			view.addInlineEditingAttributes( 'title' );
 			view.addInlineEditingAttributes( 'description' );
@@ -1836,12 +1903,11 @@ class Call_To_Action extends Base_Widget {
 					</div>
 				<# } #>
 				<# if ( settings.title ) { #>
-					<# var titleTag = elementor.helpers.validateHTMLTag( settings.title_tag ) #>
 					<{{ titleTag }} {{{ view.getRenderAttributeString( 'title' ) }}}>{{{ settings.title }}}</{{ titleTag }}>
 				<# } #>
 
 				<# if ( settings.description ) { #>
-					<div {{{ view.getRenderAttributeString( 'description' ) }}}>{{{ settings.description }}}</div>
+					<{{ descriptionTag }} {{{ view.getRenderAttributeString( 'description' ) }}}>{{{ settings.description }}}</{{ descriptionTag }}>
 				<# } #>
 
 				<# if ( settings.button ) { #>

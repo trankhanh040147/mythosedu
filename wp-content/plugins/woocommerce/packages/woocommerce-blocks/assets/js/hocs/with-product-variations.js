@@ -10,7 +10,7 @@ import { getProductVariations } from '@woocommerce/editor-components/utils';
 /**
  * Internal dependencies
  */
-import { formatError } from '../base/utils/errors.js';
+import { formatError } from '../base/utils/errors';
 
 /**
  * HOC that queries variations for a component.
@@ -124,7 +124,7 @@ const withProductVariations = createHigherOrderComponent(
 						p.variations &&
 						p.variations.find( ( { id } ) => id === variationId )
 				);
-				return parentProduct[ 0 ].id;
+				return parentProduct[ 0 ]?.id;
 			}
 
 			getExpandedProduct() {

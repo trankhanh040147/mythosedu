@@ -60,7 +60,7 @@ class StoreDetails extends Task {
 	 * @return string
 	 */
 	public function get_action_url() {
-		return '/setup-wizard';
+		return ! $this->is_complete() ? admin_url( 'admin.php?page=wc-settings&tab=general&tutorial=true' ) : admin_url( 'admin.php?page=wc-settings&tab=general' );
 	}
 
 	/**
@@ -69,7 +69,18 @@ class StoreDetails extends Task {
 	 * @return bool
 	 */
 	public function is_complete() {
-		$profiler_data = get_option( OnboardingProfile::DATA_OPTION, array() );
-		return isset( $profiler_data['completed'] ) && true === $profiler_data['completed'];
+		$country        = WC()->countries->get_base_country();
+		$country_locale = WC()->countries->get_country_locale();
+		$locale         = $country_locale[ $country ] ?? array();
+
+		$hide_postcode = $locale['postcode']['hidden'] ?? false;
+		// If postcode is hidden, just check that the store address and city are set.
+		if ( $hide_postcode ) {
+			return get_option( 'woocommerce_store_address', '' ) !== '' && get_option( 'woocommerce_store_city', '' ) !== '';
+		}
+
+		// Mark as completed if the store address, city and postcode are set. We don't need to check the country because it's set by default.
+		return get_option( 'woocommerce_store_address', '' ) !== '' && get_option( 'woocommerce_store_city', '' ) !== '' &&
+		get_option( 'woocommerce_store_postcode', '' ) !== '';
 	}
 }

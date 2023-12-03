@@ -13,7 +13,7 @@ import Combobox from '../combobox';
 import './style.scss';
 import type { CountryInputWithCountriesProps } from './CountryInputProps';
 
-const CountryInput = ( {
+export const CountryInput = ( {
 	className,
 	countries,
 	id,
@@ -24,16 +24,18 @@ const CountryInput = ( {
 	required = false,
 	errorId,
 	errorMessage = __(
-		'Please select a country.',
+		'Please select a country',
 		'woo-gutenberg-products-block'
 	),
 }: CountryInputWithCountriesProps ): JSX.Element => {
 	const options = useMemo(
 		() =>
-			Object.keys( countries ).map( ( key ) => ( {
-				value: key,
-				label: decodeEntities( countries[ key ] ),
-			} ) ),
+			Object.entries( countries ).map(
+				( [ countryCode, countryName ] ) => ( {
+					value: countryCode,
+					label: decodeEntities( countryName ),
+				} )
+			),
 		[ countries ]
 	);
 
@@ -55,35 +57,6 @@ const CountryInput = ( {
 				required={ required }
 				autoComplete={ autoComplete }
 			/>
-			{ autoComplete !== 'off' && (
-				<input
-					type="text"
-					aria-hidden={ true }
-					autoComplete={ autoComplete }
-					value={ value }
-					onChange={ ( event ) => {
-						const textValue = event.target.value.toLocaleUpperCase();
-						const foundOption = options.find(
-							( option ) =>
-								( textValue.length !== 2 &&
-									option.label.toLocaleUpperCase() ===
-										textValue ) ||
-								( textValue.length === 2 &&
-									option.value.toLocaleUpperCase() ===
-										textValue )
-						);
-						onChange( foundOption ? foundOption.value : '' );
-					} }
-					style={ {
-						minHeight: '0',
-						height: '0',
-						border: '0',
-						padding: '0',
-						position: 'absolute',
-					} }
-					tabIndex={ -1 }
-				/>
-			) }
 		</div>
 	);
 };

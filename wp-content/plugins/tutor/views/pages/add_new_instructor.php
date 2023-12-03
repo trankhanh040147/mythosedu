@@ -1,4 +1,14 @@
+<?php
+/**
+ * Add new instructor page
+ *
+ * @package Tutor\Views
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
+ */
 
+?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Add new instructor', 'tutor' ); ?></h1>
 	<hr class="wp-header-end">
@@ -9,18 +19,20 @@
 
 
 		<div id="form-response"></div>
-
 		<?php
-			$errors = apply_filters( 'tutor_instructor_register_validation_errors', array() );
-			if ( is_array( $errors ) && count( $errors ) ) {
-				echo '<div class="tutor-alert-warning"><ul class="tutor-required-fields">';
-				foreach ( $errors as $error_key => $error_value ) {
-					echo '<li>' . $error_value . '</li>';
-				}
-				echo '</ul></div>';
-			}
-		?>
-
+		$validation_errors = apply_filters( 'tutor_instructor_register_validation_errors', array() );
+		if ( is_array( $validation_errors ) && count( $validation_errors ) ) :
+			?>
+			<div class="tutor-alert tutor-warning tutor-mb-12">
+				<ul class="tutor-required-fields">
+					<?php foreach ( $validation_errors as $validation_error ) : ?>
+						<li>
+							<?php echo esc_html( $validation_error ); ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
 		<?php do_action( 'tutor_add_new_instructor_form_fields_before' ); ?>
 
 		<div class="tutor-option-field-row">
@@ -122,7 +134,7 @@
 				</label>
 			</div>
 			<div class="tutor-option-field">
-				<textarea name="tutor_profile_bio"><?php esc_html_e( tutor_utils()->input_old( 'tutor_profile_bio' ) ); ?></textarea>
+				<textarea name="tutor_profile_bio"><?php echo esc_html( tutor_utils()->input_old( 'tutor_profile_bio' ) ); ?></textarea>
 			</div>
 		</div>
 
@@ -134,7 +146,7 @@
 			<div class="tutor-option-field">
 				<div class="tutor-form-group tutor-reg-form-btn-wrap">
 					<button type="submit" name="tutor_register_instructor_btn" value="register" class="tutor-button tutor-button-primary">
-						<i class="tutor-icon-plus-square-filled"></i>
+						<i class="tutor-icon-plus-square"></i>
 						<?php esc_html_e( 'Add new instructor', 'tutor' ); ?></button>
 				</div>
 			</div>

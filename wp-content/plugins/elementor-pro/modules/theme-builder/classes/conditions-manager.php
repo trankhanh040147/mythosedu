@@ -3,12 +3,12 @@ namespace ElementorPro\Modules\ThemeBuilder\Classes;
 
 use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
 use Elementor\Core\Utils\Exceptions;
+use Elementor\Plugin;
 use Elementor\TemplateLibrary\Source_Local;
 use ElementorPro\Core\Utils;
 use ElementorPro\Modules\ThemeBuilder\Documents\Theme_Document;
 use ElementorPro\Modules\ThemeBuilder\Module;
 use ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base;
-
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -90,8 +90,12 @@ class Conditions_Manager {
 		$ajax_manager->register_ajax_action( 'pro_theme_builder_conditions_check_conflicts', [ $this, 'ajax_check_conditions_conflicts' ] );
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function ajax_check_conditions_conflicts( $request ) {
-		$post_id = intval( $request['editor_post_id'] );
+		$document = Utils::_unstable_get_document_for_edit( $request['editor_post_id'] );
+
 		$condition = $request['condition'];
 
 		unset( $condition['_id'] );
@@ -102,7 +106,7 @@ class Conditions_Manager {
 			return sprintf(
 				'<a href="%s" target="_blank">%s</a>', $conflict['edit_url'], $conflict['template_title']
 			);
-		}, $this->get_conditions_conflicts( $post_id, $condition ) );
+		}, $this->get_conditions_conflicts( $document->get_main_id(), $condition ) );
 
 		if ( empty( $conflicted ) ) {
 			return '';
@@ -138,11 +142,18 @@ class Conditions_Manager {
 				}
 
 				if ( false !== array_search( $condition, $conditions, true ) ) {
-					$edit_url = $theme_builder_module->get_document( $template_id )->get_edit_url();
+					$template_title = esc_html( get_the_title( $template_id ) );
+					$document = $theme_builder_module->get_document( $template_id );
+
+					if ( ! $document instanceof Theme_Document ) {
+						Plugin::$instance->logger->get_logger()->error( "Error fetching document in conditions manager. Template: $template_title" );
+					}
+
+					$edit_url = isset( $document ) ? $document->get_edit_url() : '';
 
 					$conflicted[] = [
 						'template_id' => $template_id,
-						'template_title' => esc_html( get_the_title( $template_id ) ),
+						'template_title' => $template_title,
 						'edit_url' => $edit_url,
 					];
 				}
@@ -161,11 +172,17 @@ class Conditions_Manager {
 		return $this->get_conditions_conflicts_by_location( $condition, $document->get_location(), $post_id );
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function ajax_save_theme_template_conditions( $request ) {
+		$document = Utils::_unstable_get_document_for_edit( $request['editor_post_id'] );
+
 		if ( ! isset( $request['conditions'] ) ) {
 			$request['conditions'] = [];
 		}
-		$is_saved = $this->save_conditions( $request['editor_post_id'], $request['conditions'] );
+
+		$is_saved = $this->save_conditions( $document->get_main_id(), $request['conditions'] );
 
 		if ( ! $is_saved ) {
 			throw new \Exception( 'Error while saving conditions.', Exceptions::INTERNAL_SERVER_ERROR );

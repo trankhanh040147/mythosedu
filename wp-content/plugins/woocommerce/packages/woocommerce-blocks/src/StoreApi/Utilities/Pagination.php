@@ -1,11 +1,8 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Utilities;
+namespace Automattic\WooCommerce\StoreApi\Utilities;
 
 /**
  * Pagination class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
- * @since 2.5.0
  */
 class Pagination {
 
@@ -57,7 +54,7 @@ class Pagination {
 	 * @return string
 	 */
 	protected function get_link_base( $request ) {
-		return add_query_arg( $request->get_query_params(), rest_url( $request->get_route() ) );
+		return esc_url( add_query_arg( $request->get_query_params(), rest_url( $request->get_route() ) ) );
 	}
 
 	/**

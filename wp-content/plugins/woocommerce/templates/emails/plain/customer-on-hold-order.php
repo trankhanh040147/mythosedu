@@ -11,8 +11,8 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates/Emails/Plain
- * @version 3.7.0
+ * @package WooCommerce\Templates\Emails\Plain
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
 /* translators: %s: Customer first name */
 echo sprintf( esc_html__( 'Hi %s,', 'woocommerce' ), esc_html( $order->get_billing_first_name() ) ) . "\n\n";
-echo esc_html__( 'Thanks for your order. It’s on-hold until we confirm that payment has been received. In the meantime, here’s a reminder of what you ordered:', 'woocommerce' ) . "\n\n";
+echo esc_html__( 'Thanks for your order. It’s on-hold until we confirm that payment has been received.', 'woocommerce' ) . "\n\n";
 
 /*
  * @hooked WC_Emails::order_details() Shows the order details table.
@@ -49,7 +49,7 @@ do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_
 echo "\n\n----------------------------------------\n\n";
 
 /**
- * Show user-defined additonal content - this is set in each email's settings.
+ * Show user-defined additional content - this is set in each email's settings.
  */
 if ( $additional_content ) {
 	echo esc_html( wp_strip_all_tags( wptexturize( $additional_content ) ) );

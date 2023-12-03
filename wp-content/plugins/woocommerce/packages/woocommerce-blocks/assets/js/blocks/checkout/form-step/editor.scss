@@ -4,9 +4,16 @@
 }
 .wc-block-components-checkout-step__description-placeholder {
 	opacity: 0.5;
+	display: none;
+	.is-selected & {
+		display: block;
+	}
 }
-
 .wc-block-components-checkout-step__title {
 	display: flex;
 	width: 100%;
+
+	.block-editor-plain-text {
+		height: auto !important;
+	}
 }

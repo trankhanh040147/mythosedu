@@ -2,10 +2,12 @@
 /**
  * Media input for settings.
  *
- * @package LMS
- * @since 2.0
+ * @package Tutor\Views
+ * @subpackage Tutor\Settings
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
  */
-
 
 $field_key = isset( $field['key'] ) ? esc_attr( $field['key'] ) : null;
 
@@ -37,8 +39,8 @@ $value    = (int) $this->get( $field_key );
 			echo esc_html( $btn_text );
 			?>
 		</button>
-		<button class="tutor-btn tutor-is-danger tutor-media-option-trash-btn" style="display: <?php echo esc_attr( $value ? '' : 'none' ); ?>;"><i class="tutor-icon-garbage-line"></i>
-			<?php echo esc_html( 'Delete', 'tutor' ); ?>
+		<button class="tutor-btn tutor-btn-outline-primary tutor-media-option-trash-btn" style="display: <?php echo esc_attr( $value ? '' : 'none' ); ?>;"><i class="tutor-icon-trash-can"></i>
+			<?php esc_html_e( 'Delete', 'tutor' ); ?>
 		</button>
 	</div>
 </div>

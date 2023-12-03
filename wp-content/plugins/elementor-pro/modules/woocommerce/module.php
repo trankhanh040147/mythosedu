@@ -31,6 +31,14 @@ class Module extends Module_Base {
 	const OPTION_NAME_USE_MINI_CART = 'use_mini_cart_template';
 	const MENU_CART_FRAGMENTS_ACTION = 'elementor-menu-cart-fragments';
 	const LOOP_PRODUCT_SKIN_ID = 'product';
+	const WC_PERSISTENT_SITE_SETTINGS = [
+		'woocommerce_cart_page_id',
+		'woocommerce_checkout_page_id',
+		'woocommerce_myaccount_page_id',
+		'woocommerce_terms_page_id',
+		'woocommerce_purchase_summary_page_id',
+		'woocommerce_shop_page_id',
+	];
 
 	protected $docs_types = [];
 	protected $use_mini_cart_template;
@@ -130,6 +138,13 @@ class Module extends Module_Base {
 		'woocommerce-product-additional-information',
 	];
 
+	// 'WC page name' => 'Elementor widget name'
+	const WC_STATUS_PAGES_MAPPED_TO_WIDGETS = [
+		'Cart' => 'woocommerce-cart',
+		'Checkout' => 'woocommerce-checkout-page',
+		'My account' => 'woocommerce-my-account',
+	];
+
 	public function add_product_post_class( $classes ) {
 		$classes[] = 'product';
 
@@ -158,6 +173,7 @@ class Module extends Module_Base {
 			'Product_Terms',
 			'Product_Title',
 			'Category_Image',
+			'Woocommerce_Add_To_Cart',
 		];
 
 		/** @var \Elementor\Core\DynamicTags\Manager $module */
@@ -249,7 +265,7 @@ class Module extends Module_Base {
 							<?php self::render_menu_cart_close_button( $settings ); ?>
 							<div class="widget_shopping_cart_content">
 								<?php if ( $is_edit_mode ) {
-									woocommerce_mini_cart( $settings );
+									woocommerce_mini_cart();
 								} ?>
 							</div>
 						</div>
@@ -375,7 +391,7 @@ class Module extends Module_Base {
 			}
 
 			$fragment_data = $this->get_fragment_data( $element );
-			$total_fragments = count( $fragment_data );
+			$total_fragments = count( $fragment_data ) / 2;
 
 			for ( $i = 0; $i < $total_fragments; $i++ ) {
 				$fragments[ $fragment_data['selector'][ $i ] ] = $fragment_data['html'][ $i ];
@@ -536,25 +552,6 @@ class Module extends Module_Base {
 	}
 
 	/**
-	 * Add Query Arg to WC Ajax Endpoint.
-	 *
-	 * Adds the `elementor_page_id` query arg to the WooCommerce ajax endpoint, so we always know what page
-	 * an ajax call is coming from - used to load widgets before loading some WC content by ajax.
-	 * e.g. `?wc-ajax=%%endpoint%%&elementor_page_id=160`
-	 *
-	 * @since 3.6.0
-	 *
-	 * @param $url
-	 * @return string
-	 */
-	public function add_query_arg_to_wc_ajax_endpoint( $url ) {
-		$url_components = wp_parse_url( $url );
-		parse_str( $url_components['query'], $url_query );
-		$url_query['elementor_page_id'] = get_queried_object_id();
-		return add_query_arg( $url_query, $url_components['path'] );
-	}
-
-	/**
 	 * Load Widget Before WooCommerce Ajax.
 	 *
 	 * When outputting the complex WooCommerce shortcodes (which we use in our widgets) e.g. Checkout, Cart, etc. WC
@@ -562,9 +559,8 @@ class Module extends Module_Base {
 	 * be autofilled by the current user's browser e.g. the Payment section holding the "Place order" button.
 	 *
 	 * This function runs before these ajax calls. Using the `elementorPageId` and `elementorWidgetId` querystring
-	 * appended to the forms `_wp_http_referer` url field, or the `elementor_page_id` querystring added to the
-	 * wc-ajax endpoint, it loads the relevant Elementor widget. The rendered Elementor widget replaces the
-	 * default WooCommerce template used to refresh WooCommerce elements in the page.
+	 * appended to the forms `_wp_http_referer` url field, or the referer page ID, it loads the relevant Elementor widget.
+	 * The rendered Elementor widget replaces the default WooCommerce template used to refresh WooCommerce elements in the page.
 	 *
 	 * This is necessary for example in the Checkout Payment section where we modify the Terms & Conditions text
 	 * using settings from the widget or when updating shipping methods on the Cart.
@@ -620,10 +616,8 @@ class Module extends Module_Base {
 			}
 		}
 
-		// If the page ID is not found in the referrer query string, the page ID is fetched from the `elementor_page_id` query string we added to WooCommerce ajax endpoint.
-		// e.g. `?wc-ajax=update_shipping_method&elementor_page_id=160`
 		if ( ! $page_id ) {
-			$page_id = ProUtils::_unstable_get_super_global_value( $_GET, 'elementor_page_id' );
+			$page_id = url_to_postid( wp_get_referer() );
 		}
 
 		// Bail if no `$page_id`.
@@ -639,7 +633,7 @@ class Module extends Module_Base {
 			return;
 		}
 
-		// Setup `elementor_page_id` as the WP global $post, so is available to our widgets.
+		// Setup $page_id as the WP global $post, so is available to our widgets.
 		$post = get_post( $page_id, OBJECT );
 		setup_postdata( $post );
 
@@ -740,7 +734,12 @@ class Module extends Module_Base {
 		$ajax->register_ajax_action( 'pro_woocommerce_mock_notices', [ $this, 'woocommerce_mock_notices' ] );
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function woocommerce_mock_notices( $data ) {
+		$document = ProUtils::_unstable_get_document_for_edit( $data['editor_post_id'] );
+
 		if ( in_array( 'wc_error', $data['notice_elements'], true ) ) {
 			$notice_message = sprintf(
 				'%1$s <a href="#" class="wc-backward">%2$s</a>',
@@ -824,9 +823,6 @@ class Module extends Module_Base {
 
 		$fragments['.elementor-menu-cart__toggle_button span.elementor-button-text'] = '<span class="elementor-button-text">' . WC()->cart->get_cart_subtotal() . '</span>';
 		$fragments['.elementor-menu-cart__toggle_button span.elementor-button-icon-qty'] = '<span class="elementor-button-icon-qty" data-counter=' . $product_count . '>' . $product_count . '</span>';
-
-		// Remove the default WC Mini Cart fragments as we will be doing our own AJAX call for this.
-		unset( $fragments['div.widget_shopping_cart_content'] );
 
 		return $fragments;
 	}
@@ -1287,12 +1283,6 @@ class Module extends Module_Base {
 			$fragment_data['html'][] = ob_get_clean();
 
 			$fragment_data['selector'][] = 'div.elementor-element-' . $element['id'] . ' div.elementor-menu-cart__toggle';
-
-			ob_start();
-			woocommerce_mini_cart( $element['settings'] );
-			$menu_cart_content = ob_get_clean();
-			$fragment_data['html'][] = '<div class="widget_shopping_cart_content">' . $menu_cart_content . '</div>';
-			$fragment_data['selector'][] = 'div.elementor-element-' . $element['id'] . ' div.widget_shopping_cart_content';
 		}
 
 		return $fragment_data;
@@ -1346,9 +1336,6 @@ class Module extends Module_Base {
 		add_filter( 'elementor/document/config', [ $this, 'add_loop_recommended_widgets' ], 11, 2 );
 
 		add_filter( 'elementor_pro/frontend/localize_settings', [ $this, 'localized_settings_frontend' ] );
-
-		// Add `elementor_page_id` query arg to WC Ajax Endpoint.
-		add_filter( 'woocommerce_ajax_get_endpoint', [ $this, 'add_query_arg_to_wc_ajax_endpoint' ] );
 
 		// Load our widget Before WooCommerce Ajax. See the variable's PHPDoc for details.
 		add_action( 'woocommerce_checkout_update_order_review', [ $this, 'load_widget_before_wc_ajax' ] );
@@ -1434,6 +1421,46 @@ class Module extends Module_Base {
 		add_filter( 'elementor/query/query_args', function( $query_args, $widget ) {
 			return $this->loop_query( $query_args, $widget );
 		}, 10, 2 );
+
+		add_filter( 'woocommerce_rest_prepare_system_status', function( $response, $system_status, $request ) {
+			return $this->add_system_status_data( $response, $system_status, $request );
+		}, 10, 3 );
+
+		add_filter( 'elementor/editor/localize_settings', function ( $config ) {
+			return $this->populate_persistent_settings( $config );
+		});
+	}
+
+	public function add_system_status_data( $response, $system_status, $request ) {
+		foreach ( $response->data['pages'] as $index => $wc_page ) {
+			$this->modify_response_if_widget_exists_in_page( $wc_page, $response, $index );
+		}
+
+		return $response;
+	}
+
+	private function modify_response_if_widget_exists_in_page( $wc_page, &$response, $index ) {
+		if ( empty( $wc_page['page_name'] ) || empty( $wc_page['page_id'] ) || ! array_key_exists( $wc_page['page_name'], static::WC_STATUS_PAGES_MAPPED_TO_WIDGETS ) ) {
+			return;
+		}
+
+		if ( isset( $wc_page['shortcode_present'] ) && false !== $wc_page['shortcode_present'] ) {
+			return;
+		}
+
+		$document = Plugin::elementor()->documents->get( $wc_page['page_id'] );
+
+		if ( ! $document || ! $document->is_built_with_elementor() ) {
+			return;
+		}
+
+		$elementor_data = get_post_meta( $wc_page['page_id'], '_elementor_data', true );
+		$widget_name = static::WC_STATUS_PAGES_MAPPED_TO_WIDGETS[ $wc_page['page_name'] ];
+		$widget_exists_in_page = false !== strpos( $elementor_data, $widget_name );
+
+		if ( $widget_exists_in_page ) {
+			$response->data['pages'][ $index ]['shortcode_present'] = true;
+		}
 	}
 
 	public function loop_query( $query_args, $widget ) {
@@ -1441,7 +1468,7 @@ class Module extends Module_Base {
 			return $query_args;
 		}
 
-		return $this->parse_loop_query_args( $widget );
+		return $this->parse_loop_query_args( $widget, $query_args );
 	}
 
 	private function is_product_query( $widget ) {
@@ -1450,7 +1477,7 @@ class Module extends Module_Base {
 		return ( ! empty( $widget_config['is_loop'] ) && 'product' === $widget->get_current_skin_id() );
 	}
 
-	private function parse_loop_query_args( $widget ) {
+	private function parse_loop_query_args( $widget, $query_args ) {
 		$settings = $this->adjust_setting_for_product_renderer( $widget );
 
 		// For Products_Renderer.
@@ -1460,10 +1487,15 @@ class Module extends Module_Base {
 
 		$shortcode = Products_Widget::get_shortcode_object( $settings );
 
-		$query_args = $shortcode->parse_query_args();
-		unset( $query_args['fields'] );
+		$parsed_query_args = $shortcode->parse_query_args();
 
-		return $query_args;
+		unset( $parsed_query_args['fields'] );
+
+		$override_various_query_args = array_filter( $query_args, function( $key ) {
+			return in_array( $key, [ 'posts_per_page', 'offset', 'paged' ], true );
+		}, ARRAY_FILTER_USE_KEY );
+
+		return wp_parse_args( $override_various_query_args, $parsed_query_args );
 	}
 
 	private function adjust_setting_for_product_renderer( $widget ) {
@@ -1521,6 +1553,14 @@ class Module extends Module_Base {
 		$config['panel']['widgets_settings']['woocommerce-product-images'] = [
 			'show_in_panel' => false,
 		];
+		return $config;
+	}
+
+	private function populate_persistent_settings( array $config ) {
+		$config['persistent_keys'] = array_key_exists( 'persistent_keys', $config ) ?
+				array_merge( $config['persistent_keys'], self::WC_PERSISTENT_SITE_SETTINGS ) :
+				self::WC_PERSISTENT_SITE_SETTINGS;
+
 		return $config;
 	}
 }

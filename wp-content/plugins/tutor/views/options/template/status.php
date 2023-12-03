@@ -1,15 +1,26 @@
+<?php
+/**
+ * Status settings
+ *
+ * @package Tutor\Views
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
+ */
+
+?>
 <div class="tutor-option-main-title">
-	<h2>Status</h2>
+	<div class="tutor-fs-4 tutor-fw-medium tutor-color-black"><?php esc_html_e( 'Status', 'tutor' ); ?></div>
 </div>
 
-
-<!-- .tutor-option-single-item  (Certificate) -->
-<?php foreach ( $section['blocks'] as $blocks ) :
-	if ( empty( $blocks['label'] ) ) : ?>
-		<div class="tutor-option-single-item"><?php echo $this->blocks( $blocks ); ?> </div>
+<?php
+foreach ( $section['blocks'] as $blocks ) :
+	if ( empty( $blocks['label'] ) ) :
+		?>
+		<div class="tutor-option-single-item tutor-mb-32">
+			<?php echo $this->blocks( $blocks ); //phpcs:ignore --contain safe data ?>
+		</div>
 	<?php else : ?>
-		<?php echo $this->blocks( $blocks ); ?>
+		<?php echo $this->blocks( $blocks ); //phpcs:ignore --contain safe data ?>
 	<?php endif; ?>
 <?php endforeach; ?>
-
-<!-- end /.tutor-option-single-item  (Certificate) -->

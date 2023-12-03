@@ -163,7 +163,7 @@ window.
 COMPATABILITY: Works with Netscape 4.x, 6.x, IE 5.x on Windows. Some small
 positioning errors - usually with Window positioning - occur on the
 Macintosh platform. Due to bugs in Netscape 4.x, populating the popup
-window with <STYLE> Tags may cause errors.
+window with <STYLE> tags may cause errors.
 
 USAGE:
 // Create an object for a WINDOW popup

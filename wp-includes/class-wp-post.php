@@ -14,10 +14,11 @@
  *
  * @property string $page_template
  *
- * @property-read array  $ancestors
- * @property-read int    $post_category
- * @property-read string $tag_input
+ * @property-read int[]    $ancestors
+ * @property-read int[]    $post_category
+ * @property-read string[] $tags_input
  */
+#[AllowDynamicProperties]
 final class WP_Post {
 
 	/**
@@ -247,7 +248,7 @@ final class WP_Post {
 
 			$_post = sanitize_post( $_post, 'raw' );
 			wp_cache_add( $_post->ID, $_post, 'posts' );
-		} elseif ( empty( $_post->filter ) ) {
+		} elseif ( empty( $_post->filter ) || 'raw' !== $_post->filter ) {
 			$_post = sanitize_post( $_post, 'raw' );
 		}
 
@@ -288,7 +289,7 @@ final class WP_Post {
 			return true;
 		}
 
-		if ( 'Tags_input' === $key ) {
+		if ( 'tags_input' === $key ) {
 			return true;
 		}
 
@@ -320,7 +321,7 @@ final class WP_Post {
 			return wp_list_pluck( $terms, 'term_id' );
 		}
 
-		if ( 'Tags_input' === $key ) {
+		if ( 'tags_input' === $key ) {
 			if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) ) {
 				$terms = get_the_terms( $this, 'post_tag' );
 			}
@@ -352,7 +353,7 @@ final class WP_Post {
 	 * @since 3.5.0
 	 *
 	 * @param string $filter Filter.
-	 * @return array|bool|object|WP_Post
+	 * @return WP_Post
 	 */
 	public function filter( $filter ) {
 		if ( $this->filter === $filter ) {
@@ -376,7 +377,7 @@ final class WP_Post {
 	public function to_array() {
 		$post = get_object_vars( $this );
 
-		foreach ( array( 'ancestors', 'page_template', 'post_category', 'Tags_input' ) as $key ) {
+		foreach ( array( 'ancestors', 'page_template', 'post_category', 'tags_input' ) as $key ) {
 			if ( $this->__isset( $key ) ) {
 				$post[ $key ] = $this->__get( $key );
 			}

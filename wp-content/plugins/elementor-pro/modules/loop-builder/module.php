@@ -8,7 +8,6 @@ use ElementorPro\Base\Module_Base;
 use ElementorPro\Plugin;
 use Elementor\Core\Base\Document;
 use ElementorPro\Modules\LoopBuilder\Documents\Loop as LoopDocument;
-use Elementor\Core\Experiments\Manager;
 use ElementorPro\Core\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +20,6 @@ class Module extends Module_Base {
 	 * Elementor template-library taxonomy slug.
 	 */
 	const TEMPLATE_LIBRARY_TYPE_SLUG = 'loop-item';
-	const EXPERIMENT_NAME = 'loop';
 	const LOOP_BASE_SKIN_ID = 'base';
 	const LOOP_POST_SKIN_ID = 'post';
 	const QUERY_ID = 'query';
@@ -113,25 +111,6 @@ class Module extends Module_Base {
 	}
 
 	/**
-	 * Add to the experiments
-	 *
-	 * @return array
-	 */
-	public static function get_experimental_data() {
-		return [
-			'name' => static::EXPERIMENT_NAME,
-			'title' => esc_html__( 'Loop', 'elementor-pro' ),
-			'description' => sprintf(
-				esc_html__( 'Create powerful & repeating templates and populate each one with dynamic content like text or images. Great for listings, posts, portfolios and more! %1$sLearn More%2$s', 'elementor-pro' ),
-				'<a href="https://go.elementor.com/wp-dash-loop/" target="_blank">',
-				'</a>'
-			),
-			'release_status' => Manager::RELEASE_STATUS_STABLE,
-			'default' => Manager::STATE_ACTIVE,
-		];
-	}
-
-	/**
 	 * Filter content data.
 	 *
 	 * Determine whether we are in the Editor and are trying to Edit an empty loop template.
@@ -160,10 +139,6 @@ class Module extends Module_Base {
 		}
 
 		return $data;
-	}
-
-	public static function is_active(): bool {
-		return Plugin::elementor()->experiments->is_feature_active( static::EXPERIMENT_NAME );
 	}
 
 	public function add_finder_items( array $categories ) {
@@ -200,16 +175,23 @@ class Module extends Module_Base {
 
 	private function is_editing_existing_loop_item() {
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required.
-		$elementor_library = Utils::_unstable_get_super_global_value( $_GET, 'elementor_library' );
-		return strpos( $elementor_library, 'elementor-' . static::TEMPLATE_LIBRARY_TYPE_SLUG ) !== false;
+		$elementor_library = Utils::_unstable_get_super_global_value( $_GET, 'elementor_library' ) ?? '';
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required.
+		$post_id = Utils::_unstable_get_super_global_value( $_GET, 'elementor-preview' );
+
+		return ! empty( $elementor_library ) && $this->is_loop_item_document_type_meta_key( $post_id );
 	}
 
 	private function is_creating_new_loop_item() {
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required.
 		$post_type = Utils::_unstable_get_super_global_value( $_GET, 'post_type' );
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required.
-		$p = Utils::_unstable_get_super_global_value( $_GET, 'p' );
-		return 'elementor_library' === $post_type && static::TEMPLATE_LIBRARY_TYPE_SLUG === get_post_meta( $p, Document::TYPE_META_KEY, true );
+		$post_id = Utils::_unstable_get_super_global_value( $_GET, 'p' );
+		return 'elementor_library' === $post_type && $this->is_loop_item_document_type_meta_key( $post_id );
+	}
+
+	private function is_loop_item_document_type_meta_key( $post_id ) {
+		return static::TEMPLATE_LIBRARY_TYPE_SLUG === get_post_meta( $post_id, Document::TYPE_META_KEY, true );
 	}
 
 	private function is_loop_theme_builder() {

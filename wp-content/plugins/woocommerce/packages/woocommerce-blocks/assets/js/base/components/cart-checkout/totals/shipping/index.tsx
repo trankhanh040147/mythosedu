@@ -7,104 +7,29 @@ import { useState } from '@wordpress/element';
 import { useStoreCart } from '@woocommerce/base-context/hooks';
 import { TotalsItem } from '@woocommerce/blocks-checkout';
 import type { Currency } from '@woocommerce/price-format';
-import type { ReactElement } from 'react';
-import { getSetting, EnteredAddress } from '@woocommerce/settings';
 import { ShippingVia } from '@woocommerce/base-components/cart-checkout/totals/shipping/shipping-via';
+import {
+	isAddressComplete,
+	isPackageRateCollectable,
+} from '@woocommerce/base-utils';
+import { CHECKOUT_STORE_KEY } from '@woocommerce/block-data';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
-import ShippingRateSelector from './shipping-rate-selector';
-import hasShippingRate from './has-shipping-rate';
 import ShippingCalculator from '../../shipping-calculator';
-import ShippingLocation from '../../shipping-location';
+import {
+	hasShippingRate,
+	getTotalShippingValue,
+	areShippingMethodsMissing,
+} from './utils';
+import ShippingPlaceholder from './shipping-placeholder';
+import ShippingAddress from './shipping-address';
+import ShippingRateSelector from './shipping-rate-selector';
 import './style.scss';
 
-interface CalculatorButtonProps {
-	label?: string;
-	isShippingCalculatorOpen: boolean;
-	setIsShippingCalculatorOpen: ( isShippingCalculatorOpen: boolean ) => void;
-}
-
-const CalculatorButton = ( {
-	label = __( 'Calculate', 'woo-gutenberg-products-block' ),
-	isShippingCalculatorOpen,
-	setIsShippingCalculatorOpen,
-}: CalculatorButtonProps ): ReactElement => {
-	return (
-		<button
-			className="wc-block-components-totals-shipping__change-address-button"
-			onClick={ () => {
-				setIsShippingCalculatorOpen( ! isShippingCalculatorOpen );
-			} }
-			aria-expanded={ isShippingCalculatorOpen }
-		>
-			{ label }
-		</button>
-	);
-};
-
-interface ShippingAddressProps {
-	showCalculator: boolean;
-	isShippingCalculatorOpen: boolean;
-	setIsShippingCalculatorOpen: CalculatorButtonProps[ 'setIsShippingCalculatorOpen' ];
-	shippingAddress: EnteredAddress;
-}
-
-const ShippingAddress = ( {
-	showCalculator,
-	isShippingCalculatorOpen,
-	setIsShippingCalculatorOpen,
-	shippingAddress,
-}: ShippingAddressProps ): ReactElement | null => {
-	return (
-		<>
-			<ShippingLocation address={ shippingAddress } />
-			{ showCalculator && (
-				<CalculatorButton
-					label={ __(
-						'(change address)',
-						'woo-gutenberg-products-block'
-					) }
-					isShippingCalculatorOpen={ isShippingCalculatorOpen }
-					setIsShippingCalculatorOpen={ setIsShippingCalculatorOpen }
-				/>
-			) }
-		</>
-	);
-};
-
-interface NoShippingPlaceholderProps {
-	showCalculator: boolean;
-	isShippingCalculatorOpen: boolean;
-	setIsShippingCalculatorOpen: CalculatorButtonProps[ 'setIsShippingCalculatorOpen' ];
-}
-
-const NoShippingPlaceholder = ( {
-	showCalculator,
-	isShippingCalculatorOpen,
-	setIsShippingCalculatorOpen,
-}: NoShippingPlaceholderProps ): ReactElement => {
-	if ( ! showCalculator ) {
-		return (
-			<em>
-				{ __(
-					'Calculated during checkout',
-					'woo-gutenberg-products-block'
-				) }
-			</em>
-		);
-	}
-
-	return (
-		<CalculatorButton
-			isShippingCalculatorOpen={ isShippingCalculatorOpen }
-			setIsShippingCalculatorOpen={ setIsShippingCalculatorOpen }
-		/>
-	);
-};
-
-interface TotalShippingProps {
+export interface TotalShippingProps {
 	currency: Currency;
 	values: {
 		total_shipping: string;
@@ -113,44 +38,51 @@ interface TotalShippingProps {
 	showCalculator?: boolean; //Whether to display the rate selector below the shipping total.
 	showRateSelector?: boolean; // Whether to show shipping calculator or not.
 	className?: string;
+	isCheckout?: boolean;
 }
-
-const TotalsShipping = ( {
+export const TotalsShipping = ( {
 	currency,
 	values,
 	showCalculator = true,
 	showRateSelector = true,
+	isCheckout = false,
 	className,
-}: TotalShippingProps ): ReactElement => {
-	const [ isShippingCalculatorOpen, setIsShippingCalculatorOpen ] = useState(
-		false
-	);
+}: TotalShippingProps ): JSX.Element => {
+	const [ isShippingCalculatorOpen, setIsShippingCalculatorOpen ] =
+		useState( false );
 	const {
 		shippingAddress,
 		cartHasCalculatedShipping,
 		shippingRates,
-		shippingRatesLoading,
+		isLoadingRates,
 	} = useStoreCart();
-
-	const totalShippingValue = getSetting(
-		'displayCartPricesIncludingTax',
-		false
-	)
-		? parseInt( values.total_shipping, 10 ) +
-		  parseInt( values.total_shipping_tax, 10 )
-		: parseInt( values.total_shipping, 10 );
-	const hasRates = hasShippingRate( shippingRates ) || totalShippingValue;
-	const calculatorButtonProps = {
-		isShippingCalculatorOpen,
-		setIsShippingCalculatorOpen,
-	};
-
+	const totalShippingValue = getTotalShippingValue( values );
+	const hasRates = hasShippingRate( shippingRates ) || totalShippingValue > 0;
+	const showShippingCalculatorForm =
+		showCalculator && isShippingCalculatorOpen;
+	const prefersCollection = useSelect( ( select ) => {
+		return select( CHECKOUT_STORE_KEY ).prefersCollection();
+	} );
 	const selectedShippingRates = shippingRates.flatMap(
 		( shippingPackage ) => {
 			return shippingPackage.shipping_rates
-				.filter( ( rate ) => rate.selected )
+				.filter(
+					( rate ) =>
+						// If the shopper prefers collection, the rate is collectable AND selected.
+						( prefersCollection &&
+							isPackageRateCollectable( rate ) &&
+							rate.selected ) ||
+						// Or the shopper does not prefer collection and the rate is selected
+						( ! prefersCollection && rate.selected )
+				)
 				.flatMap( ( rate ) => rate.name );
 		}
+	);
+	const addressComplete = isAddressComplete( shippingAddress );
+	const shippingMethodsMissing = areShippingMethodsMissing(
+		hasRates,
+		prefersCollection,
+		shippingRates
 	);
 
 	return (
@@ -163,49 +95,65 @@ const TotalsShipping = ( {
 			<TotalsItem
 				label={ __( 'Shipping', 'woo-gutenberg-products-block' ) }
 				value={
-					cartHasCalculatedShipping ? (
-						totalShippingValue
-					) : (
-						<NoShippingPlaceholder
-							showCalculator={ showCalculator }
-							{ ...calculatorButtonProps }
-						/>
-					)
-				}
-				description={
-					<>
-						{ cartHasCalculatedShipping && (
-							<>
-								<ShippingVia
-									selectedShippingRates={
-										selectedShippingRates
+					! shippingMethodsMissing && cartHasCalculatedShipping
+						? // if address is not complete, display the link to add an address.
+						  totalShippingValue
+						: ( ! addressComplete || isCheckout ) && (
+								<ShippingPlaceholder
+									showCalculator={ showCalculator }
+									isCheckout={ isCheckout }
+									isShippingCalculatorOpen={
+										isShippingCalculatorOpen
+									}
+									setIsShippingCalculatorOpen={
+										setIsShippingCalculatorOpen
 									}
 								/>
-								<ShippingAddress
-									shippingAddress={ shippingAddress }
-									showCalculator={ showCalculator }
-									{ ...calculatorButtonProps }
-								/>
-							</>
-						) }
-					</>
+						  )
+				}
+				description={
+					( ! shippingMethodsMissing && cartHasCalculatedShipping ) ||
+					// If address is complete, display the shipping address.
+					( addressComplete && ! isCheckout ) ? (
+						<>
+							<ShippingVia
+								selectedShippingRates={ selectedShippingRates }
+							/>
+							<ShippingAddress
+								shippingAddress={ shippingAddress }
+								showCalculator={ showCalculator }
+								isShippingCalculatorOpen={
+									isShippingCalculatorOpen
+								}
+								setIsShippingCalculatorOpen={
+									setIsShippingCalculatorOpen
+								}
+							/>
+						</>
+					) : null
 				}
 				currency={ currency }
 			/>
-			{ showCalculator && isShippingCalculatorOpen && (
+			{ showShippingCalculatorForm && (
 				<ShippingCalculator
 					onUpdate={ () => {
 						setIsShippingCalculatorOpen( false );
 					} }
+					onCancel={ () => {
+						setIsShippingCalculatorOpen( false );
+					} }
 				/>
 			) }
-			{ showRateSelector && cartHasCalculatedShipping && (
-				<ShippingRateSelector
-					hasRates={ hasRates }
-					shippingRates={ shippingRates }
-					shippingRatesLoading={ shippingRatesLoading }
-				/>
-			) }
+			{ showRateSelector &&
+				cartHasCalculatedShipping &&
+				! showShippingCalculatorForm && (
+					<ShippingRateSelector
+						hasRates={ hasRates }
+						shippingRates={ shippingRates }
+						isLoadingRates={ isLoadingRates }
+						isAddressComplete={ addressComplete }
+					/>
+				) }
 		</div>
 	);
 };

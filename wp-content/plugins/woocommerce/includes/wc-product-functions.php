@@ -4,9 +4,14 @@
  *
  * Functions for product specific things.
  *
- * @package WooCommerce/Functions
+ * @package WooCommerce\Functions
  * @version 3.0.0
  */
+
+use Automattic\Jetpack\Constants;
+use Automattic\WooCommerce\Proxies\LegacyProxy;
+use Automattic\WooCommerce\Utilities\ArrayUtil;
+use Automattic\WooCommerce\Utilities\NumberUtil;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -46,6 +51,9 @@ function wc_get_products( $args ) {
 /**
  * Main function for returning products, uses the WC_Product_Factory class.
  *
+ * This function should only be called after 'init' action is finished, as there might be taxonomies that are getting
+ * registered during the init action.
+ *
  * @since 2.2.0
  *
  * @param mixed $the_product Post object or post ID of the product.
@@ -53,15 +61,30 @@ function wc_get_products( $args ) {
  * @return WC_Product|null|false
  */
 function wc_get_product( $the_product = false, $deprecated = array() ) {
-	if ( ! did_action( 'woocommerce_init' ) ) {
-		/* translators: 1: wc_get_product 2: woocommerce_init */
-		wc_doing_it_wrong( __FUNCTION__, sprintf( __( '%1$s should not be called before the %2$s action.', 'woocommerce' ), 'wc_get_product', 'woocommerce_init' ), '2.5' );
+	if ( ! did_action( 'woocommerce_init' ) || ! did_action( 'woocommerce_after_register_taxonomy' ) || ! did_action( 'woocommerce_after_register_post_type' ) ) {
+		/* translators: 1: wc_get_product 2: woocommerce_init 3: woocommerce_after_register_taxonomy 4: woocommerce_after_register_post_type */
+		wc_doing_it_wrong( __FUNCTION__, sprintf( __( '%1$s should not be called before the %2$s, %3$s and %4$s actions have finished.', 'woocommerce' ), 'wc_get_product', 'woocommerce_init', 'woocommerce_after_register_taxonomy', 'woocommerce_after_register_post_type' ), '3.9' );
 		return false;
 	}
 	if ( ! empty( $deprecated ) ) {
 		wc_deprecated_argument( 'args', '3.0', 'Passing args to wc_get_product is deprecated. If you need to force a type, construct the product class directly.' );
 	}
 	return WC()->product_factory->get_product( $the_product, $deprecated );
+}
+
+/**
+ * Get a product object.
+ *
+ * @see WC_Product_Factory::get_product_classname
+ * @since 3.9.0
+ * @param string $product_type Product type. If used an invalid type a WC_Product_Simple instance will be returned.
+ * @param int    $product_id   Product ID.
+ * @return WC_Product
+ */
+function wc_get_product_object( $product_type, $product_id = 0 ) {
+	$classname = WC_Product_Factory::get_product_classname( $product_id, $product_type );
+
+	return new $classname( $product_id );
 }
 
 /**
@@ -288,26 +311,38 @@ function wc_placeholder_img_src( $size = 'woocommerce_thumbnail' ) {
  *
  * Uses wp_get_attachment_image if using an attachment ID @since 3.6.0 to handle responsiveness.
  *
- * @param string $size Image size.
+ * @param string       $size Image size.
+ * @param string|array $attr Optional. Attributes for the image markup. Default empty.
  * @return string
  */
-function wc_placeholder_img( $size = 'woocommerce_thumbnail' ) {
+function wc_placeholder_img( $size = 'woocommerce_thumbnail', $attr = '' ) {
 	$dimensions        = wc_get_image_size( $size );
 	$placeholder_image = get_option( 'woocommerce_placeholder_image', 0 );
+
+	$default_attr = array(
+		'class' => 'woocommerce-placeholder wp-post-image',
+		'alt'   => __( 'Placeholder', 'woocommerce' ),
+	);
+
+	$attr = wp_parse_args( $attr, $default_attr );
 
 	if ( wp_attachment_is_image( $placeholder_image ) ) {
 		$image_html = wp_get_attachment_image(
 			$placeholder_image,
 			$size,
 			false,
-			array(
-				'alt'   => __( 'Placeholder', 'woocommerce' ),
-				'class' => 'woocommerce-placeholder wp-post-image',
-			)
+			$attr
 		);
 	} else {
 		$image      = wc_placeholder_img_src( $size );
-		$image_html = '<img src="' . esc_attr( $image ) . '" alt="' . esc_attr__( 'Placeholder', 'woocommerce' ) . '" width="' . esc_attr( $dimensions['width'] ) . '" class="woocommerce-placeholder wp-post-image" height="' . esc_attr( $dimensions['height'] ) . '" />';
+		$hwstring   = image_hwstring( $dimensions['width'], $dimensions['height'] );
+		$attributes = array();
+
+		foreach ( $attr as $name => $value ) {
+			$attributes[] = esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+		}
+
+		$image_html = '<img src="' . esc_url( $image ) . '" ' . $hwstring . implode( ' ', $attributes ) . '/>';
 	}
 
 	return apply_filters( 'woocommerce_placeholder_img', $image_html, $size, $dimensions );
@@ -357,7 +392,7 @@ function wc_get_formatted_variation( $variation, $flat = false, $include_names =
 			// If this is a term slug, get the term's nice name.
 			if ( taxonomy_exists( $name ) ) {
 				$term = get_term_by( 'slug', $value, $name );
-				if ( ! is_wp_error( $term ) && ! empty( $term->name ) ) {
+				if ( ! is_wp_error( $term ) && $term && null !== $term->name && '' !== $term->name ) {
 					$value = $term->name;
 				}
 			}
@@ -459,6 +494,19 @@ add_action( 'woocommerce_scheduled_sales', 'wc_scheduled_sales' );
  * @return array
  */
 function wc_get_attachment_image_attributes( $attr ) {
+	/*
+	 * If the user can manage woocommerce, allow them to
+	 * see the image content.
+	 */
+	if ( current_user_can( 'manage_woocommerce' ) ) {
+		return $attr;
+	}
+
+	/*
+	 * If the user does not have the right capabilities,
+	 * filter out the image source and replace with placeholder
+	 * image.
+	 */
 	if ( isset( $attr['src'] ) && strstr( $attr['src'], 'woocommerce_uploads/' ) ) {
 		$attr['src'] = wc_placeholder_img_src();
 
@@ -478,7 +526,19 @@ add_filter( 'wp_get_attachment_image_attributes', 'wc_get_attachment_image_attri
  * @return array
  */
 function wc_prepare_attachment_for_js( $response ) {
+	/*
+	 * If the user can manage woocommerce, allow them to
+	 * see the image content.
+	 */
+	if ( current_user_can( 'manage_woocommerce' ) ) {
+		return $response;
+	}
 
+	/*
+	 * If the user does not have the right capabilities,
+	 * filter out the image source and replace with placeholder
+	 * image.
+	 */
 	if ( isset( $response['url'] ) && strstr( $response['url'], 'woocommerce_uploads/' ) ) {
 		$response['full']['url'] = wc_placeholder_img_src();
 		if ( isset( $response['sizes'] ) ) {
@@ -618,7 +678,7 @@ function wc_get_product_id_by_sku( $sku ) {
 }
 
 /**
- * Get attibutes/data for an individual variation from the database and maintain it's integrity.
+ * Get attributes/data for an individual variation from the database and maintain it's integrity.
  *
  * @since  2.4.0
  * @param  int $variation_id Variation ID.
@@ -638,7 +698,7 @@ function wc_get_product_variation_attributes( $variation_id ) {
 			$attribute                 = 'attribute_' . sanitize_title( $attribute_name );
 			$found_parent_attributes[] = $attribute;
 			if ( ! array_key_exists( $attribute, $variation_attributes ) ) {
-				$variation_attributes[ $attribute ] = ''; // Add it - 'any' will be asumed.
+				$variation_attributes[ $attribute ] = ''; // Add it - 'any' will be assumed.
 			}
 		}
 	}
@@ -715,7 +775,7 @@ function wc_get_product_attachment_props( $attachment_id = null, $product = fals
 	);
 	$attachment = get_post( $attachment_id );
 
-	if ( $attachment ) {
+	if ( $attachment && 'attachment' === $attachment->post_type ) {
 		$props['title']   = wp_strip_all_tags( $attachment->post_title );
 		$props['caption'] = wp_strip_all_tags( $attachment->post_excerpt );
 		$props['url']     = wp_get_attachment_url( $attachment_id );
@@ -728,7 +788,7 @@ function wc_get_product_attachment_props( $attachment_id = null, $product = fals
 		}
 
 		$alt_text     = array_filter( $alt_text );
-		$props['alt'] = isset( $alt_text[0] ) ? $alt_text[0] : '';
+		$props['alt'] = $alt_text ? reset( $alt_text ) : '';
 
 		// Large version.
 		$full_size           = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
@@ -855,7 +915,7 @@ function wc_get_related_products( $product_id, $limit = 5, $exclude_ids = array(
 	);
 
 	$transient     = get_transient( $transient_name );
-	$related_posts = $transient && isset( $transient[ $query_args ] ) ? $transient[ $query_args ] : false;
+	$related_posts = $transient && is_array( $transient ) && isset( $transient[ $query_args ] ) ? $transient[ $query_args ] : false;
 
 	// We want to query related posts if they are not cached, or we don't have enough.
 	if ( false === $related_posts || count( $related_posts ) < $limit ) {
@@ -871,7 +931,7 @@ function wc_get_related_products( $product_id, $limit = 5, $exclude_ids = array(
 			$related_posts = $data_store->get_related_products( $cats_array, $tags_array, $exclude_ids, $limit + 10, $product_id );
 		}
 
-		if ( $transient ) {
+		if ( $transient && is_array( $transient ) ) {
 			$transient[ $query_args ] = $related_posts;
 		} else {
 			$transient = array( $query_args => $related_posts );
@@ -916,7 +976,7 @@ function wc_get_product_term_ids( $product_id, $taxonomy ) {
  * @since  3.0.0
  * @param  WC_Product $product WC_Product object.
  * @param  array      $args Optional arguments to pass product quantity and price.
- * @return float
+ * @return float|string Price with tax included, or an empty string if price calculation failed.
  */
 function wc_get_price_including_tax( $product, $args = array() ) {
 	$args = wp_parse_args(
@@ -927,7 +987,7 @@ function wc_get_price_including_tax( $product, $args = array() ) {
 		)
 	);
 
-	$price = '' !== $args['price'] ? max( 0.0, (float) $args['price'] ) : $product->get_price();
+	$price = '' !== $args['price'] ? max( 0.0, (float) $args['price'] ) : (float) $product->get_price();
 	$qty   = '' !== $args['qty'] ? max( 0.0, (float) $args['qty'] ) : 1;
 
 	if ( '' === $price ) {
@@ -941,22 +1001,27 @@ function wc_get_price_including_tax( $product, $args = array() ) {
 
 	if ( $product->is_taxable() ) {
 		if ( ! wc_prices_include_tax() ) {
-			$tax_rates = WC_Tax::get_rates( $product->get_tax_class() );
-			$taxes     = WC_Tax::calc_tax( $line_price, $tax_rates, false );
-
-			if ( 'yes' === get_option( 'woocommerce_tax_round_at_subtotal' ) ) {
-				$taxes_total = array_sum( $taxes );
+			// If the customer is exempt from VAT, set tax total to 0.
+			if ( ! empty( WC()->customer ) && WC()->customer->get_is_vat_exempt() ) {
+				$taxes_total = 0.00;
 			} else {
-				$taxes_total = array_sum( array_map( 'wc_round_tax_total', $taxes ) );
+				$tax_rates = WC_Tax::get_rates( $product->get_tax_class() );
+				$taxes     = WC_Tax::calc_tax( $line_price, $tax_rates, false );
+
+				if ( 'yes' === get_option( 'woocommerce_tax_round_at_subtotal' ) ) {
+					$taxes_total = array_sum( $taxes );
+				} else {
+					$taxes_total = array_sum( array_map( 'wc_round_tax_total', $taxes ) );
+				}
 			}
 
-			$return_price = round( $line_price + $taxes_total, wc_get_price_decimals() );
+			$return_price = NumberUtil::round( $line_price + $taxes_total, wc_get_price_decimals() );
 		} else {
 			$tax_rates      = WC_Tax::get_rates( $product->get_tax_class() );
 			$base_tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class( 'unfiltered' ) );
 
 			/**
-			 * If the customer is excempt from VAT, remove the taxes here.
+			 * If the customer is exempt from VAT, remove the taxes here.
 			 * Either remove the base or the user taxes depending on woocommerce_adjust_non_base_location_prices setting.
 			 */
 			if ( ! empty( WC()->customer ) && WC()->customer->get_is_vat_exempt() ) { // @codingStandardsIgnoreLine.
@@ -968,7 +1033,7 @@ function wc_get_price_including_tax( $product, $args = array() ) {
 					$remove_taxes_total = array_sum( array_map( 'wc_round_tax_total', $remove_taxes ) );
 				}
 
-				$return_price = round( $line_price - $remove_taxes_total, wc_get_price_decimals() );
+				$return_price = NumberUtil::round( $line_price - $remove_taxes_total, wc_get_price_decimals() );
 
 				/**
 			 * The woocommerce_adjust_non_base_location_prices filter can stop base taxes being taken off when dealing with out of base locations.
@@ -987,7 +1052,7 @@ function wc_get_price_including_tax( $product, $args = array() ) {
 					$modded_taxes_total = array_sum( array_map( 'wc_round_tax_total', $modded_taxes ) );
 				}
 
-				$return_price = round( $line_price - $base_taxes_total + $modded_taxes_total, wc_get_price_decimals() );
+				$return_price = NumberUtil::round( $line_price - $base_taxes_total + $modded_taxes_total, wc_get_price_decimals() );
 			}
 		}
 	}
@@ -1000,7 +1065,7 @@ function wc_get_price_including_tax( $product, $args = array() ) {
  * @since  3.0.0
  * @param  WC_Product $product WC_Product object.
  * @param  array      $args Optional arguments to pass product quantity and price.
- * @return float
+ * @return float|string Price with tax excluded, or an empty string if price calculation failed.
  */
 function wc_get_price_excluding_tax( $product, $args = array() ) {
 	$args = wp_parse_args(
@@ -1011,7 +1076,7 @@ function wc_get_price_excluding_tax( $product, $args = array() ) {
 		)
 	);
 
-	$price = '' !== $args['price'] ? max( 0.0, (float) $args['price'] ) : $product->get_price();
+	$price = '' !== $args['price'] ? max( 0.0, (float) $args['price'] ) : (float) $product->get_price();
 	$qty   = '' !== $args['qty'] ? max( 0.0, (float) $args['qty'] ) : 1;
 
 	if ( '' === $price ) {
@@ -1023,10 +1088,16 @@ function wc_get_price_excluding_tax( $product, $args = array() ) {
 	$line_price = $price * $qty;
 
 	if ( $product->is_taxable() && wc_prices_include_tax() ) {
-		$tax_rates      = WC_Tax::get_rates( $product->get_tax_class() );
-		$base_tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class( 'unfiltered' ) );
-		$remove_taxes   = apply_filters( 'woocommerce_adjust_non_base_location_prices', true ) ? WC_Tax::calc_tax( $line_price, $base_tax_rates, true ) : WC_Tax::calc_tax( $line_price, $tax_rates, true );
-		$return_price   = $line_price - array_sum( $remove_taxes ); // Unrounded since we're dealing with tax inclusive prices. Matches logic in cart-totals class. @see adjust_non_base_location_price.
+		$order       = ArrayUtil::get_value_or_default( $args, 'order' );
+		$customer_id = $order ? $order->get_customer_id() : 0;
+		if ( apply_filters( 'woocommerce_adjust_non_base_location_prices', true ) ) {
+			$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class( 'unfiltered' ) );
+		} else {
+			$customer  = $customer_id ? wc_get_container()->get( LegacyProxy::class )->get_instance_of( WC_Customer::class, $customer_id ) : null;
+			$tax_rates = WC_Tax::get_rates( $product->get_tax_class(), $customer );
+		}
+		$remove_taxes = WC_Tax::calc_tax( $line_price, $tax_rates, true );
+		$return_price = $line_price - array_sum( $remove_taxes ); // Unrounded since we're dealing with tax inclusive prices. Matches logic in cart-totals class. @see adjust_non_base_location_price.
 	} else {
 		$return_price = $line_price;
 	}
@@ -1035,9 +1106,14 @@ function wc_get_price_excluding_tax( $product, $args = array() ) {
 }
 
 /**
- * Returns the price including or excluding tax, based on the 'woocommerce_tax_display_shop' setting.
+ * Returns the price including or excluding tax.
+ *
+ * By default it's based on the 'woocommerce_tax_display_shop' setting.
+ * Set `$arg['display_context']` to 'cart' to base on the 'woocommerce_tax_display_cart' setting instead.
  *
  * @since  3.0.0
+ * @since  7.6.0 Added `display_context` argument.
+ *
  * @param  WC_Product $product WC_Product object.
  * @param  array      $args Optional arguments to pass product quantity and price.
  * @return float
@@ -1046,15 +1122,19 @@ function wc_get_price_to_display( $product, $args = array() ) {
 	$args = wp_parse_args(
 		$args,
 		array(
-			'qty'   => 1,
-			'price' => $product->get_price(),
+			'qty'             => 1,
+			'price'           => $product->get_price(),
+			'display_context' => 'shop',
 		)
 	);
 
-	$price = $args['price'];
-	$qty   = $args['qty'];
+	$price       = $args['price'];
+	$qty         = $args['qty'];
+	$tax_display = get_option(
+		'cart' === $args['display_context'] ? 'woocommerce_tax_display_cart' : 'woocommerce_tax_display_shop'
+	);
 
-	return 'incl' === get_option( 'woocommerce_tax_display_shop' ) ?
+	return 'incl' === $tax_display ?
 		wc_get_price_including_tax(
 			$product,
 			array(
@@ -1304,7 +1384,7 @@ function wc_update_product_lookup_tables_is_running() {
 function wc_update_product_lookup_tables() {
 	global $wpdb;
 
-	$is_cli = defined( 'WP_CLI' ) && WP_CLI;
+	$is_cli = Constants::is_true( 'WP_CLI' );
 
 	if ( ! $is_cli ) {
 		WC_Admin_Notices::add_notice( 'regenerating_lookup_table' );
@@ -1335,7 +1415,9 @@ function wc_update_product_lookup_tables() {
 		'total_sales',
 		'downloadable',
 		'virtual',
-		'onsale', // When last column is updated, woocommerce_product_lookup_table_is_generating is updated.
+		'onsale',
+		'tax_class',
+		'tax_status', // When last column is updated, woocommerce_product_lookup_table_is_generating is updated.
 	);
 
 	foreach ( $columns as $index => $column ) {
@@ -1389,7 +1471,6 @@ function wc_update_product_lookup_tables_column( $column ) {
 		return;
 	}
 	global $wpdb;
-	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 	switch ( $column ) {
 		case 'min_max_price':
 			$wpdb->query(
@@ -1428,6 +1509,8 @@ function wc_update_product_lookup_tables_column( $column ) {
 		case 'stock_status':
 		case 'average_rating':
 		case 'total_sales':
+		case 'tax_class':
+		case 'tax_status':
 			if ( 'total_sales' === $column ) {
 				$meta_key = 'total_sales';
 			} elseif ( 'average_rating' === $column ) {
@@ -1435,7 +1518,8 @@ function wc_update_product_lookup_tables_column( $column ) {
 			} else {
 				$meta_key = '_' . $column;
 			}
-			$column   = esc_sql( $column );
+			$column = esc_sql( $column );
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$wpdb->query(
 				$wpdb->prepare(
 					"
@@ -1448,25 +1532,32 @@ function wc_update_product_lookup_tables_column( $column ) {
 					$meta_key
 				)
 			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			break;
 		case 'downloadable':
 		case 'virtual':
-			$column = esc_sql( $column );
-
+			$column   = esc_sql( $column );
+			$meta_key = '_' . $column;
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$wpdb->query(
-				"
-				UPDATE
-					{$wpdb->wc_product_meta_lookup} lookup_table
-					LEFT JOIN {$wpdb->postmeta} meta1 ON lookup_table.product_id = meta1.post_id AND meta1.meta_key = '_virtual'
-				SET
-					lookup_table.`{$column}` = IF ( meta1.meta_value = 'yes', 1, 0 )
-				"
+				$wpdb->prepare(
+					"
+					UPDATE
+						{$wpdb->wc_product_meta_lookup} lookup_table
+						LEFT JOIN {$wpdb->postmeta} meta1 ON lookup_table.product_id = meta1.post_id AND meta1.meta_key = %s
+					SET
+						lookup_table.`{$column}` = IF ( meta1.meta_value = 'yes', 1, 0 )
+					",
+					$meta_key
+				)
 			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			break;
 		case 'onsale':
 			$column   = esc_sql( $column );
 			$decimals = absint( wc_get_price_decimals() );
 
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$wpdb->query(
 				$wpdb->prepare(
 					"
@@ -1485,11 +1576,14 @@ function wc_update_product_lookup_tables_column( $column ) {
 					$decimals
 				)
 			);
-
-			delete_option( 'woocommerce_product_lookup_table_is_generating' ); // Complete.
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			break;
 	}
-	// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+
+	// Final column - mark complete.
+	if ( 'tax_status' === $column ) {
+		delete_option( 'woocommerce_product_lookup_table_is_generating' );
+	}
 }
 add_action( 'wc_update_product_lookup_tables_column', 'wc_update_product_lookup_tables_column' );
 

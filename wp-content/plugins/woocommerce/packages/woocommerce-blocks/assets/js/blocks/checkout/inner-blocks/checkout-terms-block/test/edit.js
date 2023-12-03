@@ -1,17 +1,42 @@
 /**
  * External dependencies
  */
-import { render, findByRole, queryByText } from '@testing-library/react';
+import { render, queryByText } from '@testing-library/react';
 
 /**
  * Internal dependencies
  */
 import { Edit } from '../edit';
-const blockSettingsMock = jest.requireMock( '@woocommerce/block-settings' );
+
+jest.mock( '@wordpress/data', () => ( {
+	...jest.requireActual( '@wordpress/data' ),
+	useSelect: jest.fn().mockImplementation( ( fn ) => {
+		const select = () => {
+			return {
+				getSelectionStart: () => ( {
+					clientId: null,
+				} ),
+				getSelectionEnd: () => ( {
+					clientId: null,
+				} ),
+				getFormatTypes: () => [],
+			};
+		};
+
+		if ( typeof fn === 'function' ) {
+			return fn( select );
+		}
+
+		return {
+			isCaretWithinFormattedText: () => false,
+		};
+	} ),
+} ) );
 
 jest.mock( '@wordpress/block-editor', () => ( {
 	...jest.requireActual( '@wordpress/block-editor' ),
 	useBlockProps: jest.fn(),
+	InspectorControls: jest.fn( ( { children } ) => <div>{ children }</div> ),
 } ) );
 
 jest.mock( '@woocommerce/block-settings', () => ( {
@@ -19,6 +44,8 @@ jest.mock( '@woocommerce/block-settings', () => ( {
 	PRIVACY_URL: '/privacy-policy',
 	TERMS_URL: '/terms-and-conditions',
 } ) );
+
+const blockSettingsMock = jest.requireMock( '@woocommerce/block-settings' );
 
 describe( 'Edit', () => {
 	it( 'Renders a checkbox if the checkbox attribute is true', async () => {
@@ -32,7 +59,9 @@ describe( 'Edit', () => {
 			/>
 		);
 
-		expect( await findByRole( container, 'checkbox' ) ).toBeTruthy();
+		expect(
+			queryByText( container, 'I agree to the terms and conditions' )
+		).toBeTruthy();
 	} );
 
 	it( 'Renders a notice if either the terms and conditions or privacy url attribute are unset', async () => {
@@ -59,7 +88,7 @@ describe( 'Edit', () => {
 		expect(
 			queryByText(
 				container,
-				"You don't seem to have a Terms and Conditions and/or a Privacy Policy pages setup."
+				"Link to your store's Terms and Conditions and Privacy Policy pages by creating pages for them."
 			)
 		).toBeInTheDocument();
 	} );
@@ -91,8 +120,7 @@ describe( 'Edit', () => {
 		const { container } = render(
 			<Edit
 				attributes={ {
-					text:
-						'I agree to the <a href="/terms">terms</a> and <a href="/privacy">privacy</a>',
+					text: 'I agree to the <a href="/terms">terms</a> and <a href="/privacy">privacy</a>',
 					checkbox: true,
 				} }
 				setAttributes={ () => void 0 }

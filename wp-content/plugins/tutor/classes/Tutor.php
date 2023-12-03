@@ -1,86 +1,436 @@
 <?php
+/**
+ * Initialize all the dependency classes
+ *
+ * @package Tutor
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 1.0.0
+ */
+
 namespace TUTOR;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Tutor final class
+ *
+ * @since 1.0.0
+ */
 final class Tutor {
+	/**
+	 * Tutor version
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $version = TUTOR_VERSION;
+
+	/**
+	 * Plugin dir path
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $path;
+
+	/**
+	 * Plugin dir path
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $url;
+
+	/**
+	 * Plugin dir name
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $basename;
 
 	/**
 	 * The single instance of the class.
 	 *
-	 * @since v.1.2.0
+	 * @since 1.2.0
+	 *
+	 * @var object
 	 */
 	protected static $_instance = null;
 
-	// Components
+
+	/**
+	 * Utils class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	public $utils;
+
+	/**
+	 * Admin class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	public $admin;
+
+	/**
+	 * Ajax class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	public $ajax;
+
+	/**
+	 * Options class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	public $options;
+
+	/**
+	 * Short code class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	public $shortcode;
 
+	/**
+	 * Addons class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $addons;
+
+	/**
+	 * PostType class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $post_types;
+
+	/**
+	 * Taxonomies class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $taxonomies;
+
+	/**
+	 * Assets class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $assets;
+
+	/**
+	 * Course class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $course;
+
+	/**
+	 * Lesson class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $lesson;
+
+	/**
+	 * Rewrite_Rules class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $rewrite_rules;
+
+	/**
+	 * Template class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $template;
+
+	/**
+	 * Instructor class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $instructor;
+
+	/**
+	 * Student class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $student;
+
+	/**
+	 * Q_and_A class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $q_and_a;
+
+	/**
+	 * Quiz class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $quiz;
+
+	/**
+	 * Tools class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $tools;
+
+	/**
+	 * User class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $user;
+
+	/**
+	 * Theme_Compatibility class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $theme_compatibility;
+
+	/**
+	 * Gutenberg class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $gutenberg;
+
+	/**
+	 * Course_Settings_Tabs class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $course_settings_tabs;
+
+	/**
+	 * Withdraw class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $withdraw;
 
+	/**
+	 * Course_Widget class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $course_widget;
+
+	/**
+	 * Upgrader class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $upgrader;
+
+	/**
+	 * Dashboard class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $dashboard;
+
+	/**
+	 * FormHandler class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $form_handler;
+
+	/**
+	 * Frontend class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $frontend;
+
+	/**
+	 * Email property
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $email;
 
-	// Integrations
+	/**
+	 * WooCommerce integration class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $woocommerce;
+
+	/**
+	 * Tutor_EDD class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $edd;
 
 	/**
 	 * Announcement
 	 *
+	 * @since 2.0.0
+	 *
 	 * @var $announcements
-	 * @since v2.0.0
 	 */
 	private $announcements;
+
+	/**
+	 * Reviews class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $reviews;
+
+	/**
+	 * Withdraw_List class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $withdraw_list;
+
+	/**
+	 * Student_List class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $student_list;
+
+	/**
+	 * Instructor_List class object
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var object
+	 */
 	private $instructor_list;
 
 	/**
 	 * Course List
 	 *
 	 * @var $course_list
-	 * @since v2.0.0
+	 * @since 2.0.0
 	 */
-	private $Course_List;
+	public $course_list;
+
+	//phpcs:disable
+	public $q_and_a_list;
+	public $q_attempt;
+	public $rest_api;
+	public $setup;
+	public $private_course_access;
+	public $course_filter;
+	//phpcs:enable
 
 	/**
-	 * @return null|Tutor
+	 * Course Embed
 	 *
+	 * @var $course_embed
+	 *
+	 * @since 2.1.0
+	 */
+	private $course_embed;
+
+	/**
+	 * Rest Authentication
+	 *
+	 * @var $rest_auth
+	 *
+	 * @since 2.1.0
+	 */
+	private $rest_auth;
+
+	/**
 	 * Run the TUTOR
 	 *
 	 * @since 1.2.0
+	 *
+	 * @return null|Tutor
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -89,7 +439,12 @@ final class Tutor {
 		return self::$_instance;
 	}
 
-	function __construct() {
+	/**
+	 * Initialize props & other dependencies
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
 
 		$this->path     = plugin_dir_path( TUTOR_FILE );
 		$this->url      = plugin_dir_url( TUTOR_FILE );
@@ -98,7 +453,7 @@ final class Tutor {
 		/**
 		 * Adding Tutor Database table to $wpdb;
 		 *
-		 * @since v.1.4.2
+		 * @since 1.4.2
 		 */
 		global $wpdb;
 		$wpdb->tutor_earnings              = $wpdb->prefix . 'tutor_earnings';
@@ -119,11 +474,10 @@ final class Tutor {
 		/**
 		 * Include Files
 		 */
-		// add_action( 'init', array( $this, 'includes' ), 11 );
 		$this->includes();
 
 		/**
-		 * Loading Autoloader
+		 * Loading Auto loader
 		 */
 		spl_autoload_register( array( $this, 'loader' ) );
 
@@ -163,14 +517,14 @@ final class Tutor {
 		$this->private_course_access = new Private_Course_Access();
 		$this->course_filter         = new Course_Filter();
 
-		// Integrations
+		// Integrations.
 		$this->woocommerce = new WooCommerce();
 		$this->edd         = new TutorEDD();
 
 		/**
 		 * Init obj
 		 *
-		 * @since v2.0.0
+		 * @since 2.0.0
 		 */
 		$this->announcements   = new Announcements();
 		$this->course_list     = new Course_List();
@@ -178,6 +532,8 @@ final class Tutor {
 		$this->withdraw_list   = new Withdraw_Requests_List();
 		$this->student_list    = new Students_List();
 		$this->instructor_list = new Instructors_List();
+		$this->course_embed    = new Course_Embed();
+		$this->rest_auth       = new RestAuth();
 
 		/**
 		 * Run Method
@@ -191,45 +547,53 @@ final class Tutor {
 		add_action( 'init', array( $this, 'init_action' ) );
 
 		/**
-		 * redirect to the wizard page
+		 * Redirect to the wizard page
 		 *
-		 * @since v.1.5.7
+		 * @since 1.5.7
 		 */
 
 		add_action( 'activated_plugin', array( $this, 'activated_tutor' ), 10, 2 );
 	}
 
 	/**
-	 * @param $plugin
+	 * Redirect to the wizard page
 	 *
-	 * redirect to the wizard page
-	 * @since v.1.5.7
+	 * @since 1.5.7
+	 *
+	 * @param mixed $plugin plugin.
+	 * @param mixed $network_wide network wide.
+	 *
+	 * @return void
 	 */
 	public function activated_tutor( $plugin, $network_wide = null ) {
-		if ( $plugin == tutor()->basename ) {
+		if ( tutor()->basename === $plugin ) {
 			if ( ( ! get_option( 'tutor_wizard' ) ) && version_compare( TUTOR_VERSION, '1.5.6', '>' ) ) {
 				update_option( 'tutor_wizard', 'active' );
-				wp_redirect( admin_url( 'admin.php?page=tutor-setup' ) );
+				wp_safe_redirect( admin_url( 'admin.php?page=tutor-setup' ) );
 				exit;
 			}
 		}
 	}
 
 	/**
-	 * @param $className
-	 *
 	 * Auto Load class and the files
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $class_name class name to load.
+	 *
+	 * @return void
 	 */
-	private function loader( $className ) {
-		if ( ! class_exists( $className ) ) {
-			$className = preg_replace(
+	private function loader( $class_name ) {
+		if ( ! class_exists( $class_name ) ) {
+			$class_name = preg_replace(
 				array( '/([a-z])([A-Z])/', '/\\\/' ),
 				array( '$1$2', DIRECTORY_SEPARATOR ),
-				$className
+				$class_name
 			);
 
-			$className = str_replace( 'TUTOR' . DIRECTORY_SEPARATOR, 'classes' . DIRECTORY_SEPARATOR, $className );
-			$file_name = $this->path . $className . '.php';
+			$class_name = str_replace( 'TUTOR' . DIRECTORY_SEPARATOR, 'classes' . DIRECTORY_SEPARATOR, $class_name );
+			$file_name  = $this->path . $class_name . '.php';
 
 			if ( file_exists( $file_name ) ) {
 				require_once $file_name;
@@ -237,16 +601,25 @@ final class Tutor {
 		}
 	}
 
+	/**
+	 * Include utility functions
+	 *
+	 * @return void
+	 */
 	public function includes() {
 		include tutor()->path . 'includes/tutor-general-functions.php';
 		include tutor()->path . 'includes/tutor-template-functions.php';
 		include tutor()->path . 'includes/tutor-template-hook.php';
+		include tutor()->path . 'includes/translate-text.php';
 	}
 
-	// Run the TUTOR right now
+	/**
+	 * Providing hooks
+	 *
+	 * @return void
+	 */
 	public function run() {
 		do_action( 'tutor_before_run' );
-
 		do_action( 'tutor_after_run' );
 	}
 
@@ -256,67 +629,40 @@ final class Tutor {
 	 * @since 1.2.14
 	 */
 	public function init_action() {
-		if ( isset( $_REQUEST['tutor_action'] ) ) {
-			do_action( 'tutor_action_' . $_REQUEST['tutor_action'] );
+		$tutor_action = Input::sanitize_request_data( 'tutor_action' );
+		if ( '' !== $tutor_action ) {
+			do_action( 'tutor_action_' . $tutor_action );
 		}
 	}
 
 	/**
 	 * Do some task during plugin activation
 	 */
-	public static function tutor_activate() {		
-		global $wpdb;
-		$database_name  = $wpdb->dbname;
-		
-		//add column posts.tqm_course_code
-		$table_posts  = $wpdb->prefix."posts";
-		$column_tqm_course_code  = "tqm_course_code";
-		
-		$result_tqm =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_posts."` LIKE '".$column_tqm_course_code."'");
-		if(empty($result_tqm))
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_posts."` ADD `".$column_tqm_course_code."` VARCHAR(100) default '';"));
-		
-		//add column users.Branch_ID,users.Branch_Name,users.Manage_Branchs,
-		$table_users  = $wpdb->prefix."users";
-		$result_ID =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_ID'");
-		if(empty($result_ID))
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Branch_ID` VARCHAR(20) default '';"));
-		
-		$result_Name =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_Name'");
-		if(empty($result_Name))
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Branch_Name` VARCHAR(100) default '';"));
-		
-		$result_Manage =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Branchs'");
-		if(empty($result_Manage))
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Manage_Branchs` VARCHAR(255) default '';"));
-		
-		$result_ManageUsers =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Users'");
-		if(empty($result_ManageUsers))
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` ADD `Manage_Users` VARCHAR(1000) default '';"));
-
+	public static function tutor_activate() {
 		$version = get_option( 'tutor_version' );
 		if ( ! function_exists( 'tutor_time' ) ) {
 			include tutor()->path . 'includes/tutor-general-functions.php';
 		}
 
-		// Create Database
+		// Create Database.
 		self::create_database();
 
-		// Save Option
+		// Save Option.
 		if ( ! $version ) {
 
 			$options = self::default_options();
 			update_option( 'tutor_option', $options );
 
-			// Rewrite Flush
+			// Rewrite Flush.
 			update_option( 'required_rewrite_flush', tutor_time() );
 			self::manage_tutor_roles_and_permissions();
 
-			self::save_data();// Save initial Page
+			// Save initial Page.
+			self::save_data();
 			update_option( 'tutor_version', TUTOR_VERSION );
 		}
 
-		// Set Schedule
+		// Set Schedule.
 		if ( ! wp_next_scheduled( 'tutor_once_in_day_run_schedule' ) ) {
 			wp_schedule_event( tutor_time(), 'twicedaily', 'tutor_once_in_day_run_schedule' );
 		}
@@ -329,9 +675,9 @@ final class Tutor {
 			 * Creating New Database
 			 */
 			self::create_withdraw_database();
-			// Update the tutor version
+			// Update the tutor version.
 			update_option( 'tutor_version', '1.2.0' );
-			// Rewrite Flush
+			// Rewrite Flush.
 			update_option( 'required_rewrite_flush', tutor_time() );
 		}
 
@@ -342,7 +688,7 @@ final class Tutor {
 			global $wpdb;
 
 			if ( ! get_option( 'is_course_post_type_updated' ) ) {
-				$wpdb->update( $wpdb->posts, array( 'post_type' => 'courses' ), array( 'post_type' => 'course' ) );
+				$wpdb->update( $wpdb->posts, array( 'post_type' => tutor()->course_post_type ), array( 'post_type' => 'course' ) );
 				update_option( 'is_course_post_type_updated', true );
 				update_option( 'tutor_version', '1.3.1' );
 				flush_rewrite_rules();
@@ -358,36 +704,22 @@ final class Tutor {
 		}
 	}
 
-	// Run task on deactivation
-	public static function tutor_deactivation() {		
-		global $wpdb;
-		$database_name  = $wpdb->dbname;
-		
-		$table_name  = $wpdb->prefix."posts";
-		$column_name  = "tqm_course_code";		
-		$result_tqm =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_name."` LIKE '".$column_name."'");
-		if($result_tqm)
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_name."` DROP `".$column_name."` ;"));
-		
-		$table_users  = $wpdb->prefix."users";
-		$result_ID =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_ID'");
-		if($result_ID)
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Branch_ID` ;"));
-		
-		$result_Name =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Branch_Name'");
-		if($result_Name)
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Branch_Name` ;"));
-		
-		$result_Manage =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Branchs'");
-		if($result_Manage)
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Manage_Branchs` ;"));
-		
-		$result_ManageUsers =  $wpdb->get_results("SHOW COLUMNS FROM `".$table_users."` LIKE 'Manage_Users'");
-		if($result_ManageUsers)
-			$wpdb->query( $wpdb->prepare("ALTER TABLE `".$table_users."` DROP `Manage_Users` ;"));
+	/**
+	 * Run task on deactivation
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function tutor_deactivation() {
 		wp_clear_scheduled_hook( 'tutor_once_in_day_run_schedule' );
 	}
 
+	/**
+	 * Create database
+	 *
+	 * @return void
+	 */
 	public static function create_database() {
 		global $wpdb;
 
@@ -403,7 +735,7 @@ final class Tutor {
 		 * {$wpdb->prefix}tutor_earnings
 		 * {$wpdb->prefix}tutor_withdraws
 		 *
-		 * @since v.1.0.0
+		 * @since 1.0.0
 		 */
 		$quiz_attempts_sql = "CREATE TABLE {$wpdb->prefix}tutor_quiz_attempts (
 				attempt_id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -443,6 +775,7 @@ final class Tutor {
 				quiz_id bigint(20) DEFAULT NULL,
 				question_title text,
 				question_description longtext,
+				answer_explanation longtext DEFAULT '',
 				question_type varchar(50) DEFAULT NULL,
 				question_mark decimal(9,2) DEFAULT NULL,
 				question_settings longtext,
@@ -505,6 +838,11 @@ final class Tutor {
 		dbDelta( $withdraw_table );
 	}
 
+	/**
+	 * Manage tutor roles & permission
+	 *
+	 * @return void
+	 */
 	public static function manage_tutor_roles_and_permissions() {
 		/**
 		 * Add role for instructor
@@ -515,10 +853,10 @@ final class Tutor {
 		add_role( $instructor_role, __( 'Tutor Instructor', 'tutor' ), array() );
 
 		$custom_post_type_permission = array(
-			// Manage Instructor
+			// Manage Instructor.
 			'manage_tutor_instructor',
 
-			// Tutor Posts Type Permission
+			// Tutor Posts Type Permission.
 			'edit_tutor_course',
 			'read_tutor_course',
 			'delete_tutor_course',
@@ -603,9 +941,15 @@ final class Tutor {
 	}
 
 	/**
-	 * Save data like page
+	 * On plugin activate save initial data
+	 * Like: generate tutor pages
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public static function save_data() {
+
 		$student_dashboard_args    = array(
 			'post_title'   => __( 'Dashboard', 'tutor' ),
 			'post_content' => '',
@@ -634,6 +978,13 @@ final class Tutor {
 		tutor_utils()->update_option( 'instructor_register_page', $instructor_registration_id );
 	}
 
+	/**
+	 * Default options
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
 	public static function default_options() {
 		$options = array(
 			'pagination_per_page'               => '20',
@@ -665,6 +1016,7 @@ final class Tutor {
 			'earning_admin_commission'          => '20',
 			'earning_admin_commission'          => '20',
 			'earning_instructor_commission'     => '80',
+			'color_preset_type'                 => 'default',
 		);
 		return $options;
 	}
@@ -673,7 +1025,7 @@ final class Tutor {
 	/**
 	 * Create withdraw database
 	 *
-	 * @since v.1.2.0
+	 * @since 1.2.0
 	 */
 	public static function create_withdraw_database() {
 		global $wpdb;
@@ -686,7 +1038,7 @@ final class Tutor {
 		 * {$wpdb->prefix}tutor_earnings
 		 * {$wpdb->prefix}tutor_withdraws
 		 *
-		 * @since v.1.2.0
+		 * @since 1.2.0
 		 */
 
 		$earning_table = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}tutor_earnings (
@@ -733,15 +1085,17 @@ final class Tutor {
 	}
 
 	/**
-	 * @param $bool
+	 * Filter the wp_doing_ajax from tutor requests to get advanced
+	 * advantages from Tutor
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param bool $bool default value.
 	 *
 	 * @return bool
-	 *
-	 * Filter the wp_doing_ajax from tutor requests to get advanced advantages from Tutor
-	 *
-	 * @since v.1.3.4
 	 */
 	public function wp_doing_ajax( $bool ) {
+		// Don't use Input::has helper to avoid conflict.
 		if ( isset( $_REQUEST['tutor_ajax_action'] ) ) {
 			return true;
 		}

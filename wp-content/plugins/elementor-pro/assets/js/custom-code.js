@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.12.0 - 29-03-2023 */
+/*! elementor-pro - v3.17.0 - 01-11-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -148,7 +148,7 @@ class ConditionsProvider extends _baseContext.default {
   /**
    * Execute a request to save the template conditions.
    *
-   * @return {any} -
+   * @return {any} Saved conditions
    */
   saveConditions() {
     const conditions = Object.values(this.state.conditions).map(condition => condition.forDb());
@@ -185,7 +185,7 @@ class ConditionsProvider extends _baseContext.default {
    * Fetching subId titles.
    *
    * @param {any} condition
-   * @return {Promise<unknown>} -
+   * @return {Promise<unknown>} Titles
    */
   fetchSubIdsTitles(condition) {
     return new Promise(resolve => {
@@ -325,7 +325,7 @@ class ConditionsProvider extends _baseContext.default {
    * Find a condition item from the conditions state.
    *
    * @param {any} id
-   * @return {Condition|null} -
+   * @return {Condition|null} Condition
    */
   findConditionItemInState(id) {
     return Object.values(this.state.conditions).find(c => c.id === id);
@@ -335,7 +335,7 @@ class ConditionsProvider extends _baseContext.default {
    * Update the whole conditions state.
    *
    * @param {Function} callback
-   * @return {Promise<any>} -
+   * @return {Promise<undefined>} Conditions state
    */
   updateConditionsState(callback) {
     return new Promise(resolve => this.setState(prev => ({
@@ -346,7 +346,7 @@ class ConditionsProvider extends _baseContext.default {
   /**
    * Renders the provider.
    *
-   * @return {any} -
+   * @return {any} Element
    */
   render() {
     if (this.state.action.current === ConditionsProvider.actions.FETCH_CONFIG) {
@@ -465,7 +465,7 @@ class ConditionsConfig {
   }
 
   /**
-   * @return {Promise<ConditionsConfig>} -
+   * @return {Promise<ConditionsConfig>} Conditions config
    */
   static create() {
     if (ConditionsConfig.instance) {
@@ -482,7 +482,7 @@ class ConditionsConfig {
   /**
    * Get main options for condition name.
    *
-   * @return {Array} -
+   * @return {Array} Condition options
    */
   getOptions() {
     return this.getSubOptions('general', true).map(_ref => {
@@ -502,7 +502,7 @@ class ConditionsConfig {
    *
    * @param {string}  itemName
    * @param {boolean} isSubItem
-   * @return {Array} -
+   * @return {Array} Sub options
    */
   getSubOptions(itemName) {
     let isSubItem = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -527,15 +527,16 @@ class ConditionsConfig {
    * Get the autocomplete property from the conditions config
    *
    * @param {string} sub
-   * @return {{}|any} -
+   * @return {{}|any} Conditions autocomplete
    */
   getSubIdAutocomplete(sub) {
+    var _controls$;
     const config = this.config[sub];
     if (!config || !('object' === typeof config.controls)) {
       return {};
     }
     const controls = Object.values(config.controls);
-    if (!controls?.[0]?.autocomplete) {
+    if (!(controls !== null && controls !== void 0 && (_controls$ = controls[0]) !== null && _controls$ !== void 0 && _controls$.autocomplete)) {
       return {};
     }
     return controls[0].autocomplete;
@@ -545,7 +546,7 @@ class ConditionsConfig {
    * Calculate instances from the conditions.
    *
    * @param {Array} conditions
-   * @return {Object} -
+   * @return {Object} Conditions Instances
    */
   calculateInstances(conditions) {
     let instances = conditions.reduce((current, condition) => {
@@ -858,7 +859,7 @@ var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
  * Main component.
  *
  * @param {any} props
- * @return {any} -
+ * @return {any} Element
  * @class
  */
 function ConditionSubId(props) {
@@ -884,7 +885,7 @@ function ConditionSubId(props) {
  * that passes as a prop
  *
  * @param {any} autocomplete
- * @return {Object} -
+ * @return {Object} Settings
  */
 function getSettings(autocomplete) {
   return {
@@ -2469,6 +2470,17 @@ module.exports = React;
 
 /***/ }),
 
+/***/ "elementor-ai-admin":
+/*!**********************************************!*\
+  !*** external "__UNSTABLE__elementorAI.App" ***!
+  \**********************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = __UNSTABLE__elementorAI.App;
+
+/***/ }),
+
 /***/ "@elementor/app-ui":
 /*!*********************************************!*\
   !*** external "elementorAppPackages.appUi" ***!
@@ -2576,6 +2588,7 @@ exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _component = _interopRequireDefault(__webpack_require__(/*! elementor-pro-app-modules/site-editor/assets/js/data/component */ "../core/app/modules/site-editor/assets/js/data/component.js"));
 var _conditionsModal = _interopRequireDefault(__webpack_require__(/*! ./publish-metabox/conditions-modal */ "../modules/custom-code/assets/js/admin/publish-metabox/conditions-modal.js"));
+var _elementorAiAdmin = _interopRequireDefault(__webpack_require__(/*! elementor-ai-admin */ "elementor-ai-admin"));
 class CustomCode extends elementorModules.Module {
   constructor() {
     super();
@@ -2587,6 +2600,7 @@ class CustomCode extends elementorModules.Module {
     this.addTipsyToFields();
     this.addDescription();
     this.addLocationChangeHandler();
+    this.addOpenAIButton();
     this.setOptionsPlacementVisibility('elementor_body_end' === jQuery('#location').val());
   }
   addTipsyToFields() {
@@ -2605,6 +2619,29 @@ class CustomCode extends elementorModules.Module {
     jQuery('#location').on('change', e => {
       this.setOptionsPlacementVisibility('elementor_body_end' === e.target.value);
     });
+  }
+  addOpenAIButton() {
+    const $buttonOpenAI = jQuery(`<button class="e-ai-button"><i class="eicon-ai"></i> ${__('Write me code', 'elementor-pro')}</button>`);
+    $buttonOpenAI.on('click', event => {
+      event.preventDefault();
+      const isRTL = elementorCommon.config.isRTL;
+      const rootElement = document.createElement('div');
+      document.body.append(rootElement);
+      ReactDOM.render( /*#__PURE__*/_react.default.createElement(_elementorAiAdmin.default, {
+        type: 'code',
+        getControlValue: () => document.querySelector('.CodeMirror').CodeMirror.getValue(),
+        setControlValue: value => document.querySelector('.CodeMirror').CodeMirror.setValue(value),
+        additionalOptions: {
+          codeLanguage: 'html'
+        },
+        onClose: () => {
+          ReactDOM.unmountComponentAtNode(rootElement);
+          rootElement.parentNode.removeChild(rootElement);
+        },
+        isRTL: isRTL
+      }), rootElement);
+    });
+    jQuery('.elementor-field.location.elementor-field-select').after($buttonOpenAI);
   }
   setOptionsPlacementVisibility(state) {
     const $optionsPlacement = jQuery('.elementor-custom-code-options-placement');

@@ -5,8 +5,6 @@ use Automattic\WooCommerce\StoreApi\SchemaController;
 use Automattic\WooCommerce\StoreApi\Utilities\CartController;
 use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
 use WC_Tax;
-use WP_Error;
-
 
 /**
  * CartSchema class.
@@ -39,6 +37,13 @@ class CartSchema extends AbstractSchema {
 	 * @var CartCouponSchema
 	 */
 	public $coupon_schema;
+
+	/**
+	 * Product item schema instance representing cross-sell items.
+	 *
+	 * @var ProductSchema
+	 */
+	public $cross_sells_item_schema;
 
 	/**
 	 * Fee schema instance.
@@ -84,6 +89,7 @@ class CartSchema extends AbstractSchema {
 	public function __construct( ExtendSchema $extend, SchemaController $controller ) {
 		parent::__construct( $extend, $controller );
 		$this->item_schema             = $this->controller->get( CartItemSchema::IDENTIFIER );
+		$this->cross_sells_item_schema = $this->controller->get( ProductSchema::IDENTIFIER );
 		$this->coupon_schema           = $this->controller->get( CartCouponSchema::IDENTIFIER );
 		$this->fee_schema              = $this->controller->get( CartFeeSchema::IDENTIFIER );
 		$this->shipping_rate_schema    = $this->controller->get( CartShippingRateSchema::IDENTIFIER );
@@ -154,6 +160,16 @@ class CartSchema extends AbstractSchema {
 				'type'        => 'number',
 				'context'     => [ 'view', 'edit' ],
 				'readonly'    => true,
+			],
+			'cross_sells'             => [
+				'description' => __( 'List of cross-sells items related to cart items.', 'woocommerce' ),
+				'type'        => 'array',
+				'context'     => [ 'view', 'edit' ],
+				'readonly'    => true,
+				'items'       => [
+					'type'       => 'object',
+					'properties' => $this->force_schema_readonly( $this->cross_sells_item_schema->get_properties() ),
+				],
 			],
 			'needs_payment'           => [
 				'description' => __( 'True if the cart needs payment. False for carts with only free products and no shipping costs.', 'woocommerce' ),
@@ -293,6 +309,12 @@ class CartSchema extends AbstractSchema {
 					'properties' => $this->force_schema_readonly( $this->error_schema->get_properties() ),
 				],
 			],
+			'payment_methods'         => [
+				'description' => __( 'List of available payment method IDs that can be used to process the order.', 'woocommerce' ),
+				'type'        => 'array',
+				'context'     => [ 'view', 'edit' ],
+				'readonly'    => true,
+			],
 			'payment_requirements'    => [
 				'description' => __( 'List of required payment gateway features to process the order.', 'woocommerce' ),
 				'type'        => 'array',
@@ -323,38 +345,53 @@ class CartSchema extends AbstractSchema {
 		// Get shipping packages to return in the response from the cart.
 		$shipping_packages = $has_calculated_shipping ? $controller->get_shipping_packages() : [];
 
+		// Get visible cross sells products.
+		$cross_sells = array_filter( array_map( 'wc_get_product', $cart->get_cross_sells() ), 'wc_products_array_filter_visible' );
+
 		return [
-			'coupons'                 => $this->get_item_responses_from_schema( $this->coupon_schema, $cart->get_applied_coupons() ),
-			'shipping_rates'          => $this->get_item_responses_from_schema( $this->shipping_rate_schema, $shipping_packages ),
-			'shipping_address'        => $this->shipping_address_schema->get_item_response( wc()->customer ),
-			'billing_address'         => $this->billing_address_schema->get_item_response( wc()->customer ),
 			'items'                   => $this->get_item_responses_from_schema( $this->item_schema, $cart->get_cart() ),
-			'items_count'             => $cart->get_cart_contents_count(),
-			'items_weight'            => wc_get_weight( $cart->get_cart_contents_weight(), 'g' ),
+			'coupons'                 => $this->get_item_responses_from_schema( $this->coupon_schema, $cart->get_applied_coupons() ),
+			'fees'                    => $this->get_item_responses_from_schema( $this->fee_schema, $cart->get_fees() ),
+			'totals'                  => (object) $this->prepare_currency_response( $this->get_totals( $cart ) ),
+			'shipping_address'        => (object) $this->shipping_address_schema->get_item_response( wc()->customer ),
+			'billing_address'         => (object) $this->billing_address_schema->get_item_response( wc()->customer ),
 			'needs_payment'           => $cart->needs_payment(),
 			'needs_shipping'          => $cart->needs_shipping(),
-			'has_calculated_shipping' => $has_calculated_shipping,
-			'fees'                    => $this->get_item_responses_from_schema( $this->fee_schema, $cart->get_fees() ),
-			'totals'                  => (object) $this->prepare_currency_response(
-				[
-					'total_items'        => $this->prepare_money_response( $cart->get_subtotal(), wc_get_price_decimals() ),
-					'total_items_tax'    => $this->prepare_money_response( $cart->get_subtotal_tax(), wc_get_price_decimals() ),
-					'total_fees'         => $this->prepare_money_response( $cart->get_fee_total(), wc_get_price_decimals() ),
-					'total_fees_tax'     => $this->prepare_money_response( $cart->get_fee_tax(), wc_get_price_decimals() ),
-					'total_discount'     => $this->prepare_money_response( $cart->get_discount_total(), wc_get_price_decimals() ),
-					'total_discount_tax' => $this->prepare_money_response( $cart->get_discount_tax(), wc_get_price_decimals() ),
-					'total_shipping'     => $has_calculated_shipping ? $this->prepare_money_response( $cart->get_shipping_total(), wc_get_price_decimals() ) : null,
-					'total_shipping_tax' => $has_calculated_shipping ? $this->prepare_money_response( $cart->get_shipping_tax(), wc_get_price_decimals() ) : null,
-
-					// Explicitly request context='edit'; default ('view') will render total as markup.
-					'total_price'        => $this->prepare_money_response( $cart->get_total( 'edit' ), wc_get_price_decimals() ),
-					'total_tax'          => $this->prepare_money_response( $cart->get_total_tax(), wc_get_price_decimals() ),
-					'tax_lines'          => $this->get_tax_lines( $cart ),
-				]
-			),
-			'errors'                  => $cart_errors,
 			'payment_requirements'    => $this->extend->get_payment_requirements(),
+			'has_calculated_shipping' => $has_calculated_shipping,
+			'shipping_rates'          => $this->get_item_responses_from_schema( $this->shipping_rate_schema, $shipping_packages ),
+			'items_count'             => $cart->get_cart_contents_count(),
+			'items_weight'            => wc_get_weight( $cart->get_cart_contents_weight(), 'g' ),
+			'cross_sells'             => $this->get_item_responses_from_schema( $this->cross_sells_item_schema, $cross_sells ),
+			'errors'                  => $cart_errors,
+			'payment_methods'         => array_values( wp_list_pluck( WC()->payment_gateways->get_available_payment_gateways(), 'id' ) ),
 			self::EXTENDING_KEY       => $this->get_extended_data( self::IDENTIFIER ),
+		];
+	}
+
+	/**
+	 * Get total data.
+	 *
+	 * @param \WC_Cart $cart Cart class instance.
+	 * @return array
+	 */
+	protected function get_totals( $cart ) {
+		$has_calculated_shipping = $cart->show_shipping();
+		$decimals                = wc_get_price_decimals();
+
+		return [
+			'total_items'        => $this->prepare_money_response( $cart->get_subtotal(), $decimals ),
+			'total_items_tax'    => $this->prepare_money_response( $cart->get_subtotal_tax(), $decimals ),
+			'total_fees'         => $this->prepare_money_response( $cart->get_fee_total(), $decimals ),
+			'total_fees_tax'     => $this->prepare_money_response( $cart->get_fee_tax(), $decimals ),
+			'total_discount'     => $this->prepare_money_response( $cart->get_discount_total(), $decimals ),
+			'total_discount_tax' => $this->prepare_money_response( $cart->get_discount_tax(), $decimals ),
+			'total_shipping'     => $has_calculated_shipping ? $this->prepare_money_response( $cart->get_shipping_total(), $decimals ) : null,
+			'total_shipping_tax' => $has_calculated_shipping ? $this->prepare_money_response( $cart->get_shipping_tax(), $decimals ) : null,
+			// Explicitly request context='edit'; default ('view') will render total as markup.
+			'total_price'        => $this->prepare_money_response( $cart->get_total( 'edit' ), $decimals ),
+			'total_tax'          => $this->prepare_money_response( $cart->get_total_tax(), $decimals ),
+			'tax_lines'          => $this->get_tax_lines( $cart ),
 		];
 	}
 
@@ -365,13 +402,19 @@ class CartSchema extends AbstractSchema {
 	 * @return array
 	 */
 	protected function get_tax_lines( $cart ) {
+		$tax_lines = [];
+
+		if ( 'itemized' !== get_option( 'woocommerce_tax_total_display' ) ) {
+			return $tax_lines;
+		}
+
 		$cart_tax_totals = $cart->get_tax_totals();
-		$tax_lines       = [];
+		$decimals        = wc_get_price_decimals();
 
 		foreach ( $cart_tax_totals as $cart_tax_total ) {
 			$tax_lines[] = array(
 				'name'  => $cart_tax_total->label,
-				'price' => $this->prepare_money_response( $cart_tax_total->amount, wc_get_price_decimals() ),
+				'price' => $this->prepare_money_response( $cart_tax_total->amount, $decimals ),
 				'rate'  => WC_Tax::get_rate_percent( $cart_tax_total->tax_rate_id ),
 			);
 		}

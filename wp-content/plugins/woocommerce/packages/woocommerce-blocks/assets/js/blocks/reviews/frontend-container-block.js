@@ -3,7 +3,7 @@
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { speak } from '@wordpress/a11y';
-import { Component } from 'react';
+import { Component } from '@wordpress/element';
 import PropTypes from 'prop-types';
 
 /**
@@ -95,6 +95,7 @@ class FrontendContainerBlock extends Component {
 				orderby={ orderby }
 				productId={ productId }
 				reviewsToDisplay={ reviewsToDisplay }
+				sortSelectValue={ this.state.orderby }
 			/>
 		);
 	}

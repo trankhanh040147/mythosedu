@@ -1,5 +1,4 @@
 .wc-block-editor-components-external-link-card {
-	display: block;
 	display: flex;
 	flex-direction: row;
 	text-decoration: none;
@@ -7,7 +6,7 @@
 	color: inherit;
 	align-items: flex-start;
 
-	& + .wc-block-editor-components-external-link-card {
+	+ .wc-block-editor-components-external-link-card {
 		margin-top: -($gap-large - $gap);
 	}
 	.wc-block-editor-components-external-link-card__content {
@@ -30,5 +29,19 @@
 		text-align: right;
 		color: inherit;
 		vertical-align: top;
+	}
+	.wc-block-editor-components-external-link-card__warning {
+		color: #cc1818;
+		display: flex;
+		align-items: flex-start;
+		font-size: 0.875em;
+		column-gap: 4px;
+		margin-top: 0.5em;
+
+		svg {
+			width: 18px;
+			height: 18px;
+			min-width: 18px;
+		}
 	}
 }

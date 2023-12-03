@@ -6,10 +6,12 @@ import { previewCart } from '@woocommerce/resource-previews';
 import { dispatch } from '@wordpress/data';
 import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
 import { default as fetchMock } from 'jest-fetch-mock';
+import { registerCheckoutFilters } from '@woocommerce/blocks-checkout';
+
 /**
  * Internal dependencies
  */
-import { defaultCartState } from '../../../data/default-states';
+import { defaultCartState } from '../../../data/cart/default-state';
 import { allSettings } from '../../../settings/shared/settings-init';
 
 import Cart from '../block';
@@ -29,6 +31,11 @@ import OrderSummaryHeadingBlock from '../inner-blocks/cart-order-summary-heading
 import OrderSummarySubtotalBlock from '../inner-blocks/cart-order-summary-subtotal/frontend';
 import OrderSummaryShippingBlock from '../inner-blocks/cart-order-summary-shipping/frontend';
 import OrderSummaryTaxesBlock from '../inner-blocks/cart-order-summary-taxes/frontend';
+
+jest.mock( '@wordpress/compose', () => ( {
+	...jest.requireActual( '@wordpress/compose' ),
+	useResizeObserver: jest.fn().mockReturnValue( [ null, { width: 0 } ] ),
+} ) );
 
 const CartBlock = ( {
 	attributes = {
@@ -229,5 +236,28 @@ describe( 'Testing cart', () => {
 		} );
 
 		expect( quantityInput.value ).toBe( '5' );
+	} );
+
+	it( 'does not show the remove item button when a filter prevents this', async () => {
+		const cart = {
+			...previewCart,
+			// Make it so there is only one item to simplify things.
+			items: [ previewCart.items[ 0 ] ],
+		};
+
+		registerCheckoutFilters( 'woo-blocks-test-extension', {
+			showRemoveItemLink: ( value, extensions, { cartItem } ) => {
+				return cartItem.id !== cart.items[ 0 ].id;
+			},
+		} );
+		render( <CartBlock /> );
+
+		await waitFor( () => expect( fetchMock ).toHaveBeenCalled() );
+
+		act( () => {
+			dispatch( storeKey ).receiveCart( cart );
+		} );
+
+		expect( screen.queryAllByText( /Remove item/i ).length ).toBe( 0 );
 	} );
 } );

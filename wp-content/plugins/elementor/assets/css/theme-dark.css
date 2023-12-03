@@ -1,4 +1,4 @@
-/*! elementor - v3.12.0 - 29-03-2023 */
+/*! elementor - v3.17.0 - 01-11-2023 */
 :root {
   color-scheme: dark;
   --e-a-color-white:	#ffffff;
@@ -11,13 +11,13 @@
   --e-a-color-danger:	#DC2626;
   --e-a-color-info:	#2563EB;
   --e-a-color-warning:	#F59E0B;
-  --e-a-color-accent:	#524CFF;
+  --e-a-color-accent:	#93003f;
   --e-a-color-global:	#1DDDBF;
-  --e-a-bg-default:	#1A1C1E;
+  --e-a-bg-default:	#1f2124;
   --e-a-bg-invert:	#ffffff;
-  --e-a-bg-hover:	#222325;
-  --e-a-bg-active:	#2F3032;
-  --e-a-bg-active-bold:	#3A3F45;
+  --e-a-bg-hover:	#2b2c31;
+  --e-a-bg-active:	#333438;
+  --e-a-bg-active-bold:	#3f444b;
   --e-a-bg-loading:	#F9FAFA;
   --e-a-bg-logo:	#ffffff;
   --e-a-bg-primary:	#310132;
@@ -26,15 +26,15 @@
   --e-a-bg-info:	#0A1A3D;
   --e-a-bg-danger:	#390A0A;
   --e-a-bg-warning:	#311808;
-  --e-a-color-txt:	#BABFC5;
-  --e-a-color-txt-muted:	#818A96;
+  --e-a-color-txt:	#D5D8DC;
+  --e-a-color-txt-muted:	#9DA5AE;
   --e-a-color-txt-disabled:	#69727D;
   --e-a-color-txt-invert:	#ffffff;
   --e-a-color-txt-accent:	#ffffff;
   --e-a-color-txt-hover:	#9DA5AE;
   --e-a-color-txt-active:	#ffffff;
-  --e-a-border-color:	#2F3032;
-  --e-a-border-color-bold:	#3A3F45;
+  --e-a-border-color:	#333438;
+  --e-a-border-color-bold:	#3f444b;
   --e-a-border-color-focus:	#515962;
   --e-a-border-color-accent:	#ffffff;
   --e-a-border:	1px solid var(--e-a-border-color);
@@ -50,9 +50,9 @@
   --e-a-btn-bg-primary:	#F3BAFD;
   --e-a-btn-bg-primary-hover: #EB8EFB;
   --e-a-btn-bg-primary-active:#F0ABFC;
-  --e-a-btn-bg-accent:	#524CFF;
-  --e-a-btn-bg-accent-hover:	#4C43E5;
-  --e-a-btn-bg-accent-active:	#4338CA;
+  --e-a-btn-bg-accent:	#93003f;
+  --e-a-btn-bg-accent-hover:	#8F1A4C;
+  --e-a-btn-bg-accent-active:	#A93365;
   --e-a-btn-bg-success:	#0A875A;
   --e-a-btn-bg-success-hover:	#06583a;
   --e-a-btn-bg-success-active:#03281b;

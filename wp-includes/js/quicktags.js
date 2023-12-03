@@ -1,30 +1,30 @@
 
 /*
- * QuickTags
+ * Quicktags
  *
  * This is the HTML editor in WordPress. It can be attached to any textarea and will
  * append a toolbar above it. This script is self-contained (does not require external libraries).
  *
- * Run quickTags(settings) to initialize it, where settings is an object containing up to 3 properties:
+ * Run quicktags(settings) to initialize it, where settings is an object containing up to 3 properties:
  * settings = {
  *   id : 'my_id',          the HTML ID of the textarea, required
  *   buttons: ''            Comma separated list of the names of the default buttons to show. Optional.
  *                          Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close';
  * }
  *
- * The settings can also be a string quickTags_id.
+ * The settings can also be a string quicktags_id.
  *
- * quickTags_id string The ID of the textarea that will be the editor canvas
+ * quicktags_id string The ID of the textarea that will be the editor canvas
  * buttons string Comma separated list of the default buttons names that will be shown in that instance.
  *
- * @output wp-includes/js/quickTags.js
+ * @output wp-includes/js/quicktags.js
  */
 
-// new edit toolbar used with permission
+// New edit toolbar used with permission
 // by Alex King
 // http://www.alexking.org/
 
-/* global adminpage, wpActiveEditor, quickTagsL10n, wpLink, prompt, edButtons */
+/* global adminpage, wpActiveEditor, quicktagsL10n, wpLink, prompt, edButtons */
 
 window.edButtons = [];
 
@@ -33,7 +33,7 @@ window.edButtons = [];
 /**
  * Back-compat
  *
- * Define all former global functions so plugins that hack quickTags.js directly don't cause fatal errors.
+ * Define all former global functions so plugins that hack quicktags.js directly don't cause fatal errors.
  */
 window.edAddTag = function(){};
 window.edCheckOpenTags = function(){};
@@ -52,12 +52,12 @@ window.edToolbar = function(){};
 /* jshint ignore:end */
 
 (function(){
-	// private stuff is prefixed with an underscore
+	// Private stuff is prefixed with an underscore.
 	var _domReady = function(func) {
 		var t, i, DOMContentLoaded, _tryReady;
 
 		if ( typeof jQuery !== 'undefined' ) {
-			jQuery(document).ready(func);
+			jQuery( func );
 		} else {
 			t = _domReady;
 			t.funcs = [];
@@ -150,7 +150,7 @@ window.edToolbar = function(){};
 		t.settings = settings;
 
 		if ( id === 'content' && typeof(adminpage) === 'string' && ( adminpage === 'post-new-php' || adminpage === 'post-php' ) ) {
-			// back compat hack :-(
+			// Back compat hack :-(
 			window.edCanvas = canvas;
 			toolbar_id = 'ed_toolbar';
 		} else {
@@ -162,25 +162,25 @@ window.edToolbar = function(){};
 		if ( ! tb ) {
 			tb = document.createElement('div');
 			tb.id = toolbar_id;
-			tb.className = 'quickTags-toolbar';
+			tb.className = 'quicktags-toolbar';
 		}
 
 		canvas.parentNode.insertBefore(tb, canvas);
 		t.toolbar = tb;
 
-		// listen for click events
+		// Listen for click events.
 		onclick = function(e) {
 			e = e || window.event;
 			var target = e.target || e.srcElement, visible = target.clientWidth || target.offsetWidth, i;
 
-			// don't call the callback on pressing the accesskey when the button is not visible
+			// Don't call the callback on pressing the accesskey when the button is not visible.
 			if ( !visible ) {
 				return;
 			}
 
-			// as long as it has the class ed_button, execute the callback
+			// As long as it has the class ed_button, execute the callback.
 			if ( / ed_button /.test(' ' + target.className + ' ') ) {
-				// we have to reassign canvas here
+				// We have to reassign canvas here.
 				t.canvas = canvas = document.getElementById(id);
 				i = target.id.replace(name + '_', '');
 
@@ -261,7 +261,7 @@ window.edToolbar = function(){};
 			theButtons = {};
 			use = '';
 
-			// set buttons
+			// Set buttons.
 			if ( settings.buttons ) {
 				use = ','+settings.buttons+',';
 			}
@@ -299,7 +299,7 @@ window.edToolbar = function(){};
 			ed.theButtons = theButtons;
 
 			if ( typeof jQuery !== 'undefined' ) {
-				jQuery( document ).triggerHandler( 'quickTags-init', [ ed ] );
+				jQuery( document ).triggerHandler( 'quicktags-init', [ ed ] );
 			}
 		}
 
@@ -315,11 +315,11 @@ window.edToolbar = function(){};
 	};
 
 	/**
-	 * Main API function for adding a button to QuickTags
+	 * Main API function for adding a button to Quicktags
 	 *
 	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
-	 * To be able to add button(s) to QuickTags, your script should be enqueued as dependent
-	 * on "quickTags" and outputted in the footer. If you are echoing JS directly from PHP,
+	 * To be able to add button(s) to Quicktags, your script should be enqueued as dependent
+	 * on "quicktags" and outputted in the footer. If you are echoing JS directly from PHP,
 	 * use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
 	 *
 	 * Minimum required to add a button that calls an external function:
@@ -337,7 +337,7 @@ window.edToolbar = function(){};
 	 * @param string access_key Deprecated Not used
 	 * @param string title Optional. Button's title="..."
 	 * @param int priority Optional. Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
-	 * @param string instance Optional. Limit the button to a specific instance of QuickTags, add to all instances if not present.
+	 * @param string instance Optional. Limit the button to a specific instance of Quicktags, add to all instances if not present.
 	 * @param attr object Optional. Used to pass additional attributes. Currently supports `ariaLabel` and `ariaLabelClose` (for "close tag" state)
 	 * @return mixed null or the button object that is needed for back-compat.
 	 */
@@ -361,7 +361,7 @@ window.edToolbar = function(){};
 			return;
 		}
 
-		if ( priority === -1 ) { // back-compat
+		if ( priority === -1 ) { // Back-compat.
 			return btn;
 		}
 
@@ -376,7 +376,7 @@ window.edToolbar = function(){};
 		}
 
 		if ( this.buttonsInitDone ) {
-			this._buttonsInit(); // add the button HTML to all instances toolbars if addButton() was called too late
+			this._buttonsInit(); // Add the button HTML to all instances toolbars if addButton() was called too late.
 		}
 	};
 
@@ -387,12 +387,12 @@ window.edToolbar = function(){};
 			return false;
 		}
 
-		if ( document.selection ) { //IE
+		if ( document.selection ) { // IE.
 			canvas.focus();
 			sel = document.selection.createRange();
 			sel.text = content;
 			canvas.focus();
-		} else if ( canvas.selectionStart || canvas.selectionStart === 0 ) { // FF, WebKit, Opera
+		} else if ( canvas.selectionStart || canvas.selectionStart === 0 ) { // FF, WebKit, Opera.
 			text = canvas.value;
 			startPos = canvas.selectionStart;
 			endPos = canvas.selectionEnd;
@@ -420,7 +420,7 @@ window.edToolbar = function(){};
 		return true;
 	};
 
-	// a plain, dumb button
+	// A plain, dumb button.
 	qt.Button = function( id, display, access, title, instance, attr ) {
 		this.id = id;
 		this.display = display;
@@ -450,11 +450,11 @@ window.edToolbar = function(){};
 	};
 	qt.Button.prototype.callback = function(){};
 
-	// a button that inserts HTML tag
-	qt.TagButton = function( id, display, Tagstart, tagEnd, access, title, instance, attr ) {
+	// A button that inserts HTML tag.
+	qt.TagButton = function( id, display, tagStart, tagEnd, access, title, instance, attr ) {
 		var t = this;
 		qt.Button.call( t, id, display, access, title, instance, attr );
-		t.Tagstart = Tagstart;
+		t.tagStart = tagStart;
 		t.tagEnd = tagEnd;
 	};
 	qt.TagButton.prototype = new qt.Button();
@@ -485,7 +485,7 @@ window.edToolbar = function(){};
 			element.setAttribute( 'aria-label', this.attr.ariaLabel );
 		}
 	};
-	// whether a tag is open or not. Returns false if not open, or current open depth of the tag
+	// Whether a tag is open or not. Returns false if not open, or current open depth of the tag.
 	qt.TagButton.prototype.isOpen = function (ed) {
 		var t = this, i = 0, ret = false;
 		if ( ed.openTags ) {
@@ -501,20 +501,20 @@ window.edToolbar = function(){};
 	qt.TagButton.prototype.callback = function(element, canvas, ed) {
 		var t = this, startPos, endPos, cursorPos, scrollTop, v = canvas.value, l, r, i, sel, endTag = v ? t.tagEnd : '', event;
 
-		if ( document.selection ) { // IE
+		if ( document.selection ) { // IE.
 			canvas.focus();
 			sel = document.selection.createRange();
 			if ( sel.text.length > 0 ) {
 				if ( !t.tagEnd ) {
-					sel.text = sel.text + t.Tagstart;
+					sel.text = sel.text + t.tagStart;
 				} else {
-					sel.text = t.Tagstart + sel.text + endTag;
+					sel.text = t.tagStart + sel.text + endTag;
 				}
 			} else {
 				if ( !t.tagEnd ) {
-					sel.text = t.Tagstart;
+					sel.text = t.tagStart;
 				} else if ( t.isOpen(ed) === false ) {
-					sel.text = t.Tagstart;
+					sel.text = t.tagStart;
 					t.openTag(element, ed);
 				} else {
 					sel.text = endTag;
@@ -522,7 +522,7 @@ window.edToolbar = function(){};
 				}
 			}
 			canvas.focus();
-		} else if ( canvas.selectionStart || canvas.selectionStart === 0 ) { // FF, WebKit, Opera
+		} else if ( canvas.selectionStart || canvas.selectionStart === 0 ) { // FF, WebKit, Opera.
 			startPos = canvas.selectionStart;
 			endPos = canvas.selectionEnd;
 
@@ -532,25 +532,25 @@ window.edToolbar = function(){};
 
 			cursorPos = endPos;
 			scrollTop = canvas.scrollTop;
-			l = v.substring(0, startPos); // left of the selection
-			r = v.substring(endPos, v.length); // right of the selection
-			i = v.substring(startPos, endPos); // inside the selection
+			l = v.substring(0, startPos);      // Left of the selection.
+			r = v.substring(endPos, v.length); // Right of the selection.
+			i = v.substring(startPos, endPos); // Inside the selection.
 			if ( startPos !== endPos ) {
 				if ( !t.tagEnd ) {
-					canvas.value = l + i + t.Tagstart + r; // insert self closing Tags after the selection
-					cursorPos += t.Tagstart.length;
+					canvas.value = l + i + t.tagStart + r; // Insert self-closing tags after the selection.
+					cursorPos += t.tagStart.length;
 				} else {
-					canvas.value = l + t.Tagstart + i + endTag + r;
-					cursorPos += t.Tagstart.length + endTag.length;
+					canvas.value = l + t.tagStart + i + endTag + r;
+					cursorPos += t.tagStart.length + endTag.length;
 				}
 			} else {
 				if ( !t.tagEnd ) {
-					canvas.value = l + t.Tagstart + r;
-					cursorPos = startPos + t.Tagstart.length;
+					canvas.value = l + t.tagStart + r;
+					cursorPos = startPos + t.tagStart.length;
 				} else if ( t.isOpen(ed) === false ) {
-					canvas.value = l + t.Tagstart + r;
+					canvas.value = l + t.tagStart + r;
 					t.openTag(element, ed);
-					cursorPos = startPos + t.Tagstart.length;
+					cursorPos = startPos + t.tagStart.length;
 				} else {
 					canvas.value = l + endTag + r;
 					cursorPos = startPos + endTag.length;
@@ -562,11 +562,11 @@ window.edToolbar = function(){};
 			canvas.selectionEnd = cursorPos;
 			canvas.scrollTop = scrollTop;
 			canvas.focus();
-		} else { // other browsers?
+		} else { // Other browsers?
 			if ( !endTag ) {
-				canvas.value += t.Tagstart;
+				canvas.value += t.tagStart;
 			} else if ( t.isOpen(ed) !== false ) {
-				canvas.value += t.Tagstart;
+				canvas.value += t.tagStart;
 				t.openTag(element, ed);
 			} else {
 				canvas.value += endTag;
@@ -584,12 +584,12 @@ window.edToolbar = function(){};
 		}
 	};
 
-	// removed
+	// Removed.
 	qt.SpellButton = function() {};
 
-	// the close Tags button
+	// The close tags button.
 	qt.CloseButton = function() {
-		qt.Button.call( this, 'close', quickTagsL10n.closeTags, '', quickTagsL10n.closeAllOpenTags );
+		qt.Button.call( this, 'close', quicktagsL10n.closeTags, '', quicktagsL10n.closeAllOpenTags );
 	};
 
 	qt.CloseButton.prototype = new qt.Button();
@@ -621,10 +621,10 @@ window.edToolbar = function(){};
 		}
 	};
 
-	// the link button
+	// The link button.
 	qt.LinkButton = function() {
 		var attr = {
-			ariaLabel: quickTagsL10n.link
+			ariaLabel: quicktagsL10n.link
 		};
 
 		qt.TagButton.call( this, 'link', 'link', '', '</a>', '', '', '', attr );
@@ -643,9 +643,9 @@ window.edToolbar = function(){};
 		}
 
 		if ( t.isOpen(ed) === false ) {
-			URL = prompt( quickTagsL10n.enterURL, defaultValue );
+			URL = prompt( quicktagsL10n.enterURL, defaultValue );
 			if ( URL ) {
-				t.Tagstart = '<a href="' + URL + '">';
+				t.tagStart = '<a href="' + URL + '">';
 				qt.TagButton.prototype.callback.call(t, e, c, ed);
 			}
 		} else {
@@ -653,10 +653,10 @@ window.edToolbar = function(){};
 		}
 	};
 
-	// the img button
+	// The img button.
 	qt.ImgButton = function() {
 		var attr = {
-			ariaLabel: quickTagsL10n.image
+			ariaLabel: quicktagsL10n.image
 		};
 
 		qt.TagButton.call( this, 'img', 'img', '', '', '', '', '', attr );
@@ -666,16 +666,16 @@ window.edToolbar = function(){};
 		if ( ! defaultValue ) {
 			defaultValue = 'http://';
 		}
-		var src = prompt(quickTagsL10n.enterImageURL, defaultValue), alt;
+		var src = prompt(quicktagsL10n.enterImageURL, defaultValue), alt;
 		if ( src ) {
-			alt = prompt(quickTagsL10n.enterImageDescription, '');
-			this.Tagstart = '<img src="' + src + '" alt="' + alt + '" />';
+			alt = prompt(quicktagsL10n.enterImageDescription, '');
+			this.tagStart = '<img src="' + src + '" alt="' + alt + '" />';
 			qt.TagButton.prototype.callback.call(this, e, c, ed);
 		}
 	};
 
 	qt.DFWButton = function() {
-		qt.Button.call( this, 'dfw', '', 'f', quickTagsL10n.dfw );
+		qt.Button.call( this, 'dfw', '', 'f', quicktagsL10n.dfw );
 	};
 	qt.DFWButton.prototype = new qt.Button();
 	qt.DFWButton.prototype.callback = function() {
@@ -689,7 +689,7 @@ window.edToolbar = function(){};
 	};
 
 	qt.TextDirectionButton = function() {
-		qt.Button.call( this, 'textdirection', quickTagsL10n.textdirection, '', quickTagsL10n.toggleTextdirection );
+		qt.Button.call( this, 'textdirection', quicktagsL10n.textdirection, '', quicktagsL10n.toggleTextdirection );
 	};
 	qt.TextDirectionButton.prototype = new qt.Button();
 	qt.TextDirectionButton.prototype.callback = function(e, c) {
@@ -704,27 +704,27 @@ window.edToolbar = function(){};
 		c.focus();
 	};
 
-	// ensure backward compatibility
-	edButtons[10]  = new qt.TagButton( 'strong', 'b', '<strong>', '</strong>', '', '', '', { ariaLabel: quickTagsL10n.strong, ariaLabelClose: quickTagsL10n.strongClose } );
-	edButtons[20]  = new qt.TagButton( 'em', 'i', '<em>', '</em>', '', '', '', { ariaLabel: quickTagsL10n.em, ariaLabelClose: quickTagsL10n.emClose } );
-	edButtons[30]  = new qt.LinkButton(); // special case
-	edButtons[40]  = new qt.TagButton( 'block', 'b-quote', '\n\n<blockquote>', '</blockquote>\n\n', '', '', '', { ariaLabel: quickTagsL10n.blockquote, ariaLabelClose: quickTagsL10n.blockquoteClose } );
-	edButtons[50]  = new qt.TagButton( 'del', 'del', '<del datetime="' + _datetime + '">', '</del>', '', '', '', { ariaLabel: quickTagsL10n.del, ariaLabelClose: quickTagsL10n.delClose } );
-	edButtons[60]  = new qt.TagButton( 'ins', 'ins', '<ins datetime="' + _datetime + '">', '</ins>', '', '', '', { ariaLabel: quickTagsL10n.ins, ariaLabelClose: quickTagsL10n.insClose } );
-	edButtons[70]  = new qt.ImgButton(); // special case
-	edButtons[80]  = new qt.TagButton( 'ul', 'ul', '<ul>\n', '</ul>\n\n', '', '', '', { ariaLabel: quickTagsL10n.ul, ariaLabelClose: quickTagsL10n.ulClose } );
-	edButtons[90]  = new qt.TagButton( 'ol', 'ol', '<ol>\n', '</ol>\n\n', '', '', '', { ariaLabel: quickTagsL10n.ol, ariaLabelClose: quickTagsL10n.olClose } );
-	edButtons[100] = new qt.TagButton( 'li', 'li', '\t<li>', '</li>\n', '', '', '', { ariaLabel: quickTagsL10n.li, ariaLabelClose: quickTagsL10n.liClose } );
-	edButtons[110] = new qt.TagButton( 'code', 'code', '<code>', '</code>', '', '', '', { ariaLabel: quickTagsL10n.code, ariaLabelClose: quickTagsL10n.codeClose } );
-	edButtons[120] = new qt.TagButton( 'more', 'more', '<!--more-->\n\n', '', '', '', '', { ariaLabel: quickTagsL10n.more } );
+	// Ensure backward compatibility.
+	edButtons[10]  = new qt.TagButton( 'strong', 'b', '<strong>', '</strong>', '', '', '', { ariaLabel: quicktagsL10n.strong, ariaLabelClose: quicktagsL10n.strongClose } );
+	edButtons[20]  = new qt.TagButton( 'em', 'i', '<em>', '</em>', '', '', '', { ariaLabel: quicktagsL10n.em, ariaLabelClose: quicktagsL10n.emClose } );
+	edButtons[30]  = new qt.LinkButton(); // Special case.
+	edButtons[40]  = new qt.TagButton( 'block', 'b-quote', '\n\n<blockquote>', '</blockquote>\n\n', '', '', '', { ariaLabel: quicktagsL10n.blockquote, ariaLabelClose: quicktagsL10n.blockquoteClose } );
+	edButtons[50]  = new qt.TagButton( 'del', 'del', '<del datetime="' + _datetime + '">', '</del>', '', '', '', { ariaLabel: quicktagsL10n.del, ariaLabelClose: quicktagsL10n.delClose } );
+	edButtons[60]  = new qt.TagButton( 'ins', 'ins', '<ins datetime="' + _datetime + '">', '</ins>', '', '', '', { ariaLabel: quicktagsL10n.ins, ariaLabelClose: quicktagsL10n.insClose } );
+	edButtons[70]  = new qt.ImgButton();  // Special case.
+	edButtons[80]  = new qt.TagButton( 'ul', 'ul', '<ul>\n', '</ul>\n\n', '', '', '', { ariaLabel: quicktagsL10n.ul, ariaLabelClose: quicktagsL10n.ulClose } );
+	edButtons[90]  = new qt.TagButton( 'ol', 'ol', '<ol>\n', '</ol>\n\n', '', '', '', { ariaLabel: quicktagsL10n.ol, ariaLabelClose: quicktagsL10n.olClose } );
+	edButtons[100] = new qt.TagButton( 'li', 'li', '\t<li>', '</li>\n', '', '', '', { ariaLabel: quicktagsL10n.li, ariaLabelClose: quicktagsL10n.liClose } );
+	edButtons[110] = new qt.TagButton( 'code', 'code', '<code>', '</code>', '', '', '', { ariaLabel: quicktagsL10n.code, ariaLabelClose: quicktagsL10n.codeClose } );
+	edButtons[120] = new qt.TagButton( 'more', 'more', '<!--more-->\n\n', '', '', '', '', { ariaLabel: quicktagsL10n.more } );
 	edButtons[140] = new qt.CloseButton();
 
 })();
 
 /**
- * Initialize new instance of the QuickTags editor
+ * Initialize new instance of the Quicktags editor
  */
-window.quickTags = function(settings) {
+window.quicktags = function(settings) {
 	return new window.QTags(settings);
 };
 
@@ -744,6 +744,6 @@ window.edInsertContent = function(bah, txt) {
  * Added for back compatibility, use QTags.addButton() as it gives more flexibility like type of button, button placement, etc.
  * @see QTags.addButton()
  */
-window.edButton = function(id, display, Tagstart, tagEnd, access) {
-	return window.QTags.addButton( id, display, Tagstart, tagEnd, access, '', -1 );
+window.edButton = function(id, display, tagStart, tagEnd, access) {
+	return window.QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );
 };

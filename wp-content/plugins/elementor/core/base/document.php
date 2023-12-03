@@ -95,6 +95,42 @@ abstract class Document extends Controls_Stack {
 	protected $post;
 
 	/**
+	 * @param array $internal_elements
+	 *
+	 * @return array[]
+	 */
+	private function get_container_elements_data( array $internal_elements ): array {
+		return [
+			[
+				'id' => Utils::generate_random_string(),
+				'elType' => 'container',
+				'elements' => $internal_elements,
+			],
+		];
+	}
+
+	/**
+	 * @param array $internal_elements
+	 *
+	 * @return array[]
+	 */
+	private function get_sections_elements_data( array $internal_elements ): array {
+		return [
+			[
+				'id' => Utils::generate_random_string(),
+				'elType' => 'section',
+				'elements' => [
+					[
+						'id' => Utils::generate_random_string(),
+						'elType' => 'column',
+						'elements' => $internal_elements,
+					],
+				],
+			],
+		];
+	}
+
+	/**
 	 * @since 2.1.0
 	 * @access protected
 	 * @static
@@ -1065,26 +1101,18 @@ abstract class Document extends Controls_Stack {
 		}
 
 		// TODO: Better coding to start template for editor
-		return [
+		$converted_blocks = [
 			[
 				'id' => Utils::generate_random_string(),
-				'elType' => 'section',
-				'elements' => [
-					[
-						'id' => Utils::generate_random_string(),
-						'elType' => 'column',
-						'elements' => [
-							[
-								'id' => Utils::generate_random_string(),
-								'elType' => $widget_type::get_type(),
-								'widgetType' => $widget_type->get_name(),
-								'settings' => $settings,
-							],
-						],
-					],
-				],
+				'elType' => $widget_type::get_type(),
+				'widgetType' => $widget_type->get_name(),
+				'settings' => $settings,
 			],
 		];
+
+		return Plugin::$instance->experiments->is_feature_active( 'container' )
+			? $this->get_container_elements_data( $converted_blocks )
+			: $this->get_sections_elements_data( $converted_blocks );
 	}
 
 	/**
@@ -1205,6 +1233,37 @@ abstract class Document extends Controls_Stack {
 		}
 
 		return $config;
+	}
+
+	/**
+	 * Update dynamic settings in the document for import.
+	 *
+	 * @param array $settings The settings of the document.
+	 * @param array $config Import config to update the settings.
+	 *
+	 * @return array
+	 */
+	public function on_import_update_settings( array $settings, array $config ): array {
+		$controls = $this->get_controls();
+		$controls_manager = Plugin::$instance->controls_manager;
+
+		foreach ( $settings as $key => $value ) {
+
+			if ( ! isset( $controls[ $key ] ) ) {
+				continue;
+			}
+
+			$control = $controls[ $key ];
+			$control_instance = $controls_manager->get_control( $control['type'] );
+
+			if ( ! $control_instance ) {
+				continue;
+			}
+
+			$settings[ $key ] = $control_instance->on_import_update_settings( $value, $control, $config );
+		}
+
+		return $settings;
 	}
 
 	/**
@@ -1491,7 +1550,7 @@ abstract class Document extends Controls_Stack {
 
 			$element = Plugin::$instance->elements_manager->create_element_instance( $element_data );
 
-			// If the widget/element isn't exist, like a plugin that creates a widget but deactivated
+			// If the widget/element does not exist, like a plugin that creates a widget but deactivated.
 			if ( ! $element ) {
 				return null;
 			}

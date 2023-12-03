@@ -1,30 +1,40 @@
-<?php if(!empty($back_url)): ?>
-    <div class="tutor-color-black back tutor-mb-24">
-        <a class="tutor-back-btn" href="<?php echo $back_url; ?>">
-            <span class="tutor-icon-previous-line tutor-color-design-dark"></span>
-            <span class="text text tutro-text-regular-caption tutor-color-black"><?php _e('Back', 'tutor'); ?></span>
-        </a>
-    </div>
+<?php
+/**
+ * Student attempt page frontend
+ *
+ * @package Tutor\Views
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 2.0.0
+ */
+
+if ( ! empty( $back_url ) ) : ?>
+	<div class="tutor-mb-24">
+		<a class="tutor-btn tutor-btn-ghost" href="<?php echo esc_url( $back_url ); ?>">
+			<span class="tutor-icon-previous tutor-mr-8" area-hidden="true"></span>
+			<?php esc_html_e( 'Back', 'tutor' ); ?>
+		</a>
+	</div>
 <?php endif; ?>
 
-<div class="text-regular-small tutor-color-black-60">
-    <?php _e('Course', 'tutor'); ?>: <?php echo $course_title; ?>
+<div class="tutor-fs-7 tutor-color-secondary">
+	<?php esc_html_e( 'Course', 'tutor' ); ?>: <?php echo esc_html( $course_title ); ?>
 </div>
 
 <div class="header-title tutor-fs-5 tutor-fw-medium tutor-color-black tutor-mt-12 tutor-mb-20">
-    <?php echo $quiz_title; ?>
+	<?php echo esc_html( $quiz_title ); ?>
 </div>
 
-<div class="tutor-mb-32 tutor-fs-7 tutor-fw-normal tutor-color-black-60">
-    <div class="tutor-d-flex">
-        <div class="tutor-mr-16">
-            <?php _e('Student', 'tutor'); ?>: <span class="tutor-color-black"><strong><?php echo $student_name; ?></strong></span>
-        </div>
-        <div class="tutor-mr-16">
-            <?php _e('Quiz Time', 'tutor'); ?>: <span class="tutor-color-black"><strong><?php echo $quiz_time; ?></strong></span>
-        </div>
-        <div>
-            <?php _e('Attempt Time', 'tutor'); ?>: <span class="tutor-color-black"><strong><?php echo $attempt_time; ?></strong></span>
-        </div>
-    </div>
+<div class="tutor-mb-32 tutor-fs-7 tutor-color-secondary">
+	<div class="tutor-d-flex">
+		<div class="tutor-mr-16">
+			<?php esc_html_e( 'Student', 'tutor' ); ?>: <span class="tutor-color-black"><strong><?php echo esc_html( $student_name ); ?></strong></span>
+		</div>
+		<div class="tutor-mr-16">
+			<?php esc_html_e( 'Quiz Time', 'tutor' ); ?>: <span class="tutor-color-black"><strong><?php echo esc_html( $quiz_time ); ?></strong></span>
+		</div>
+		<div>
+			<?php esc_html_e( 'Attempt Time', 'tutor' ); ?>: <span class="tutor-color-black"><strong><?php echo esc_html( $attempt_time ); ?></strong></span>
+		</div>
+	</div>
 </div>

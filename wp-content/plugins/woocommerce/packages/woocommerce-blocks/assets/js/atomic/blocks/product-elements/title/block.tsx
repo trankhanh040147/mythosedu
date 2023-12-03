@@ -2,7 +2,6 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import { HTMLAttributes } from 'react';
 import {
 	useInnerBlockLayoutContext,
 	useProductDataContext,
@@ -11,17 +10,14 @@ import { isFeaturePluginBuild } from '@woocommerce/block-settings';
 import { withProductDataContext } from '@woocommerce/shared-hocs';
 import ProductName from '@woocommerce/base-components/product-name';
 import { useStoreEvents } from '@woocommerce/base-context/hooks';
+import { useStyleProps } from '@woocommerce/base-hooks';
+import type { HTMLAttributes } from 'react';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
 import { Attributes } from './types';
-import {
-	useSpacingProps,
-	useTypographyProps,
-	useColorProps,
-} from '../../../../hooks/style-attributes';
 
 type Props = Attributes & HTMLAttributes< HTMLDivElement >;
 
@@ -33,7 +29,8 @@ interface TagNameProps extends HTMLAttributes< HTMLOrSVGElement > {
 const TagName = ( {
 	children,
 	headingLevel,
-	elementType: ElementType = `h${ headingLevel }` as keyof JSX.IntrinsicElements,
+	elementType:
+		ElementType = `h${ headingLevel }` as keyof JSX.IntrinsicElements,
 	...props
 }: TagNameProps ): JSX.Element => {
 	return <ElementType { ...props }>{ children }</ElementType>;
@@ -59,14 +56,10 @@ export const Block = ( props: Props ): JSX.Element => {
 		linkTarget,
 		align,
 	} = props;
-
+	const styleProps = useStyleProps( props );
 	const { parentClassName } = useInnerBlockLayoutContext();
 	const { product } = useProductDataContext();
 	const { dispatchStoreEvent } = useStoreEvents();
-
-	const colorProps = useColorProps( props );
-	const spacingProps = useSpacingProps( props );
-	const typographyProps = useTypographyProps( props );
 
 	if ( ! product.id ) {
 		return (
@@ -74,23 +67,16 @@ export const Block = ( props: Props ): JSX.Element => {
 				headingLevel={ headingLevel }
 				className={ classnames(
 					className,
-					colorProps.className,
+					styleProps.className,
 					'wc-block-components-product-title',
 					{
-						[ `${ parentClassName }__product-title` ]: parentClassName,
+						[ `${ parentClassName }__product-title` ]:
+							parentClassName,
 						[ `wc-block-components-product-title--align-${ align }` ]:
 							align && isFeaturePluginBuild(),
 					}
 				) }
-				style={
-					isFeaturePluginBuild()
-						? {
-								...spacingProps.style,
-								...typographyProps.style,
-								...colorProps.style,
-						  }
-						: {}
-				}
+				style={ isFeaturePluginBuild() ? styleProps.style : {} }
 			/>
 		);
 	}
@@ -100,7 +86,7 @@ export const Block = ( props: Props ): JSX.Element => {
 			headingLevel={ headingLevel }
 			className={ classnames(
 				className,
-				colorProps.className,
+				styleProps.className,
 				'wc-block-components-product-title',
 				{
 					[ `${ parentClassName }__product-title` ]: parentClassName,
@@ -108,15 +94,7 @@ export const Block = ( props: Props ): JSX.Element => {
 						align && isFeaturePluginBuild(),
 				}
 			) }
-			style={
-				isFeaturePluginBuild()
-					? {
-							...spacingProps.style,
-							...typographyProps.style,
-							...colorProps.style,
-					  }
-					: {}
-			}
+			style={ isFeaturePluginBuild() ? styleProps.style : {} }
 		>
 			<ProductName
 				disabled={ ! showProductLink }

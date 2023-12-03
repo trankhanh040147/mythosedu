@@ -15,8 +15,13 @@ const selector = `
 `;
 
 const getProps = ( el ) => {
+	const showOrderby = el.dataset.showOrderby === 'true';
+	const showLoadMore = el.dataset.showLoadMore === 'true';
+
 	return {
 		attributes: {
+			showOrderby,
+			showLoadMore,
 			showReviewDate: el.classList.contains( 'has-date' ),
 			showReviewerName: el.classList.contains( 'has-name' ),
 			showReviewImage: el.classList.contains( 'has-image' ),
@@ -27,4 +32,6 @@ const getProps = ( el ) => {
 	};
 };
 
+// @ts-ignore
+// Current typing does not work with non-functional components
 renderFrontend( { selector, Block: FrontendContainerBlock, getProps } );

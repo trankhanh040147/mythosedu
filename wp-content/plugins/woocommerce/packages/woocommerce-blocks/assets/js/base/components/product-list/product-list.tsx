@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { isEqual } from 'lodash';
+import fastDeepEqual from 'fast-deep-equal/es6';
 import classnames from 'classnames';
 import Pagination from '@woocommerce/base-components/pagination';
 import { useEffect } from '@wordpress/element';
@@ -113,7 +113,9 @@ const announceLoadingCompletion = ( totalProducts: number ): void => {
 const areQueryTotalsDifferent: AreQueryTotalsDifferent = (
 	{ totalQuery: nextQuery, totalProducts: nextProducts },
 	{ totalQuery: currentQuery } = {}
-) => ! isEqual( nextQuery, currentQuery ) && Number.isFinite( nextProducts );
+) =>
+	! fastDeepEqual( nextQuery, currentQuery ) &&
+	Number.isFinite( nextProducts );
 
 const ProductList = ( {
 	attributes,
@@ -132,6 +134,11 @@ const ProductList = ( {
 		'stock_status',
 		[]
 	);
+	const [ productRating, setProductRating ] = useQueryStateByKey(
+		'rating',
+		[]
+	);
+
 	const [ minPrice, setMinPrice ] = useQueryStateByKey( 'min_price' );
 	const [ maxPrice, setMaxPrice ] = useQueryStateByKey( 'max_price' );
 
@@ -142,9 +149,8 @@ const ProductList = ( {
 			currentPage,
 		} )
 	);
-	const { products, totalProducts, productsLoading } = useStoreProducts(
-		queryState
-	);
+	const { products, totalProducts, productsLoading } =
+		useStoreProducts( queryState );
 	const { parentClassName, parentName } = useInnerBlockLayoutContext();
 	const totalQuery = extractPaginationAndSortAttributes( queryState );
 	const { dispatchStoreEvent } = useStoreEvents();
@@ -165,7 +171,7 @@ const ProductList = ( {
 
 	// If query state (excluding pagination/sorting attributes) changed, reset pagination to the first page.
 	useEffect( () => {
-		if ( isEqual( totalQuery, previousQueryTotals?.totalQuery ) ) {
+		if ( fastDeepEqual( totalQuery, previousQueryTotals?.totalQuery ) ) {
 			return;
 		}
 		onPageChange( 1 );
@@ -206,7 +212,7 @@ const ProductList = ( {
 	const totalPages =
 		! Number.isFinite( totalProducts ) &&
 		Number.isFinite( previousQueryTotals?.totalProducts ) &&
-		isEqual( totalQuery, previousQueryTotals?.totalQuery )
+		fastDeepEqual( totalQuery, previousQueryTotals?.totalQuery )
 			? Math.ceil( ( previousQueryTotals?.totalProducts || 0 ) / perPage )
 			: Math.ceil( totalProducts / perPage );
 	const listProducts = products.length
@@ -216,6 +222,7 @@ const ProductList = ( {
 	const hasFilters =
 		productAttributes.length > 0 ||
 		productStockStatus.length > 0 ||
+		productRating.length > 0 ||
 		Number.isFinite( minPrice ) ||
 		Number.isFinite( maxPrice );
 
@@ -232,6 +239,7 @@ const ProductList = ( {
 					resetCallback={ () => {
 						setProductAttributes( [] );
 						setProductStockStatus( [] );
+						setProductRating( [] );
 						setMinPrice( null );
 						setMaxPrice( null );
 					} }
@@ -239,7 +247,11 @@ const ProductList = ( {
 			) }
 			{ ! hasProducts && ! hasFilters && <NoProducts /> }
 			{ hasProducts && (
-				<ul className={ `${ parentClassName }__products` }>
+				<ul
+					className={ classnames( `${ parentClassName }__products`, {
+						'is-loading-products': productsLoading,
+					} ) }
+				>
 					{ listProducts.map( ( product = {}, i: number ) => (
 						<ProductListItem
 							key={ product.id || i }

@@ -2,7 +2,7 @@
 namespace Automattic\WooCommerce\Blocks\Assets;
 
 use Automattic\WooCommerce\Blocks\Package;
-
+use Automattic\WooCommerce\Blocks\Domain\Services\Hydration;
 use Exception;
 use InvalidArgumentException;
 
@@ -22,6 +22,13 @@ class AssetDataRegistry {
 	 * @var array
 	 */
 	private $data = [];
+
+	/**
+	 * Contains preloaded API data.
+	 *
+	 * @var array
+	 */
+	private $preloaded_api_requests = [];
 
 	/**
 	 * Lazy data is an array of closures that will be invoked just before
@@ -60,8 +67,7 @@ class AssetDataRegistry {
 	 */
 	protected function init() {
 		add_action( 'init', array( $this, 'register_data_script' ) );
-		add_action( 'wp_print_footer_scripts', array( $this, 'enqueue_asset_data' ), 1 );
-		add_action( 'admin_print_footer_scripts', array( $this, 'enqueue_asset_data' ), 1 );
+		add_action( is_admin() ? 'admin_print_footer_scripts' : 'wp_print_footer_scripts', array( $this, 'enqueue_asset_data' ), 1 );
 	}
 
 	/**
@@ -77,11 +83,14 @@ class AssetDataRegistry {
 			'adminUrl'           => admin_url(),
 			'countries'          => WC()->countries->get_countries(),
 			'currency'           => $this->get_currency_data(),
+			'currentUserId'      => get_current_user_id(),
 			'currentUserIsAdmin' => current_user_can( 'manage_woocommerce' ),
 			'homeUrl'            => esc_url( home_url( '/' ) ),
 			'locale'             => $this->get_locale_data(),
+			'dashboardUrl'       => wc_get_account_endpoint_url( 'dashboard' ),
 			'orderStatuses'      => $this->get_order_statuses(),
 			'placeholderImgSrc'  => wc_placeholder_img_src(),
+			'productsSettings'   => $this->get_products_settings(),
 			'siteTitle'          => get_bloginfo( 'name' ),
 			'storePages'         => $this->get_store_pages(),
 			'wcAssetUrl'         => plugins_url( 'assets/', WC_PLUGIN_FILE ),
@@ -131,17 +140,36 @@ class AssetDataRegistry {
 	 * @return array
 	 */
 	protected function get_store_pages() {
+		$store_pages = [
+			'myaccount' => wc_get_page_id( 'myaccount' ),
+			'shop'      => wc_get_page_id( 'shop' ),
+			'cart'      => wc_get_page_id( 'cart' ),
+			'checkout'  => wc_get_page_id( 'checkout' ),
+			'privacy'   => wc_privacy_policy_page_id(),
+			'terms'     => wc_terms_and_conditions_page_id(),
+		];
+
+		if ( is_callable( '_prime_post_caches' ) ) {
+			_prime_post_caches( array_values( $store_pages ), false, false );
+		}
+
 		return array_map(
 			[ $this, 'format_page_resource' ],
-			[
-				'myaccount' => wc_get_page_id( 'myaccount' ),
-				'shop'      => wc_get_page_id( 'shop' ),
-				'cart'      => wc_get_page_id( 'cart' ),
-				'checkout'  => wc_get_page_id( 'checkout' ),
-				'privacy'   => wc_privacy_policy_page_id(),
-				'terms'     => wc_terms_and_conditions_page_id(),
-			]
+			$store_pages
 		);
+	}
+
+	/**
+	 * Get product related settings.
+	 *
+	 * Note: For the time being we are exposing only the settings that are used by blocks.
+	 *
+	 * @return array
+	 */
+	protected function get_products_settings() {
+		return [
+			'cartRedirectAfterAdd' => get_option( 'woocommerce_cart_redirect_after_add' ) === 'yes',
+		];
 	}
 
 	/**
@@ -191,11 +219,20 @@ class AssetDataRegistry {
 	 */
 	protected function initialize_core_data() {
 		/**
+		 * Filters the array of shared settings.
+		 *
 		 * Low level hook for registration of new data late in the cycle. This is deprecated.
 		 * Instead, use the data api:
-		 * Automattic\WooCommerce\Blocks\Package::container()
-		 *     ->get( Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry::class )
-		 *     ->add( $key, $value )
+		 *
+		 * ```php
+		 * Automattic\WooCommerce\Blocks\Package::container()->get( Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry::class )->add( $key, $value )
+		 * ```
+		 *
+		 * @since 5.0.0
+		 *
+		 * @deprecated
+		 * @param array $data Settings data.
+		 * @return array
 		 */
 		$settings = apply_filters( 'woocommerce_shared_settings', $this->data );
 
@@ -256,9 +293,9 @@ class AssetDataRegistry {
 	 * You can only register data that is not already in the registry identified by the given key. If there is a
 	 * duplicate found, unless $ignore_duplicates is true, an exception will be thrown.
 	 *
-	 * @param string  $key               The key used to reference the data being registered.
-	 * @param mixed   $data              If not a function, registered to the registry as is. If a function, then the
-	 *                                   callback is invoked right before output to the screen.
+	 * @param string  $key              The key used to reference the data being registered. This should use camelCase.
+	 * @param mixed   $data             If not a function, registered to the registry as is. If a function, then the
+	 *                                  callback is invoked right before output to the screen.
 	 * @param boolean $check_key_exists If set to true, duplicate data will be ignored if the key exists.
 	 *                                  If false, duplicate data will cause an exception.
 	 *
@@ -280,17 +317,38 @@ class AssetDataRegistry {
 	}
 
 	/**
-	 * Hydrate from API.
+	 * Hydrate from the API.
 	 *
 	 * @param string $path REST API path to preload.
 	 */
 	public function hydrate_api_request( $path ) {
-		if ( ! isset( $this->data['preloadedApiRequests'] ) ) {
-			$this->data['preloadedApiRequests'] = [];
+		if ( ! isset( $this->preloaded_api_requests[ $path ] ) ) {
+			$this->preloaded_api_requests[ $path ] = Package::container()->get( Hydration::class )->get_rest_api_response_data( $path );
 		}
-		if ( ! isset( $this->data['preloadedApiRequests'][ $path ] ) ) {
-			$this->data['preloadedApiRequests'] = rest_preload_api_request( $this->data['preloadedApiRequests'], $path );
-		}
+	}
+
+	/**
+	 * Hydrate some data from the API.
+	 *
+	 * @param string  $key  The key used to reference the data being registered.
+	 * @param string  $path REST API path to preload.
+	 * @param boolean $check_key_exists If set to true, duplicate data will be ignored if the key exists.
+	 *                                  If false, duplicate data will cause an exception.
+	 *
+	 * @throws InvalidArgumentException  Only throws when site is in debug mode. Always logs the error.
+	 */
+	public function hydrate_data_from_api_request( $key, $path, $check_key_exists = false ) {
+		$this->add(
+			$key,
+			function() use ( $path ) {
+				if ( isset( $this->preloaded_api_requests[ $path ], $this->preloaded_api_requests[ $path ]['body'] ) ) {
+					return $this->preloaded_api_requests[ $path ]['body'];
+				}
+				$response = Package::container()->get( Hydration::class )->get_rest_api_response_data( $path );
+				return $response['body'] ?? '';
+			},
+			$check_key_exists
+		);
 	}
 
 	/**
@@ -315,7 +373,7 @@ class AssetDataRegistry {
 		$this->api->register_script(
 			$this->handle,
 			'build/wc-settings.js',
-			[],
+			[ 'wp-api-fetch' ],
 			true
 		);
 	}
@@ -332,12 +390,19 @@ class AssetDataRegistry {
 		if ( wp_script_is( $this->handle, 'enqueued' ) ) {
 			$this->initialize_core_data();
 			$this->execute_lazy_data();
-			$data = rawurlencode( wp_json_encode( $this->data ) );
+
+			$data                          = rawurlencode( wp_json_encode( $this->data ) );
+			$wc_settings_script            = "var wcSettings = wcSettings || JSON.parse( decodeURIComponent( '" . esc_js( $data ) . "' ) );";
+			$preloaded_api_requests_script = '';
+
+			if ( count( $this->preloaded_api_requests ) > 0 ) {
+				$preloaded_api_requests        = rawurlencode( wp_json_encode( $this->preloaded_api_requests ) );
+				$preloaded_api_requests_script = "wp.apiFetch.use( wp.apiFetch.createPreloadingMiddleware( JSON.parse( decodeURIComponent( '" . esc_js( $preloaded_api_requests ) . "' ) ) ) );";
+			}
+
 			wp_add_inline_script(
 				$this->handle,
-				"var wcSettings = wcSettings || JSON.parse( decodeURIComponent( '"
-					. esc_js( $data )
-					. "' ) );",
+				$wc_settings_script . $preloaded_api_requests_script,
 				'before'
 			);
 		}

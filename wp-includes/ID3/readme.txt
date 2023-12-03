@@ -68,7 +68,7 @@ What does getID3() do?
 ===========================================================================
 
 Reads & parses (to varying degrees):
- ¤ Tags:
+ ¤ tags:
   * APE (v1 and v2)
   * ID3v1 (& ID3v1.1)
   * ID3v2 (v2.4, v2.3, v2.2)
@@ -205,7 +205,7 @@ respectively. This permits you to download only a portion of a large remote
 file but get accurate playtime estimates, assuming the format only requires
 the beginning of the file for correct format analysis.
 
-See /demos/demo.write.php for how to write Tags.
+See /demos/demo.write.php for how to write tags.
 
 
 
@@ -236,7 +236,7 @@ correctly parsed and returned data may or may not be correct and/or
 complete. If something is returned in ['warning'] (and not ['error'])
 then the data that is returned is OK - usually getID3() is reporting
 errors in the file that have been worked around due to known bugs in
-other Tags. Some warnings may indicate that the data that is
+other programs. Some warnings may indicate that the data that is
 returned is OK but that some data could not be extracted due to
 errors in the file.
 
@@ -320,7 +320,7 @@ https://www.getid3.org/phpBB3/viewforum.php?f=7
 * Support for RIFF-INFO chunks
   * http://lotto.st-andrews.ac.uk/~njh/tag_interchange.html
     (thanks Nick Humfrey <njhØsurgeradio*co*uk>)
-  * http://abcavi.narod.ru/sof/abcavi/infoTags.htm
+  * http://abcavi.narod.ru/sof/abcavi/infotags.htm
     (thanks Kibi)
 * Better support for Bink video
 * http://www.hr/josip/DSP/AudioFile2.html
@@ -422,9 +422,9 @@ https://www.getid3.org/phpBB3/viewtopic.php?t=25
   * ZIP  (format doesn't support files >2GB)
   * FLAC (current encoders don't support files >2GB)
   Known will-not-work:
-  * ID3v1 Tags (always located at end-of-file)
-  * Lyrics3 Tags (always located at end-of-file)
-  * APE Tags (always located at end-of-file)
+  * ID3v1 tags (always located at end-of-file)
+  * Lyrics3 tags (always located at end-of-file)
+  * APE tags (always located at end-of-file)
   Maybe-will-work:
   * Quicktime (will work if needed metadata is before 2GB offset,
     that is if the file has been hinted/optimized for streaming)
@@ -437,7 +437,7 @@ https://www.getid3.org/phpBB3/viewtopic.php?t=25
 * PHP <= v5 on Windows cannot read UTF-8 filenames
 
 
-Known Bugs/Issues in other Tags
+Known Bugs/Issues in other programs
 -----------------------------------
 https://www.getid3.org/phpBB3/viewtopic.php?t=25
 
@@ -449,10 +449,10 @@ https://www.getid3.org/phpBB3/viewtopic.php?t=25
 * PZ TagEditor v4.53.408 has been known to insert ID3v2.3 frames
   into an existing ID3v2.2 tag which, of course, breaks things
 * Windows Media Player (up to v11) and iTunes (up to v10+) do
-    not correctly handle ID3v2.3 Tags with UTF-16BE+BOM
+    not correctly handle ID3v2.3 tags with UTF-16BE+BOM
     encoding (they assume the data is UTF-16LE+BOM and either
     crash (WMP) or output Asian character set (iTunes)
-* Winamp (up to v2.80 at least) does not support ID3v2.4 Tags,
+* Winamp (up to v2.80 at least) does not support ID3v2.4 tags,
     only ID3v2.3
     see: http://forums.winamp.com/showthread.php?postid=387524
 * Some versions of Helium2 (www.helium2.com) do not write
@@ -468,12 +468,12 @@ https://www.getid3.org/phpBB3/viewtopic.php?t=25
 * Oggenc 0.9-rc3 flags the encoded file as ABR whether it's
     actually ABR or VBR.
 * iTunes (versions "v7.0.0.70" is known-guilty, probably
-    other versions are too) writes ID3v2.3 comment Tags using an
+    other versions are too) writes ID3v2.3 comment tags using an
     ID3v2.2 frame name (3-bytes) null-padded to 4 bytes which is
     not valid for ID3v2.3+
     (detected by getID3() since 1.9.12-201603221746)
 * iTunes (versions "X v2.0.3", "v3.0.1" are known-guilty, probably
-    other versions are too) writes ID3v2.3 comment Tags using a
+    other versions are too) writes ID3v2.3 comment tags using a
     frame name 'COM ' which is not valid for ID3v2.3+ (it's an
     ID3v2.2-style frame name)  (detected by getID3())
 * MP2enc does not encode mono CBR MP2 files properly (half speed
@@ -509,9 +509,9 @@ https://www.getid3.org/phpBB3/viewtopic.php?t=25
   v0.4.0 - getID3() will calculate md5_data in a method similar to
   other file formats, but that value cannot be compared to the
   md5_data value from FLAC v0.5.0+
-* RioPort (various versions including 2.0 and 3.11) Tags ID3v2 with
+* RioPort (various versions including 2.0 and 3.11) tags ID3v2 with
   a WCOM frame that has no data portion
-* Earlier versions of Coolplayer adds illegal ID3 Tags to Ogg Vorbis
+* Earlier versions of Coolplayer adds illegal ID3 tags to Ogg Vorbis
   files, thus making them corrupt.
 * Meracl ID3 Tag Writer v1.3.4 (and older) incorrectly truncates the
   last byte of data from an MP3 file when appending a new ID3v1 tag.
@@ -609,7 +609,7 @@ Reference material:
 * http://www.atsc.org/standards/a_52a.pdf
 * http://www.alanwood.net/unicode/
 * http://www.freelists.org/archives/matroska-devel/07-2003/msg00010.html
-* http://www.its.msstate.edu/net/real/reports/config/Tags.stats
+* http://www.its.msstate.edu/net/real/reports/config/tags.stats
 * http://homepages.slingshot.co.nz/~helmboy/quicktime/formats/qtm-layout.txt
 * http://brennan.young.net/Comp/LiveStage/things.html
 * http://www.multiweb.cz/twoinches/MP3inside.htm
@@ -625,3 +625,4 @@ Reference material:
 * http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Nikon.html
 * http://www.codeproject.com/Articles/8295/MPEG-Audio-Frame-Header
 * http://dsd-guide.com/sites/default/files/white-papers/DSFFileFormatSpec_E.pdf
+* https://fileformats.fandom.com/wiki/Torrent_file

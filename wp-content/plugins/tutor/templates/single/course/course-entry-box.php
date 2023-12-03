@@ -1,93 +1,105 @@
 <?php
-	// Utillity data
-	$is_enrolled           = apply_filters( 'tutor_alter_enroll_status', tutor_utils()->is_enrolled() );
-	$lesson_url            = tutor_utils()->get_course_first_lesson();
-	$is_administrator      = tutor_utils()->has_user_role( 'administrator' );
-	$is_instructor         = tutor_utils()->is_instructor_of_this_course();
-	$course_content_access = (bool) get_tutor_option( 'course_content_access_for_ia' );
-	$is_privileged_user    = $course_content_access && ( $is_administrator || $is_instructor );
-	$tutor_course_sell_by  = apply_filters( 'tutor_course_sell_by', null );
-	$is_public             = get_post_meta( get_the_ID(), '_tutor_is_public_course', true ) == 'yes';
+/**
+ * Template for course entry box
+ *
+ * @package Tutor\Templates
+ * @subpackage Single\Course
+ * @author Themeum <support@themeum.com>
+ * @link https://themeum.com
+ * @since 1.0.0
+ */
 
-	// Monetization info
-	$monetize_by              = tutor_utils()->get_option( 'monetize_by' );
-	$enable_guest_course_cart = tutor_utils()->get_option( 'enable_guest_course_cart' );
-	$is_purchasable           = tutor_utils()->is_course_purchasable();
+use Tutor\Models\CourseModel;
 
-	// Get login url if
-	$is_tutor_login_disabled = ! tutor_utils()->get_option( 'enable_tutor_native_login', null, true, true );
-	$auth_url                = $is_tutor_login_disabled ? ( isset( $_SERVER['REQUEST_SCHEME'] ) ? wp_login_url( $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : '' ) : '';
+// Utility data.
+global $is_enrolled;
 
+$is_enrolled          = apply_filters( 'tutor_alter_enroll_status', $is_enrolled );
+$lesson_url           = tutor_utils()->get_course_first_lesson();
+$is_privileged_user   = tutor_utils()->has_user_course_content_access();
+$tutor_course_sell_by = apply_filters( 'tutor_course_sell_by', null );
+$is_public            = get_post_meta( get_the_ID(), '_tutor_is_public_course', true ) == 'yes';
 
-	$default_meta = array(
+// Monetization info.
+$monetize_by    = tutor_utils()->get_option( 'monetize_by' );
+$is_purchasable = tutor_utils()->is_course_purchasable();
+
+// Get login url if.
+$is_tutor_login_disabled = ! tutor_utils()->get_option( 'enable_tutor_native_login', null, true, true );
+$auth_url                = $is_tutor_login_disabled ? ( isset( $_SERVER['REQUEST_SCHEME'] ) ? wp_login_url( tutor_utils()->get_current_url() ) : '' ) : '';
+$default_meta            = array(
+	array(
+		'icon_class' => 'tutor-icon-mortarboard',
+		'label'      => __( 'Total Enrolled', 'tutor' ),
+		'value'      => tutor_utils()->get_option( 'enable_course_total_enrolled' ) ? tutor_utils()->count_enrolled_users_by_course() . ' ' . __( 'Total Enrolled', 'tutor' ) : null,
+	),
+	array(
+		'icon_class' => 'tutor-icon-clock-line',
+		'label'      => __( 'Duration', 'tutor' ),
+		'value'      => get_tutor_option( 'enable_course_duration' ) ? ( get_tutor_course_duration_context() ? get_tutor_course_duration_context() . ' ' . __( 'Duration', 'tutor' ) : false ) : null,
+	),
+	array(
+		'icon_class' => 'tutor-icon-refresh-o',
+		'label'      => __( 'Last Updated', 'tutor' ),
+		'value'      => get_tutor_option( 'enable_course_update_date' ) ? get_the_modified_date( get_option( 'date_format' ) ) . ' ' . __( 'Last Updated', 'tutor' ) : null,
+	),
+);
+
+// Add level if enabled.
+if ( tutor_utils()->get_option( 'enable_course_level', true, true ) ) {
+	array_unshift(
+		$default_meta,
 		array(
-			'icon_class' => 'tutor-icon-student-line-1',
-			'label'      => __( 'Total Enrolled', 'tutor' ),
-			'value'      => tutor_utils()->get_option( 'enable_course_total_enrolled' ) ? tutor_utils()->count_enrolled_users_by_course() : null,
-		),
-		array(
-			'icon_class' => 'tutor-icon-clock-filled',
-			'label'      => __( 'Duration', 'tutor' ),
-			'value'      => get_tutor_option( 'enable_course_duration' ) ? get_tutor_course_duration_context() : null,
-		),
-		array(
-			'icon_class' => 'tutor-icon-refresh-l',
-			'label'      => __( 'Last Updated', 'tutor' ),
-			'value'      => get_tutor_option( 'enable_course_update_date' ) ? tutor_get_formated_date( get_option( 'date_format' ), get_the_modified_date() ) : null,
-		),
-	);
-
-	// Add level if enabled
-	if(tutor_utils()->get_option('enable_course_level', true, true)) {
-		array_unshift($default_meta, array(
-			'icon_class' => 'tutor-icon-level-line',
+			'icon_class' => 'tutor-icon-level',
 			'label'      => __( 'Level', 'tutor' ),
 			'value'      => get_tutor_course_level( get_the_ID() ),
-		));
-	}
+		)
+	);
+}
 
-	// Right sidebar meta data
-	$sidebar_meta = apply_filters('tutor/course/single/sidebar/metadata', $default_meta, get_the_ID() );
+// Right sidebar meta data.
+$sidebar_meta = apply_filters( 'tutor/course/single/sidebar/metadata', $default_meta, get_the_ID() );
+$login_url    = tutor_utils()->get_option( 'enable_tutor_native_login', null, true, true ) ? '' : wp_login_url( tutor()->current_url );
 
-	$login_class = (!is_user_logged_in() && !$is_public) ? 'tutor-course-entry-box-login' : '';
-	$login_url   = tutor_utils()->get_option( 'enable_tutor_native_login', null, true, true ) ? '' : wp_login_url( tutor()->current_url );
 ?>
 
-<div class="tutor-course-sidebar-card">
-	<!-- Course Entry -->
-	<div class="tutor-course-sidebar-card-body tutor-p-32 <?php echo $login_class; ?>" data-login_url="<?php echo $login_url; ?>">
+<div class="tutor-card tutor-card-md tutor-sidebar-card">
+	<?php
+	$tutor_load_sidebar_actions = apply_filters( 'tutor_load_single_sidebar_actions', true, get_the_ID() );
+	if ( $tutor_load_sidebar_actions ) :
+		?>
+	<div class="tutor-card-body">
 		<?php
-		if ( $is_enrolled ) {
+		if ( $is_enrolled || $is_privileged_user ) {
 			ob_start();
 
-			// Course Info
-			$completed_lessons   = tutor_utils()->get_completed_lesson_count_by_course();
-			$completed_percent   = tutor_utils()->get_course_completed_percent();
-			$is_completed_course = tutor_utils()->is_completed_course();
-			$completed_anyway 	 = $is_completed_course || $completed_percent >= 100;
-			$retake_course       = is_single_course() && tutor_utils()->get_option( 'course_retake_feature', false ) && $completed_anyway;
+			// Course Info.
+			$user_id             = get_current_user_id();
 			$course_id           = get_the_ID();
+			$completion_mode     = tutor_utils()->get_option( 'course_completion_process' );
+			$is_completed_course = tutor_utils()->is_completed_course();
+			$retake_course       = tutor_utils()->can_user_retake_course();
 			$course_progress     = tutor_utils()->get_course_completed_percent( $course_id, 0, true );
+			$completed_percent   = $course_progress['completed_percent'];
 			?>
 			<!-- course progress -->
-			<?php if ( tutor_utils()->get_option('enable_course_progress_bar', true, true) && is_array( $course_progress ) && count( $course_progress ) ) : ?>
-				<div class="tutor-course-progress-wrapper tutor-mb-32" style="width: 100%;">
-					<span class="tutor-color-black tutor-fs-6 tutor-fw-medium">
+			<?php if ( tutor_utils()->get_option( 'enable_course_progress_bar', true, true ) && is_array( $course_progress ) && count( $course_progress ) ) : ?>
+				<div class="tutor-course-progress-wrapper tutor-mb-32">
+					<h3 class="tutor-color-black tutor-fs-5 tutor-fw-bold tutor-mb-16">
 						<?php esc_html_e( 'Course Progress', 'tutor' ); ?>
-					</span>
-					<div class="list-item-progress tutor-mt-16">
-						<div class="text-regular-body tutor-color-black-60 tutor-d-flex tutor-align-items-center tutor-justify-content-between">
+					</h3>
+					<div class="list-item-progress">
+						<div class="tutor-fs-6 tutor-color-secondary tutor-d-flex tutor-align-center tutor-justify-between">
 							<span class="progress-steps">
-								<?php echo esc_html( $course_progress['completed_count'] ); ?>/
-								<?php echo esc_html( $course_progress['total_count'] ); ?>
+								<?php echo esc_html( $course_progress['completed_count'] . '/' . $course_progress['total_count'] ); ?>
 							</span>
 							<span class="progress-percentage">
-								<?php echo esc_html( $course_progress['completed_percent'] . '%' ); ?>
+								<?php echo esc_html( $completed_percent . '%' ); ?>
 								<?php esc_html_e( 'Complete', 'tutor' ); ?>
 							</span>
 						</div>
-						<div class="progress-bar tutor-mt-12" style="--progress-value:<?php echo esc_attr( $course_progress['completed_percent'] ); ?>%;">
-							<span class="progress-value"></span>
+						<div class="tutor-progress-bar tutor-mt-12" style="--tutor-progress-value:<?php echo esc_attr( $completed_percent ); ?>%;">
+							<span class="tutor-progress-value" area-hidden="true"></span>
 						</div>
 					</div>
 				</div>
@@ -95,87 +107,126 @@
 			<?php
 			$start_content = '';
 
-			// The user is enrolled anyway. No matter manual, free, purchased, woocommerce, edd, membership
+			// The user is enrolled anyway. No matter manual, free, purchased, woocommerce, edd, membership.
 			do_action( 'tutor_course/single/actions_btn_group/before' );
 
-			// Show Start/Continue/Retake Button
+			// Show Start/Continue/Retake Button.
 			if ( $lesson_url ) {
-				$button_class = 'tutor-is-fullwidth tutor-btn ' .
-								( $retake_course ? 'tutor-btn-tertiary tutor-is-outline tutor-btn-lg tutor-btn-full' : '' ) .
-								' tutor-is-fullwidth tutor-pr-0 tutor-pl-0 ' .
-								( $retake_course ? ' tutor-course-retake-button' : '' );
-
-				// Button identifier class
-				$button_identifier = 'start-continue-retake-button';
-				$tag               = $retake_course ? 'button' : 'a';
 				ob_start();
-				?>
-					<<?php echo $tag; ?> <?php echo $retake_course ? 'disabled="disabled"' : ''; ?> href="<?php echo esc_url( $lesson_url ); ?>" class="<?php echo esc_attr( $button_class . ' ' . $button_identifier ); ?>" data-course_id="<?php echo esc_attr( get_the_ID() ); ?>">
-					<?php
-					if ( $retake_course ) {
-						esc_html_e( 'Retake This Course', 'tutor' );
-					} elseif ( $completed_percent <= 0 ) {
-						// llh
-						//esc_html_e( 'Start Learning', 'tutor' );
-					} else {
-						esc_html_e( 'Continue Learning', 'tutor' );
-					}
+				/**
+				 * Course retake button.
+				 *
+				 * Todo: `href` attribute is exist for backward compatibility.
+				 *       we need to make it `data-link` attribute and update the js code at course-landing.js
+				 *
+				 * @since 1.0.0
+				 * @since 2.4.0 refactored and hide it when strict mode enabled and course not completed.
+				 */
+				if ( $retake_course && ( CourseModel::MODE_FLEXIBLE === $completion_mode || $is_completed_course ) ) {
 					?>
-					</<?php echo $tag; ?>>
+					<button type="button" 
+							class="tutor-btn tutor-btn-block tutor-btn-outline-primary start-continue-retake-button tutor-course-retake-button" 
+							href="<?php echo esc_url( $lesson_url ); ?>"
+							data-course_id="<?php echo esc_attr( get_the_ID() ); ?>">
+						<?php esc_html_e( 'Retake This Course', 'tutor' ); ?>
+					</button>
 					<?php
-					$start_content = ob_get_clean();
-			}
-			echo apply_filters( 'tutor_course/single/start/button', $start_content, get_the_ID() );
+				}
 
-			
+				/**
+				 * Start/Continue learning button
+				 *
+				 * @since 1.0.0
+				 * @since 2.4.0 refactored for enhance readibility.
+				 */
+				$link_text = '';
+				if ( ! $is_completed_course ) {
+					if ( 0 === (int) $completed_percent ) {
+						$link_text = __( 'Start Learning', 'tutor' );
+					}
+					if ( $completed_percent > 0 && $completed_percent < 100 ) {
+						$link_text = __( 'Continue Learning', 'tutor' );
+					}
+
+					/**
+					 * `Review Progress` link text shown when
+					 * - strict mode enabled
+					 * - course progress 100%
+					 * - in course progress any quiz or assignemnt result is not passed.
+					 *
+					 * @since 2.4.0
+					 */
+					if ( 100 === (int) $completed_percent && false === CourseModel::can_complete_course( $course_id, $user_id ) ) {
+						$lesson_url = CourseModel::get_review_progress_link( $course_id, $user_id );
+						$link_text  = __( 'Review Progress', 'tutor' );
+					}
+				}
+
+				if ( strlen( $link_text ) > 0 ) {
+					?>
+					<a 	href="<?php echo esc_url( $lesson_url ); ?>" 
+						class="tutor-btn tutor-btn-block tutor-btn-primary tutor-mt-20">
+						<?php echo esc_html( $link_text ); ?>
+					</a>
+					<?php
+				}
+
+				$start_content = ob_get_clean();
+			}
+			echo apply_filters( 'tutor_course/single/start/button', $start_content, get_the_ID() );//phpcs:ignore
 
 			// Show Course Completion Button.
 			if ( ! $is_completed_course ) {
 				ob_start();
 				?>
-				<form method="post">
+				<form method="post" class="tutor-mt-20">
 					<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
 
 					<input type="hidden" value="<?php echo esc_attr( get_the_ID() ); ?>" name="course_id"/>
 					<input type="hidden" value="tutor_complete_course" name="tutor_action"/>
 
-					<button type="submit" class="tutor-mt-24 tutor-btn tutor-btn-tertiary tutor-is-outline tutor-btn-lg tutor-btn-full" name="complete_course_btn" value="complete_course">
+					<button type="submit" class="tutor-btn tutor-btn-outline-primary tutor-btn-block" name="complete_course_btn" value="complete_course">
 						<?php esc_html_e( 'Complete Course', 'tutor' ); ?>
 					</button>
 				</form>
 				<?php
-				echo apply_filters( 'tutor_course/single/complete_form', ob_get_clean() );
+				echo apply_filters( 'tutor_course/single/complete_form', ob_get_clean() );//phpcs:ignore
 			}
 
 			?>
-				<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-d-flex tutor-justify-content-center">
-					<span class="tutor-icon-26 tutor-color-success tutor-icon-purchase-filled tutor-mr-8"></span>
-					<span class="tutor-enrolled-info-text">
-					<?php esc_html_e( 'You enrolled in this course on', 'tutor' ); ?>
-						<span class="text-bold-small tutor-color-success tutor-ml-4 tutor-enrolled-info-date">
-						<?php echo esc_html( tutor_get_formated_date( get_option( 'date_format' ), $is_enrolled->post_date ) ); ?>
+				<?php
+					// check if has enrolled date.
+					$post_date = is_object( $is_enrolled ) && isset( $is_enrolled->post_date ) ? $is_enrolled->post_date : '';
+				if ( '' !== $post_date ) :
+					?>
+					<div class="tutor-fs-7 tutor-color-muted tutor-mt-20 tutor-d-flex">
+						<span class="tutor-fs-6 tutor-color-success tutor-icon-purchase-mark tutor-mr-8"></span>
+						<span class="tutor-enrolled-info-text">
+						<?php esc_html_e( 'You enrolled in this course on', 'tutor' ); ?>
+							<span class="tutor-fs-7 tutor-fw-bold tutor-color-success tutor-ml-4 tutor-enrolled-info-date">
+							<?php
+								echo esc_html( tutor_i18n_get_formated_date( $post_date, get_option( 'date_format' ) ) );
+							?>
+							</span>
 						</span>
-					</span>
-				</div>
+					</div>
+				<?php endif; ?>
 			<?php
 			do_action( 'tutor_course/single/actions_btn_group/after' );
-			echo apply_filters( 'tutor/course/single/entry-box/is_enrolled', ob_get_clean(), get_the_ID() );
-		} else if ( $is_public ) {
-			// Get the first content url
-			$first_lesson_url = tutor_utils()->get_course_first_lesson( get_the_ID(), tutor()->lesson_post_type );
-			!$first_lesson_url ? $first_lesson_url = tutor_utils()->get_course_first_lesson( get_the_ID() ) : 0;
+			echo apply_filters( 'tutor/course/single/entry-box/is_enrolled', ob_get_clean(), get_the_ID() );//phpcs:ignore
+		} elseif ( $is_public ) {
+			// Get the first content url.
+			$first_lesson_url                       = tutor_utils()->get_course_first_lesson( get_the_ID(), tutor()->lesson_post_type );
+			! $first_lesson_url ? $first_lesson_url = tutor_utils()->get_course_first_lesson( get_the_ID() ) : 0;
 			ob_start();
-			// llh
-			
 			?>
-				<a href="<?php echo esc_url( $first_lesson_url ); ?>" class="tutor-btn tutor-btn-primary tutor-btn-lg tutor-btn-full">
+				<a href="<?php echo esc_url( $first_lesson_url ); ?>" class="tutor-btn tutor-btn-primary tutor-btn-lg tutor-btn-block">
 					<?php esc_html_e( 'Start Learning', 'tutor' ); ?>
 				</a>
 			<?php
-			
-			echo apply_filters( 'tutor/course/single/entry-box/is_public', ob_get_clean(), get_the_ID() );
+			echo apply_filters( 'tutor/course/single/entry-box/is_public', ob_get_clean(), get_the_ID() );//phpcs:ignore
 		} else {
-			// The course enroll options like purchase or free enrolment
+			// The course enroll options like purchase or free enrollment.
 			$price = apply_filters( 'get_tutor_course_price', null, get_the_ID() );
 
 			if ( tutor_utils()->is_course_fully_booked( null ) ) {
@@ -183,69 +234,65 @@
 				?>
 					<div class="tutor-alert tutor-warning tutor-mt-28">
 						<div class="tutor-alert-text">
-							<span class="tutor-alert-icon tutor-icon-34 tutor-icon-circle-outline-info-filled tutor-mr-12"></span>
+							<span class="tutor-icon-circle-info tutor-alert-icon tutor-mr-12" area-hidden="true"></span>
 							<span>
-							<?php esc_html_e( 'This course is full right now. We limit the number of students to create an optimized and productive group dynamic.', 'tutor' ); ?>
+								<?php esc_html_e( 'This course is full right now. We limit the number of students to create an optimized and productive group dynamic.', 'tutor' ); ?>
 							</span>
 						</div>
 					</div>
 				<?php
-				echo apply_filters( 'tutor/course/single/entry-box/fully_booked', ob_get_clean(), get_the_ID() );
+				echo apply_filters( 'tutor/course/single/entry-box/fully_booked', ob_get_clean(), get_the_ID() );//phpcs:ignore
 			} elseif ( $is_purchasable && $price && $tutor_course_sell_by ) {
-				// Load template based on monetization option
+				// Load template based on monetization option.
 				ob_start();
-				
-				echo apply_filters( 'tutor/course/single/entry-box/purchasable', ob_get_clean(), get_the_ID() );
-
 				tutor_load_template( 'single.course.add-to-cart-' . $tutor_course_sell_by );
+				echo apply_filters( 'tutor/course/single/entry-box/purchasable', ob_get_clean(), get_the_ID() );//phpcs:ignore
 			} else {
 				ob_start();
 				?>
-					<div class="tutor-course-sidebar-card-pricing tutor-d-flex tutor-align-items-end tutor-justify-content-between">
-						<div>
-							<span class="text-bold-h4 tutor-color-black"><?php esc_html_e( 'Free', 'tutor' ); ?></span>
-						</div>
+					<div class="tutor-course-single-pricing">
+						<span class="tutor-fs-4 tutor-fw-bold tutor-color-black">
+							<?php esc_html_e( 'Free', 'tutor' ); ?>
+						</span>
 					</div>
-					<div class="tutor-course-sidebar-card-btns">
+
+					<div class="tutor-course-single-btn-group <?php echo is_user_logged_in() ? '' : 'tutor-course-entry-box-login'; ?>" data-login_url="<?php echo esc_url( $login_url ); ?>">
 						<form class="tutor-enrol-course-form" method="post">
-						<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
+							<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
 							<input type="hidden" name="tutor_course_id" value="<?php echo esc_attr( get_the_ID() ); ?>">
 							<input type="hidden" name="tutor_course_action" value="_tutor_course_enroll_now">
-							<button type="submit" class="tutor-btn tutor-btn-primary tutor-btn-lg tutor-btn-full tutor-mt-24 tutor-enroll-course-button">
-							<?php esc_html_e( 'Enroll Course', 'tutor' ); ?>
+							<button type="submit" class="tutor-btn tutor-btn-primary tutor-btn-lg tutor-btn-block tutor-mt-24 tutor-enroll-course-button tutor-static-loader">
+								<?php esc_html_e( 'Enroll now', 'tutor' ); ?>
 							</button>
 						</form>
 					</div>
-					<div class="text-regular-caption tutor-color-muted tutor-mt-12 tutor-text-center">
-						<?php esc_html_e( 'Free acess this course', 'tutor' ); ?>
+
+					<div class="tutor-fs-7 tutor-color-muted tutor-mt-20 tutor-text-center">
+						<?php esc_html_e( 'Free access this course', 'tutor' ); ?>
 					</div>
 				<?php
-				echo apply_filters( 'tutor/course/single/entry-box/free', ob_get_clean(), get_the_ID() );
+				echo apply_filters( 'tutor/course/single/entry-box/free', ob_get_clean(), get_the_ID() );//phpcs:ignore
 			}
 		}
+
+		do_action( 'tutor_course/single/entry/after', get_the_ID() );
 		?>
 	</div>
-
+	<?php endif; ?>
 	<!-- Course Info -->
-	<div class="tutor-course-sidebar-card-footer tutor-p-32">
-		<ul class="tutor-course-sidebar-card-meta-list tutor-m-0 tutor-pl-0">
-			<?php foreach ( $sidebar_meta as $meta ) : ?>
+	<div class="tutor-card-footer <?php echo esc_attr( $tutor_load_sidebar_actions ? '' : 'tutor-no-border' ); ?>">
+		<ul class="tutor-ul">
+			<?php foreach ( $sidebar_meta as $key => $meta ) : ?>
 				<?php
 				if ( ! $meta['value'] ) {
-					continue;}
+					continue;
+				}
 				?>
-				<li class="tutor-d-flex tutor-align-items-start tutor-align-items-xl-center tutor-justify-content-between">
-					<div class="flex-center">
-						<span class="tutor-icon-24 <?php echo esc_attr( $meta['icon_class'] ); ?> tutor-color-black"></span>
-						<span class="text-regular-caption tutor-color-muted tutor-ml-8">
-							<?php echo esc_html( $meta['label'] ); ?>
-						</span>
-					</div>
-					<div>
-						<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
-							<?php echo wp_kses_post( $meta['value'] ); ?>
-						</span>
-					</div>
+				<li class="tutor-d-flex<?php echo $key > 0 ? ' tutor-mt-12' : ''; ?>">
+					<span class="<?php echo esc_attr( $meta['icon_class'] ); ?> tutor-color-black tutor-mt-4 tutor-mr-12" aria-labelledby="<?php echo esc_html( $meta['label'] ); ?>"></span>
+					<span class="tutor-fs-6 tutor-color-secondary">
+						<?php echo wp_kses_post( $meta['value'] ); ?>
+					</span>
 				</li>
 			<?php endforeach; ?>
 		</ul>

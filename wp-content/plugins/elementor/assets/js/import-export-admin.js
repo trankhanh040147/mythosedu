@@ -1,4 +1,4 @@
-/*! elementor - v3.12.0 - 29-03-2023 */
+/*! elementor - v3.17.0 - 01-11-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -194,35 +194,31 @@ var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
 var Admin = /*#__PURE__*/function () {
-  /**
-   * Session Storage Key
-   *
-   * @type {string}
-   */
-
-  /**
-   * Contains the ID of the referrer Kit and the name of the Kit to remove. Stored in session storage.
-   *
-   * @type {Object}
-   */
-
-  /**
-   * The 'Remove Kit' revert button
-   *
-   * @type {Element}
-   */
-
-  /**
-   * Name of the kit currently active (last imported)
-   *
-   * @type {string}
-   */
-
   function Admin() {
     (0, _classCallCheck2.default)(this, Admin);
+    /**
+     * Session Storage Key
+     *
+     * @type {string}
+     */
     (0, _defineProperty2.default)(this, "KIT_DATA_KEY", 'elementor-kit-data');
+    /**
+     * Contains the ID of the referrer Kit and the name of the Kit to remove. Stored in session storage.
+     *
+     * @type {Object}
+     */
     (0, _defineProperty2.default)(this, "cachedKitData", void 0);
+    /**
+     * The 'Remove Kit' revert button
+     *
+     * @type {Element}
+     */
     (0, _defineProperty2.default)(this, "revertButton", void 0);
+    /**
+     * Name of the kit currently active (last imported)
+     *
+     * @type {string}
+     */
     (0, _defineProperty2.default)(this, "activeKitName", void 0);
     this.activeKitName = this.getActiveKitName();
     this.revertButton = document.getElementById('elementor-import-export__revert_kit');

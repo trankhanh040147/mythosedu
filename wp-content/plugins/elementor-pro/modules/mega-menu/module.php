@@ -3,6 +3,7 @@ namespace ElementorPro\Modules\MegaMenu;
 
 use Elementor\Core\Experiments\Manager;
 use ElementorPro\Base\Module_Base;
+use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -20,6 +21,10 @@ class Module extends Module_Base {
 
 	public function get_name() {
 		return 'mega-menu';
+	}
+
+	public static function is_active() {
+		return Plugin::elementor()->experiments->is_feature_active( \Elementor\Modules\NestedElements\Module::EXPERIMENT_NAME );
 	}
 
 	/**
@@ -40,11 +45,8 @@ class Module extends Module_Base {
 			'release_status' => Manager::RELEASE_STATUS_ALPHA,
 			'default' => Manager::STATE_INACTIVE,
 			'dependencies' => [
+				'container',
 				'nested-elements',
-			],
-			'new_site' => [
-				'default_active' => true,
-				'minimum_installation_version' => '3.12.0',
 			],
 		];
 

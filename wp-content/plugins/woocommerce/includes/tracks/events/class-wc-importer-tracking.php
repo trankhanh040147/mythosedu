@@ -24,7 +24,7 @@ class WC_Importer_Tracking {
 	 * @return void
 	 */
 	public function track_product_importer() {
-		// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! isset( $_REQUEST['step'] ) ) {
 			return;
 		}
@@ -45,7 +45,7 @@ class WC_Importer_Tracking {
 	 * @return void
 	 */
 	public function track_product_importer_start() {
-		// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! isset( $_REQUEST['file'] ) || ! isset( $_REQUEST['_wpnonce'] ) ) {
 			return;
 		}
@@ -65,16 +65,17 @@ class WC_Importer_Tracking {
 	 * @return void
 	 */
 	public function track_product_importer_complete() {
-		// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! isset( $_REQUEST['nonce'] ) ) {
 			return;
 		}
 
 		$properties = array(
-			'imported' => isset( $_GET['products-imported'] ) ? absint( $_GET['products-imported'] ) : 0,
-			'updated'  => isset( $_GET['products-updated'] ) ? absint( $_GET['products-updated'] ) : 0,
-			'failed'   => isset( $_GET['products-failed'] ) ? absint( $_GET['products-failed'] ) : 0,
-			'skipped'  => isset( $_GET['products-skipped'] ) ? absint( $_GET['products-skipped'] ) : 0,
+			'imported'            => isset( $_GET['products-imported'] ) ? absint( $_GET['products-imported'] ) : 0,
+			'imported_variations' => isset( $_GET['products-imported-variations'] ) ? absint( $_GET['products-imported-variations'] ) : 0,
+			'updated'             => isset( $_GET['products-updated'] ) ? absint( $_GET['products-updated'] ) : 0,
+			'failed'              => isset( $_GET['products-failed'] ) ? absint( $_GET['products-failed'] ) : 0,
+			'skipped'             => isset( $_GET['products-skipped'] ) ? absint( $_GET['products-skipped'] ) : 0,
 		);
 		// phpcs:enable
 

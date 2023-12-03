@@ -1,4 +1,4 @@
-/*! elementor - v3.12.0 - 29-03-2023 */
+/*! elementor - v3.17.0 - 01-11-2023 */
 :root {
   --e-is-device-mode: 0;
 }
@@ -46,15 +46,14 @@
   background-color: #310132;
 }
 .e-responsive-bar-switcher__option[aria-selected=true] {
-  background-color: #3A3F45;
+  background-color: #3f444b;
   color: #F9FAFA;
 }
 .e-responsive-bar-switcher__option input {
   display: none;
 }
 .e-responsive-bar-switcher__option:not(:last-child) {
-  -webkit-margin-end: 6px;
-          margin-inline-end: 6px;
+  margin-inline-end: 6px;
 }
 .e-responsive-bar__button {
   -webkit-appearance: none;
@@ -70,7 +69,7 @@
 }
 .e-responsive-bar__button:hover {
   color: #F1F2F3;
-  background-color: #3A3F45;
+  background-color: #3f444b;
 }
 .e-responsive-bar--pipe {
   position: relative;
@@ -111,22 +110,22 @@
 
 #e-responsive-bar {
   width: 100%;
-  margin-top: calc(-40px + 40px * var(--e-is-device-mode));
+  margin-block-start: calc(-40px + 40px * var(--e-is-device-mode));
   z-index: 1;
-  transition: margin-top 0.2s ease-in-out;
+  transition: margin-block-start 0.2s ease-in-out;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   justify-content: space-between;
   color: #BABFC5;
-  background-color: #1A1C1E;
+  background-color: #1f2124;
 }
 #e-responsive-bar__center, #e-responsive-bar__end, #e-responsive-bar-scale, #e-responsive-bar-switcher {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 13px;
-  background-color: #1A1C1E;
+  background-color: #1f2124;
   padding: 2px 0;
 }
 #e-responsive-bar__end {
@@ -150,8 +149,7 @@
 #e-responsive-bar__size-inputs-wrapper {
   display: flex;
   align-items: center;
-  -webkit-margin-end: 8px;
-          margin-inline-end: 8px;
+  margin-inline-end: 8px;
   color: #BABFC5;
 }
 #e-responsive-bar-switcher {
@@ -177,7 +175,7 @@
 }
 #e-responsive-bar-scale__plus:hover, #e-responsive-bar-scale__minus:hover, #e-responsive-bar-scale__reset:hover {
   color: #F1F2F3;
-  background-color: #3A3F45;
+  background-color: #3f444b;
 }
 #e-responsive-bar-scale__minus:before {
   content: "";

@@ -3,29 +3,31 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createBlock, registerBlockType } from '@wordpress/blocks';
-import { without } from 'lodash';
-import Gridicon from 'gridicons';
-
+import { Icon, percent } from '@wordpress/icons';
 /**
  * Internal dependencies
  */
 import Block from './block';
-import { deprecatedConvertToShortcode } from '../../utils/deprecations';
+import './editor.scss';
 import sharedAttributes, {
 	sharedAttributeBlockTypes,
 } from '../../utils/shared-attributes';
 
 registerBlockType( 'woocommerce/product-on-sale', {
-	title: __( 'On Sale Products', 'woo-gutenberg-products-block' ),
+	title: __( 'On Sale Products', 'woocommerce' ),
 	icon: {
-		src: <Gridicon icon="tag" />,
-		foreground: '#96588a',
+		src: (
+			<Icon
+				icon={ percent }
+				className="wc-block-editor-components-block-icon"
+			/>
+		),
 	},
 	category: 'woocommerce',
-	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
 	description: __(
-		'Display a grid of on sale products.',
-		'woo-gutenberg-products-block'
+		'Display a grid of products currently on sale.',
+		'woocommerce'
 	),
 	supports: {
 		align: [ 'wide', 'full' ],
@@ -46,9 +48,8 @@ registerBlockType( 'woocommerce/product-on-sale', {
 		from: [
 			{
 				type: 'block',
-				blocks: without(
-					sharedAttributeBlockTypes,
-					'woocommerce/product-on-sale'
+				blocks: sharedAttributeBlockTypes.filter(
+					( value ) => value !== 'woocommerce/product-on-sale'
 				),
 				transform: ( attributes ) =>
 					createBlock( 'woocommerce/product-on-sale', attributes ),
@@ -56,22 +57,10 @@ registerBlockType( 'woocommerce/product-on-sale', {
 		],
 	},
 
-	deprecated: [
-		{
-			// Deprecate shortcode save method in favor of dynamic rendering.
-			attributes: {
-				...sharedAttributes,
-				orderby: {
-					type: 'string',
-					default: 'date',
-				},
-			},
-			save: deprecatedConvertToShortcode( 'woocommerce/product-on-sale' ),
-		},
-	],
-
 	/**
 	 * Renders and manages the block.
+	 *
+	 * @param {Object} props Props to pass to block.
 	 */
 	edit( props ) {
 		return <Block { ...props } />;

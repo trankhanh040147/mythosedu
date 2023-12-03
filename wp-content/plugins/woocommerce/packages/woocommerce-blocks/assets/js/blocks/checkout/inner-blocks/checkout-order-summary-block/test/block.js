@@ -103,8 +103,7 @@ jest.mock( '@woocommerce/base-context/hooks', () => ( {
 						meta_data: [
 							{
 								key: 'Items',
-								value:
-									'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
+								value: 'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
 							},
 						],
 						selected: false,
@@ -128,8 +127,7 @@ jest.mock( '@woocommerce/base-context/hooks', () => ( {
 						meta_data: [
 							{
 								key: 'Items',
-								value:
-									'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
+								value: 'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
 							},
 						],
 						selected: false,
@@ -153,8 +151,7 @@ jest.mock( '@woocommerce/base-context/hooks', () => ( {
 						meta_data: [
 							{
 								key: 'Items',
-								value:
-									'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
+								value: 'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
 							},
 						],
 						selected: true,
@@ -324,7 +321,7 @@ describe( 'Checkout Order Summary', () => {
 		setUseStoreCartReturnValue();
 		const { container } = render( <Block showRateAfterTaxName={ true } /> );
 		expect(
-			await findByText( container, 'Coupon code' )
+			await findByText( container, 'Add a coupon' )
 		).toBeInTheDocument();
 	} );
 
@@ -476,8 +473,7 @@ describe( 'Checkout Order Summary', () => {
 							meta_data: [
 								{
 									key: 'Items',
-									value:
-										'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
+									value: 'Hoodie - Blue, Yes &times; 1, Beanie &times; 1',
 								},
 							],
 							selected: true,
@@ -499,7 +495,7 @@ describe( 'Checkout Order Summary', () => {
 			await findByText(
 				container,
 				textContentMatcherAcrossSiblings(
-					'Shipping $40.00 via Free shipping'
+					'Shipping $40.00 Free shipping'
 				)
 			)
 		).toBeInTheDocument();

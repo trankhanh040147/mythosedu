@@ -85,7 +85,7 @@ class Lottie extends Base_Widget {
 			[
 				'label' => esc_html__( 'Upload JSON File', 'elementor-pro' ),
 				'type' => Controls_Manager::MEDIA,
-				'media_type' => 'application/json',
+				'media_types' => [ 'application/json' ],
 				'frontend_available' => true,
 				'condition' => [
 					'source' => 'media_file',
@@ -388,6 +388,7 @@ class Lottie extends Base_Widget {
 					'animation' => esc_html__( 'Animation', 'elementor-pro' ),
 					'column' => esc_html__( 'Column', 'elementor-pro' ),
 					'section' => esc_html__( 'Section', 'elementor-pro' ),
+					'container' => esc_html__( 'Container', 'elementor-pro' ),
 				],
 				'frontend_available' => true,
 			]
@@ -853,7 +854,7 @@ class Lottie extends Base_Widget {
 		var widget_container = '<div class="e-lottie__container"><div class="e-lottie__animation"></div>' + widget_caption + '</div>';
 
 		if ( settings.custom_link.url && 'custom' === settings.link_to ) {
-			widget_container = '<a class="e-lottie__container__link" href="' + settings.custom_link.url + '">' + widget_container + '</a>';
+			widget_container = '<a class="e-lottie__container__link" href="' + _.escape( settings.custom_link.url ) + '">' + widget_container + '</a>';
 		}
 
 		print( widget_container );

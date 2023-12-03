@@ -1,14 +1,9 @@
 /**
  * Internal dependencies
  */
-import { CurrencyResponse } from './currency';
-import {
-	CartImageItem,
-	CartItemPrices,
-	CartItemTotals,
-	CartVariationItem,
-	CatalogVisibility,
-} from './cart';
+import type { CurrencyResponse } from './currency';
+import type { CartItem } from './cart';
+import type { ProductResponseItem } from './product-response';
 
 export interface CartResponseTotalsItem extends CurrencyResponse {
 	total_discount: string;
@@ -25,6 +20,8 @@ export interface CartResponseCouponItemWithLabel
 	extends CartResponseCouponItem {
 	label: string;
 }
+
+export type CartResponseCoupons = CartResponseCouponItemWithLabel[];
 
 export interface ResponseFirstNameLastName {
 	first_name: string;
@@ -125,30 +122,7 @@ export interface CartResponseItemTotals extends CurrencyResponse {
 	line_total_tax: string;
 }
 
-export interface CartResponseItem {
-	key: string;
-	id: number;
-	quantity: number;
-	catalog_visibility: CatalogVisibility;
-	quantity_limit: number;
-	name: string;
-	summary: string;
-	short_description: string;
-	description: string;
-	sku: string;
-	low_stock_remaining: null | number;
-	backorders_allowed: boolean;
-	show_backorder_badge: boolean;
-	sold_individually: boolean;
-	permalink: string;
-	images: Array< CartImageItem >;
-	variation: Array< CartVariationItem >;
-	prices: CartItemPrices;
-	totals: CartItemTotals;
-	extensions: ExtensionsData;
-	item_data: Record< string, unknown >[];
-}
-
+export type CartResponseItem = CartItem;
 export interface CartResponseTotalsTaxLineItem {
 	name: string;
 	price: string;
@@ -197,12 +171,14 @@ export interface CartResponse {
 	items: Array< CartResponseItem >;
 	items_count: number;
 	items_weight: number;
+	cross_sells: Array< ProductResponseItem >;
 	needs_payment: boolean;
 	needs_shipping: boolean;
 	has_calculated_shipping: boolean;
 	fees: Array< CartResponseFeeItem >;
 	totals: CartResponseTotals;
 	errors: Array< CartResponseErrorItem >;
-	payment_requirements: Array< unknown >;
+	payment_methods: string[];
+	payment_requirements: string[];
 	extensions: ExtensionsData;
 }

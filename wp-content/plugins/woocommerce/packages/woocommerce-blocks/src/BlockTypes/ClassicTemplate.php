@@ -1,11 +1,15 @@
 <?php
 namespace Automattic\WooCommerce\Blocks\BlockTypes;
 
+use Automattic\WooCommerce\Blocks\Templates\ProductAttributeTemplate;
 use Automattic\WooCommerce\Blocks\Templates\ProductSearchResultsTemplate;
+use Automattic\WooCommerce\Blocks\Templates\OrderConfirmationTemplate;
 use Automattic\WooCommerce\Blocks\Utils\StyleAttributesUtils;
+use WC_Shortcode_Checkout;
+use WC_Frontend_Scripts;
 
 /**
- * Classic Single Product class
+ * Classic Template class
  *
  * @internal
  */
@@ -32,21 +36,43 @@ class ClassicTemplate extends AbstractDynamicBlock {
 	protected function initialize() {
 		parent::initialize();
 		add_filter( 'render_block', array( $this, 'add_alignment_class_to_wrapper' ), 10, 2 );
-		add_filter( 'query_vars', array( $this, 'add_query_vars_filter' ) );
-		add_filter( 'woocommerce_product_query_meta_query', array( $this, 'filter_products_by_stock' ), 10, 2 );
+		add_filter( 'woocommerce_product_query_meta_query', array( $this, 'filter_products_by_stock' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_block_assets' ) );
+	}
 
+	/**
+	 * Enqueue assets used for rendering the block in editor context.
+	 *
+	 * This is needed if a block is not yet within the post content--`render` and `enqueue_assets` may not have ran.
+	 */
+	public function enqueue_block_assets() {
+		// Ensures frontend styles for blocks exist in the site editor iframe.
+		if ( class_exists( 'WC_Frontend_Scripts' ) && is_admin() ) {
+			$frontend_scripts = new WC_Frontend_Scripts();
+			$styles           = $frontend_scripts::get_styles();
+
+			foreach ( $styles as $handle => $style ) {
+				wp_enqueue_style(
+					$handle,
+					set_url_scheme( $style['src'] ),
+					$style['deps'],
+					$style['version'],
+					$style['media']
+				);
+			}
+		}
 	}
 
 	/**
 	 * Render method for the Classic Template block. This method will determine which template to render.
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content.
-	 *
+	 * @param array    $attributes Block attributes.
+	 * @param string   $content    Block content.
+	 * @param WP_Block $block      Block instance.
 	 * @return string | void Rendered block type output.
 	 */
-	protected function render( $attributes, $content ) {
-		if ( null === $attributes['template'] ) {
+	protected function render( $attributes, $content, $block ) {
+		if ( ! isset( $attributes['template'] ) ) {
 			return;
 		}
 
@@ -57,36 +83,73 @@ class ClassicTemplate extends AbstractDynamicBlock {
 		 * @see https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues/5328#issuecomment-989013447
 		 */
 		if ( class_exists( 'WC_Frontend_Scripts' ) ) {
-			$frontend_scripts = new \WC_Frontend_Scripts();
+			$frontend_scripts = new WC_Frontend_Scripts();
 			$frontend_scripts::load_scripts();
 		}
 
-		$archive_templates = array( 'archive-product', 'taxonomy-product_cat', 'taxonomy-product_tag', ProductSearchResultsTemplate::SLUG );
+		if ( OrderConfirmationTemplate::get_slug() === $attributes['template'] ) {
+			return $this->render_order_received();
+		}
 
-		if ( 'single-product' === $attributes['template'] ) {
+		if ( is_product() ) {
 			return $this->render_single_product();
-		} elseif ( in_array( $attributes['template'], $archive_templates, true ) ) {
+		}
+
+		$archive_templates = array(
+			'archive-product',
+			'taxonomy-product_cat',
+			'taxonomy-product_tag',
+			ProductAttributeTemplate::SLUG,
+			ProductSearchResultsTemplate::SLUG,
+		);
+
+		if ( in_array( $attributes['template'], $archive_templates, true ) ) {
 			// Set this so that our product filters can detect if it's a PHP template.
-			$this->asset_data_registry->add( 'is_rendering_php_template', true, true );
+			$this->asset_data_registry->add( 'isRenderingPhpTemplate', true, true );
 
 			// Set this so filter blocks being used as widgets know when to render.
-			$this->asset_data_registry->add( 'has_filterable_products', true, true );
+			$this->asset_data_registry->add( 'hasFilterableProducts', true, true );
 
 			$this->asset_data_registry->add(
-				'page_url',
+				'pageUrl',
 				html_entity_decode( get_pagenum_link() ),
 				''
 			);
 
 			return $this->render_archive_product();
-		} else {
-			ob_start();
-
-			echo "You're using the ClassicTemplate block";
-
-			wp_reset_postdata();
-			return ob_get_clean();
 		}
+
+		ob_start();
+
+		echo "You're using the ClassicTemplate block";
+
+		wp_reset_postdata();
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render method for rendering the order confirmation template.
+	 *
+	 * @return string Rendered block type output.
+	 */
+	protected function render_order_received() {
+		ob_start();
+
+		echo '<div class="wp-block-group">';
+
+		echo sprintf(
+			'<%1$s %2$s>%3$s</%1$s>',
+			'h1',
+			get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			esc_html__( 'Order confirmation', 'woocommerce' )
+		);
+
+		WC_Shortcode_Checkout::output( array() );
+
+		echo '</div>';
+
+		return ob_get_clean();
 	}
 
 	/**
@@ -105,6 +168,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 		 * @see woocommerce_output_content_wrapper() Outputs opening DIV for the content (priority 10)
 		 * @see woocommerce_breadcrumb() Outputs breadcrumb trail to the current product (priority 20)
 		 * @see WC_Structured_Data::generate_website_data() Outputs schema markup (priority 30)
+		 *
+		 * @since 6.3.0
 		 */
 		do_action( 'woocommerce_before_main_content' );
 
@@ -121,6 +186,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 		 * Called after rendering the main content for a product.
 		 *
 		 * @see woocommerce_output_content_wrapper_end() Outputs closing DIV for the content (priority 10)
+		 *
+		 * @since 6.3.0
 		 */
 		do_action( 'woocommerce_after_main_content' );
 
@@ -145,21 +212,37 @@ class ClassicTemplate extends AbstractDynamicBlock {
 		 * @see woocommerce_output_content_wrapper() Outputs opening DIV for the content (priority 10)
 		 * @see woocommerce_breadcrumb() Outputs breadcrumb trail to the current product (priority 20)
 		 * @see WC_Structured_Data::generate_website_data() Outputs schema markup (priority 30)
+		 *
+		 * @since 6.3.0
 		 */
 		do_action( 'woocommerce_before_main_content' );
 
 		?>
 		<header class="woocommerce-products-header">
-			<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-				<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
-			<?php endif; ?>
-
 			<?php
+			/**
+			 * Hook: woocommerce_show_page_title
+			 *
+			 * Allows controlling the display of the page title.
+			 *
+			 * @since 6.3.0
+			 */
+			if ( apply_filters( 'woocommerce_show_page_title', true ) ) {
+				?>
+				<h1 class="woocommerce-products-header__title page-title">
+					<?php
+						woocommerce_page_title();
+					?>
+				</h1>
+				<?php
+			}
 			/**
 			 * Hook: woocommerce_archive_description.
 			 *
 			 * @see woocommerce_taxonomy_archive_description() Renders the taxonomy archive description (priority 10)
 			 * @see woocommerce_product_archive_description() Renders the product archive description (priority 10)
+			 *
+			 * @since 6.3.0
 			 */
 			do_action( 'woocommerce_archive_description' );
 			?>
@@ -173,6 +256,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 			 * @see woocommerce_output_all_notices() Render error notices (priority 10)
 			 * @see woocommerce_result_count() Show number of results found (priority 20)
 			 * @see woocommerce_catalog_ordering() Show form to control sort order (priority 30)
+			 *
+			 * @since 6.3.0
 			 */
 			do_action( 'woocommerce_before_shop_loop' );
 
@@ -184,6 +269,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 
 					/**
 					 * Hook: woocommerce_shop_loop.
+					 *
+					 * @since 6.3.0
 					 */
 					do_action( 'woocommerce_shop_loop' );
 
@@ -197,6 +284,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 			 * Hook: woocommerce_after_shop_loop.
 			 *
 			 * @see woocommerce_pagination() Renders pagination (priority 10)
+			 *
+			 * @since 6.3.0
 			 */
 			do_action( 'woocommerce_after_shop_loop' );
 		} else {
@@ -204,6 +293,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 			 * Hook: woocommerce_no_products_found.
 			 *
 			 * @see wc_no_products_found() Default no products found content (priority 10)
+			 *
+			 * @since 6.3.0
 			 */
 			do_action( 'woocommerce_no_products_found' );
 		}
@@ -214,6 +305,8 @@ class ClassicTemplate extends AbstractDynamicBlock {
 		 * Called after rendering the main content for a product.
 		 *
 		 * @see woocommerce_output_content_wrapper_end() Outputs closing DIV for the content (priority 10)
+		 *
+		 * @since 6.3.0
 		 */
 		do_action( 'woocommerce_after_main_content' );
 
@@ -272,12 +365,18 @@ class ClassicTemplate extends AbstractDynamicBlock {
 	 * @return array
 	 */
 	public function filter_products_by_stock( $meta_query ) {
-		if ( is_admin() ) {
+		global $wp_query;
+
+		if (
+			is_admin() ||
+			! $wp_query->is_main_query() ||
+			! isset( $_GET[ self::FILTER_PRODUCTS_BY_STOCK_QUERY_PARAM ] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		) {
 			return $meta_query;
 		}
 
 		$stock_status = array_keys( wc_get_product_stock_status_options() );
-		$values       = get_query_var( self::FILTER_PRODUCTS_BY_STOCK_QUERY_PARAM );
+		$values       = sanitize_text_field( wp_unslash( $_GET[ self::FILTER_PRODUCTS_BY_STOCK_QUERY_PARAM ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		$values_to_array = explode( ',', $values );
 
@@ -299,16 +398,12 @@ class ClassicTemplate extends AbstractDynamicBlock {
 		return $meta_query;
 	}
 
-
 	/**
-	 * Add custom query params
+	 * Get the frontend style handle for this block type.
 	 *
-	 * @param array $vars Query vars.
-	 * @return array Query vars.
+	 * @return null
 	 */
-	public function add_query_vars_filter( $vars ) {
-		$vars[] = self::FILTER_PRODUCTS_BY_STOCK_QUERY_PARAM;
-		return $vars;
+	protected function get_block_type_style() {
+		return null;
 	}
-
 }

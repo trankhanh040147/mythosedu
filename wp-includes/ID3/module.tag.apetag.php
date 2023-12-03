@@ -9,10 +9,14 @@
 /////////////////////////////////////////////////////////////////
 //                                                             //
 // module.tag.apetag.php                                       //
-// module for analyzing APE Tags                               //
+// module for analyzing APE tags                               //
 // dependencies: NONE                                          //
 //                                                            ///
 /////////////////////////////////////////////////////////////////
+
+if (!defined('GETID3_INCLUDEPATH')) { // prevent path-exposing attacks that access modules directly on public webservers
+	exit;
+}
 
 class getid3_apetag extends getid3_handler
 {
@@ -35,24 +39,24 @@ class getid3_apetag extends getid3_handler
 		$info = &$this->getid3->info;
 
 		if (!getid3_lib::intValueSupported($info['filesize'])) {
-			$this->warning('Unable to check for APETags because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
+			$this->warning('Unable to check for APEtags because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
 			return false;
 		}
 
-		$id3v1Tagsize     = 128;
+		$id3v1tagsize     = 128;
 		$apetagheadersize = 32;
-		$lyrics3Tagsize   = 10;
+		$lyrics3tagsize   = 10;
 
 		if ($this->overrideendoffset == 0) {
 
-			$this->fseek(0 - $id3v1Tagsize - $apetagheadersize - $lyrics3Tagsize, SEEK_END);
-			$APEfooterID3v1 = $this->fread($id3v1Tagsize + $apetagheadersize + $lyrics3Tagsize);
+			$this->fseek(0 - $id3v1tagsize - $apetagheadersize - $lyrics3tagsize, SEEK_END);
+			$APEfooterID3v1 = $this->fread($id3v1tagsize + $apetagheadersize + $lyrics3tagsize);
 
 			//if (preg_match('/APETAGEX.{24}TAG.{125}$/i', $APEfooterID3v1)) {
-			if (substr($APEfooterID3v1, strlen($APEfooterID3v1) - $id3v1Tagsize - $apetagheadersize, 8) == 'APETAGEX') {
+			if (substr($APEfooterID3v1, strlen($APEfooterID3v1) - $id3v1tagsize - $apetagheadersize, 8) == 'APETAGEX') {
 
 				// APE tag found before ID3v1
-				$info['ape']['tag_offset_end'] = $info['filesize'] - $id3v1Tagsize;
+				$info['ape']['tag_offset_end'] = $info['filesize'] - $id3v1tagsize;
 
 			//} elseif (preg_match('/APETAGEX.{24}$/i', $APEfooterID3v1)) {
 			} elseif (substr($APEfooterID3v1, strlen($APEfooterID3v1) - $apetagheadersize, 8) == 'APETAGEX') {
@@ -89,13 +93,13 @@ class getid3_apetag extends getid3_handler
 		}
 
 		if (isset($thisfile_ape['footer']['flags']['header']) && $thisfile_ape['footer']['flags']['header']) {
-			$this->fseek($thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['Tagsize'] - $apetagheadersize);
+			$this->fseek($thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['tagsize'] - $apetagheadersize);
 			$thisfile_ape['tag_offset_start'] = $this->ftell();
-			$APEtagData = $this->fread($thisfile_ape['footer']['raw']['Tagsize'] + $apetagheadersize);
+			$APEtagData = $this->fread($thisfile_ape['footer']['raw']['tagsize'] + $apetagheadersize);
 		} else {
-			$thisfile_ape['tag_offset_start'] = $thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['Tagsize'];
+			$thisfile_ape['tag_offset_start'] = $thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['tagsize'];
 			$this->fseek($thisfile_ape['tag_offset_start']);
-			$APEtagData = $this->fread($thisfile_ape['footer']['raw']['Tagsize']);
+			$APEtagData = $this->fread($thisfile_ape['footer']['raw']['tagsize']);
 		}
 		$info['avdataend'] = $thisfile_ape['tag_offset_start'];
 
@@ -356,6 +360,7 @@ class getid3_apetag extends getid3_handler
 		// http://www.uni-jena.de/~pfk/mpp/sv8/apeheader.html
 
 		// shortcut
+		$headerfooterinfo = array();
 		$headerfooterinfo['raw'] = array();
 		$headerfooterinfo_raw = &$headerfooterinfo['raw'];
 
@@ -364,7 +369,7 @@ class getid3_apetag extends getid3_handler
 			return false;
 		}
 		$headerfooterinfo_raw['version']      = getid3_lib::LittleEndian2Int(substr($APEheaderFooterData,  8, 4));
-		$headerfooterinfo_raw['Tagsize']      = getid3_lib::LittleEndian2Int(substr($APEheaderFooterData, 12, 4));
+		$headerfooterinfo_raw['tagsize']      = getid3_lib::LittleEndian2Int(substr($APEheaderFooterData, 12, 4));
 		$headerfooterinfo_raw['tag_items']    = getid3_lib::LittleEndian2Int(substr($APEheaderFooterData, 16, 4));
 		$headerfooterinfo_raw['global_flags'] = getid3_lib::LittleEndian2Int(substr($APEheaderFooterData, 20, 4));
 		$headerfooterinfo_raw['reserved']     =                              substr($APEheaderFooterData, 24, 8);
@@ -385,6 +390,7 @@ class getid3_apetag extends getid3_handler
 		// "Note: APE Tags 1.0 do not use any of the APE Tag flags.
 		// All are set to zero on creation and ignored on reading."
 		// http://wiki.hydrogenaud.io/index.php?title=Ape_Tags_Flags
+		$flags                      = array();
 		$flags['header']            = (bool) ($rawflagint & 0x80000000);
 		$flags['footer']            = (bool) ($rawflagint & 0x40000000);
 		$flags['this_is_header']    = (bool) ($rawflagint & 0x20000000);
