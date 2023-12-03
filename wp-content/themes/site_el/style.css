@@ -817,6 +817,17 @@ body.tutor-screen-course-builder .grade_inactive .grade_item {
 	height: auto !important;
 }
 
+@media screen and (max-width:991px) {
+	body header ul.___right_menu_lst {
+		margin-top: 19px !important;
+		display: flex !important;
+		width: 500px;
+		padding: 15px;
+		box-shadow: 0 0 10px #0000001f;
+	}
+
+}
+
 @media screen and (max-width:767px) {
 	body header ul.___right_menu_lst {
 		display: flex !important;
