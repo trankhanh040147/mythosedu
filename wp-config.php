@@ -31,7 +31,7 @@ define( 'DB_NAME', 'u199319889_mythosedu_v1' );
 
 
 /** Mật khẩu của database */
- define('DB_PASSWORD', '040147');
+//  define('DB_PASSWORD', '040147');
  define( 'DB_PASSWORD', 'Mythosedu47' );
 
 /** Hostname của database */
