@@ -1,0 +1,444 @@
+.__demo {
+  background-image: url(/wp-content/uploads/2023/11/bg-plus.webp);
+  background-size: cover;
+  background-position: center center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  /* z-index: -2; */
+}
+
+.item2 {
+  width: 120px;
+  height: 100px;
+
+}
+
+.item2 {
+  background-color: #F1F7F838;
+  border-radius: 10px;
+  border: 2px #00939E dashed;
+}
+
+
+
+.item {
+  position: relative;
+  background-color: #FF658A !important;
+  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+}
+
+.item::after {
+  content: "";
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: -25px;
+  background-color: #E83862;
+  top: 0;
+  z-index: -1;
+}
+
+
+.__magic {
+  margin-left: -10px;
+  margin-right: 12px;
+  margin-bottom: 0 !important;
+  font-size: 60px;
+  font-weight: 700;
+  color: white;
+}
+
+.__text-item {
+  font-size: 50px;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.item,
+.item2 {
+  color: white;
+  font-size: 60px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.__container {
+  max-width: 1000px;
+  padding: 0 50px 0 20px;
+  width: 100%;
+}
+
+.row {
+  margin: 0 !important;
+}
+
+.__option-box {
+  margin-top: 40px !important;
+}
+
+.__option {
+  font-size: 50px;
+  font-weight: 400;
+  color: white;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #00B5BE;
+  position: relative;
+  margin-right: 38px;
+  opacity: 1 !important;
+
+}
+
+.__option::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px;
+  border-radius: 10px;
+  background-color: #00939E;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.me-3 {
+  margin-right: 16px !important;
+}
+
+.__alert img {
+  position: absolute;
+  width: 50px;
+  top: -14px;
+  right: -25px;
+}
+
+.__alert {
+  margin-bottom: 0 !important;
+  display: none;
+  right: 0px;
+  top: -2px;
+  position: absolute;
+}
+
+
+.dot {
+  width: 14px;
+  height: 14px;
+  background-color: white;
+  border-radius: 50%;
+  margin-bottom: 5px;
+  position: relative;
+
+}
+
+.khanh {
+  opacity: 0;
+}
+
+.item-select1 .khanh,
+.item-select2 .khanh {
+  opacity: 1;
+}
+
+.animation-dot {
+  animation: dotAnimation .5s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes dotAnimation {
+  0% {
+    opacity: 0;
+    /* Ban đầu độ mờ là 0 */
+    left: -10px;
+    /* Ban đầu vị trí bên ngoài khung hiển thị */
+  }
+
+  100% {
+    opacity: 1;
+    /* Kết thúc độ mờ là 1 */
+    left: 0;
+    /* Kết thúc vị trí là 0, hiển thị đầy đủ */
+  }
+}
+
+.dot::after {
+  content: "";
+  background-color: #E83862;
+  border-radius: 50%;
+  width: 102%;
+  height: 102%;
+  position: absolute;
+  z-index: -1;
+  left: -1px;
+  top: 0px;
+}
+
+.item-select-after {
+  display: flex;
+  gap: 9px;
+  left: -2px;
+  /* top: -19px; */
+  width: 110px;
+  align-items: center;
+  justify-content: start;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+}
+
+.dot_error {
+  background: rgba(255, 255, 255, 0.498);
+  border: 1px #00939E dashed;
+}
+
+.dot.dot_error::after {
+  width: 0 !important;
+}
+
+.dot_add.dot {
+  background-color: rgba(104, 90, 90, 0.863)
+}
+
+.dot_add.dot::after {
+  content: "";
+  height: 0;
+}
+
+.item::before {
+  content: "";
+  background-image: url(/wp-content/uploads/2023/11/hide-img.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 150%;
+  height: 20px;
+  position: absolute;
+  bottom: -15%;
+  left: -40%;
+  z-index: -1;
+}
+
+.item2::after {
+  content: "";
+  background-image: url(/wp-content/uploads/2023/11/hide-img.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 130%;
+  height: 20px;
+  position: absolute;
+  bottom: -18%;
+  left: -18%;
+  z-index: -1;
+}
+
+.__option::before {
+  content: "";
+  background-image: url(/wp-content/uploads/2023/11/hide-img.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 140%;
+  height: 20px;
+  position: absolute;
+  bottom: -25%;
+  left: -32%;
+  z-index: -1;
+}
+
+.__box-plus {
+  position: relative;
+  top: -10px;
+}
+
+.__img-child {
+  width: 80%;
+  max-width: 265px;
+  top: -50px;
+  position: relative;
+}
+
+.__plus {
+  position: relative;
+  z-index: 100;
+  gap: 40px;
+}
+
+.__option-box {
+  position: relative;
+  z-index: 100;
+}
+
+@media screen and (max-width:991px) {
+
+  .item {
+    width: 75px;
+    height: 75px;
+
+  }
+
+  .item2 {
+    width: 85px;
+    height: 75px;
+
+  }
+
+  .__option {
+    width: 50px;
+    height: 50px;
+  }
+
+  .item::after {
+    left: -15px;
+  }
+
+  .item::before {
+    bottom: -22%;
+  }
+
+  .item2::after {
+    bottom: -26%;
+  }
+
+  .__option::after {
+    left: -10px;
+  }
+
+  .__option::before {
+    bottom: -36%;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .item-select-after {
+    gap: 5px;
+    width: 80px;
+  }
+
+  .__plus {
+    gap: 28px;
+  }
+
+  .__alert img {
+    width: 40px;
+  }
+}
+
+@media screen and (max-width:767px) {
+  .title-plus {
+    margin-bottom: 30px !important;
+  }
+
+  .__option-box {
+    margin-top: 20px !important;
+  }
+
+  .__box-child {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .__box-plus {
+    position: relative;
+    top: 10%;
+  }
+
+  .__order1 {
+    order: 1;
+  }
+
+  .__order2 {
+    order: 2;
+    z-index: 100;
+    position: relative;
+    bottom: -28%;
+  }
+
+  .__img-child {
+    max-width: 150px;
+    position: absolute;
+    top: -50px;
+    right: 0;
+  }
+}
+
+@media screen and (max-width:520px) {
+  .__magic {
+    font-size: 45px;
+  }
+
+  .__img-child {
+    max-width: 150px;
+  }
+
+  .__plus {
+    gap: 0px;
+  }
+
+  .item {
+    width: 60px;
+    height: 60px;
+
+  }
+
+  .item2 {
+    width: 70px;
+    height: 60px;
+
+  }
+
+  .__option {
+    width: 50px;
+    height: 50px;
+  }
+
+  .item::after {
+    left: -10px;
+  }
+
+  .item::before {
+    bottom: -28%;
+  }
+
+  .item2::after {
+    bottom: -30%;
+  }
+
+  .__option::after {
+    left: -10px;
+  }
+
+  .item2::after {
+    bottom: -34%;
+  }
+
+  .__container {
+    padding: 0 15px;
+  }
+}
+
+.row>* {
+  padding: 0 !important;
+}
+
+.title-plus {
+  -webkit-text-stroke: 1px white;
+  color: #E83862;
+  font-size: clamp(40px, 5vw, 80px);
+  font-style: normal;
+  font-weight: 700;
+  width: 100%;
+  border-radius: 20px;
+  padding: 12px 40px;
+  background-color: rgba(255, 255, 255, 0.465);
+}
