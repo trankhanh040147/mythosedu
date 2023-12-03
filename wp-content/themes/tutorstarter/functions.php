@@ -85,9 +85,8 @@ function my_ajax_course_detail()
 	
 
 	// //     If the custom cookie doesn't exist, set it with a default value
-	$key = getToken();
+	
 	//$key='khanh';  
-	setcookie('wordpress_test_cookie', $key, time() + 3600, COOKIEPATH, COOKIE_DOMAIN);
 	$cookie_access_token = $_GET['secureToken'];
 
 	// Lấy tham số id từ request

@@ -67,7 +67,7 @@ wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/c
 <?php
     // wp_enqueue_script('dragAndDrop-js2', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array('jquery', 'jquery-ui-core', 'jquery-ui-droppable'), '1.5', true);
     wp_enqueue_script('game_plus_js', get_template_directory_uri() . '/assets/dist/js/sort_increase.js', array(), '1.1', true);
-    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', true);
+    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', false);
 
 ?>
 

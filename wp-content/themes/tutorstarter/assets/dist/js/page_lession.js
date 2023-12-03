@@ -10,10 +10,8 @@ $(document).ready(function () {
   var idCourse = getUrlParameter(url, 'idCourse');
   var idSession = getUrlParameter(url, 'idSession');
   var accessToken = getUrlParameter(url, "secureToken");
-  console.log('idCourse' + idCourse);
-  console.log('idSession' + idSession);
   function getUrlParameter(url, name) {
-    x
+
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
     var results = regex.exec(url);
