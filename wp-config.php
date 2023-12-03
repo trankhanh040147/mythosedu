@@ -22,13 +22,13 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'u199319889_qLjMI' );
+define( 'DB_NAME', 'mythosedu_backup' );
 
 /** Database username */
-define( 'DB_USER', 'u199319889_CahMa' );
+define( 'DB_USER', 'root' );
 
 /** Database password */
-define( 'DB_PASSWORD', 'tYcIKiKYEN' );
+define( 'DB_PASSWORD', 'khanhkhanh123' );
 
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );
@@ -83,9 +83,12 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', false );
-
-
+define( 'WP_DEBUG', true );
+define('__USERNAME', 'webmaster'); 
+define('__PASSWORD', 'KhanhKhanh@@2247');
+define('REST_API_URL', 'http://4.194.242.40:3000');
+// define THEME_URL
+define('THEME_URL', 'https://mythosedu.com/');
 /* Add any custom values between this line and the "stop editing" line. */
 
 

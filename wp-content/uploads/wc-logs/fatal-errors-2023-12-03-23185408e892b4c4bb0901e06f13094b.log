@@ -17,3 +17,131 @@ Stack trace:
 #5 {main}
   thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
 
+2023-12-03T19:22:45+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(188): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:25:03+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-03T19:28:39+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(188): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:31:06+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-03T19:33:43+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(188): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:34:08+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:36:10+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(188): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:39:05+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:55:53+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T19:58:17+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T20:02:27+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T20:05:29+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-03T20:09:22+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(88): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_ajax_course_detail()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+

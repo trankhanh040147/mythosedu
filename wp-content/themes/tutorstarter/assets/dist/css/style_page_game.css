@@ -917,6 +917,8 @@
 
 .z-index6 {
   z-index: 6;
+  bottom: 0 !important;
+  left: 0 !important;
 }
 
 /* @media screen and (max-width:600px) {
