@@ -19,7 +19,10 @@
   border-radius: 10px;
   border: 2px #00939E dashed;
 }
-
+.__alert{
+  width: 30px;
+  height: 30px;
+}
 
 
 .item {

@@ -79,7 +79,10 @@
 .__option-box {
   margin-top: 40px !important;
 }
-
+.__alert{
+  width: 30px;
+  height: 30px;
+}
 .__option {
   font-size: 50px;
   font-weight: 400;
