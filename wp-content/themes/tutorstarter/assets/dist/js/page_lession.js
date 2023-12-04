@@ -184,7 +184,7 @@ $(document).ready(function () {
 
 
       if (indexActive == length - 1) {
-        $('.modal-end').html('<div class="__toggle_point">Tổng điểm của bạn là: ' + togglePoint + '</div>');
+        $('.modal-end').append('<div class="__toggle_point">Tổng điểm của bạn là: ' + togglePoint + '</div>');
         $('.modal-end').addClass('d-flex');
 
       }
