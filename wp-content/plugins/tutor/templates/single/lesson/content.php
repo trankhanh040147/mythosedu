@@ -182,6 +182,39 @@ tutor_load_template(
 				</div>
 			</div>
 			<?php endif; ?>
+
+			<?php
+				$lesson_game_id = get_post_meta(get_the_ID(), 'lesson_game_id', true);
+				var_dump( $lesson_game_id );
+				// Add tab game
+				if ( $lesson_game_id != 0 ) : ?>
+					<div id="tutor-course-spotlight-game" class="tutor-tab-item">
+						<div class="tutor-container">
+							<div class="tutor-row tutor-justify-center">
+								<div class="tutor-col-xl-8">
+									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( 'Game', 'tutor' ); ?></div>
+									<div class="tutor-fs-6 tutor-color-secondary tutor-lesson-wrapper">
+										<?php echo do_shortcode('[game id="0"]'); ?>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>	
+				<?php endif; ?>
+			?>
+
+			<div id="tutor-course-spotlight-files" class="tutor-tab-item<?php echo esc_attr( ( 'files' == $page_tab || false === $has_lesson_content ) ? ' is-active' : '' ); ?>">
+						<div class="tutor-container">
+							<div class="tutor-row tutor-justify-center">
+								<div class="tutor-col-xl-8">
+									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( 'Game', 'tutor' ); ?></div>
+									<div class="tutor-fs-6 tutor-color-secondary tutor-lesson-wrapper">
+										<?php echo do_shortcode('[game id="0"]'); ?>
+									</div>
+								</div>
+							</div>
+						</div>
+			</div>	
 			
 			<?php if ( $is_comment_enabled ) : ?>
 			<div id="tutor-course-spotlight-comments" class="tutor-tab-item<?php echo esc_attr( ( 'comments' == $page_tab || ( false === $has_lesson_content && false === $has_lesson_attachment ) ) ? ' is-active' : '' ); ?>">

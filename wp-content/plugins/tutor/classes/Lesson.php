@@ -323,9 +323,7 @@ class Lesson extends Tutor_Base {
 		$lesson_game_id = $_POST['lesson_game_id'];
 		// var_dump( $lesson_game_id );
 		// die();	
-
-		// $lesson_game_list = Input::post( 'lesson_game_list', array(), Input::TYPE_ARRAY );
-		// update_post_meta( $lesson_id, 'lesson_game_list', $lesson_game_list );
+		update_post_meta( $lesson_id, 'lesson_game_id', $lesson_game_id );
 
 		ob_start();
 		include tutor()->path . 'views/metabox/course-contents.php';
