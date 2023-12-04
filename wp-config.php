@@ -21,12 +21,12 @@
  */
 
 // ** Database settings - You can get this info from your web host ** //
-define( 'DB_NAME', 'mythosedu_backup' );
-define( 'DB_USER', 'root' );
-define( 'DB_PASSWORD', 'khanhkhanh123' );
-// define( 'DB_NAME', 'u199319889_qLjMI' );
-// define( 'DB_USER', 'u199319889_CahMa' );
-// define( 'DB_PASSWORD', 'tYcIKiKYEN' );
+// define( 'DB_NAME', 'mythosedu_backup' );
+// define( 'DB_USER', 'root' );
+// define( 'DB_PASSWORD', 'khanhkhanh123' );
+define( 'DB_NAME', 'u199319889_qLjMI' );
+define( 'DB_USER', 'u199319889_CahMa' );
+define( 'DB_PASSWORD', 'tYcIKiKYEN' );
 
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );
