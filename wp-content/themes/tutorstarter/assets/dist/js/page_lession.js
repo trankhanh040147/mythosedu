@@ -72,6 +72,7 @@ $(document).ready(function () {
       data: {
         action: 'my_post_point_api',
         data_post: data_post,
+        secureToken: accessToken,
       },
       dataType: 'json',
       success: function (response) {

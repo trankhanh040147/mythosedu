@@ -46,7 +46,7 @@ function enqueue_custom_scripts() {
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 function enqueue_custom_styles() {
 	// Enqueue your custom CSS file
-	wp_enqueue_style('custom-css', get_template_directory_uri() . '/assets/dist/css/bootstrap.min.css',array(), '1.6', true);
+	wp_enqueue_style('custom-css', get_template_directory_uri() . '/assets/dist/css/bootstrap.min.css',array(), '1.6', true); 
 }
 
 // Hook the function to the 'wp_enqueue_scripts' action
@@ -128,8 +128,8 @@ function my_post_point_function()
 
 	//   $url = 'https://cms.edutekit.com/result/v1/user-create-result';
 	$url = REST_API_URL . '/result/v1/user-create-result';
+	$cookie_access_token = $_GET['secureToken'];
 
-	$cookie_access_token = getToken();
 
 	// Tạo yêu cầu POST
 	$args = array(

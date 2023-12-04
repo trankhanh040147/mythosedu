@@ -58,3 +58,33 @@ Stack trace:
 #5 {main}
   thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
 
+2023-12-04T15:48:33+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(132): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_post_point_function()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-04T15:48:35+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(132): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_post_point_function()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
+2023-12-04T15:48:38+00:00 CRITICAL Uncaught Error: Call to a member function re_query() on null in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php:59
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php(132): getToken()
+#1 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(310): my_post_point_function()
+#2 D:\TLCN\web_online\mythosedu\wp-includes\class-wp-hook.php(334): WP_Hook->apply_filters()
+#3 D:\TLCN\web_online\mythosedu\wp-includes\plugin.php(517): WP_Hook->do_action()
+#4 D:\TLCN\web_online\mythosedu\wp-admin\admin-ajax.php(203): do_action()
+#5 {main}
+  thrown in D:\TLCN\web_online\mythosedu\wp-content\themes\tutorstarter\functions.php on line 59
+
