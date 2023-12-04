@@ -6,7 +6,7 @@ get_header("iframe");
 ?>
 
 <head>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <?php 
 
 wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/css/sort_decrease.css', array(), '1.2', false);
@@ -64,10 +64,11 @@ wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/c
     
 <!-- <script  src="<?php //echo get_template_directory_uri(); ?>/assets/dist/js/game_plus.js"></script> -->
 
-<?php
+<?php 
+    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', true);
+wp_enqueue_script('game_plus_js3', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array(), '1.3', false);
     // wp_enqueue_script('dragAndDrop-js2', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array('jquery', 'jquery-ui-core', 'jquery-ui-droppable'), '1.5', true);
     wp_enqueue_script('game_plus_js', get_template_directory_uri() . '/assets/dist/js/sort_decrease.js', array(), '1.1', true);
-    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', true);
 
 ?>
 
