@@ -86,11 +86,11 @@ get_header("iframe");
 
     
 <!-- <script  src="<?php //echo get_template_directory_uri(); ?>/assets/dist/js/game_plus.js"></script> -->
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <?php
     // wp_enqueue_script('dragAndDrop-js2', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array('jquery', 'jquery-ui-core', 'jquery-ui-droppable'), '1.5', true);
     wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/game_plus.js', array(), '1.4', true);
-    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', true);
+
 
 ?>
 
