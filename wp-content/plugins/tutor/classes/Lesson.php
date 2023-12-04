@@ -271,6 +271,8 @@ class Lesson extends Tutor_Base {
 		$topic_id         = Input::post( 'current_topic_id', 0, Input::TYPE_INT );
 		$current_topic_id = $topic_id;
 		$course_id        = tutor_utils()->get_course_id_by( 'topic', $topic_id );
+		// var_dump( $_POST);
+		// die ('');
 
 		if ( ! tutor_utils()->can_user_manage( 'topic', $topic_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor' ) ) );
@@ -316,6 +318,14 @@ class Lesson extends Tutor_Base {
 
 			do_action( 'tutor/lesson_update/after', $lesson_id );
 		}
+
+		// update lesson_game_id
+		$lesson_game_id = $_POST['lesson_game_id'];
+		// var_dump( $lesson_game_id );
+		// die();	
+
+		// $lesson_game_list = Input::post( 'lesson_game_list', array(), Input::TYPE_ARRAY );
+		// update_post_meta( $lesson_id, 'lesson_game_list', $lesson_game_list );
 
 		ob_start();
 		include tutor()->path . 'views/metabox/course-contents.php';

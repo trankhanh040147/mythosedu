@@ -28,6 +28,51 @@ use TUTOR\Input;
 		</div>
 	</div>
 
+	<!-- Checkbox Lesson Game: is lesson has game or not ? -->
+	<div class="tutor-mb-32">
+		<label class="tutor-form-label"><?php esc_html_e( 'Lesson Game', 'tutor' ); ?></label>
+		<div class="tutor-form-checkbox-wrap">
+			<input type="checkbox" name="lesson_game" class="tutor-form-control" value="1" <?php checked( get_post_meta( $post->ID, 'lesson_game', true ), 1 ); ?>/>
+			<label><?php esc_html_e( 'Enable Lesson Game', 'tutor' ); ?></label>
+		</div>
+		<div class="tutor-form-feedback">
+			<i class="tutor-icon-circle-info-o tutor-form-feedback-icon"></i>
+			<div><?php esc_html_e( 'Enable Lesson Game to allow students to play a game after completing the lesson.', 'tutor' ); ?></div>
+		</div>
+		<!-- Game list: Game description - Game ID -->
+		<div class="tutor-form-checkbox-wrap">
+			<label class="tutor-form-label"><?php esc_html_e( 'Game List', 'tutor' ); ?></label>
+			<div class="tutor-form-checkbox-wrap">
+				<!-- select list game dummy -->
+				<select name="lesson_game_id" id="lesson_game_id" class="tutor-form-control">
+					<option value="0"><?php esc_html_e( 'Select Game', 'tutor' ); ?></option>
+					<option value="1"><?php esc_html_e( 'Game 1', 'tutor' ); ?></option>
+					<option value="2"><?php esc_html_e( 'Game 2', 'tutor' ); ?></option>
+					<option value="3"><?php esc_html_e( 'Game 3', 'tutor' ); ?></option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<!-- JS: Hide-set null/Show lesson_game_id base on lesson_game  -->
+	<script>
+		(function($) {
+			$(document).ready(function() {
+				// Hide lesson_game_id when lesson_game is not checked
+				$('#lesson_game_id').hide();
+				// Show lesson_game_id when lesson_game is checked
+				$('input[name="lesson_game"]').click(function() {
+					if ($(this).is(':checked')) {
+						$('#lesson_game_id').show();
+					} else {
+						$('#lesson_game_id').hide();
+						$('#lesson_game_id').val(0);
+					}
+				});
+			});
+		})(jQuery);
+	</script>
+
 	<div class="tutor-mb-32">
 		<label class="tutor-form-label">
 			<?php
