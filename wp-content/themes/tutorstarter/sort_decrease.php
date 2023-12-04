@@ -9,7 +9,7 @@ get_header("iframe");
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <?php 
 
-wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/css/sort_decrease.css', array(), '1.4', false);
+wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/css/sort_decrease.css', array(), '1.5', false);
 
 ?>
 </head>
