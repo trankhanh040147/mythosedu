@@ -21,16 +21,12 @@
  */
 
 // ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
-define( 'DB_NAME', 'u199319889_qLjMI' );
-
-/** Database username */
-define( 'DB_USER', 'u199319889_CahMa' );
+// define( 'DB_NAME', 'mythosedu_backup' );
 // define( 'DB_USER', 'root' );
-
-/** Database password */
+// define( 'DB_PASSWORD', 'khanhkhanh123' );
+define( 'DB_NAME', 'u199319889_qLjMI' );
+define( 'DB_USER', 'u199319889_CahMa' );
 define( 'DB_PASSWORD', 'tYcIKiKYEN' );
-// define( 'DB_PASSWORD', '040147' );
 
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );
@@ -62,7 +58,11 @@ define( 'LOGGED_IN_SALT',    'A>Y4@-O46IFFEU.q]6P4hi)Jrf{9!7+U_Du,*|1aUC1O,&gFX7
 define( 'NONCE_SALT',        'Zm-`XYV3?I_^_>Z}Kw4e_5^mY{UCMGe1S,)>Q~pb[@d4&Es-Xsqu3rj>D*a1Q$^M' );
 define( 'WP_CACHE_KEY_SALT', '{QoT_9 C[gnvDPKStKU&JZ|Jl_R|heYg7.Jh>6i?gM_j5v5Ny,H hKcfB,8&gsdH' );
 
-
+	define('__USERNAME', 'webmaster'); 
+	define('__PASSWORD', 'KhanhKhanh@@2247');
+	define('REST_API_URL', 'http://4.194.242.40:3000');
+	// define THEME_URL
+	define('THEME_URL', 'https://mythosedu.com/');
 /**#@-*/
 
 /**

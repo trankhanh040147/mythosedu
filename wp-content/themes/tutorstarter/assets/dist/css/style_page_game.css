@@ -916,6 +916,7 @@
 }
 
 .z-index6 {
+  position: absolute !important;
   z-index: 6;
   bottom: 0 !important;
   left: 0 !important;
