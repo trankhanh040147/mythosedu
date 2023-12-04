@@ -312,3 +312,6 @@ body {
 .d-flex{
   display: flex !important;
 }
+.position-absolute{
+  position: absolute !important;
+}
