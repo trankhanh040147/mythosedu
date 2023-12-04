@@ -1,20 +1,18 @@
-<?php
-/**
- * The header for the theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package Tutor_Starter
- */
 
-defined( 'ABSPATH' ) || exit;
+<!DOCTYPE html>
+<html <?php language_attributes(); ?> class="no-js no-svg">
 
-wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array(), '1.3', false);
-wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', false);
-$page_meta           = get_post_meta( get_the_ID(), '_tutorstarter_page_metadata', true );
-$disable_header      = ( ! empty( $page_meta['header_toggle'] ) ? $page_meta['header_toggle'] : false );
-$trans_header_toggle = ( ! empty( $page_meta['header_trans_toggle'] ) ? $page_meta['header_trans_toggle'] : false );
+<head>
+  <meta charset="<?php bloginfo('charset'); ?>">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <?php wp_title();
+            echo ' - ';
+            bloginfo('name'); ?>
+  </title>
+  <?php wp_head(); ?>
+  <!-- Custom styles for this template -->
 
-?>
+<link rel="stylesheet" href="/wp-content/themes/tutorstarter/assets/dist/css/bootstrap.min.css">
+</head>
+<body>

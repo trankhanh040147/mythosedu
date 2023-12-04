@@ -6,11 +6,8 @@ get_header("iframe");
 ?>
 
 <head>
-<?php 
+  <link rel="stylesheet" href="https://mythosedu.com/wp-content/themes/tutorstarter/assets/dist/css/sort_increase.css?ver=1.3">
 
-wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/css/sort_increase.css', array(), '1.2', false);
-
-?>
 </head>
 <section id="reOrder" class="___body">
       <!-- *** Header *** -->
@@ -65,9 +62,12 @@ wp_enqueue_style('game_sort_css', get_template_directory_uri() . '/assets/dist/c
 <!-- <script  src="<?php //echo get_template_directory_uri(); ?>/assets/dist/js/game_plus.js"></script> -->
 
 <?php
+    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', false);
+
+wp_enqueue_script('game_plus_js3', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array(), '1.3', false);
+
     // wp_enqueue_script('dragAndDrop-js2', get_template_directory_uri() . '/assets/dist/js/dragAndDrop.js', array('jquery', 'jquery-ui-core', 'jquery-ui-droppable'), '1.5', true);
     wp_enqueue_script('game_plus_js', get_template_directory_uri() . '/assets/dist/js/sort_increase.js', array(), '1.1', true);
-    wp_enqueue_script('game_plus_js2', get_template_directory_uri() . '/assets/dist/js/jquery-3.6.0.min.js', array(), '1.3', false);
 
 ?>
 

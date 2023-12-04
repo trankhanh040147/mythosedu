@@ -46,7 +46,7 @@ function enqueue_custom_scripts() {
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 function enqueue_custom_styles() {
 	// Enqueue your custom CSS file
-	wp_enqueue_style('custom-css', get_template_directory_uri() . '/assets/dist/css/bootstrap.min.css');
+	wp_enqueue_style('custom-css', get_template_directory_uri() . '/assets/dist/css/bootstrap.min.css',array(), '1.6', true);
 }
 
 // Hook the function to the 'wp_enqueue_scripts' action

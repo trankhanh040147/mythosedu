@@ -11,6 +11,10 @@
 
 }
 
+.d-none {
+  display: none;
+}
+
 .__btn-next img,
 .__btn-prev img {
   box-shadow: 0 0 10px white;
