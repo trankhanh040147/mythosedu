@@ -45,7 +45,22 @@ get_header("iframe");
           </div>
         </section>
       </main>
+      <div class="modal-over"></div>
+
+<div class="submit">
+<p>Submit</p>
+</div>
 </section>
+<div class="modal-end-course">
+<div class="__box-text-modal w-100 d-flex justify-content-center align-items-center flex-column">
+  <p class="text-modal w-100 ">Kết thúc khóa học </p>
+  <p class="text-point">Bạn đạt được <span class="point_end"></span> điểm</p>
+<ul class="__detail_modal">
+
+</ul>
+</div>
+<a href="#"><button class="__btn-return-home">Chơi lại</button></a>
+</div>
 <div class="d-flex flex-column">
 <video controls="true" id="video-bg" class="d-none" playsinline>
     <source src="/wp-content/uploads/2023/11/video-click.mp4" type="video/mp4">
