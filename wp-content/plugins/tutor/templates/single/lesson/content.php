@@ -108,6 +108,7 @@ tutor_load_template(
 
 	$has_lesson_attachment = count( tutor_utils()->get_attachments() ) > 0;
 	$has_lesson_comment    = (int) get_comments_number( $course_content_id );
+	$lesson_game_id = get_post_meta(get_the_ID(), 'lesson_game_id', true);
 	?>
 
 	<style>
@@ -137,7 +138,18 @@ tutor_load_template(
 				</a>
 			</li>
 			<?php endif; ?>
+			
 
+			<!-- Add nav-item game -->
+			<?php if ($lesson_game_id != 0) : ?>
+				<li class="tutor-nav-item">
+					<a href="#" class="tutor-nav-link" data-tutor-nav-target="tutor-course-spotlight-game" data-tutor-query-variable="page_tab" data-tutor-query-value="game">
+						<span class="tutor-icon-game tutor-mr-8" area-hidden="true"></span>
+						<span><?php esc_html_e( 'Game', 'tutor' ); ?></span>
+					</a>
+				</li>
+			<?php endif; ?>
+			
 			<?php if ( $is_comment_enabled && ( $has_lesson_content || $has_lesson_attachment ) ) : ?>
 			<li class="tutor-nav-item">
 				<a  href="#" 
@@ -184,9 +196,8 @@ tutor_load_template(
 			<?php endif; ?>
 
 			<?php
-				$lesson_game_id = get_post_meta(get_the_ID(), 'lesson_game_id', true);
 				var_dump( $lesson_game_id );
-				// Add tab game
+				// Add game content
 				if ( $lesson_game_id != 0 ) : ?>
 					<div id="tutor-course-spotlight-game" class="tutor-tab-item">
 						<div class="tutor-container">
