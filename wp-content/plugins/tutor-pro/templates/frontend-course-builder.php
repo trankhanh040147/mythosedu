@@ -174,6 +174,167 @@ if ( ! tutor_utils()->is_instructor( get_current_user_id(), true ) || ! tutor_ut
 
 						<?php do_action( 'tutor/frontend_course_edit/after/category', $post ); ?>
 
+						<!--- COURSE PARENT --->
+						<div class="tutor-frontend-builder-item-scope">
+							<div class="tutor-form-group">
+								<label class="tutor-form-label tutor-font-size-16">
+									<span class="_lbl" style="font-weight: bold;"><?php _e('Course relative', 'tutor'); ?></span><br/>
+								</label>
+
+								
+								<?php
+									// echo tutor_course_categories_checkbox($course_id);
+									// echo tutor_course_list_dropdown($course_id, array('classes' => 'tutor_select2')); //NhatHuy edited removed this 
+									$courses_list = get_posts( array(
+										'post_type' => tutor()->course_post_type,
+										'posts_per_page' => -1,
+										'post_status' => 'publish',
+										'orderby' => 'title',
+										'order' => 'ASC',
+										'exclude' => $course_id
+									) );
+									$parent_ids = get_post_meta( $course_id, '_tutor_course_parent', true );
+									$parent_ids_arr = explode(" ",$parent_ids);
+									$children_ids = get_post_meta( $course_id, '_tutor_course_children', true );
+									$children_ids_arr = explode(" ",$children_ids);
+									//$parent_id = wp_get_post_parent_id($course_id);
+									// var_dump($courses_list);
+								?>
+								
+								<div class="tutor-default-tab tutor-course-details-tab">
+                    
+									<div class="tab-header tutor-d-flex">
+										<div class="tab-header-item is-active" data-tutor-tab-target="tutor-course-parent-tab">
+											<span><?php _e('Parent Course', 'tutor'); ?></span>
+										</div>
+										<div class="tab-header-item" data-tutor-tab-target="tutor-course-children-tab">
+											<span><?php _e('Children Courses', 'tutor'); ?></span>
+										</div>
+															
+									</div>
+									<div class="tab-body">
+										<div class="tab-body-item is-active" id="tutor-course-parent-tab">
+											<div class="tab-item-content ">
+												<div class="tutor-form-field-course-list">
+													<select name="_tutor_course_parent[]" multiple='multiple' class="tutor_select2" class="tutor-form-select" data-placeholder="Type to search Parent Course">
+														
+												<?php
+												foreach($courses_list as $citem) {
+													if($citem->ID==$course_id) continue;	// HuyNote: do not get current course
+													echo '<option ';
+													if (in_array($citem->ID, $parent_ids_arr)) echo ' selected="true" ';
+													//if($parent_id == $citem->ID)  echo ' selected="true" ';
+													echo ' value="'. $citem->ID.'">' . $citem->post_title . '</option>';
+												}
+												?>
+												</select></div>												
+											</div>
+
+										</div>
+
+										<style>
+											/* Nhathuy */
+											.cls-active-courses .tutor-course-listing-grid-3 .tutor-course-listing-item:not(:first-child){background:black;pointer-events: none; opacity: 0.5;}
+
+											.tutor_course_code span._lbl{color:red;}
+											.tutor_course_code #tutor-course-code-start{width:50%!important;display:inline}
+											#tutor-course-parent-tab .tab-item-content {padding: 0 40px;}
+											.tutor-default-tab .tab-body{padding:32px 0;}
+											#tutor-course-children-tab .row{padding: 0 40px;}
+											#tutor-course-children-tab ul{padding:15px; height:400px; overflow-y:auto;border: 1px solid #cdcfd5;
+												border-radius: 6px;background-color:#fff;}
+											#tutor-course-children-tab ul li{list-style:none;border: 1px solid #cdcfd5;padding:5px 8px;margin-bottom:8px;cursor:move;
+											background-color:#f2f2f2;}
+											.dashboard-student-main{
+												padding-top: 50px;
+											background-image: url(/wp-content/uploads/2022/07/Rectangle-19.jpg);
+											background-size: auto;
+												background-position: 0 -120px;
+											background-repeat: repeat-x;
+											}
+											.tutor-dashboard-student-left{
+												padding-top: 27px;
+											}
+										</style>
+
+										<div class="tab-body-item" id="tutor-course-children-tab">
+																		
+											<div class="row justify-content-center">
+												<div class="col-6">
+												  <?php _e('Available Courses', 'tutor'); ?>
+													<ul id="list1" class="sortable">
+														<?php
+														foreach($courses_list as $citem) {
+															if($citem->ID==$course_id) continue;	
+															if (in_array($citem->ID, $children_ids_arr)) continue;
+															echo '<li id="'. $citem->ID.'">' . $citem->post_title . '</li>';
+														}
+														?>
+													</ul>
+												</div>
+												<div class="col-6">
+												  <?php _e('Selected Courses', 'tutor'); ?>												  
+													<ul id="list2" class="sortable">
+														<?php
+
+														foreach($children_ids_arr as $cia) {
+															if($cia) echo '<li id="'. $cia.'">' . get_the_title($cia) . '</li>';
+														}
+														?>
+													</ul>
+												</div>
+											</div>
+											<div class="row justify-content-center">
+											<p><i>(<?php _e('Double click to add or remove. Drag and drop to sort.', 'tutor'); ?>)</i></p>
+											</div>
+											<input id="_tutor_course_parent_old" type="hidden" name="_tutor_course_parent_old" value="<?php echo $parent_ids; ?>" >
+											<input id="_tutor_course_children_old" type="hidden" name="_tutor_course_children_old" value="<?php echo $children_ids; ?>" >
+											<input id="_tutor_course_children" type="hidden" name="_tutor_course_children" value="<?php echo $children_ids; ?>" >
+											<?php wp_enqueue_script( 'script',theme_assets('dist/js/jquery.multisortable.js'), array ( 'jquery' ), 1.1, true);?>
+											<script type="text/javascript">//<![CDATA[
+
+
+											jQuery(function($){
+												$('ul.sortable').multisortable({
+													stop: function(e){
+														var phrase = '';
+														$('ul#list2').find('li').each(function(){
+															var current = $(this);
+															phrase += current.attr('id')+" ";
+														});
+														$('#_tutor_course_children').val(phrase);
+													}
+												});
+												$('ul#list1').sortable('option', 'connectWith', 'ul#list2');
+												$('ul#list2').sortable('option', 'connectWith', 'ul#list1');
+												$(document).on("dblclick", "ul.sortable li", function(e) {
+													$(this).removeClass( "selected" );
+													if($(this).parent().attr('id')=='list1')
+														$('ul#list2').append($(this).prop('outerHTML'));
+													else $('ul#list1').append($(this).prop('outerHTML'));
+													$(this).remove();
+													
+													var phrase = '';
+													$('ul#list2').find('li').each(function(){
+														var current = $(this);
+														phrase += current.attr('id')+" ";
+													});
+													$('#_tutor_course_children').val(phrase);
+														
+												});	
+											});
+
+
+											  //]]>
+											  </script>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--- ./COURSE PARENT --->
+
 						<?php
 						$monetize_by = tutils()->get_option( 'monetize_by' );
 						if ( $monetize_by === 'wc' || $monetize_by === 'edd' ) {
