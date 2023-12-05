@@ -191,6 +191,18 @@ class General {
 			}
 		}
 
+		// Vardump for testing
+		// $course_chilren = $_POST['_tutor_course_children'];
+
+		// $course_children_arr = explode(" ", $course_chilren);
+		// // Convert each element in the array to an integer
+		// $course_children_arr = array_map('intval', $course_children_arr);
+
+		// $prerequisites_course_ids = Input::post('_tutor_course_prerequisites_ids', array(), Input::TYPE_ARRAY);
+		// var_dump( $course_children_arr );
+		// var_dump( $prerequisites_course_ids );
+		// die();
+
 		do_action( 'save_tutor_course', $post_ID, $post_data );
 
 		if ( wp_doing_ajax() ) {
@@ -561,6 +573,21 @@ class General {
 			}			
 		}
 		//PKhanh: End Save Course relative
+
+		// Update Save prerequisites course
+		$course_chilren_prere = $_POST['_tutor_course_children'];
+
+		$course_chilren_prere_arr = explode(" ", $course_chilren_prere);
+		// Convert each element in the array to an integer
+		$course_chilren_prere_arr = array_map('intval', $course_chilren_prere_arr);
+
+		$prerequisites_course_ids = $course_chilren_prere_arr;
+
+		update_post_meta($post_ID, '_tutor_course_prerequisites_ids', $prerequisites_course_ids);
+
+		// var_dump( $course_children_arr );
+		// var_dump( $prerequisites_course_ids );
+		// die();
 	}
 
 
