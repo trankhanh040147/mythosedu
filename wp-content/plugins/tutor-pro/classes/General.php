@@ -39,6 +39,7 @@ class General {
 		add_filter( 'tutor_pages', array( $this, 'add_login_page' ), 10, 1 );
 
 		add_action( 'tutor_after_lesson_completion_button', array( $this, 'add_course_completion_button' ), 10, 4 );
+		add_action( 'save_tutor_course', array( $this, 'save_course_relative' ), 10, 2 );
 	}
 
 	/**
@@ -491,4 +492,76 @@ class General {
 			delete_post_meta( $post_id, '_thumbnail_id' );
 		}
 	}
+
+	public function save_course_relative( $post_ID, $postData ) {
+		/** PKhanh - Save Course relative */
+		
+		// Edited 6/12
+		$course_parent_old = intval($_POST['_tutor_course_parent_old']);		
+		$course_parent_old_arr = explode(" ",$course_parent_old);
+		$course_parent = "";
+		$course_parent_arr = $_POST['_tutor_course_parent'];		
+		if(!isset($course_parent_arr)) $course_parent_arr = array();
+		$course_parent = implode(" ",$course_parent_arr);
+		update_post_meta( $post_ID, '_tutor_course_parent', $course_parent );
+		$remove_parent = array_diff($course_parent_old_arr, $course_parent_arr);
+		$add_parent = array_diff($course_parent_arr, $course_parent_old_arr);
+		foreach((array)$remove_parent as $r_p) {
+			//remove this course as child from remove parent
+			$remove_children_ids = get_post_meta( $r_p, '_tutor_course_children', true );
+			$remove_children_ids_arr = explode(" ",$remove_children_ids);
+			$pos = array_search($post_ID, $remove_children_ids_arr);
+			if ($pos !== false) {
+				unset($remove_children_ids_arr[$pos]);
+				$_tutor_course_children = implode(" ",$remove_children_ids_arr);
+				update_post_meta( $r_p, '_tutor_course_children', $_tutor_course_children );
+			}
+		}
+		foreach((array)$add_parent as $a_p) {
+			//add this coure as child to add parent
+			$add_children_ids = get_post_meta( $a_p, '_tutor_course_children', true );
+			$add_children_ids_arr = explode(" ",$add_children_ids);
+			if (!in_array($post_ID, $add_children_ids_arr))
+			{
+				$add_children_ids_arr[] = $post_ID; 
+				$_tutor_course_children = implode(" ",$add_children_ids_arr);
+				update_post_meta( $a_p, '_tutor_course_children', $_tutor_course_children );
+			}
+		}
+					
+		//courses children
+		$course_children_old = trim($_POST['_tutor_course_children_old']);
+		$course_children = trim($_POST['_tutor_course_children']);
+		update_post_meta( $post_ID, '_tutor_course_children', $course_children );
+		$course_children_old_arr = explode(" ",$course_children_old);
+		$course_children_arr = explode(" ",$course_children);
+		$remove_children = array_diff($course_children_old_arr, $course_children_arr);
+		$add_children = array_diff($course_children_arr, $course_children_old_arr);
+		//var_dump($remove_children);die();
+		foreach((array)$remove_children as $r_c) {
+			//remove this course as parent from remove child
+			$remove_parent_ids = get_post_meta( $r_c, '_tutor_course_parent', true );
+			$remove_parent_ids_arr = explode(" ",$remove_parent_ids);
+			$pos = array_search($post_ID, $remove_parent_ids_arr);
+			if ($pos !== false) {
+				unset($remove_parent_ids_arr[$pos]);
+				$_tutor_course_parent = implode(" ",$remove_parent_ids_arr);
+				update_post_meta( $r_c, '_tutor_course_parent', $_tutor_course_parent );
+			}
+		}
+		foreach((array)$add_children as $a_c) {
+			//add this coure as parent to add child
+			$add_parent_ids = get_post_meta( $a_c, '_tutor_course_parent', true );
+			$add_parent_ids_arr = explode(" ",$add_parent_ids);
+			if (!in_array($post_ID, $add_parent_ids_arr))
+			{
+				$add_parent_ids_arr[] = $post_ID; 
+				$_tutor_course_parent = implode(" ",$add_parent_ids_arr);
+				update_post_meta( $a_c, '_tutor_course_parent', $_tutor_course_parent );
+			}			
+		}
+		//PKhanh: End Save Course relative
+	}
+
+
 }
