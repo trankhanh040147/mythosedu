@@ -236,4 +236,8 @@ function get_template_part_content()
 	print_r($content);
 	die();
 }
+
+function theme_assets($name) {
+    return get_template_directory_uri() . "/assets/{$name}";
+}
 ?>

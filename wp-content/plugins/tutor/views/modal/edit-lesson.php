@@ -11,8 +11,14 @@
 use TUTOR\Input;
 
 ?>
+<!-- import css file: wp-content\plugins\tutor\assets\css\edit-lesson.css -->
+<link rel="stylesheet" href="<?php echo theme_assets('dist/css/edit-lesson.css')  ?>" />
+
 <form class="tutor_lesson_modal_form">
-	<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
+	<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); 
+		$lesson_game_id = get_post_meta($post->ID, 'lesson_game_id', true);
+		$lesson_game_checked = !empty($lesson_game_id) && $lesson_game_id != '0' ? 'checked' : '';
+	?>
 	<input type="hidden" name="action" value="tutor_modal_create_or_update_lesson">
 	<input type="hidden" name="lesson_id" value="<?php echo esc_attr( $post->ID ); ?>">
 	<input type="hidden" name="current_topic_id" value="<?php echo esc_attr( $topic_id ); ?>">
@@ -32,7 +38,7 @@ use TUTOR\Input;
 	<div class="tutor-mb-32">
 		<label class="tutor-form-label"><?php esc_html_e( 'Lesson Game', 'tutor' ); ?></label>
 		<div class="tutor-form-checkbox-wrap">
-			<input type="checkbox" name="lesson_game" class="tutor-form-control" value="1" <?php checked( get_post_meta( $post->ID, 'lesson_game', true ), 1 ); ?>/>
+        	<input type="checkbox" name="lesson_game" class="tutor-form-control" value="1" <?php echo $lesson_game_checked; ?> />
 			<label><?php esc_html_e( 'Enable Lesson Game', 'tutor' ); ?></label>
 		</div>
 		<div class="tutor-form-feedback">
@@ -45,10 +51,18 @@ use TUTOR\Input;
 			<div class="tutor-form-checkbox-wrap">
 				<!-- select list game dummy -->
 				<select name="lesson_game_id" id="lesson_game_id" class="tutor-form-control">
-					<option value="0"><?php esc_html_e( 'Select Game', 'tutor' ); ?></option>
-					<option value="1"><?php esc_html_e( 'Game 1', 'tutor' ); ?></option>
-					<option value="2"><?php esc_html_e( 'Game 2', 'tutor' ); ?></option>
-					<option value="3"><?php esc_html_e( 'Game 3', 'tutor' ); ?></option>
+					<option value="0" <?php selected($lesson_game_id, '0'); ?>>
+						<?php esc_html_e('Select Game', 'tutor'); ?>
+					</option>
+					<option value="1" <?php selected($lesson_game_id, '1'); ?>>
+						<?php esc_html_e('Game 1', 'tutor'); ?>
+					</option>
+					<option value="2" <?php selected($lesson_game_id, '2'); ?>>
+						<?php esc_html_e('Game 2', 'tutor'); ?>
+					</option>
+					<option value="3" <?php selected($lesson_game_id, '3'); ?>>
+						<?php esc_html_e('Game 3', 'tutor'); ?>
+					</option>
 				</select>
 			</div>
 		</div>
@@ -56,21 +70,26 @@ use TUTOR\Input;
 
 	<!-- JS: Hide-set null/Show lesson_game_id base on lesson_game  -->
 	<script>
-		(function($) {
-			$(document).ready(function() {
-				// Hide lesson_game_id when lesson_game is not checked
-				$('#lesson_game_id').hide();
-				// Show lesson_game_id when lesson_game is checked
-				$('input[name="lesson_game"]').click(function() {
-					if ($(this).is(':checked')) {
-						$('#lesson_game_id').show();
-					} else {
-						$('#lesson_game_id').hide();
-						$('#lesson_game_id').val(0);
-					}
-				});
-			});
-		})(jQuery);
+    (function ($) {
+        $(document).ready(function () {
+            // Initial state based on the checkbox
+            if ($('input[name="lesson_game"]').is(':checked')) {
+                $('#lesson_game_id').show();
+            } else {
+                $('#lesson_game_id').hide();
+            }
+
+            // Toggle visibility on click
+            $('input[name="lesson_game"]').click(function () {
+                if ($(this).is(':checked')) {
+                    $('#lesson_game_id').show();
+                } else {
+                    $('#lesson_game_id').hide();
+                    $('#lesson_game_id').val(0);
+                }
+            });
+        });
+    })(jQuery);
 	</script>
 
 	<div class="tutor-mb-32">

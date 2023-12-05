@@ -1,0 +1,55 @@
+.tutor-form-control {
+    display: block;
+    width: 100%;
+    outline: none;
+    border-radius: 6px;
+    background-color: var(--tutor-color-white);
+    box-sizing: border-box;
+    color: var(--tutor-color-black);
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    height: auto;
+    border: 1px solid var(--tutor-border-color);
+    box-shadow: none;
+    transition: color 200ms ease-in-out,background-color 200ms ease-in-out,border-color 200ms ease-in-out;
+}
+.tutor-form-label {
+    display: block;
+    font-size: 14px;
+    color: var(--tutor-body-color);
+    line-height: 24px;
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+.tutor-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #eff1f7;
+    background-clip: padding-box;
+    border: 1px solid var(--tutor-border-color);
+    border-radius: 16px;
+    outline: 0;
+}
+.tutor-modal-window {
+    position: relative;
+    width: auto;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    max-width: 640px;
+    margin: 48px auto;
+    min-height: calc(100% - 96px);
+}
+.tutor-form-feedback {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 12px 0 0;
+    color: var(--tutor-color-muted);
+    position: relative;
+    display: flex;
+}
