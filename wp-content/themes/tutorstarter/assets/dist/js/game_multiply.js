@@ -10,16 +10,16 @@ $(document).ready(function () {
   function pushDot(y, x) {
     var html = '';
     var html_child = '<div class="__box_dot_nhan">';
-    
+
     for (var i = 0; i < x; i++) {
       for (var j = 0; j < y; j++) {
-        html_child+= '<div class="khanh"><div class="dot"></div></div>';
+        html_child += '<div class="khanh"><div class="dot"></div></div>';
       }
-      html_child+='</div>'
+      html_child += '</div>'
       html += html_child;
       html_child = '<div class="__box_dot_nhan">';
     }
-    
+
     return html;
   }
   function pushDotError(x) {
@@ -73,11 +73,11 @@ $(document).ready(function () {
   }
   $('.item:eq(0)').text(data.option[0]);
   $('.item:eq(1)').text(data.option[1]);
-  $('.item').eq(0).prev().html(pushDot(data.option[0],1));
-  console.log("log test:"+pushDot(2,1));
+  $('.item').eq(0).prev().html(pushDot(data.option[0], 1));
+  console.log("log test:" + pushDot(2, 1));
   $('.item:eq(0)').attr("data", data.option[0]);
   $('.item:eq(1)').attr("data", data.option[1]);
-  $('.item').eq(1).prev().html(pushDot(data.option[1],1));
+  $('.item').eq(1).prev().html(pushDot(data.option[1], 1));
   $('.item2').droppable({ drop: handleCardDrop })
   $('.item-select-after').each(function () {
     console.log('hei là:' + $(this).outerHeight());
@@ -119,7 +119,7 @@ $(document).ready(function () {
         var heigtht = 0;
 
         let totalValue = data.result;
-        $('.item2').prev().html(pushDot(data.option[0],data.option[1]));
+        $('.item2').prev().html(pushDot(data.option[0], data.option[1]));
 
 
         // console.log(totalValue);
@@ -156,36 +156,36 @@ $(document).ready(function () {
         }
         var video = $("#video-tingting").get(0);
 
-function playVideo() {
-  video.currentTime = 0; // Đặt thời gian video về 0 để chơi lại từ đầu
-  video.play();
-}
+        function playVideo() {
+          video.currentTime = 0; // Đặt thời gian video về 0 để chơi lại từ đầu
+          video.play();
+        }
         var khanhElements = $('.item2').prev().find('.__box_dot_nhan'); // Lấy tất cả các phần tử có lớp .khanh
         function addToKhanh() {
-          return new Promise(function(resolve) {
+          return new Promise(function (resolve) {
             if (khanhElements.length === 0) {
               resolve(); // Nếu không còn phần tử .khanh nào thì hoàn thành Promise
               return;
             }
-        
+
             var khanhElement = khanhElements.eq(0);
             khanhElement.addClass('animation-dot');
-        
+
             khanhElements = khanhElements.slice(1);
             // $("#video-tingting").get(0).play();
             playVideo();
             setTimeout(resolve, 500); // Gọi resolve sau 1s
           });
         }
-        
+
         async function addClassToKhanh() {
           while (khanhElements.length > 0) {
             await addToKhanh();
           }
         }
-        
-        setTimeout(function() {
-          addClassToKhanh().then(function() {
+
+        setTimeout(function () {
+          addClassToKhanh().then(function () {
             // Hàm addToKhanh đã chạy xong, tiếp tục với phần code bên dưới
             console.log($('.item2').attr("data"));
             if (totalValue === parseInt($('.item2').attr("data"))) {
@@ -196,7 +196,8 @@ function playVideo() {
               $("#video-sai").get(0).play();
             }
           });
-        }, 800)};
+        }, 800)
+      };
     }, 100)
 
   }
@@ -210,4 +211,13 @@ function playVideo() {
 
     )
   }
+
+  $('.submit').click(function () {
+    $('.point_end').text(localStorage.getItem('Point'));
+    $(".modal-over").show();
+    $('.modal-end-course').addClass("d-flex");
+  })
+  $(".__btn-return-home").click(function () {
+    location.reload();
+  })
 })

@@ -202,10 +202,10 @@ tutor_load_template(
 					<div id="tutor-course-spotlight-game" class="tutor-tab-item">
 						<div class="tutor-container">
 							<div class="tutor-row tutor-justify-center">
-								<div class="tutor-col-xl-12">
-									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( 'Game', 'tutor' ); ?></div>
+								<div class="tutor-col-xl-9">
+									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( '', 'tutor' ); ?></div>
 									<div class="tutor-fs-6 tutor-col-12  tutor-color-secondary tutor-lesson-wrapper">
-										<?php echo do_shortcode('[game_name template_name="game_plus"]'); ?>
+										<?php echo do_shortcode('[game_name template_name="sort_increase"]'); ?>
 									</div>
 								</div>
 							</div>
