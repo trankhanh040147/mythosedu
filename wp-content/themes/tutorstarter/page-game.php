@@ -50,8 +50,9 @@ get_header();
     
   </ul>
     </div>
-    <button class="__btn-return-home">Chơi lại</button>
+    <a href="#"><button class="__btn-return-home">Chơi lại</button></a>
   </div>
+ 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="<?php echo get_template_directory_uri(); ?>/assets/dist/js/page-game.js?v=1.2"></script>
