@@ -139,10 +139,10 @@ $(document).ready(function () {
           $('.item2').prev().find('.khanh').eq(i).css("opacity", 1);
         }
         var video = $("#video-tingting").get(0);
-function playVideo() {
-  video.currentTime = 0; // Đặt thời gian video về 0 để chơi lại từ đầu
-  video.play();
-}
+        function playVideo() {
+          video.currentTime = 0; // Đặt thời gian video về 0 để chơi lại từ đầu
+          video.play();
+        }
         function timeout(ms) {
           return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -194,4 +194,12 @@ function playVideo() {
 
     )
   }
+  $('.submit').click(function () {
+    $('.point_end').text(localStorage.getItem('Point'));
+    $(".modal-over").show();
+    $('.modal-end-course').addClass("d-flex");
+  })
+  $(".__btn-return-home").click(function () {
+    location.reload();
+  })
 })

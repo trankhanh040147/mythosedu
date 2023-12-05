@@ -240,4 +240,12 @@ $(document).ready(function () {
       "</div>"
     );
   }
-});
+  $('.submit').click(function () {
+    $('.point_end').text(localStorage.getItem('Point'));
+    $(".modal-over").show();
+    $('.modal-end-course').addClass("d-flex");
+  })
+  $(".__btn-return-home").click(function () {
+    location.reload();
+  })
+})
