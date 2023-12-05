@@ -228,7 +228,7 @@ function get_cookies_data()
 
 function get_template_part_content()
 {
-	$template = $_POST['template'];
+	$template = $_POST['template_name'];
 
 	ob_start();
 	get_template_part($template);
@@ -240,4 +240,21 @@ function get_template_part_content()
 function theme_assets($name) {
     return get_template_directory_uri() . "/assets/{$name}";
 }
+// Add this code to your theme's functions.php file
+
+function custom_template_shortcode($atts) {
+	$atts = shortcode_atts(array(
+			'template_name' => '', // Default template name if not specified
+	), $atts);
+
+	$template = sanitize_text_field($atts['template_name']);
+
+	ob_start();
+	get_template_part($template);
+	$content = ob_get_clean();
+
+	return $content;
+}
+add_shortcode('game_name', 'custom_template_shortcode');
+
 ?>

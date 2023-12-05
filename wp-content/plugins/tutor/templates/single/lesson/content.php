@@ -145,7 +145,7 @@ tutor_load_template(
 				<li class="tutor-nav-item">
 					<a href="#" class="tutor-nav-link" data-tutor-nav-target="tutor-course-spotlight-game" data-tutor-query-variable="page_tab" data-tutor-query-value="game">
 						<span class="tutor-icon-game tutor-mr-8" area-hidden="true"></span>
-						<span><?php esc_html_e( 'Game', 'tutor' ); ?></span>
+						<span><?php esc_html_e( 'Games', 'tutor' ); ?></span>
 					</a>
 				</li>
 			<?php endif; ?>
@@ -196,37 +196,24 @@ tutor_load_template(
 			<?php endif; ?>
 
 			<?php
-				var_dump( $lesson_game_id );
+				// var_dump( $lesson_game_id );
 				// Add game content
 				if ( $lesson_game_id != 0 ) : ?>
 					<div id="tutor-course-spotlight-game" class="tutor-tab-item">
 						<div class="tutor-container">
 							<div class="tutor-row tutor-justify-center">
-								<div class="tutor-col-xl-8">
+								<div class="tutor-col-xl-12">
 									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( 'Game', 'tutor' ); ?></div>
-									<div class="tutor-fs-6 tutor-color-secondary tutor-lesson-wrapper">
-										<?php echo do_shortcode('[game id="0"]'); ?>
+									<div class="tutor-fs-6 tutor-col-12  tutor-color-secondary tutor-lesson-wrapper">
+										<?php echo do_shortcode('[game_name template_name="game_plus"]'); ?>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>	
 				<?php endif; ?>
-			?>
-
-			<div id="tutor-course-spotlight-files" class="tutor-tab-item<?php echo esc_attr( ( 'files' == $page_tab || false === $has_lesson_content ) ? ' is-active' : '' ); ?>">
-						<div class="tutor-container">
-							<div class="tutor-row tutor-justify-center">
-								<div class="tutor-col-xl-8">
-									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( 'Game', 'tutor' ); ?></div>
-									<div class="tutor-fs-6 tutor-color-secondary tutor-lesson-wrapper">
-										<?php echo do_shortcode('[game id="0"]'); ?>
-									</div>
-								</div>
-							</div>
-						</div>
-			</div>	
 			
+
 			<?php if ( $is_comment_enabled ) : ?>
 			<div id="tutor-course-spotlight-comments" class="tutor-tab-item<?php echo esc_attr( ( 'comments' == $page_tab || ( false === $has_lesson_content && false === $has_lesson_attachment ) ) ? ' is-active' : '' ); ?>">
 				<div class="tutor-container">

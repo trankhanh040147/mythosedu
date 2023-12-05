@@ -1,0 +1,63 @@
+2023-12-05T15:10:49+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-05T15:10:55+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-05T15:11:12+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-05T15:27:50+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-05T15:27:54+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-05T15:27:59+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
+2023-12-05T15:28:21+00:00 CRITICAL Uncaught Error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php:85
+Stack trace:
+#0 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php(45): MailPoet\Doctrine\ConnectionFactory->getDriverOptions()
+#1 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(604): MailPoet\Doctrine\ConnectionFactory->createConnection()
+#2 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3095): MailPoetGenerated\FreeCachedContainer->getConnectionService()
+#3 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(614): MailPoetGenerated\FreeCachedContainer->getEntityManagerFactoryService()
+#4 D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\generated\FreeCachedContainer.php(3063): MailPoetGenerated\FreeCachedContainer->getEntityManagerService()
+#5 D:\TLCN\web_online\mythosedu\w in D:\TLCN\web_online\mythosedu\wp-content\plugins\mailpoet\lib\Doctrine\ConnectionFactory.php on line 85
+
