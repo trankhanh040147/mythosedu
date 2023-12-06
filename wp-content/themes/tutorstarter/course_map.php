@@ -1,6 +1,6 @@
 <?php 
 /* 
-** Template Name: game_multiply
+** Template Name: course_map
 */ 
 get_header("iframe");
 ?>
@@ -15,11 +15,11 @@ get_header("iframe");
 </head>
 
 <div class="__loading"></div>
-  <img src="img/cloud1.svg" alt="" class="__cloud1 position-fixed">
-  <img src="img/cloud2.svg" alt="" class="__cloud2 position-fixed">
-  <!-- <img src="img/cloud3.svg" alt="" class="__cloud3 position-absolute"> -->
-  <img src="img/cloud4.svg" alt="" class="__cloud4 position-fixed">
-  <!-- <img src="img/cloud5.svg" alt="" class="__cloud5 position-absolute"> -->
+  <img src="/wp-content/uploads/2023/12/cloud1.svg" alt="" class="__cloud1 position-fixed">
+  <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-fixed">
+  <!-- <img src="/wp-content/uploads/2023/12/cloud3.svg" alt="" class="__cloud3 position-absolute"> -->
+  <img src="/wp-content/uploads/2023/12/cloud4.svg" alt="" class="__cloud4 position-fixed">
+  <!-- <img src="/wp-content/uploads/2023/12/cloud5.svg" alt="" class="__cloud5 position-absolute"> -->
   <section class="__header">
     <div class="container ">
       <div class="row">
@@ -27,32 +27,32 @@ get_header("iframe");
           <div class="col-6 d-flex">
             <div class="__me-40">
               <div class="position-relative __box-star">
-                <img src="img/star.svg" alt="" class="img-star">
-                <img src="img/number-start.svg" alt="" class="__number-star">
+                <img src="/wp-content/uploads/2023/12/star.svg" alt="" class="img-star">
+                <img src="/wp-content/uploads/2023/12/number-start.svg" alt="" class="__number-star">
               </div>
               <div class="position-relative __box-star __box-bottom-star">
-                <img src="img/bottom-start.svg" alt="" class="img-bottom-star">
+                <img src="/wp-content/uploads/2023/12/bottom-start.svg" alt="" class="img-bottom-star">
                 <div class="__process position-absolute "></div>
               </div>
             </div>
             <div class="__me-40 d-flex align-items-start">
-              <img src="img/icon-xu.svg" class="___img-xu" alt="">
-              <img src="img/number-xu.svg" alt="" class="__number-xu ms-1 mt-3">
+              <img src="/wp-content/uploads/2023/12/icon-xu.svg" class="___img-xu" alt="">
+              <img src="/wp-content/uploads/2023/12/number-xu.svg" alt="" class="__number-xu ms-1 mt-3">
             </div>
             <div class=" d-flex align-items-start">
-              <img src="img/icon-key.svg" class="___img-xu " alt="">
-              <img src="img/number-xu.svg" alt="" class="__number-xu ms-1 mt-3">
+              <img src="/wp-content/uploads/2023/12/icon-key.svg" class="___img-xu " alt="">
+              <img src="/wp-content/uploads/2023/12/number-xu.svg" alt="" class="__number-xu ms-1 mt-3">
             </div>
           </div>
           <div class="col-6 d-flex justify-content-end">
             <div class="position-relative __box-star __me-40">
-              <img src="img/icon-heart.svg" alt="" class="__bg-heart">
-              <img src="img/heart.svg" class="__icon-heart position-absolute" alt="">
+              <img src="/wp-content/uploads/2023/12/icon-heart.svg" alt="" class="__bg-heart">
+              <img src="/wp-content/uploads/2023/12/heart.svg" class="__icon-heart position-absolute" alt="">
               <div class="process2"></div>
             </div>
             <div class=" d-flex __box-star align-items-center">
-              <img src="img/star2.svg" class="___img-xu2 " alt="">
-              <img src="img/number-xu.svg" alt="" class="__number-xu ms-1 mt-1">
+              <img src="/wp-content/uploads/2023/12/star2.svg" class="___img-xu2 " alt="">
+              <img src="/wp-content/uploads/2023/12/number-xu.svg" alt="" class="__number-xu ms-1 mt-1">
             </div>
           </div>
         </div>
@@ -65,52 +65,52 @@ get_header("iframe");
         <div class="col-12 col-md-10  line-level">
       <div class="col-12 __level8">
         <div class="col-4 d-flex flex-column __box-level8">
-          <div><a href="#" class="__link8"><img src="img/level8.svg" alt="" class="__img-level8 __img-level"></a></div>
-          <div><img src="img/icon-address-level.svg" alt="" class="icon-address-level1"></div>
+          <div><a href="#" class="__link8"><img src="/wp-content/uploads/2023/12/level8.svg" alt="" class="__img-level8 __img-level"></a></div>
+          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div>
         </div>
       </div>
       <div class="col-12 d-flex justify-content-center __level7">
         <div class="col-4 d-flex flex-column align-items-center">
-          <div> <a href="#" class="__link7"><img src="img/level7.svg" alt="" class="__img-level"></a></div>
-          <div><img src="img/icon-address-level.svg" alt="" class="icon-address-level7"></div>
+          <div> <a href="#" class="__link7"><img src="/wp-content/uploads/2023/12/level7.svg" alt="" class="__img-level"></a></div>
+          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level7"></div>
         </div>
       </div>
       <div class="col-12 d-flex justify-content-end __level6">
         <div class="col-4 d-flex flex-column align-items-end  __box-level6">
-          <div><a href="#" class="__link6"><img src="img/level6.svg" alt="" class="__img-level __img-level6"></a></div>
-          <div><img src="img/icon-address-level.svg" alt="" class="icon-address-level6"></div>
+          <div><a href="#" class="__link6"><img src="/wp-content/uploads/2023/12/level6.svg" alt="" class="__img-level __img-level6"></a></div>
+          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level6"></div>
         </div>
       </div>
       <div class="col-12 d-flex justify-content-center __level5">
         <div class="col-4 d-flex align-items-end ms-5">
-          <div><img src="img/icon-address-level.svg" alt="" class="icon-address-level5"></div>
-          <div><a href="#" class="__link5"><img src="img/level5.svg" alt="" class="__img-level __img-level5"></a></div>
+          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level5"></div>
+          <div><a href="#" class="__link5"><img src="/wp-content/uploads/2023/12/level5.svg" alt="" class="__img-level __img-level5"></a></div>
         </div>
       </div>
       <div class="col-12 d-flex justify-content-start __level4">
         <div class="col-4 d-flex flex-column justify-content-center  __box-level4">
-          <div><a href="#" class="__link4"><img src="img/level4.svg" alt="" class="__img-level __img-level4"></a></div>
-          <div><img src="img/icon-address-level.svg" alt="" class="icon-address-level4"></div>
+          <div><a href="#" class="__link4"><img src="/wp-content/uploads/2023/12/level4.svg" alt="" class="__img-level __img-level4"></a></div>
+          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level4"></div>
         </div>
       </div>
       <div class="col-12 d-flex justify-content-end __level3">
         <div class="col-4 d-flex   align-items-center justify-content-end __box-2">
-          <div><img src="img/icon-address-level.svg" alt=""></div>
-          <div><a href="#" class="__link3"><img src="img/level2.svg" alt="" class="__img-level"></a></div>
+          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt=""></div>
+          <div><a href="#" class="__link3"><img src="/wp-content/uploads/2023/12/level2.svg" alt="" class="__img-level"></a></div>
         </div>
       </div>
       <div class="col-12 d-flex justify-content-center __level2">
         <div class="col-4 d-flex align-items-end justify-content-center __box-level3">
-          <div class="box-img-level3"><img src="img/icon-address-level.svg" alt="" class="mb-3"></div>
-          <div  class="box-img-address3"><a href="#" class="__link2"><img src="img/level3.svg" alt="" class="__img-level"></a></div>
+          <div class="box-img-level3"><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="mb-3"></div>
+          <div  class="box-img-address3"><a href="#" class="__link2"><img src="/wp-content/uploads/2023/12/level3.svg" alt="" class="__img-level"></a></div>
    
         </div>
       </div>
 
       <div class="col-12 d-flex justify-content-end __level1">
         <div class="col-4 d-flex flex-column align-items-center j ">
-          <div class="box-img-level1"><img src="img/icon-address-level-active.svg" alt="" class="__level-active"></div>
-          <div class="box-img-address1"><a href="#" class="__link1"><img src="img/level1.svg" alt="" class="__img-level"></a></div>
+          <div class="box-img-level1"><img src="/wp-content/uploads/2023/12/icon-address-level-active.svg" alt="" class="__level-active"></div>
+          <div class="box-img-address1"><a href="#" class="__link1"><img src="/wp-content/uploads/2023/12/level1.svg" alt="" class="__img-level"></a></div>
         </div>
       </div>
         </div>
