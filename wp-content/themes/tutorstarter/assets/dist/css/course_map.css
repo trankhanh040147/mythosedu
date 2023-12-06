@@ -156,7 +156,7 @@ body {
   content: "";
   width: 50%;
   height: 100%;
-  background-image: url(img/path1.svg);
+  background-image: url(/wp-content/uploads/2023/12/path1.svg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -310,7 +310,7 @@ body {
 .line-level {
   position: relative;
   z-index: 1;
-  background-image: url(./img/line.png);
+  background-image: url(/wp-content/uploads/2023/12/line.png);
   background-size: 90% 80%;
   background-position: center center;
   background-repeat: no-repeat;
