@@ -2550,6 +2550,41 @@ function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) 
 	return update_metadata( 'post', $post_id, $meta_key, $meta_value, $prev_value );
 }
 
+// function update _tutor_course_prerequisites_ids of _tutor_course_parent: 
+// insert/update $post_id into _tutor_course_prerequisites_ids of $parent_courses_lists
+// loop through all $parent_courses_lists, then update the _tutor_course_prerequisites_ids of each parent course
+function update_prerequisites_ids_for_parents( $post_id, $parent_courses_lists) {
+	$parent_courses_arr = explode( ' ', $parent_courses_lists );
+	$parent_courses_arr = array_unique($parent_courses_arr);
+	foreach ($parent_courses_arr as $parent_course_id) {
+		$parent_course_prerequisites_ids = get_post_meta($parent_course_id, '_tutor_course_prerequisites_ids', true);
+		if (empty($parent_course_prerequisites_ids) || empty( $parent_course_prerequisites_ids[0] )) {
+			$parent_course_prerequisites_ids = array();
+		}
+		$parent_course_prerequisites_ids[] = $post_id;
+		$parent_course_prerequisites_ids = array_unique($parent_course_prerequisites_ids);
+		// 		$prerequisites_course_ids_new_arr = array_unique(array_merge($prerequisites_course_ids_old_arr, $prerequisites_course_ids));
+		update_post_meta($parent_course_id, '_tutor_course_prerequisites_ids', $parent_course_prerequisites_ids);
+	}
+}
+
+
+// function update_prerequisites_ids_for_parents($course_id, $prerequisites_course_ids) {
+// 	$course_parent = get_post_meta($course_id, '_tutor_course_parent', true);
+// 	$course_parent_arr = explode(" ", $course_parent);
+// 	// Convert each element in the array to an integer
+// 	$course_parent_arr = array_map('intval', $course_parent_arr);
+// 	foreach((array)$course_parent_arr as $c_p) {
+// 		$prerequisites_course_ids_old = get_post_meta($c_p, '_tutor_course_prerequisites_ids', true);
+// 		$prerequisites_course_ids_old_arr = explode(" ", $prerequisites_course_ids_old);
+// 		// Convert each element in the array to an integer
+// 		$prerequisites_course_ids_old_arr = array_map('intval', $prerequisites_course_ids_old_arr);
+// 		$prerequisites_course_ids_new_arr = array_unique(array_merge($prerequisites_course_ids_old_arr, $prerequisites_course_ids));
+// 		$prerequisites_course_ids_new = implode(" ", $prerequisites_course_ids_new_arr);
+// 		update_post_meta($c_p, '_tutor_course_prerequisites_ids', $prerequisites_course_ids_new);
+// 	}
+// }
+
 /**
  * Deletes everything from post meta matching the given meta key.
  *

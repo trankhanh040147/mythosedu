@@ -584,6 +584,9 @@ class General {
 		$prerequisites_course_ids = $course_chilren_prere_arr;
 
 		update_post_meta($post_ID, '_tutor_course_prerequisites_ids', $prerequisites_course_ids);
+		// update_prerequisites_ids_for_parents($post_ID, $prerequisites_course_ids);
+		update_prerequisites_ids_for_parents($post_ID, $course_parent);
+
 
 		// var_dump( $course_children_arr );
 		// var_dump( $prerequisites_course_ids );
