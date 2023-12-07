@@ -349,9 +349,7 @@ function custom_course_list_shortcode() {
 }
 
 	if ($courses_list) {
-		    // Loop through all levels
 			foreach ($courses_list as $course) {
-					// Course detail
 					$thumbnail = get_the_post_thumbnail($course->ID, 'thumbnail', array('class' => 'img-course'));
 					$title = get_the_title($course->ID);
 					$permalink = get_permalink($course->ID);
@@ -361,12 +359,18 @@ function custom_course_list_shortcode() {
 					$output .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$index].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
 					$output .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
 					$output .=' <div class="course position-absolute">';
-					// Course content
 					$output .='<div class=" __box-course complete">';
-					$output .='<img src="' . $thumbnail . '" alt="" class="img-course">';
-					$output .='<a href="' . $permalink . '"><p class="title_course">' . $title . '</p></a>';
+					$output .='<img src="' . $permalink . '" alt="" class="img-course">';
+					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
 					$output .='</div>';
-					//. Course content
+					$output .='<div class="  __box-course active" >';
+					$output .='<img src="' . $permalink . '" alt="" class="img-course mt-2">';
+					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+					$output .='</div>';
+					$output .='<div class="  __box-course inactive" >';
+					$output .='<img src="' . $permalink . '" alt="" class="img-course mt-2">';
+					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+					$output .='</div>';
 					$output .='</div>';
 					$output .='</div>';
 
@@ -382,6 +386,7 @@ $index++;
 	return $output;
 }
 add_shortcode('custom_course_list', 'custom_course_list_shortcode');
+
 
 function load_all_course_hierarchy() {
 	
