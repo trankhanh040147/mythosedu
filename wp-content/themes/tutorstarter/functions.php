@@ -466,31 +466,38 @@ function load_all_course_hierarchy() {
 	// echo data
 	// echo 'queue_level: ' . $queue_level . '<br>';
 
-	$queue_level = 0;
+	$queue_level--;
 	$cur_queue = array();
 	$next_queue = array();
 	array_push($cur_queue, $root_course);
 	// echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
 	insert_queue_children_courses($root_course, $next_queue);
-
 	
+	$output_level = '';
+
 	// if next_queue is not empty
 	while(!empty($next_queue)){
+		$output_level = '';
+
 		$cur_queue = $next_queue;
 		$next_queue = array();
 
 		// echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
 		// print course_to_link of each course in current queue
+        
+		// Level status: 1: .level_item.active 2:.level_item.inactive 3:.level_item.complete
 
-          
-		$output .=	'<div class=" level'.$arr[$queue_level].  ' d-flex flex-column level_item ">';
-		$output .='<div class="position-relative ">';
-		$output .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$queue_level].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
-		$output .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
-		$output .=' <div class="course position-absolute">';
+		$output_level .=	'<div class=" level'.$arr[$queue_level].  ' d-flex flex-column level_item ">';
+		$output_level .='<div class="position-relative ">';
+		$output_level .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$queue_level].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
+		$output_level .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
+		$output_level .=' <div class="course position-absolute">';
+
+		$total_in_progress = 0;
+		$total_completed = 0;
+		$total_unenrolled = 0;
 
 		foreach($cur_queue as $cur_course) {
-
 		// Course detail
 		// $thumbnail = get_the_post_thumbnail($cur_course, 'thumbnail', array('class' => 'img-course'));
 		$thumbnail = get_the_post_thumbnail($cur_course, 'thumbnail', array('class' => 'img-course'));
@@ -500,27 +507,43 @@ function load_all_course_hierarchy() {
 		$complete_status = tutor_utils()->is_course_completed($cur_course);
 		// course_to_link($cur_course);
 
+		if(!$enroll_status) {
+			$total_unenrolled++;
+			$course_status_class = ' inactive';
+		} else if($complete_status) {
+			$total_completed++;
+			$course_status_class = ' complete';
+		} else {
+			$total_in_progress++;
+			$course_status_class = ' active';
+		}
+
+
 		// Course content
-		$output .='<div class=" __box-course complete">';
-		// $output .='<img src=' . $thumbnail . ' alt="" class="img-course">';
-		$output .= $thumbnail;
-		$output .='<a href="'. $permalink . '"><p class="title_course">' . $title . '</p></a>';
-		$output .='</div>';
+		// Course status: 1: .__box-course.complete 2: .__box-course.active 3: .__box-course.inactive
+		// set $course_status_class 
+		$output_level .='<div class=" __box-course'. $course_status_class .'">';
+		// $output_level .='<img src=' . $thumbnail . ' alt="" class="img-course">';
+		$output_level .= $thumbnail;
+		$output_level .='<a href="'. $permalink . '"><p class="title_course">' . $title . '</p></a>';
+		$output_level .='</div>';
 		//. Course content
 		
 		}
 
-		$output .='</div>';
-		$output .='</div>';
-		$output .='</div>';
+		$output_level .='</div>';
+		$output_level .='</div>';
+		$output_level .='</div>';
 
-		$queue_level++;
+		$queue_level--;
 		// echo '<br>';
 
 		// loop through cur_queue, insert all child courses of cur_course to next_queue
 		foreach($cur_queue as $cur_course) {
 			insert_queue_children_courses($cur_course, $next_queue);
 		}
+		$output = $output_level . $output;
+		// $output =  $output . $output_level;
 	}
 
 		    // Loop through all levels

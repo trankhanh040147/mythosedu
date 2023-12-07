@@ -2,6 +2,15 @@
 /* 
 ** Template Name: Learning Path
 */ 
+
+// Version 2.1.3 | By Themeum | View details | Documentation | Get Support
+// Enable auto-updates
+// Select Tutor LMS Pro	
+// Tutor LMS Pro
+// Deactivate
+// Power up Tutor LMS plugins by Tutor Pro
+
+// Version 2.4.0 | By Themeum | Visit plugin site
 defined( 'ABSPATH' ) || exit;
 
 get_header();
@@ -66,10 +75,13 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 					// print course_to_link of each course in current queue
 					foreach($cur_queue as $cur_course) {
 						$enroll_status = tutor_utils()->is_enrolled($cur_course);
-						$complete_status = tutor_utils()->is_course_completed($cur_course);
+						// get $completed_status
+						$complete_status = tutor_utils()->is_completed_status($cur_course);
+
 						course_to_link($cur_course);
 						// echo 'enroll status: '; var_dump( $enroll_status ); echo '<br>';
 						echo 'complete status: '; var_dump( $complete_status ); echo '<br>';
+						echo 'progress status: '; var_dump( $progress ); echo '<br>';
 						// if $enroll_status is not bool(false), print enrolled, else print not enrolled
 						if($enroll_status) {
 							echo 'enrolled<br>';
