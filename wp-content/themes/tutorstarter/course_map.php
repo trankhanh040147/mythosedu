@@ -15,12 +15,12 @@ get_header("iframe");
 </head>
 
 <div class="__loading"></div>
-  <img src="/wp-content/uploads/2023/12/cloud1.svg" alt="" class="__cloud1 position-fixed">
-  <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-fixed">
+  <img src="/wp-content/uploads/2023/12/cloud1.svg" alt="" class="__cloud1 position-absolute">
+  <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-absolute">
   <!-- <img src="/wp-content/uploads/2023/12/cloud3.svg" alt="" class="__cloud3 position-absolute"> -->
-  <img src="/wp-content/uploads/2023/12/cloud4.svg" alt="" class="__cloud4 position-fixed">
+  <img src="/wp-content/uploads/2023/12/cloud4.svg" alt="" class="__cloud4 position-absolute">
   <!-- <img src="/wp-content/uploads/2023/12/cloud5.svg" alt="" class="__cloud5 position-absolute"> -->
-  <section class="__header">
+  <!-- <section class="__header">
     <div class="container ">
       <div class="row">
         <div class="col-12 d-flex ___header-inner justify-content-between ">
@@ -58,62 +58,14 @@ get_header("iframe");
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <section class="__level">
     <div class="container">
       <div class="row d-flex justify-content-center">
-        <div class="col-12 col-md-10  line-level">
-      <div class="col-12 __level8">
-        <div class="col-4 d-flex flex-column __box-level8">
-          <div><a href="#" class="__link8"><img src="/wp-content/uploads/2023/12/level8.svg" alt="" class="__img-level8 __img-level"></a></div>
-          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-center __level7">
-        <div class="col-4 d-flex flex-column align-items-center">
-          <div> <a href="#" class="__link7"><img src="/wp-content/uploads/2023/12/level7.svg" alt="" class="__img-level"></a></div>
-          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level7"></div>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-end __level6">
-        <div class="col-4 d-flex flex-column align-items-end  __box-level6">
-          <div><a href="#" class="__link6"><img src="/wp-content/uploads/2023/12/level6.svg" alt="" class="__img-level __img-level6"></a></div>
-          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level6"></div>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-center __level5">
-        <div class="col-4 d-flex align-items-end ms-5">
-          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level5"></div>
-          <div><a href="#" class="__link5"><img src="/wp-content/uploads/2023/12/level5.svg" alt="" class="__img-level __img-level5"></a></div>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-start __level4">
-        <div class="col-4 d-flex flex-column justify-content-center  __box-level4">
-          <div><a href="#" class="__link4"><img src="/wp-content/uploads/2023/12/level4.svg" alt="" class="__img-level __img-level4"></a></div>
-          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level4"></div>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-end __level3">
-        <div class="col-4 d-flex   align-items-center justify-content-end __box-2">
-          <div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt=""></div>
-          <div><a href="#" class="__link3"><img src="/wp-content/uploads/2023/12/level2.svg" alt="" class="__img-level"></a></div>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-center __level2">
-        <div class="col-4 d-flex align-items-end justify-content-center __box-level3">
-          <div class="box-img-level3"><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="mb-3"></div>
-          <div  class="box-img-address3"><a href="#" class="__link2"><img src="/wp-content/uploads/2023/12/level3.svg" alt="" class="__img-level"></a></div>
-   
-        </div>
-      </div>
-
-      <div class="col-12 d-flex justify-content-end __level1">
-        <div class="col-4 d-flex flex-column align-items-center j ">
-          <div class="box-img-level1"><img src="/wp-content/uploads/2023/12/icon-address-level-active.svg" alt="" class="__level-active"></div>
-          <div class="box-img-address1"><a href="#" class="__link1"><img src="/wp-content/uploads/2023/12/level1.svg" alt="" class="__img-level"></a></div>
-        </div>
-      </div>
-        </div>
+        <div class="col-12 col-md-10  line-level __mt-5">
+          <img src="/wp-content/uploads/2023/12/line.png" alt="" class="__line">
+          <?php echo do_shortcode('[custom_course_list]'); ?>
+</div>
       </div>
     </div>
   </section>

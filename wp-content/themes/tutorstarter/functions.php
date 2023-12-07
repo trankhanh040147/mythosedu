@@ -301,4 +301,90 @@ function insert_queue_children_courses($course_id, &$queue) {
 	}
 }
 
+function custom_course_list_shortcode() {
+	$output = '';
+	 $index=0;
+	$courses_list = get_posts( array(
+			'post_type' => tutor()->course_post_type,
+			'posts_per_page' => 8,
+			'post_status' => 'publish',
+			'orderby' => 'title',
+			'order' => 'ASC',
+	) );
+	$course_length = count($courses_list);
+	$arr=[];
+	switch ($course_length) {
+    case 1:
+        $arr = [1];
+        break;
+    case 2:
+        $arr = [1, 10];
+        break;
+    case 3:
+        $arr = [1, 5, 10];
+        break;
+    case 4:
+        $arr = [1, 4, 7, 10];
+        break;
+    case 5:
+        $arr = [1, 3, 6, 8, 10];
+        break;
+    case 6:
+        $arr = [1, 2, 4, 6, 8, 10];
+        break;
+    case 7:
+        $arr = [1, 2, 3, 5, 7, 9, 10];
+        break;
+    case 8:
+        $arr = [1, 2, 3, 5, 6, 8, 9, 10];
+        break;
+    case 9:
+        $arr = [1, 2, 3, 4, 5, 6, 8, 9, 10];
+        break;
+    case 10:
+        $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        break;
+    default:
+        $arr = [];
+}
+
+	if ($courses_list) {
+			foreach ($courses_list as $course) {
+					$thumbnail = get_the_post_thumbnail($course->ID, 'thumbnail', array('class' => 'img-course'));
+					$title = get_the_title($course->ID);
+					$permalink = get_permalink($course->ID);
+          
+					$output .=	'<div class=" level'.$arr[$index].  ' d-flex flex-column level_item ">';
+					$output .='<div class="position-relative ">';
+					$output .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$index].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
+					$output .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
+					$output .=' <div class="course position-absolute">';
+					$output .='<div class=" __box-course complete">';
+					$output .='<img src="' . $permalink . '" alt="" class="img-course">';
+					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+					$output .='</div>';
+					$output .='<div class="  __box-course active" >';
+					$output .='<img src="' . $permalink . '" alt="" class="img-course mt-2">';
+					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+					$output .='</div>';
+					$output .='<div class="  __box-course inactive" >';
+					$output .='<img src="' . $permalink . '" alt="" class="img-course mt-2">';
+					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+					$output .='</div>';
+					$output .='</div>';
+					$output .='</div>';
+
+					$output .='</div>';
+
+$index++;
+					
+			}
+	} else {
+			$output = '<p>No courses found.</p>';
+	}
+
+	return $output;
+}
+add_shortcode('custom_course_list', 'custom_course_list_shortcode');
+
 ?>
