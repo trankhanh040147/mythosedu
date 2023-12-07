@@ -349,7 +349,9 @@ function custom_course_list_shortcode() {
 }
 
 	if ($courses_list) {
+		    // Loop through all levels
 			foreach ($courses_list as $course) {
+					// Course detail
 					$thumbnail = get_the_post_thumbnail($course->ID, 'thumbnail', array('class' => 'img-course'));
 					$title = get_the_title($course->ID);
 					$permalink = get_permalink($course->ID);
@@ -359,18 +361,12 @@ function custom_course_list_shortcode() {
 					$output .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$index].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
 					$output .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
 					$output .=' <div class="course position-absolute">';
+					// Course content
 					$output .='<div class=" __box-course complete">';
-					$output .='<img src="' . $permalink . '" alt="" class="img-course">';
-					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+					$output .='<img src="' . $thumbnail . '" alt="" class="img-course">';
+					$output .='<a href="' . $permalink . '"><p class="title_course">' . $title . '</p></a>';
 					$output .='</div>';
-					$output .='<div class="  __box-course active" >';
-					$output .='<img src="' . $permalink . '" alt="" class="img-course mt-2">';
-					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
-					$output .='</div>';
-					$output .='<div class="  __box-course inactive" >';
-					$output .='<img src="' . $permalink . '" alt="" class="img-course mt-2">';
-					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
-					$output .='</div>';
+					//. Course content
 					$output .='</div>';
 					$output .='</div>';
 
@@ -386,5 +382,174 @@ $index++;
 	return $output;
 }
 add_shortcode('custom_course_list', 'custom_course_list_shortcode');
+
+function load_all_course_hierarchy() {
+	
+	
+	// get a specified course, or the course that user chose to show the learning_path
+	$input_course = 15053;
+	// course_tree is a string that contains all course that recusive from $input_course
+	// ex: course_tree = {15053{15054{15057, 15058}, 15055, 15056}}}
+	$course_tree = '{' . $input_course;
+	$cur_queue = array();
+	$next_queue = array();
+	$queue_level = 0;
+
+	// echo 'find last parent course:';
+	$root_course = find_last_parents_course($input_course);
+	// echo $root_course;
+	// echo '<br>';
+
+	array_push($cur_queue, $root_course);
+	// echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+	insert_queue_children_courses($root_course, $next_queue);
+
+	// if next_queue is not empty
+	while(!empty($next_queue)){
+		$cur_queue = $next_queue;
+		$next_queue = array();
+		// echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+
+		$queue_level++;
+		// echo '<br>';
+		
+		// loop through cur_queue, insert all child courses of cur_course to next_queue
+		foreach($cur_queue as $cur_course) {
+			insert_queue_children_courses($cur_course, $next_queue);
+		}
+	}
+
+	$output = '';
+	$index=0;
+
+	$course_length = $queue_level;
+	$arr=[];
+	switch ($course_length) {
+    case 1:
+        $arr = [1];
+        break;
+    case 2:
+        $arr = [1, 10];
+        break;
+    case 3:
+        $arr = [1, 5, 10];
+        break;
+    case 4:
+        $arr = [1, 4, 7, 10];
+        break;
+    case 5:
+        $arr = [1, 3, 6, 8, 10];
+        break;
+    case 6:
+        $arr = [1, 2, 4, 6, 8, 10];
+        break;
+    case 7:
+        $arr = [1, 2, 3, 5, 7, 9, 10];
+        break;
+    case 8:
+        $arr = [1, 2, 3, 5, 6, 8, 9, 10];
+        break;
+    case 9:
+        $arr = [1, 2, 3, 4, 5, 6, 8, 9, 10];
+        break;
+    case 10:
+        $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        break;
+    default:
+        $arr = [];
+}
+	// echo data
+	// echo 'queue_level: ' . $queue_level . '<br>';
+
+	$queue_level = 0;
+	$cur_queue = array();
+	$next_queue = array();
+	array_push($cur_queue, $root_course);
+	// echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+	insert_queue_children_courses($root_course, $next_queue);
+
+	
+	// if next_queue is not empty
+	while(!empty($next_queue)){
+		$cur_queue = $next_queue;
+		$next_queue = array();
+
+		// echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+		// print course_to_link of each course in current queue
+
+          
+		$output .=	'<div class=" level'.$arr[$queue_level].  ' d-flex flex-column level_item ">';
+		$output .='<div class="position-relative ">';
+		$output .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$queue_level].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
+		$output .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
+		$output .=' <div class="course position-absolute">';
+
+		foreach($cur_queue as $cur_course) {
+
+		// Course detail
+		// $thumbnail = get_the_post_thumbnail($cur_course, 'thumbnail', array('class' => 'img-course'));
+		$thumbnail = get_the_post_thumbnail($cur_course, 'thumbnail', array('class' => 'img-course'));
+		$title = get_the_title( $cur_course );
+		$permalink = get_the_permalink( $cur_course );
+		$enroll_status = tutor_utils()->is_enrolled($cur_course);
+		$complete_status = tutor_utils()->is_course_completed($cur_course);
+		// course_to_link($cur_course);
+
+		// Course content
+		$output .='<div class=" __box-course complete">';
+		// $output .='<img src=' . $thumbnail . ' alt="" class="img-course">';
+		$output .= $thumbnail;
+		$output .='<a href="'. $permalink . '"><p class="title_course">' . $title . '</p></a>';
+		$output .='</div>';
+		//. Course content
+		
+		}
+
+		$output .='</div>';
+		$output .='</div>';
+		$output .='</div>';
+
+		$queue_level++;
+		// echo '<br>';
+
+		// loop through cur_queue, insert all child courses of cur_course to next_queue
+		foreach($cur_queue as $cur_course) {
+			insert_queue_children_courses($cur_course, $next_queue);
+		}
+	}
+
+		    // Loop through all levels
+// 			foreach ($courses_list as $course) {
+// 					// Course detail
+// 					$thumbnail = get_the_post_thumbnail($course->ID, 'thumbnail', array('class' => 'img-course'));
+// 					$title = get_the_title($course->ID);
+// 					$permalink = get_permalink($course->ID);
+          
+// 					$output .=	'<div class=" level'.$arr[$index].  ' d-flex flex-column level_item ">';
+// 					$output .='<div class="position-relative ">';
+// 					$output .=' <div><a href="#" class="__link"><img src="/wp-content/uploads/2023/12/level'.$arr[$index].'.svg" alt="" class="__img-level8 __img-level"></a></div>';
+// 					$output .='<div><img src="/wp-content/uploads/2023/12/icon-address-level.svg" alt="" class="icon-address-level1"></div> ';
+// 					$output .=' <div class="course position-absolute">';
+// 					// Course content
+// 					$output .='<div class=" __box-course complete">';
+// 					$output .='<img src="' . $permalink . '" alt="" class="img-course">';
+// 					$output .='<a href=""><p class="title_course">' . $title . '</p></a>';
+// 					$output .='</div>';
+// 					//. Course content
+// 					$output .='</div>';
+// 					$output .='</div>';
+
+// 					$output .='</div>';
+
+// $index++;
+					
+// 			}
+// 	} else {
+// 			$output = '<p>No courses found.</p>';
+// 	}
+
+	return $output;
+}
+add_shortcode('load_all_course_hierarchy', 'load_all_course_hierarchy');
 
 ?>

@@ -64,7 +64,7 @@ get_header("iframe");
       <div class="row d-flex justify-content-center">
         <div class="col-12 col-md-10  line-level __mt-5">
           <img src="/wp-content/uploads/2023/12/line.png" alt="" class="__line">
-          <?php echo do_shortcode('[custom_course_list]'); ?>
+          <?php echo do_shortcode('[load_all_course_hierarchy]'); ?>
 </div>
       </div>
     </div>

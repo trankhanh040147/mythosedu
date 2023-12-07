@@ -46,7 +46,7 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 				$course_tree = '{' . $input_course;
 				$cur_queue = array();
 				$next_queue = array();
-				$queue_level = 1;
+				$queue_level = 0;
 
 				echo 'find last parent course:';
 				$root_course = find_last_parents_course($input_course);
@@ -82,13 +82,9 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 						// } else {
 						// 	echo 'not completed<br>';
 						// }
-
+						
 					}
-					// print enroll status, complete status of current user for each course in current queue
-					foreach($cur_queue as $cur_course) {
-
-
-					}
+					$queue_level++;
 					echo '<br>';
 					
 					// loop through cur_queue, insert all child courses of cur_course to next_queue
@@ -96,7 +92,7 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 						insert_queue_children_courses($cur_course, $next_queue);
 					}
 				}
-
+				echo 'total levels: ' . $queue_level . '<br>';
 				?>
 
 			</main><!-- #main -->
