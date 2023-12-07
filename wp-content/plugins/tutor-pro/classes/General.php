@@ -582,10 +582,19 @@ class General {
 		$course_chilren_prere_arr = array_map('intval', $course_chilren_prere_arr);
 
 		$prerequisites_course_ids = $course_chilren_prere_arr;
-
+		
 		update_post_meta($post_ID, '_tutor_course_prerequisites_ids', $prerequisites_course_ids);
 		// update_prerequisites_ids_for_parents($post_ID, $prerequisites_course_ids);
 		update_prerequisites_ids_for_parents($post_ID, $course_parent);
+
+		// if $prerequisites_course_ids is empty, remove _tutor_course_prerequisites_ids meta
+		// if $prerequisites_course_ids is equal: a:1:{i:0;i:0;}, remove _tutor_course_prerequisites_ids meta
+		if(empty($prerequisites_course_ids) || (count($prerequisites_course_ids) == 1 && $prerequisites_course_ids[0] == 0)) {
+			delete_post_meta($post_ID, '_tutor_course_prerequisites_ids');
+		}
+		if(empty($prerequisites_course_ids)) {
+			delete_post_meta($post_ID, '_tutor_course_prerequisites_ids');
+		}
 
 
 		// var_dump( $course_children_arr );
