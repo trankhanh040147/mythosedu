@@ -12,7 +12,7 @@ namespace TUTOR_PRO;
 use TUTOR\Input;
 use Tutor\Models\CourseModel;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if(!defined('ABSPATH')) {
 	exit;
 }
 
@@ -29,17 +29,17 @@ class General {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'tutor_action_tutor_add_course_builder', array( $this, 'tutor_add_course_builder' ) );
-		add_filter( 'frontend_course_create_url', array( $this, 'frontend_course_create_url' ) );
-		add_filter( 'template_include', array( $this, 'fs_course_builder' ), 99 );
+		add_action('tutor_action_tutor_add_course_builder', array($this, 'tutor_add_course_builder'));
+		add_filter('frontend_course_create_url', array($this, 'frontend_course_create_url'));
+		add_filter('template_include', array($this, 'fs_course_builder'), 99);
 
-		add_filter( 'tutor/options/extend/attr', array( $this, 'extend_settings_option' ) );
-		add_filter( 'tutor_course_builder_logo_src', array( $this, 'tutor_course_builder_logo_src' ) );
-		add_filter( 'tutor_email_logo_src', array( $this, 'tutor_email_logo_src' ) );
-		add_filter( 'tutor_pages', array( $this, 'add_login_page' ), 10, 1 );
+		add_filter('tutor/options/extend/attr', array($this, 'extend_settings_option'));
+		add_filter('tutor_course_builder_logo_src', array($this, 'tutor_course_builder_logo_src'));
+		add_filter('tutor_email_logo_src', array($this, 'tutor_email_logo_src'));
+		add_filter('tutor_pages', array($this, 'add_login_page'), 10, 1);
 
-		add_action( 'tutor_after_lesson_completion_button', array( $this, 'add_course_completion_button' ), 10, 4 );
-		add_action( 'save_tutor_course', array( $this, 'save_course_relative' ), 10, 2 );
+		add_action('tutor_after_lesson_completion_button', array($this, 'add_course_completion_button'), 10, 4);
+		add_action('save_tutor_course', array($this, 'save_course_relative'), 10, 2);
 	}
 
 	/**
@@ -54,21 +54,22 @@ class General {
 	 *
 	 * @return void
 	 */
-	public function add_course_completion_button( $course_id, $user_id, $is_course_completed, $course_stats ) {
-		if ( false === $is_course_completed
+	public function add_course_completion_button($course_id, $user_id, $is_course_completed, $course_stats) {
+		if(false === $is_course_completed
 			&& $course_stats['completed_count'] === $course_stats['total_count']
-			&& CourseModel::can_complete_course( $course_id, $user_id ) ) {
+			&& CourseModel::can_complete_course($course_id, $user_id)) {
 			?>
 			<div class="tutor-topbar-complete-btn tutor-mr-20">
 				<form method="post">
-					<?php wp_nonce_field( tutor()->nonce_action, tutor()->nonce ); ?>
-					<input type="hidden" name="course_id" value="<?php echo esc_attr( $course_id ); ?>"/>
-					<input type="hidden" name="tutor_action" value="tutor_complete_course"/>
-					<button type="submit" 
-						class="tutor-topbar-mark-btn tutor-btn tutor-btn-primary tutor-ws-nowrap"
+					<?php wp_nonce_field(tutor()->nonce_action, tutor()->nonce); ?>
+					<input type="hidden" name="course_id" value="<?php echo esc_attr($course_id); ?>" />
+					<input type="hidden" name="tutor_action" value="tutor_complete_course" />
+					<button type="submit" class="tutor-topbar-mark-btn tutor-btn tutor-btn-primary tutor-ws-nowrap"
 						name="complete_course" value="complete_course">
 						<span class="tutor-icon-circle-mark-line tutor-mr-8" area-hidden="true"></span>
-						<span><?php esc_html_e( 'Complete Course', 'tutor-pro' ); ?></span>
+						<span>
+							<?php esc_html_e('Complete Course', 'tutor-pro'); ?>
+						</span>
 					</button>
 				</form>
 			</div>
@@ -85,8 +86,8 @@ class General {
 	 *
 	 * @return array
 	 */
-	public function add_login_page( array $pages ) {
-		return array( 'tutor_login_page' => __( 'Tutor Login', 'tutor' ) ) + $pages;
+	public function add_login_page(array $pages) {
+		return array('tutor_login_page' => __('Tutor Login', 'tutor')) + $pages;
 	}
 
 	/**
@@ -99,95 +100,95 @@ class General {
 	public function tutor_add_course_builder() {
 		tutor_utils()->checking_nonce();
 
-		$user_id          = get_current_user_id();
+		$user_id = get_current_user_id();
 		$course_post_type = tutor()->course_post_type;
 
 		//phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
-		$course_ID = Input::post( 'course_ID', 0, Input::TYPE_INT );
-		$post_ID   = Input::post( 'post_ID', 0, Input::TYPE_INT );
+		$course_ID = Input::post('course_ID', 0, Input::TYPE_INT);
+		$post_ID = Input::post('post_ID', 0, Input::TYPE_INT);
 
-		if ( ! tutor_utils()->can_user_edit_course( $user_id, $post_ID ) ) {
-			wp_send_json_error( array( 'message' => __( 'Access Denied', 'tutor-pro' ) ) );
+		if(!tutor_utils()->can_user_edit_course($user_id, $post_ID)) {
+			wp_send_json_error(array('message' => __('Access Denied', 'tutor-pro')));
 		}
 
-		$post   = get_post( $post_ID );
+		$post = get_post($post_ID);
 		$update = true;
 
 		/**
 		 * Update the post
 		 */
 
-		$content   = Input::post( 'content', '', Input::TYPE_KSES_POST );
-		$title     = Input::post( 'title', '' );
-		$tax_input = tutor_utils()->array_get( 'tax_input', $_POST ); //phpcs:ignore
-		$slug      = Input::post( 'post_name', '' );
+		$content = Input::post('content', '', Input::TYPE_KSES_POST);
+		$title = Input::post('title', '');
+		$tax_input = tutor_utils()->array_get('tax_input', $_POST); //phpcs:ignore
+		$slug = Input::post('post_name', '');
 
 		$post_data = array(
-			'ID'           => $post_ID,
-			'post_title'   => $title,
+			'ID' => $post_ID,
+			'post_title' => $title,
 			'post_content' => $content,
-			'post_name'    => $slug,
+			'post_name' => $slug,
 		);
 
 		// Publish or Pending...
-		$message       = null;
-		$show_modal    = true;
-		$submit_action = Input::post( 'course_submit_btn', '' );
+		$message = null;
+		$show_modal = true;
+		$submit_action = Input::post('course_submit_btn', '');
 
-		if ( 'save_course_as_draft' === $submit_action ) {
+		if('save_course_as_draft' === $submit_action) {
 			$post_data['post_status'] = 'draft';
-			$message                  = __( 'Course has been saved as a draft.', 'tutor-pro' );
-			$show_modal               = false;
-		} elseif ( 'submit_for_review' === $submit_action ) {
+			$message = __('Course has been saved as a draft.', 'tutor-pro');
+			$show_modal = false;
+		} elseif('submit_for_review' === $submit_action) {
 			$post_data['post_status'] = 'pending';
-			$message                  = __( 'Course has been submitted for review.', 'tutor-pro' );
-		} elseif ( 'publish_course' === $submit_action ) {
-			$can_publish_course = (bool) tutor_utils()->get_option( 'instructor_can_publish_course' );
-			if ( $can_publish_course || current_user_can( 'administrator' ) ) {
+			$message = __('Course has been submitted for review.', 'tutor-pro');
+		} elseif('publish_course' === $submit_action) {
+			$can_publish_course = (bool)tutor_utils()->get_option('instructor_can_publish_course');
+			if($can_publish_course || current_user_can('administrator')) {
 				$post_data['post_status'] = 'publish';
-				$message                  = __( 'Course has been published.', 'tutor-pro' );
+				$message = __('Course has been published.', 'tutor-pro');
 			} else {
 				$post_data['post_status'] = 'pending';
-				$message                  = __( 'Course has been submitted for review.', 'tutor-pro' );
+				$message = __('Course has been submitted for review.', 'tutor-pro');
 			}
 		}
 
-		if ( $message ) {
-			update_user_meta( $user_id, 'tutor_frontend_course_message_expires', time() + 5 );
+		if($message) {
+			update_user_meta($user_id, 'tutor_frontend_course_message_expires', time() + 5);
 			update_user_meta(
 				$user_id,
 				'tutor_frontend_course_action_message',
 				array(
-					'message'    => $message,
+					'message' => $message,
 					'show_modal' => $show_modal,
 				)
 			);
 		}
-		wp_update_post( $post_data );
+		wp_update_post($post_data);
 
 		/**
 		 * Setting Thumbnail
 		 */
-		$_thumbnail_id = Input::post( 'tutor_course_thumbnail_id', 0, Input::TYPE_INT );
-		self::update_post_thumbnail( $post_ID, $_thumbnail_id );
+		$_thumbnail_id = Input::post('tutor_course_thumbnail_id', 0, Input::TYPE_INT);
+		self::update_post_thumbnail($post_ID, $_thumbnail_id);
 
 		/**
 		 * Adding taxonomy
 		 */
-		if ( tutor_utils()->count( $tax_input ) ) {
-			foreach ( $tax_input as $taxonomy => $tags ) {
-				$taxonomy_obj = get_taxonomy( $taxonomy );
-				if ( ! $taxonomy_obj ) {
+		if(tutor_utils()->count($tax_input)) {
+			foreach($tax_input as $taxonomy => $tags) {
+				$taxonomy_obj = get_taxonomy($taxonomy);
+				if(!$taxonomy_obj) {
 					/* translators: %s: taxonomy name */
-					_doing_it_wrong( __FUNCTION__, sprintf( __( 'Invalid taxonomy: %s.' ), $taxonomy ), '4.4.0' );//phpcs:ignore
+					_doing_it_wrong(__FUNCTION__, sprintf(__('Invalid taxonomy: %s.'), $taxonomy), '4.4.0'); //phpcs:ignore
 					continue;
 				}
 
 				// array = hierarchical, string = non-hierarchical.
-				if ( is_array( $tags ) ) {
-					$tags = array_filter( $tags );
+				if(is_array($tags)) {
+					$tags = array_filter($tags);
 				}
-				wp_set_post_terms( $post_ID, $tags, $taxonomy );
+				wp_set_post_terms($post_ID, $tags, $taxonomy);
 			}
 		}
 
@@ -203,31 +204,31 @@ class General {
 		// var_dump( $prerequisites_course_ids );
 		// die();
 
-		do_action( 'save_tutor_course', $post_ID, $post_data );
+		do_action('save_tutor_course', $post_ID, $post_data);
 
-		if ( wp_doing_ajax() ) {
+		if(wp_doing_ajax()) {
 			wp_send_json_success();
 		} else {
 
 			/**
 			 * If update request not comes from edit page, redirect it to edit page
 			 */
-			$edit_mode = (int) sanitize_text_field( tutor_utils()->array_get( 'course_ID', $_GET ) );
-			if ( ! $edit_mode ) {
-				$edit_page_url = add_query_arg( array( 'course_ID' => $post_ID ) );
-				wp_redirect( $edit_page_url );
+			$edit_mode = (int)sanitize_text_field(tutor_utils()->array_get('course_ID', $_GET));
+			if(!$edit_mode) {
+				$edit_page_url = add_query_arg(array('course_ID' => $post_ID));
+				wp_redirect($edit_page_url);
 				die();
 			}
 
 			/**
 			 * Finally redirect it to previous page to avoid multiple post request
 			 */
-			$redirect_option_enabled = (bool) tutor_utils()->get_option( 'enable_redirect_on_course_publish_from_frontend' );
-			if ( 'publish_course' === $submit_action && true === $redirect_option_enabled ) {
-				$target_url = tutor_utils()->tutor_dashboard_url( 'my-courses' );
-				wp_safe_redirect( $target_url );
+			$redirect_option_enabled = (bool)tutor_utils()->get_option('enable_redirect_on_course_publish_from_frontend');
+			if('publish_course' === $submit_action && true === $redirect_option_enabled) {
+				$target_url = tutor_utils()->tutor_dashboard_url('my-courses');
+				wp_safe_redirect($target_url);
 			} else {
-				wp_safe_redirect( tutor_utils()->referer() );
+				wp_safe_redirect(tutor_utils()->referer());
 			}
 
 			die();
@@ -242,7 +243,7 @@ class General {
 	 * @return string
 	 */
 	public function frontend_course_create_url() {
-		return tutor_utils()->get_tutor_dashboard_page_permalink( 'create-course' );
+		return tutor_utils()->get_tutor_dashboard_page_permalink('create-course');
 	}
 
 
@@ -253,17 +254,17 @@ class General {
 	 *
 	 * @return bool|string
 	 */
-	public function fs_course_builder( $template ) {
+	public function fs_course_builder($template) {
 		global $wp_query;
 
-		if ( $wp_query->is_page ) {
-			$student_dashboard_page_id = (int) tutor_utils()->get_option( 'tutor_dashboard_page_id' );
-			if ( get_the_ID() === $student_dashboard_page_id ) {
-				if ( tutor_utils()->array_get( 'tutor_dashboard_page', $wp_query->query_vars ) === 'create-course' ) {
-					if ( is_user_logged_in() ) {
-						$template = tutor_get_template( 'dashboard.create-course' );
+		if($wp_query->is_page) {
+			$student_dashboard_page_id = (int)tutor_utils()->get_option('tutor_dashboard_page_id');
+			if(get_the_ID() === $student_dashboard_page_id) {
+				if(tutor_utils()->array_get('tutor_dashboard_page', $wp_query->query_vars) === 'create-course') {
+					if(is_user_logged_in()) {
+						$template = tutor_get_template('dashboard.create-course');
 					} else {
-						$template = tutor_get_template( 'login' );
+						$template = tutor_get_template('login');
 					}
 				}
 			}
@@ -280,17 +281,17 @@ class General {
 	 *
 	 * @return array
 	 */
-	public function extend_settings_option( $attr ) {
+	public function extend_settings_option($attr) {
 
 		$pages = tutor_utils()->get_pages();
 
 		array_unshift(
 			$attr['design']['blocks']['block_course']['fields'],
 			array(
-				'key'   => 'tutor_frontend_course_page_logo_id',
-				'type'  => 'upload_full',
-				'label' => __( 'Course Builder Page Logo', 'tutor' ),
-				'desc'  => __(
+				'key' => 'tutor_frontend_course_page_logo_id',
+				'type' => 'upload_full',
+				'label' => __('Course Builder Page Logo', 'tutor'),
+				'desc' => __(
 					'<p>Size: <strong>700x430 pixels;</strong> File Support:<strong>jpg, .jpeg or .png.</strong></p>',
 					'tutor'
 				),
@@ -298,12 +299,12 @@ class General {
 		);
 
 		$attr['advanced']['blocks'][1]['fields'][] = array(
-			'key'         => 'hide_admin_bar_for_users',
-			'type'        => 'toggle_switch',
-			'label'       => __( 'Hide Admin Bar and Restrict Access to WP Admin for Instructors', 'tutor' ),
+			'key' => 'hide_admin_bar_for_users',
+			'type' => 'toggle_switch',
+			'label' => __('Hide Admin Bar and Restrict Access to WP Admin for Instructors', 'tutor'),
 			'label_title' => '',
-			'default'     => 'off',
-			'desc'        => __( 'Enable this to hide the WordPress Admin Bar from Frontend site, and restrict access to the WP Admin panel.', 'tutor' ),
+			'default' => 'off',
+			'desc' => __('Enable this to hide the WordPress Admin Bar from Frontend site, and restrict access to the WP Admin panel.', 'tutor'),
 		);
 
 		/**
@@ -312,12 +313,12 @@ class General {
 		 * @since 2.0.6
 		 */
 		$attr['course']['blocks']['block_course']['fields'][] = array(
-			'key'         => 'enable_redirect_on_course_publish_from_frontend',
-			'type'        => 'toggle_switch',
-			'label'       => __( 'Redirect Instructor to "My Courses" once Publish button is Clicked', 'tutor' ),
-			'default'     => 'off',
+			'key' => 'enable_redirect_on_course_publish_from_frontend',
+			'type' => 'toggle_switch',
+			'label' => __('Redirect Instructor to "My Courses" once Publish button is Clicked', 'tutor'),
+			'default' => 'off',
 			'label_title' => '',
-			'desc'        => __( 'Enable to Redirect an Instructor to the "My Courses" Page once he clicks on the "Publish" button', 'tutor' ),
+			'desc' => __('Enable to Redirect an Instructor to the "My Courses" Page once he clicks on the "Publish" button', 'tutor'),
 		);
 
 		/**
@@ -326,11 +327,11 @@ class General {
 		 * @since 2.0.7
 		 */
 		$attr['course']['blocks']['block_quiz']['fields'][] = array(
-			'key'     => 'hide_quiz_details',
-			'type'    => 'toggle_switch',
-			'label'   => __( 'Hide Quiz Details from the Students', 'tutor' ),
+			'key' => 'hide_quiz_details',
+			'type' => 'toggle_switch',
+			'label' => __('Hide Quiz Details from the Students', 'tutor'),
 			'default' => 'off',
-			'desc'    => __( 'If enabled, the students will not be able to see their quiz attempts details', 'tutor' ),
+			'desc' => __('If enabled, the students will not be able to see their quiz attempts details', 'tutor'),
 		);
 
 		/**
@@ -339,15 +340,15 @@ class General {
 		 * @since 2.0.9
 		 */
 		$attr['design']['blocks']['course-details']['fields'][] = array(
-			'key'     => 'enrollment_box_position_in_mobile',
-			'type'    => 'select',
-			'label'   => __( 'Position of the Enrollment Box in Mobile View', 'tutor-pro' ),
+			'key' => 'enrollment_box_position_in_mobile',
+			'type' => 'select',
+			'label' => __('Position of the Enrollment Box in Mobile View', 'tutor-pro'),
 			'default' => 'bottom',
 			'options' => array(
-				'top'    => __( 'On Page Top', 'tutor-pro' ),
-				'bottom' => __( 'On Page Bottom', 'tutor-pro' ),
+				'top' => __('On Page Top', 'tutor-pro'),
+				'bottom' => __('On Page Bottom', 'tutor-pro'),
 			),
-			'desc'    => __( 'You can decide where you want to show Enrollment Box on your Course Details page by selecting an option from here', 'tutor-pro' ),
+			'desc' => __('You can decide where you want to show Enrollment Box on your Course Details page by selecting an option from here', 'tutor-pro'),
 		);
 
 		/**
@@ -356,12 +357,12 @@ class General {
 		 * @since 2.1.0
 		 */
 		$login_option = array(
-			'key'     => 'tutor_login_page',
-			'type'    => 'select',
-			'label'   => __( 'Login Page', 'tutor' ),
+			'key' => 'tutor_login_page',
+			'type' => 'select',
+			'label' => __('Login Page', 'tutor'),
 			'default' => '0',
 			'options' => $pages,
-			'desc'    => __( 'This page will be used as the login page for both the students and the instructors.', 'tutor' ),
+			'desc' => __('This page will be used as the login page for both the students and the instructors.', 'tutor'),
 		);
 		/**
 		 * Invoice generate settings for manual enrollment
@@ -369,12 +370,12 @@ class General {
 		 * @since 2.1.4
 		 */
 		$invoice_options = array(
-			'key'         => 'tutor_woocommerce_invoice',
-			'type'        => 'toggle_switch',
-			'label'       => __( 'Generate WooCommerce Order', 'tutor-pro' ),
+			'key' => 'tutor_woocommerce_invoice',
+			'type' => 'toggle_switch',
+			'label' => __('Generate WooCommerce Order', 'tutor-pro'),
 			'label_title' => '',
-			'default'     => 'off',
-			'desc'        => __( 'If you want to create an WooCommerce Order to keep Track of your Sales Report for Manual Enrolment', 'tutor' ),
+			'default' => 'off',
+			'desc' => __('If you want to create an WooCommerce Order to keep Track of your Sales Report for Manual Enrolment', 'tutor'),
 		);
 
 		tutor_utils()->add_option_after(
@@ -389,25 +390,25 @@ class General {
 		);
 
 		$attr['design']['blocks']['course-details']['fields'][0]['group_options'][] = array(
-			'key'         => 'enable_sticky_sidebar',
-			'type'        => 'toggle_single',
-			'label'       => __( 'Sticky Sidebar', 'tutor-pro' ),
-			'label_title' => __( 'Disable', 'tutor-pro' ),
-			'default'     => 'off',
-			'desc'        => __( 'Enable sticky sidebar on course details on scroll', 'tutor-pro' ),
+			'key' => 'enable_sticky_sidebar',
+			'type' => 'toggle_single',
+			'label' => __('Sticky Sidebar', 'tutor-pro'),
+			'label_title' => __('Disable', 'tutor-pro'),
+			'default' => 'off',
+			'desc' => __('Enable sticky sidebar on course details on scroll', 'tutor-pro'),
 		);
 
 		// TODO implement later.
 		/**
-		* $attr['design']['blocks']['course-details']['fields'][0]['group_options'][] = array(
-		* 'key'         => 'enable_sticky_topbar',
-		* 'type'        => 'toggle_single',
-		* 'label'       => __( 'Sticky Topbar', 'tutor-pro' ),
-		* 'label_title' => __( 'Disable', 'tutor-pro' ),
-		* 'default'     => 'off',
-		* 'desc'        => __( 'Enable sticky topbar on course details on scroll', 'tutor-pro' ),
-		* );
-		*/
+		 * $attr['design']['blocks']['course-details']['fields'][0]['group_options'][] = array(
+		 * 'key'         => 'enable_sticky_topbar',
+		 * 'type'        => 'toggle_single',
+		 * 'label'       => __( 'Sticky Topbar', 'tutor-pro' ),
+		 * 'label_title' => __( 'Disable', 'tutor-pro' ),
+		 * 'default'     => 'off',
+		 * 'desc'        => __( 'Enable sticky topbar on course details on scroll', 'tutor-pro' ),
+		 * );
+		 */
 
 		/**
 		 * Lesson video completion control.
@@ -418,11 +419,11 @@ class General {
 			'enable_lesson_classic_editor',
 			$attr['course']['blocks']['block_lesson']['fields'],
 			array(
-				'key'           => 'control_video_lesson_completion',
-				'type'          => 'toggle_switch',
-				'label'         => __( 'Video Lesson Completion Control', 'tutor-pro' ),
-				'default'       => 'off',
-				'desc'          => __( 'Enable to set the minimum video watch % for lesson completion, only works with Tutor Player.', 'tutor-pro' ),
+				'key' => 'control_video_lesson_completion',
+				'type' => 'toggle_switch',
+				'label' => __('Video Lesson Completion Control', 'tutor-pro'),
+				'default' => 'off',
+				'desc' => __('Enable to set the minimum video watch % for lesson completion, only works with Tutor Player.', 'tutor-pro'),
 				'toggle_fields' => 'required_percentage_to_complete_video_lesson',
 			)
 		);
@@ -431,13 +432,13 @@ class General {
 			'control_video_lesson_completion',
 			$attr['course']['blocks']['block_lesson']['fields'],
 			array(
-				'key'         => 'required_percentage_to_complete_video_lesson',
-				'type'        => 'number',
+				'key' => 'required_percentage_to_complete_video_lesson',
+				'type' => 'number',
 				'number_type' => 'integer',
-				'label'       => __( 'Set Required Percentage', 'tutor-pro' ),
-				'default'     => 80,
-				'max'         => 100,
-				'desc'        => __( 'Specify the minimum video watch % learners must watch to mark the lesson as complete.', 'tutor-pro' ),
+				'label' => __('Set Required Percentage', 'tutor-pro'),
+				'default' => 80,
+				'max' => 100,
+				'desc' => __('Specify the minimum video watch % learners must watch to mark the lesson as complete.', 'tutor-pro'),
 			)
 		);
 
@@ -451,10 +452,10 @@ class General {
 	 *
 	 * @return string
 	 */
-	public function tutor_course_builder_logo_src( $url ) {
-		$media_id = (int) get_tutor_option( 'tutor_frontend_course_page_logo_id' );
-		if ( $media_id ) {
-			return wp_get_attachment_url( $media_id );
+	public function tutor_course_builder_logo_src($url) {
+		$media_id = (int)get_tutor_option('tutor_frontend_course_page_logo_id');
+		if($media_id) {
+			return wp_get_attachment_url($media_id);
 		}
 		return $url;
 	}
@@ -467,11 +468,11 @@ class General {
 	 *
 	 * @return string
 	 */
-	public function tutor_email_logo_src( $url = null, $size = null ) {
+	public function tutor_email_logo_src($url = null, $size = null) {
 
-		$media_id = (int) get_tutor_option( 'tutor_email_template_logo_id' );
-		if ( $media_id ) {
-			return wp_get_attachment_image_url( $media_id, 'tutor-email-logo-size' );
+		$media_id = (int)get_tutor_option('tutor_email_template_logo_id');
+		if($media_id) {
+			return wp_get_attachment_image_url($media_id, 'tutor-email-logo-size');
 		}
 		return $url;
 	}
@@ -491,86 +492,85 @@ class General {
 	 *
 	 * @return void
 	 */
-	public static function update_post_thumbnail( int $post_id, int $thumbnail_id = 0 ) {
-		$thumbnail_id = (int) sanitize_text_field( $thumbnail_id );
-		$product_id   = tutor_utils()->get_course_product_id( $post_id );
+	public static function update_post_thumbnail(int $post_id, int $thumbnail_id = 0) {
+		$thumbnail_id = (int)sanitize_text_field($thumbnail_id);
+		$product_id = tutor_utils()->get_course_product_id($post_id);
 
-		if ( $thumbnail_id ) {
-			update_post_meta( $post_id, '_thumbnail_id', $thumbnail_id );
+		if($thumbnail_id) {
+			update_post_meta($post_id, '_thumbnail_id', $thumbnail_id);
 
 			// Update product thumbnail.
-			set_post_thumbnail( $product_id, $thumbnail_id );
+			set_post_thumbnail($product_id, $thumbnail_id);
 		} else {
-			delete_post_meta( $post_id, '_thumbnail_id' );
+			delete_post_meta($post_id, '_thumbnail_id');
 		}
 	}
 
-	public function save_course_relative( $post_ID, $postData ) {
+	public function save_course_relative($post_ID, $postData) {
 		/** PKhanh - Save Course relative */
-		
+
 		// Edited 6/12
-		$course_parent_old = intval($_POST['_tutor_course_parent_old']);		
-		$course_parent_old_arr = explode(" ",$course_parent_old);
+		$course_parent_old = intval($_POST['_tutor_course_parent_old']);
+		$course_parent_old_arr = explode(" ", $course_parent_old);
 		$course_parent = "";
-		$course_parent_arr = $_POST['_tutor_course_parent'];		
-		if(!isset($course_parent_arr)) $course_parent_arr = array();
-		$course_parent = implode(" ",$course_parent_arr);
-		update_post_meta( $post_ID, '_tutor_course_parent', $course_parent );
+		$course_parent_arr = $_POST['_tutor_course_parent'];
+		if(!isset($course_parent_arr))
+			$course_parent_arr = array();
+		$course_parent = implode(" ", $course_parent_arr);
+		update_post_meta($post_ID, '_tutor_course_parent', $course_parent);
 		$remove_parent = array_diff($course_parent_old_arr, $course_parent_arr);
 		$add_parent = array_diff($course_parent_arr, $course_parent_old_arr);
 		foreach((array)$remove_parent as $r_p) {
 			//remove this course as child from remove parent
-			$remove_children_ids = get_post_meta( $r_p, '_tutor_course_children', true );
-			$remove_children_ids_arr = explode(" ",$remove_children_ids);
+			$remove_children_ids = get_post_meta($r_p, '_tutor_course_children', true);
+			$remove_children_ids_arr = explode(" ", $remove_children_ids);
 			$pos = array_search($post_ID, $remove_children_ids_arr);
-			if ($pos !== false) {
+			if($pos !== false) {
 				unset($remove_children_ids_arr[$pos]);
-				$_tutor_course_children = implode(" ",$remove_children_ids_arr);
-				update_post_meta( $r_p, '_tutor_course_children', $_tutor_course_children );
+				$_tutor_course_children = implode(" ", $remove_children_ids_arr);
+				update_post_meta($r_p, '_tutor_course_children', $_tutor_course_children);
 			}
 		}
 		foreach((array)$add_parent as $a_p) {
 			//add this coure as child to add parent
-			$add_children_ids = get_post_meta( $a_p, '_tutor_course_children', true );
-			$add_children_ids_arr = explode(" ",$add_children_ids);
-			if (!in_array($post_ID, $add_children_ids_arr))
-			{
-				$add_children_ids_arr[] = $post_ID; 
-				$_tutor_course_children = implode(" ",$add_children_ids_arr);
-				update_post_meta( $a_p, '_tutor_course_children', $_tutor_course_children );
+			$add_children_ids = get_post_meta($a_p, '_tutor_course_children', true);
+			$add_children_ids_arr = explode(" ", $add_children_ids);
+			if(!in_array($post_ID, $add_children_ids_arr)) {
+				$add_children_ids_arr[] = $post_ID;
+				$_tutor_course_children = implode(" ", $add_children_ids_arr);
+				update_post_meta($a_p, '_tutor_course_children', $_tutor_course_children);
 			}
 		}
-					
+
 		//courses children
 		$course_children_old = trim($_POST['_tutor_course_children_old']);
 		$course_children = trim($_POST['_tutor_course_children']);
-		update_post_meta( $post_ID, '_tutor_course_children', $course_children );
-		$course_children_old_arr = explode(" ",$course_children_old);
-		$course_children_arr = explode(" ",$course_children);
+		update_post_meta($post_ID, '_tutor_course_children', $course_children);
+		$course_children_old_arr = explode(" ", $course_children_old);
+		$course_children_arr = explode(" ", $course_children);
 		$remove_children = array_diff($course_children_old_arr, $course_children_arr);
 		$add_children = array_diff($course_children_arr, $course_children_old_arr);
 		//var_dump($remove_children);die();
 		foreach((array)$remove_children as $r_c) {
 			//remove this course as parent from remove child
-			$remove_parent_ids = get_post_meta( $r_c, '_tutor_course_parent', true );
-			$remove_parent_ids_arr = explode(" ",$remove_parent_ids);
+			$remove_parent_ids = get_post_meta($r_c, '_tutor_course_parent', true);
+			$remove_parent_ids_arr = explode(" ", $remove_parent_ids);
 			$pos = array_search($post_ID, $remove_parent_ids_arr);
-			if ($pos !== false) {
+			if($pos !== false) {
 				unset($remove_parent_ids_arr[$pos]);
-				$_tutor_course_parent = implode(" ",$remove_parent_ids_arr);
-				update_post_meta( $r_c, '_tutor_course_parent', $_tutor_course_parent );
+				$_tutor_course_parent = implode(" ", $remove_parent_ids_arr);
+				update_post_meta($r_c, '_tutor_course_parent', $_tutor_course_parent);
 			}
 		}
 		foreach((array)$add_children as $a_c) {
 			//add this coure as parent to add child
-			$add_parent_ids = get_post_meta( $a_c, '_tutor_course_parent', true );
-			$add_parent_ids_arr = explode(" ",$add_parent_ids);
-			if (!in_array($post_ID, $add_parent_ids_arr))
-			{
-				$add_parent_ids_arr[] = $post_ID; 
-				$_tutor_course_parent = implode(" ",$add_parent_ids_arr);
-				update_post_meta( $a_c, '_tutor_course_parent', $_tutor_course_parent );
-			}			
+			$add_parent_ids = get_post_meta($a_c, '_tutor_course_parent', true);
+			$add_parent_ids_arr = explode(" ", $add_parent_ids);
+			if(!in_array($post_ID, $add_parent_ids_arr)) {
+				$add_parent_ids_arr[] = $post_ID;
+				$_tutor_course_parent = implode(" ", $add_parent_ids_arr);
+				update_post_meta($a_c, '_tutor_course_parent', $_tutor_course_parent);
+			}
 		}
 		//PKhanh: End Save Course relative
 
@@ -592,6 +592,5 @@ class General {
 		// var_dump( $prerequisites_course_ids );
 		// die();
 	}
-
 
 }

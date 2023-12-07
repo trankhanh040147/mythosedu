@@ -39,50 +39,6 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 					echo '<a href="' . get_the_permalink( $course_id ) . '">' . get_the_title( $course_id ) . '</a><br>';
 				}
 
-				// find the first course that has no child course
-				function find_first_end_course( $course_id ) {
-					$child_courses = get_post_meta( $course_id, '_tutor_course_children', true );
-					// convert to array
-					$child_courses = explode( ' ', $child_courses );
-					if ( empty( $child_courses ) ) {
-						return $course_id;
-					} else {
-						foreach ( $child_courses as $child_course ) {
-							return find_first_end_course( $child_course );
-						}
-					}
-				}
-
-				function find_last_parents_course($course_id) {
-					$par_courses = get_post_meta( $course_id, '_tutor_course_parent', true );
-					$par_courses = explode(' ', $par_courses );
-					// echo 'find_last_parent_course' . $course_id . '<br>';
-					if ( empty( $par_courses[0] ) ) {
-						return $course_id;
-					} else {
-						foreach ( $par_courses as $par_course ) {
-							return find_last_parent_course( $par_course );
-						}
-					}	
-				}
-
-
-                function insert_queue_children_courses($course_id, &$queue){
-				$child_courses = get_post_meta( $course_id, '_tutor_course_children', true );
-				$child_courses = explode( ' ', $child_courses );
-				echo 'insert_queue_children_courses' . $course_id . '<br>';
-				var_dump( $child_courses ); echo '<br>';
-
-				if ( empty( $child_courses ) ) {
-					return $queue;
-				} else {
-					foreach ( $child_courses as $child_course ) {
-						array_push($queue, $child_course);
-						// return insert_queue_children_courses($child_course, $queue);
-					}
-				}
-				}
-
 				// get a specified course
 				$input_course = 15053;
 				// course_tree is a string that contains all course that recusive from $input_course
@@ -92,44 +48,26 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 				$next_queue = array();
 				$queue_level = 1;
 
-				// echo 'find last parent course:';
-				// echo find_last_parent_course($input_course);
-				// echo '<br>';
+				echo 'find last parent course:';
+				$root_course = find_last_parents_course($input_course);
+				echo $root_course;
+				echo '<br>';
 				
-				array_push($cur_queue, $input_course);
-				insert_queue_children_courses($input_course, $next_queue);
+				array_push($cur_queue, $root_course);
+				echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+				insert_queue_children_courses($root_course, $next_queue);
 
-				//print queue
-				var_dump( $cur_queue ); echo '<br>';
-				var_dump( $next_queue );
-
-				// // get all child courses of this course though wp_postmeta  _tutor_course_children
-				// $child_courses = get_post_meta( $course_id, '_tutor_course_children', true );
-				// // convert to array
-				// $child_courses = explode( ' ', $child_courses );
-
-				// // if have child_courses
-				// if ( ! empty( $child_courses ) ) :
-				// 	$course_tree .= '{';
-				// 	$temp_str = '';
-				// 	foreach ( $child_courses as $child_course ) :
-				// 		// add child_course id to course_tree 
-				// 		$temp_str .= $child_course . ',';
-				// 		echo course_to_link( $child_course );
-				// 	endforeach;
-				// 	// remove the last comma
-				// 	$temp_str = substr( $temp_str, 0, -1 );
-				// 	$course_tree .= $temp_str;
-				// 	$course_tree .= '}';
-				// endif;
-
-				// print all child courses link as href
-				// foreach ( $child_courses as $child_course ) {
-
-				// }
-
-				// $course_tree .= '}';
-				// echo $course_tree;
+				// if next_queue is not empty
+				while(!empty($next_queue)){
+					$cur_queue = $next_queue;
+					$next_queue = array();
+					echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+					
+					// loop through cur_queue, insert all child courses of cur_course to next_queue
+					foreach($cur_queue as $cur_course) {
+						insert_queue_children_courses($cur_course, $next_queue);
+					}
+				}
 
 				?>
 
