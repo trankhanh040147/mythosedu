@@ -61,7 +61,35 @@ $sidebar   = ( ! empty( $page_meta ) ? $page_meta['sidebar_select'] : 'no-sideba
 				while(!empty($next_queue)){
 					$cur_queue = $next_queue;
 					$next_queue = array();
+
 					echo 'current queue: '; var_dump( $cur_queue ); echo '<br>';
+					// print course_to_link of each course in current queue
+					foreach($cur_queue as $cur_course) {
+						$enroll_status = tutor_utils()->is_enrolled($cur_course);
+						$complete_status = tutor_utils()->is_course_completed($cur_course);
+						course_to_link($cur_course);
+						// echo 'enroll status: '; var_dump( $enroll_status ); echo '<br>';
+						echo 'complete status: '; var_dump( $complete_status ); echo '<br>';
+						// if $enroll_status is not bool(false), print enrolled, else print not enrolled
+						if($enroll_status) {
+							echo 'enrolled<br>';
+						} else {
+							echo 'not enrolled<br>';
+						}
+						// if $complete_status is not NULL, print completed, else print not completed
+						// if($complete_status) {
+						// 	echo 'completed<br>';
+						// } else {
+						// 	echo 'not completed<br>';
+						// }
+
+					}
+					// print enroll status, complete status of current user for each course in current queue
+					foreach($cur_queue as $cur_course) {
+
+
+					}
+					echo '<br>';
 					
 					// loop through cur_queue, insert all child courses of cur_course to next_queue
 					foreach($cur_queue as $cur_course) {
