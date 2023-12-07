@@ -15,10 +15,10 @@ get_header("iframe");
 </head>
 
 <div class="__loading"></div>
-  <img src="/wp-content/uploads/2023/12/cloud1.svg" alt="" class="__cloud1 position-absolute">
-  <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-absolute">
-  <!-- <img src="/wp-content/uploads/2023/12/cloud3.svg" alt="" class="__cloud3 position-absolute"> -->
-  <img src="/wp-content/uploads/2023/12/cloud4.svg" alt="" class="__cloud4 position-absolute">
+  <img src="/wp-content/uploads/2023/12/cloud1.svg" alt="" class="__cloud1 position-fixed">
+  <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-fixed">
+  <!-- <img src="/wp-content/uploads/2023/12/cloud3.svg" alt="" class="__cloud3 position-fixed"> -->
+  <img src="/wp-content/uploads/2023/12/cloud4.svg" alt="" class="__cloud4 position-fixed">
   <!-- <img src="/wp-content/uploads/2023/12/cloud5.svg" alt="" class="__cloud5 position-absolute"> -->
   <!-- <section class="__header">
     <div class="container ">

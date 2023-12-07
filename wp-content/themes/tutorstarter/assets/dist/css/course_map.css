@@ -827,3 +827,27 @@ a {
 .level_item.inactive .__img-level {
   filter: grayscale();
 }
+
+.level_item.active::after,
+.level_item.active::before {
+  content: "";
+  position: absolute;
+  height: 23px;
+  width: 36px;
+  background-color: #C79600;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 1;
+  right: 43px;
+  top: 17px;
+}
+
+.level_item.active::after {
+
+  animation: pulse 1.5s 0s ease-out infinite;
+}
+
+.level_item.active::before {
+
+  animation: pulse 1.5s 1s ease-out infinite;
+}
