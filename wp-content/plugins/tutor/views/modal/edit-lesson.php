@@ -63,6 +63,12 @@ use TUTOR\Input;
 					<option value="3" <?php selected($lesson_game_id, '3'); ?>>
 						<?php esc_html_e('Game 3', 'tutor'); ?>
 					</option>
+					<option value="4" <?php selected($lesson_game_id, '4'); ?>>
+						<?php esc_html_e('Game 4', 'tutor'); ?>
+					</option>
+					<option value="5" <?php selected($lesson_game_id, '5'); ?>>
+						<?php esc_html_e('Game 5', 'tutor'); ?>
+					</option>
 				</select>
 			</div>
 		</div>

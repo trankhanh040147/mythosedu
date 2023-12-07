@@ -199,13 +199,37 @@ tutor_load_template(
 				// var_dump( $lesson_game_id );
 				// Add game content
 				if ( $lesson_game_id != 0 ) : ?>
+					<?php
+						$lesson_game_template_name;
+						// case 1: game_plus; case 2: game_subtract; case 3: game_multiply; case 4: sort_increase; case 5: sort_decrease14343
+						switch ($lesson_game_id) {
+							case 1:
+								$lesson_game_template_name = 'game_plus';
+								break;
+							case 2:
+								$lesson_game_template_name = 'game_subtract';
+								break;
+							case 3:
+								$lesson_game_template_name = 'game_multiply';
+								break;
+							case 4:
+								$lesson_game_template_name = 'sort_increase';
+								break;
+							case 5:
+								$lesson_game_template_name = 'sort_decrease';
+								break;
+							default:
+								$lesson_game_template_name = 'sort_increase';
+								break;
+						}
+					?>
 					<div id="tutor-course-spotlight-game" class="tutor-tab-item">
 						<div class="tutor-container">
 							<div class="tutor-row tutor-justify-center">
 								<div class="tutor-col-xl-9">
 									<div class="tutor-fs-5 tutor-fw-medium tutor-color-black"><?php esc_html_e( '', 'tutor' ); ?></div>
 									<div class="tutor-fs-6 tutor-col-12  tutor-color-secondary tutor-lesson-wrapper">
-										<?php echo do_shortcode('[game_name template_name="sort_increase"]'); ?>
+										<?php echo do_shortcode('[game_name template_name="' . $lesson_game_template_name . '"]'); ?>
 									</div>
 								</div>
 							</div>
