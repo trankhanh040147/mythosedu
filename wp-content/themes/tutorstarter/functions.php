@@ -40,6 +40,7 @@ function enqueue_custom_scripts() {
 	// Enqueue your custom scripts
 	wp_enqueue_script('custom-scripts', get_template_directory_uri().'/assets/dist/js/dragAndDrop.js', array('jquery', 'jquery-ui-core', 'jquery-ui-droppable'), '1.4', true);
 	wp_enqueue_script('bootstrap', get_template_directory_uri().'/assets/dist/js/bootstrap.min.js', array('jquery'), '1.4', true);
+	wp_enqueue_script('bootstrap', '<https://code.responsivevoice.org/responsivevoice.js?key=wkPTbGZH', array('jquery'), '1.4', true);
 }
 
 
