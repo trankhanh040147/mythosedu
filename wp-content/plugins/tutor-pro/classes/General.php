@@ -572,9 +572,10 @@ class General {
 				update_post_meta($a_c, '_tutor_course_parent', $_tutor_course_parent);
 			}
 		}
-		//PKhanh: End Save Course relative
+		// End Save Course relative
 
-		// Update Save prerequisites course
+		/// BEGIN Update/Remove prerequisites course
+
 		$course_chilren_prere = $_POST['_tutor_course_children'];
 
 		$course_chilren_prere_arr = explode(" ", $course_chilren_prere);
@@ -582,6 +583,20 @@ class General {
 		$course_chilren_prere_arr = array_map('intval', $course_chilren_prere_arr);
 
 		$prerequisites_course_ids = $course_chilren_prere_arr;
+
+		// Remove prerequisites course
+		$removed_children_courses = array_diff($course_children_old_arr, $course_children_arr);
+
+		foreach((array)$removed_children_courses as $rc) {
+			//remove removed chilrends course from prerequisites courses of this course
+			
+			// if $rc contains in $prerequisites_course_ids, remove it
+			$pos = array_search($rc, $prerequisites_course_ids);
+			if($pos !== false) {
+				unset($prerequisites_course_ids[$pos]);
+			}
+		}
+
 		
 		update_post_meta($post_ID, '_tutor_course_prerequisites_ids', $prerequisites_course_ids);
 		// update_prerequisites_ids_for_parents($post_ID, $prerequisites_course_ids);
@@ -595,6 +610,9 @@ class General {
 		if(empty($prerequisites_course_ids)) {
 			delete_post_meta($post_ID, '_tutor_course_prerequisites_ids');
 		}
+
+		/// END Update/Remove prerequisites course
+
 
 
 		// var_dump( $course_children_arr );
