@@ -79,6 +79,15 @@ if ( ! is_user_logged_in() && ! $is_public && $student_must_login_to_view_course
 
 			<aside class="tutor-col-xl-4">
 				<?php $sidebar_attr = apply_filters( 'tutor_course_details_sidebar_attr', '' ); ?>
+				<!-- <div class="view-learning-path">
+					<a href='/course-map'>See your Learning Path</a>
+				</div> -->
+				
+				<div class="view-learning-path">
+					<a  href='/course-map' class="tutor-btn tutor-btn-primary tutor-btn-block tutor-mb-40" style="background-color: green;">
+						See your Learning Path							
+					</a>
+				</div>
 				<div class="tutor-single-course-sidebar tutor-mt-40 tutor-mt-xl-0" <?php echo esc_attr( $sidebar_attr ); ?> >
 					<?php do_action( 'tutor_course/single/before/sidebar' ); ?>
 
