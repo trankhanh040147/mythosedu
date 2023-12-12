@@ -32,6 +32,45 @@ if ( ! tutor_utils()->is_instructor( get_current_user_id(), true ) || ! tutor_ut
 }
 ?>
 
+<style>
+	.tutor-course-builder-section:last-child{
+    display: none !important;
+	.comment-list .comment .comment-content {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #77808b
+	}
+
+	.blog-post-content .type-post {
+		background: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
+		border-radius: 8px;
+		transition: box-shadow .3s linear
+	}
+
+	.blog-post-content .type-post:hover {
+		box-shadow: 0 5px 20px rgba(0, 0, 0, .08)
+	}
+
+	.blog-post-content .type-post:hover .post-thumbnail img {
+		transform: scale(1.1)
+	}
+
+	.blog-post-content .post-thumbnail {
+		overflow: hidden;
+		border-radius: 10px 0 0 10px
+	}
+
+	.blog-post-content .post-thumbnail img {
+		border-radius: 10px 0 0 10px;
+		transition: transform .3s linear;
+		transform: scale(1)
+	}
+
+}
+</style>
+
 <?php do_action( 'tutor/dashboard_course_builder_before' ); ?>
 <form action="" id="tutor-frontend-course-builder" method="post" enctype="multipart/form-data">
 	<?php
