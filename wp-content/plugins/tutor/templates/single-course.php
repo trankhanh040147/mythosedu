@@ -77,11 +77,11 @@ if ( ! is_user_logged_in() && ! $is_public && $student_must_login_to_view_course
 				<?php do_action( 'tutor_course/single/after/inner-wrap' ); ?>
 			</main>
 
-			<div class="view-learning-path">
+			<!-- <div class="view-learning-path">
 					<a  href='/course-map' class="tutor-btn tutor-btn-primary tutor-btn-block tutor-mb-40" style="background-color: green;">
 						See your Learning Path							
 					</a>
-			</div>
+			</div> -->
 
 			<aside class="tutor-col-xl-4">
 				<?php $sidebar_attr = apply_filters( 'tutor_course_details_sidebar_attr', '' ); ?>
