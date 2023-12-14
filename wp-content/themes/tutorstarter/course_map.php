@@ -2,7 +2,7 @@
 /* 
 ** Template Name: course_map
 */ 
-get_header("iframe");
+get_header();
 ?>
 
 <head>
@@ -19,46 +19,7 @@ get_header("iframe");
   <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-fixed">
   <!-- <img src="/wp-content/uploads/2023/12/cloud3.svg" alt="" class="__cloud3 position-fixed"> -->
   <img src="/wp-content/uploads/2023/12/cloud4.svg" alt="" class="__cloud4 position-fixed">
-  <!-- <img src="/wp-content/uploads/2023/12/cloud5.svg" alt="" class="__cloud5 position-absolute"> -->
-  <!-- <section class="__header">
-    <div class="container ">
-      <div class="row">
-        <div class="col-12 d-flex ___header-inner justify-content-between ">
-          <div class="col-6 d-flex">
-            <div class="__me-40">
-              <div class="position-relative __box-star">
-                <img src="/wp-content/uploads/2023/12/star.svg" alt="" class="img-star">
-                <img src="/wp-content/uploads/2023/12/number-start.svg" alt="" class="__number-star">
-              </div>
-              <div class="position-relative __box-star __box-bottom-star">
-                <img src="/wp-content/uploads/2023/12/bottom-start.svg" alt="" class="img-bottom-star">
-                <div class="__process position-absolute "></div>
-              </div>
-            </div>
-            <div class="__me-40 d-flex align-items-start">
-              <img src="/wp-content/uploads/2023/12/icon-xu.svg" class="___img-xu" alt="">
-              <img src="/wp-content/uploads/2023/12/number-xu.svg" alt="" class="__number-xu ms-1 mt-3">
-            </div>
-            <div class=" d-flex align-items-start">
-              <img src="/wp-content/uploads/2023/12/icon-key.svg" class="___img-xu " alt="">
-              <img src="/wp-content/uploads/2023/12/number-xu.svg" alt="" class="__number-xu ms-1 mt-3">
-            </div>
-          </div>
-          <div class="col-6 d-flex justify-content-end">
-            <div class="position-relative __box-star __me-40">
-              <img src="/wp-content/uploads/2023/12/icon-heart.svg" alt="" class="__bg-heart">
-              <img src="/wp-content/uploads/2023/12/heart.svg" class="__icon-heart position-absolute" alt="">
-              <div class="process2"></div>
-            </div>
-            <div class=" d-flex __box-star align-items-center">
-              <img src="/wp-content/uploads/2023/12/star2.svg" class="___img-xu2 " alt="">
-              <img src="/wp-content/uploads/2023/12/number-xu.svg" alt="" class="__number-xu ms-1 mt-1">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
+ 
   <section class="__level">
     <div class="container">
       <div class="row d-flex justify-content-center">
@@ -80,4 +41,4 @@ get_header("iframe");
 
 <?php
 
-get_footer("iframe");
+get_footer();
