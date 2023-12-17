@@ -1,0 +1,24 @@
+.elementor-13237 .elementor-element.elementor-element-165189b > .elementor-container{min-height:40vh;}.elementor-13237 .elementor-element.elementor-element-165189b:not(.elementor-motion-effects-element-type-background), .elementor-13237 .elementor-element.elementor-element-165189b > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-color:#000000;}.elementor-13237 .elementor-element.elementor-element-165189b > .elementor-background-overlay{background-image:url("https://mythosedu.com/wp-content/uploads/2023/12/city-committed-education-collage-concept-1-1-scaled.jpg");background-position:center center;background-repeat:no-repeat;background-size:cover;opacity:1;transition:background 0.3s, border-radius 0.3s, opacity 0.3s;}.elementor-13237 .elementor-element.elementor-element-165189b .elementor-background-overlay{filter:brightness( 100% ) contrast( 100% ) saturate( 100% ) blur( 0px ) hue-rotate( 0deg );}.elementor-13237 .elementor-element.elementor-element-165189b{transition:background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;margin-top:0px;margin-bottom:0px;padding:100px 0px 0100px 0px;}.elementor-13237 .elementor-element.elementor-element-29fb588 > .elementor-container{max-width:1180px;}.elementor-13237 .elementor-element.elementor-element-29fb588{margin-top:0px;margin-bottom:0px;padding:80px 0px 100px 0px;}@media(max-width:1024px){.elementor-13237 .elementor-element.elementor-element-165189b{margin-top:0px;margin-bottom:0px;padding:120px 20px 60px 20px;}.elementor-13237 .elementor-element.elementor-element-29fb588{margin-top:0px;margin-bottom:0px;padding:60px 20px 60px 20px;}}@media(max-width:767px){.elementor-13237 .elementor-element.elementor-element-165189b{margin-top:0px;margin-bottom:0px;padding:70px 15px 50px 15px;}.elementor-13237 .elementor-element.elementor-element-29fb588{margin-top:0px;margin-bottom:0px;padding:40px 15px 50px 15px;}}/* Start custom CSS for shortcode, class: .elementor-element-c6c7419 */.tutor-meta {
+    margin: 7px 0;
+}
+.tutor-course-loop-price>.price .tutor-loop-cart-btn-wrap a {
+    border: none !important;
+}
+.tutor-fs-5{
+    font-size: 15px;
+    line-height: 120% !important;
+}
+.tutor-course-card .tutor-card-body {
+    justify-content: space-between;
+}
+.tutor-card {
+    box-shadow: 0 0 5px #00000045;
+    background-color: #fff;
+    border: none;
+}
+.tutor-grid{
+    grid-gap: 18px ;
+}
+.elementor-13237 .elementor-element.elementor-element-29fb588{
+    background: radial-gradient(#6ad6f261, transparent);
+}/* End custom CSS */
