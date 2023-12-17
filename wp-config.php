@@ -25,12 +25,12 @@
 define( 'DB_NAME', 'u199319889_qLjMI' );
 
 /** Database username */
-// define( 'DB_USER', 'u199319889_CahMa' );
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'u199319889_CahMa' );
+// define( 'DB_USER', 'root' );
 
 /** Database password */
 // define( 'DB_PASSWORD', '040147' );
-define( 'DB_PASSWORD', '040147' );
+define( 'DB_PASSWORD', 'Mythosedu@@47' );
 
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );
