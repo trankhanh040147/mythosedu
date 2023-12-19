@@ -1,23 +1,5 @@
 <?php
-if (!is_user_logged_in()) {
-    echo `<style>
-		.__no_login{
-			display: block !important;
-		}
-		.__logined{
-			display: none !important;
-		}
-		</style>`;
-} else {
-	echo `<style>
-	.__no_login{
-		display: none !important;
-	}
-	.__logined{
-		display: block !important;
-	}
-	</style>`;
-}
+
 /**
  * The header for the theme
  *

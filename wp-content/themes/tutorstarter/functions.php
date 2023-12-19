@@ -43,6 +43,30 @@ function enqueue_custom_scripts() {
 	wp_enqueue_script('bootstrap', '<https://code.responsivevoice.org/responsivevoice.js?key=wkPTbGZH', array('jquery'), '1.4', true);
 }
 
+function add_custom_css_based_on_login_status() {
+	if (!is_user_logged_in()) {
+			// Nếu chưa đăng nhập, thêm CSS cho class "__no_login"
+			echo '<style>
+					.__no_login {
+							display: block !important;
+					}
+					.__logined {
+							display: none !important;
+					}
+			</style>';
+	} else {
+			// Nếu đã đăng nhập, thêm CSS cho class "__logined"
+			echo '<style>
+					.__no_login {
+							display: none !important;
+					}
+					.__logined {
+							display: block !important;
+					}
+			</style>';
+	}
+}
+add_action('wp_head', 'add_custom_css_based_on_login_status');
 
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 function enqueue_custom_styles() {
