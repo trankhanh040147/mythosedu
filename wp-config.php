@@ -1,4 +1,7 @@
 <?php
+define('WP_PLUGIN_URL','https://mythosedu.com/wp-content/backend'); // Added by Rename Plugins Folder
+define('WP_PLUGIN_DIR','/home/u199319889/domains/mythosedu.com/public_html/wp-content/backend'); // Added by Rename Plugins Folder
+define('PLUGINDIR','wp-content/backend'); // Added by Rename Plugins Folder
 /**
 * The base configuration for WordPress
 *
