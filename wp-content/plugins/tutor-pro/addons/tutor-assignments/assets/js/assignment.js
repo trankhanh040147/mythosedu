@@ -1,1 +1,0 @@
-window.jQuery(document).ready(function(n){var _=wp.i18n;_.__,_._x,_._n,_._nx});
