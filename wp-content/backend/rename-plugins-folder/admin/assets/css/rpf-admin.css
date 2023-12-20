@@ -1,0 +1,15 @@
+.rpf-hidden{
+  display:none !important
+}
+#rpf-rename-submit{
+  background-image:url(../img/ajax-loader.gif);
+  background-repeat:no-repeat;
+  background-size:32px 32px;
+  background-position:-9999px -9999px
+}
+.rpf-progress #rpf-rename-submit{
+  background-position:center center
+}
+#rpf-section .notice {
+    padding: 10px
+}
