@@ -858,6 +858,16 @@ class Quiz {
 			'menu_order'   => $next_order_id,
 		);
 
+		global $wpdb;
+
+		$tbl_quiz = array(
+			'topic_id'          => $topic_id,
+			'quiz_title'       => $quiz_title,
+			'quiz_status' => 'publish',
+		);
+		$wpdb->insert( $wpdb->prefix . 'quiz', $tbl_quiz );
+
+
 		// Insert quiz and run hook.
 		$quiz_id = wp_insert_post( $post_arr );
 		do_action( ( $ex_quiz_id ? 'tutor_quiz_updated' : 'tutor_initial_quiz_created' ), $quiz_id );
