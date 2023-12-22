@@ -10,3 +10,15 @@ Stack trace:
 #7 {main}
   thrown in /home/u199319889/domains/mythosedu.com/public_html/wp-content/plugins/mailpoet/vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php on line 564
 
+2023-12-20T15:09:05+00:00 CRITICAL Cannot redeclare add_custom_css_based_on_login_status() (previously declared in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php:10) in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php on line 70
+
+2023-12-20T15:09:09+00:00 CRITICAL Cannot redeclare add_custom_css_based_on_login_status() (previously declared in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php:10) in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php on line 70
+
+2023-12-20T15:09:14+00:00 CRITICAL Cannot redeclare add_custom_css_based_on_login_status() (previously declared in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php:10) in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php on line 70
+
+2023-12-20T15:09:17+00:00 CRITICAL Cannot redeclare add_custom_css_based_on_login_status() (previously declared in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php:10) in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php on line 70
+
+2023-12-20T15:09:55+00:00 CRITICAL Cannot redeclare add_custom_css_based_on_login_status() (previously declared in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php:33) in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php on line 70
+
+2023-12-20T15:09:58+00:00 CRITICAL Cannot redeclare add_custom_css_based_on_login_status() (previously declared in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php:33) in /home/u199319889/domains/mythosedu.com/public_html/wp-content/themes/tutorstarter/functions.php on line 70
+
