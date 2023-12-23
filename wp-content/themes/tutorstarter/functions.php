@@ -71,6 +71,7 @@ add_action('wp_head', 'add_custom_css_based_on_login_status');
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 function enqueue_custom_styles() {
 	// Enqueue your custom CSS file
+	wp_enqueue_style('custom-css', get_template_directory_uri().'/assets/dist/css/style_custom.css', array(), '1.1', true);
 	wp_enqueue_style('custom-css', get_template_directory_uri().'/assets/dist/css/bootstrap.min.css', array(), '1.6', true);
 }
 
