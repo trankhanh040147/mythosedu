@@ -21477,3 +21477,89 @@ body>div.tutor-wrap.tutor-wrap-parent.tutor-dashboard.tutor-frontend-dashboard.t
 #tutor-frontend-course-builder>div>div>div.tutor-col-12.tutor-col-lg-8.tutor-mb-32.tutor-pr-32>div.tutor-course-builder-section.tutor-course-builder-info>div.tutor-course-builder-section-content>div:nth-child(6)>div>div>div.tab-header.tutor-d-flex>div.tab-header-item {
   margin-right: 20px;
 }
+.tutor-profile-completion.tutor-card{
+  display: none !important;
+}
+
+/* <div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-12 tutor-col-lg-6 tutor-mb-32">
+				<label class="tutor-form-label tutor-color-secondary">
+					Display name publicly as
+				</label>
+				<select class="tutor-form-select" name="display_name" style="display: none;">
+													<option>trankhanh</option>
+															<option>instructor01</option>
+															<option>Harpet</option>
+															<option>Vincent</option>
+															<option>Harpet Vincent</option>
+															<option selected="selected">Vincent Harpet</option>
+											</select>
+      <div class="tutor-form-control tutor-form-select tutor-js-form-select">
+			<span class="tutor-form-select-label" tutor-dropdown-label="">Vincent Harpet</span>
+            <div class="tutor-form-select-dropdown">
+				<div class="tutor-form-select-search tutor-pt-8 tutor-px-8">
+					<div class="tutor-form-wrap">
+						<span class="tutor-form-icon"><i class="tutor-icon-search" area-hidden="true"></i></span>
+						<input type="search" class="tutor-form-control" placeholder="Search ...">
+					</div>
+				</div>
+                <div class="tutor-form-select-options">
+                    
+            <div class="tutor-form-select-option">
+				<span tutor-dropdown-item="" data-key="trankhanh" class="tutor-nowrap-ellipsis" title="trankhanh">trankhanh</span>
+            </div>
+            
+            <div class="tutor-form-select-option">
+				<span tutor-dropdown-item="" data-key="instructor01" class="tutor-nowrap-ellipsis" title="instructor01">instructor01</span>
+            </div>
+            
+            <div class="tutor-form-select-option">
+				<span tutor-dropdown-item="" data-key="Harpet" class="tutor-nowrap-ellipsis" title="Harpet">Harpet</span>
+            </div>
+            
+            <div class="tutor-form-select-option">
+				<span tutor-dropdown-item="" data-key="Vincent" class="tutor-nowrap-ellipsis" title="Vincent">Vincent</span>
+            </div>
+            
+            <div class="tutor-form-select-option">
+				<span tutor-dropdown-item="" data-key="Harpet Vincent" class="tutor-nowrap-ellipsis" title="Harpet Vincent">Harpet Vincent</span>
+            </div>
+            
+            <div class="tutor-form-select-option">
+				<span tutor-dropdown-item="" data-key="Vincent Harpet" class="tutor-nowrap-ellipsis" title="Vincent Harpet">Vincent Harpet</span>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+				<div class="tutor-fs-7 tutor-color-secondary tutor-mt-12">
+					The display name is shown in all public fields, such as the author name, instructor name, student name, and name that will be printed on the certificate.				</div>
+			</div> */
+label.tutor-form-label.tutor-color-secondary,
+.tutor-form-select[name="display_name"],
+.tutor-fs-7.tutor-color-secondary.tutor-mt-12,
+.tutor-form-control.tutor-form-select.tutor-js-form-select,
+.mce-container.mce-flow-layout-item.mce-btn-group, 
+a.tutor-dropdown-item[href="https://mythosedu.com/dashboard-2/settings/withdraw-settings"],
+.tutor-course-builder-upload-tips,
+.tutor-form-feedback,
+.tutor-chatgpt-bubble,
+#wp-tutor_lesson_modal_editor-editor-tools,
+/* <button type="button" role="tab" class="media-menu-item" id="menu-item-browse" aria-selected="false" tabindex="-1">Media Library</button> */
+button.media-menu-item#menu-item-browse,
+.tutor-input-group.tutor-option-field-video-duration,
+/* <div id="wp-tutor_quiz_desc_text_editor-editor-tools" class="wp-editor-tools hide-if-no-js"> */
+.wp-editor-tools.hide-if-no-js,
+/* mce-statusbar mce-container mce-panel mce-stack-layout-item mce-last */
+.mce-statusbar.mce-container,
+.tutor-select-option[data-value="open_ended"],
+.tutor-select-option[data-value="fill_in_the_blank"],
+.tutor-select-option[data-value="short_answer"],
+.tutor-select-option[data-value="matching"],
+.tutor-select-option[data-value="image_matching"],
+.tutor-select-option[data-value="image_answering"],
+.tutor-select-option[data-value="ordering"],
+#quiz-builder-tab-settings .tutor-mb-32:nth-child(2)
+{
+  display: none !important;
+}
