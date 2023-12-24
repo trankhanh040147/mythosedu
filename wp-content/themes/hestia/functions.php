@@ -219,3 +219,11 @@ function hestia_minimize_css( $css ) {
 	$css = preg_replace( '/#([a-f0-9])\\1([a-f0-9])\\2([a-f0-9])\\3/i', '#\1\2\3', $css );
 	return trim( $css );
 }
+function print_r_pre( $arr, $arr_name = '' ) {
+	if ( $arr_name ) {
+		echo '<h3>' . $arr_name . '</h3>';
+	}
+	echo '<pre>';
+	print_r( $arr );
+	echo '</pre>';
+}

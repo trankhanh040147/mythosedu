@@ -860,17 +860,38 @@ class Quiz {
 
 		global $wpdb;
 
+		// Insert quiz and run hook.
+		$quiz_id = wp_insert_post( $post_arr );
+		do_action( ( $ex_quiz_id ? 'tutor_quiz_updated' : 'tutor_initial_quiz_created' ), $quiz_id );
+
+		// Insert/Update table quiz
+
 		$tbl_quiz = array(
 			'topic_id'          => $topic_id,
 			'quiz_title'       => $quiz_title,
 			'quiz_status' => 'publish',
+			'post_id' => $ex_quiz_id ? $ex_quiz_id : $quiz_id,
 		);
-		$wpdb->insert( $wpdb->prefix . 'quiz', $tbl_quiz );
 
+		// print_r_pre($tbl_quiz,'tbl_quiz');
+		// die();
 
-		// Insert quiz and run hook.
-		$quiz_id = wp_insert_post( $post_arr );
-		do_action( ( $ex_quiz_id ? 'tutor_quiz_updated' : 'tutor_initial_quiz_created' ), $quiz_id );
+		// $wpdb->insert( $wpdb->prefix . 'quiz'	, $tbl_quiz );
+
+		if($ex_quiz_id)
+		{
+			$wpdb->update( $wpdb->prefix . 'quiz', $tbl_quiz, array( 'post_id' => $ex_quiz_id ) );
+		} else
+		{
+			$wpdb->insert( $wpdb->prefix . 'quiz', $tbl_quiz );
+		}
+
+		// $tbl_quiz = array(
+		// 	'topic_id'          => $topic_id,
+		// 	'quiz_title'       => $quiz_title,
+		// 	'quiz_status' => 'publish',
+		// );
+		// $wpdb->insert( $wpdb->prefix . 'quiz', $tbl_quiz );
 
 		// Sanitize by helper method & save quiz settings.
 		$quiz_option = tutor_utils()->sanitize_array( $_POST['quiz_option'] ); //phpcs:ignore

@@ -1,0 +1,2152 @@
+-- TABLE: tbl_posts
+-- 1	ID PrimaryIndex	bigint		UNSIGNED	No	None		AUTO_INCREMENT	Change Change	Drop Drop	
+-- 	2	post_author Index	bigint		UNSIGNED	No	0			Change Change	Drop Drop	
+-- 	3	post_date Index	datetime			No	0000-00-00 00:00:00			Change Change	Drop Drop	
+-- 	4	post_date_gmt	datetime			No	0000-00-00 00:00:00			Change Change	Drop Drop	
+-- 	5	post_content	longtext	utf8mb4_unicode_520_ci		No	None			Change Change	Drop Drop	
+-- 	6	post_title	text	utf8mb4_unicode_520_ci		No	None			Change Change	Drop Drop	
+-- 	7	post_excerpt	text	utf8mb4_unicode_520_ci		No	None			Change Change	Drop Drop	
+-- 	8	post_status Index	varchar(20)	utf8mb4_unicode_520_ci		No	publish			Change Change	Drop Drop	
+-- 	9	comment_status	varchar(20)	utf8mb4_unicode_520_ci		No	open			Change Change	Drop Drop	
+-- 	10	ping_status	varchar(20)	utf8mb4_unicode_520_ci		No	open			Change Change	Drop Drop	
+-- 	11	post_password	varchar(255)	utf8mb4_unicode_520_ci		No				Change Change	Drop Drop	
+-- 	12	post_name Index	varchar(200)	utf8mb4_unicode_520_ci		No				Change Change	Drop Drop	
+-- 	13	to_ping	text	utf8mb4_unicode_520_ci		No	None			Change Change	Drop Drop	
+-- 	14	pinged	text	utf8mb4_unicode_520_ci		No	None			Change Change	Drop Drop	
+-- 	15	post_modified	datetime			No	0000-00-00 00:00:00			Change Change	Drop Drop	
+-- 	16	post_modified_gmt	datetime			No	0000-00-00 00:00:00			Change Change	Drop Drop	
+-- 	17	post_content_filtered	longtext	utf8mb4_unicode_520_ci		No	None			Change Change	Drop Drop	
+-- 	18	post_parent Index	bigint		UNSIGNED	No	0			Change Change	Drop Drop	
+-- 	19	guid	varchar(255)	utf8mb4_unicode_520_ci		No				Change Change	Drop Drop	
+-- 	20	menu_order	int			No	0			Change Change	Drop Drop	
+-- 	21	post_type Index	varchar(20)	utf8mb4_unicode_520_ci		No	post			Change Change	Drop Drop	
+-- 	22	post_mime_type	varchar(100)	utf8mb4_unicode_520_ci		No				Change Change	Drop Drop	
+-- 	23	comment_count	bigint
+
+-- TABLE: tbl_postmeta
+	-- 1	meta_id Primary	bigint		UNSIGNED	No	None		AUTO_INCREMENT	Change Change	Drop Drop	
+	-- 2	post_id Index	bigint		UNSIGNED	No	0			Change Change	Drop Drop	
+	-- 3	meta_key Index	varchar(255)	utf8mb4_unicode_520_ci		Yes	NULL			Change Change	Drop Drop	
+	-- 4	meta_value	longtext	utf8mb4_unicode_520_ci		Yes	NULL			Change Change	Drop Drop	
+
+-- TABLE: tbl_course
+	-- 1	ID Primary	bigint			No	None		AUTO_INCREMENT	Change Change	Drop Drop	
+	-- 2	course_title	text	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop	
+	-- 3	course_slug	varchar(100)	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop	
+	-- 4	course_children	bigint			No	None			Change Change	Drop Drop	
+	-- 5	course_parent	bigint			No	None			Change Change	Drop Drop	
+	-- 6	course_thumbnail_link	varchar(100)	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop	
+	-- 7	course_is_public_course	int			No	0			Change Change	Drop Drop	
+	-- 8	course_is_delete	int			No	0			Change Change	Drop Drop	
+	-- 9	course_enable_qa	int			No	0			Change Change	Drop Drop	
+	-- 10	course_level	varchar(100)	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop	
+	-- 11	course_duration	datetime			No	None			Change Change	Drop Drop	
+	-- 12	course_edit_last	datetime			No	None			Change Change	Drop Drop	
+
+-- data of postmeta
+-- 13687
+-- 15761
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15761
+-- 16
+-- 2023-12-19 02:45:12
+-- 0000-00-00 00:00:00
+-- Auto Draft
+-- auto-draft
+-- closed
+-- closed
+-- 2023-12-19 02:45:12
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15761
+-- 0
+-- courses
+-- 0
+-- 13688
+-- 15761
+-- _last_editor_used_jetpack
+-- classic-editor
+-- 15761
+-- 16
+-- 2023-12-19 02:45:12
+-- 0000-00-00 00:00:00
+-- Auto Draft
+-- auto-draft
+-- closed
+-- closed
+-- 2023-12-19 02:45:12
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15761
+-- 0
+-- courses
+-- 0
+-- 13689
+-- 15761
+-- _edit_lock
+-- 1702954395:16
+-- 15761
+-- 16
+-- 2023-12-19 02:45:12
+-- 0000-00-00 00:00:00
+-- Auto Draft
+-- auto-draft
+-- closed
+-- closed
+-- 2023-12-19 02:45:12
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15761
+-- 0
+-- courses
+-- 0
+-- 13512
+-- 15722
+-- _tutor_course_parent
+-- 15722
+-- 1
+-- 2023-12-16 03:13:26
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 03:13:26
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15722
+-- 0
+-- courses
+-- 0
+-- 13513
+-- 15722
+-- _tutor_course_children
+-- 15722
+-- 1
+-- 2023-12-16 03:13:26
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 03:13:26
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15722
+-- 0
+-- courses
+-- 0
+-- 13515
+-- 15722
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15722
+-- 1
+-- 2023-12-16 03:13:26
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 03:13:26
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15722
+-- 0
+-- courses
+-- 0
+-- 13516
+-- 15723
+-- _tutor_course_parent
+-- 15723
+-- 1
+-- 2023-12-16 04:24:17
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 04:24:17
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15723
+-- 0
+-- courses
+-- 0
+-- 13517
+-- 15723
+-- _tutor_course_children
+-- 15723
+-- 1
+-- 2023-12-16 04:24:17
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 04:24:17
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15723
+-- 0
+-- courses
+-- 0
+-- 13519
+-- 15723
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15723
+-- 1
+-- 2023-12-16 04:24:17
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 04:24:17
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15723
+-- 0
+-- courses
+-- 0
+-- 13551
+-- 15734
+-- _tutor_course_parent
+-- 15734
+-- 1
+-- 2023-12-16 06:44:42
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 06:44:42
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15734
+-- 0
+-- courses
+-- 0
+-- 13552
+-- 15734
+-- _tutor_course_children
+-- 15734
+-- 1
+-- 2023-12-16 06:44:42
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 06:44:42
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15734
+-- 0
+-- courses
+-- 0
+-- 13554
+-- 15734
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15734
+-- 1
+-- 2023-12-16 06:44:42
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-16 06:44:42
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15734
+-- 0
+-- courses
+-- 0
+-- 13694
+-- 15766
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15766
+-- 1
+-- 2023-12-19 02:54:34
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-19 02:54:34
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15766
+-- 0
+-- courses
+-- 0
+-- 13711
+-- 15768
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15768
+-- 1
+-- 2023-12-19 03:26:57
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-19 03:26:57
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15768
+-- 0
+-- courses
+-- 0
+-- 13754
+-- 15797
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15797
+-- 1
+-- 2023-12-19 04:41:35
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-19 04:41:35
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15797
+-- 0
+-- courses
+-- 0
+-- 13781
+-- 15802
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15802
+-- 1
+-- 2023-12-19 14:15:06
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-19 14:15:06
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15802
+-- 0
+-- courses
+-- 0
+-- 13784
+-- 15804
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15804
+-- 1
+-- 2023-12-19 15:09:50
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-19 15:09:50
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15804
+-- 0
+-- courses
+-- 0
+-- 13927
+-- 15828
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15828
+-- 1
+-- 2023-12-20 16:32:00
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-20 16:32:00
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15828
+-- 0
+-- courses
+-- 0
+-- 13933
+-- 15828
+-- _edit_lock
+-- 1703091748:16
+-- 15828
+-- 1
+-- 2023-12-20 16:32:00
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-20 16:32:00
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15828
+-- 0
+-- courses
+-- 0
+-- 13934
+-- 15828
+-- _last_editor_used_jetpack
+-- classic-editor
+-- 15828
+-- 1
+-- 2023-12-20 16:32:00
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-20 16:32:00
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15828
+-- 0
+-- courses
+-- 0
+-- 13951
+-- 15836
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15836
+-- 1
+-- 2023-12-20 20:44:53
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-20 20:44:53
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15836
+-- 0
+-- courses
+-- 0
+-- 14002
+-- 15845
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15845
+-- 1
+-- 2023-12-21 16:23:17
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-21 16:23:17
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15845
+-- 0
+-- courses
+-- 0
+-- 14030
+-- 15856
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15856
+-- 1
+-- 2023-12-22 21:06:53
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-22 21:06:53
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15856
+-- 0
+-- courses
+-- 0
+-- 14031
+-- 15857
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15857
+-- 1
+-- 2023-12-23 01:54:57
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-23 01:54:57
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15857
+-- 0
+-- courses
+-- 0
+-- 14044
+-- 15860
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15860
+-- 1
+-- 2023-12-23 09:33:43
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-23 09:33:43
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15860
+-- 0
+-- courses
+-- 0
+-- 14048
+-- 15864
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15864
+-- 1
+-- 2023-12-23 09:52:19
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-23 09:52:19
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15864
+-- 0
+-- courses
+-- 0
+-- 14054
+-- 15869
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 15869
+-- 1
+-- 2023-12-23 10:43:54
+-- 0000-00-00 00:00:00
+-- New Course
+-- draft
+-- closed
+-- closed
+-- new-course
+-- 2023-12-23 10:43:54
+-- 0000-00-00 00:00:00
+-- 0
+-- https://mythosedu.com/?post_type=courses&p=15869
+-- 0
+-- courses
+-- 0
+-- 1030
+-- 14234
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1031
+-- 14234
+-- _edit_last
+-- 1
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1032
+-- 14234
+-- _edit_lock
+-- 1699435457:1
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1034
+-- 14234
+-- _oembed_1a86e10ccd753ded19f70ff4e02f9b80
+-- <iframe title="Learn Java in 14 Minutes (seriously...
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1035
+-- 14234
+-- _oembed_time_1a86e10ccd753ded19f70ff4e02f9b80
+-- 1699078669
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1040
+-- 14234
+-- _tutor_course_settings
+-- a:1:{s:16:"maximum_students";i:30;}
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1041
+-- 14234
+-- _course_duration
+-- a:3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:7:"second...
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1042
+-- 14234
+-- _tutor_course_level
+-- beginner
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1043
+-- 14234
+-- _video
+-- a:8:{s:6:"source";s:5:"html5";s:15:"source_video_i...
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1044
+-- 14234
+-- _tutor_enable_qa
+-- yes
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1045
+-- 14234
+-- _tutor_is_public_course
+-- no
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1046
+-- 14234
+-- _aioseo_title
+-- NULL
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1047
+-- 14234
+-- _aioseo_description
+-- NULL
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1048
+-- 14234
+-- _aioseo_keywords
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1049
+-- 14234
+-- _aioseo_og_title
+-- NULL
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1050
+-- 14234
+-- _aioseo_og_description
+-- NULL
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1051
+-- 14234
+-- _aioseo_og_article_section
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1052
+-- 14234
+-- _aioseo_og_article_tags
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1053
+-- 14234
+-- _aioseo_twitter_title
+-- NULL
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1054
+-- 14234
+-- _aioseo_twitter_description
+-- NULL
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1056
+-- 14234
+-- _tutor_course_started
+-- 1699079030
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1654
+-- 14234
+-- _last_editor_used_jetpack
+-- classic-editor
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1657
+-- 14234
+-- _thumbnail_id
+-- 14309
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 9341
+-- 14234
+-- _tutor_course_parent
+--  15705
+-- 14234
+-- 1
+-- 2023-11-04 06:23:10
+-- 2023-11-04 06:23:10
+-- <div class="ud-text-md clp-lead__headline" data-pu...
+-- Learn Android Application Development
+-- A beginner course on Android Application developme...
+-- publish
+-- closed
+-- closed
+-- learn-android-application-development
+-- 2023-11-08 09:26:22
+-- 2023-11-08 09:26:22
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1658
+-- 14310
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1659
+-- 14310
+-- _last_editor_used_jetpack
+-- classic-editor
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1660
+-- 14310
+-- _edit_lock
+-- 1699435697:1
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1661
+-- 14310
+-- _edit_last
+-- 1
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1662
+-- 14310
+-- _tutor_course_settings
+-- a:1:{s:16:"maximum_students";i:100;}
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1663
+-- 14310
+-- _course_duration
+-- a:3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:7:"second...
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1664
+-- 14310
+-- _tutor_course_level
+-- intermediate
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1665
+-- 14310
+-- _video
+-- a:8:{s:6:"source";s:5:"html5";s:15:"source_video_i...
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1666
+-- 14310
+-- _tutor_enable_qa
+-- yes
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1667
+-- 14310
+-- _tutor_is_public_course
+-- yes
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1668
+-- 14310
+-- _aioseo_title
+-- NULL
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1669
+-- 14310
+-- _aioseo_description
+-- NULL
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1670
+-- 14310
+-- _aioseo_keywords
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1671
+-- 14310
+-- _aioseo_og_title
+-- NULL
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1672
+-- 14310
+-- _aioseo_og_description
+-- NULL
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1673
+-- 14310
+-- _aioseo_og_article_section
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1674
+-- 14310
+-- _aioseo_og_article_tags
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1675
+-- 14310
+-- _aioseo_twitter_title
+-- NULL
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1676
+-- 14310
+-- _aioseo_twitter_description
+-- NULL
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1679
+-- 14310
+-- _thumbnail_id
+-- 14311
+-- 14310
+-- 1
+-- 2023-11-08 09:27:51
+-- 2023-11-08 09:27:51
+-- It is a long established fact that a reader will b...
+-- Reactjs
+-- publish
+-- closed
+-- closed
+-- reactjs
+-- 2023-11-08 09:30:32
+-- 2023-11-08 09:30:32
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1680
+-- 14312
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1681
+-- 14312
+-- _last_editor_used_jetpack
+-- classic-editor
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1682
+-- 14312
+-- _edit_lock
+-- 1699436176:1
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1683
+-- 14312
+-- _edit_last
+-- 1
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1686
+-- 14312
+-- _thumbnail_id
+-- 14313
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1687
+-- 14312
+-- _tutor_course_settings
+-- a:1:{s:16:"maximum_students";i:1110;}
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1688
+-- 14312
+-- _course_duration
+-- a:3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:7:"second...
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1689
+-- 14312
+-- _tutor_course_level
+-- intermediate
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1690
+-- 14312
+-- _video
+-- a:8:{s:6:"source";s:5:"html5";s:15:"source_video_i...
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1691
+-- 14312
+-- _tutor_enable_qa
+-- yes
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1692
+-- 14312
+-- _tutor_is_public_course
+-- yes
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1693
+-- 14312
+-- _aioseo_title
+-- NULL
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1694
+-- 14312
+-- _aioseo_description
+-- NULL
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1695
+-- 14312
+-- _aioseo_keywords
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1696
+-- 14312
+-- _aioseo_og_title
+-- NULL
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1697
+-- 14312
+-- _aioseo_og_description
+-- NULL
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1698
+-- 14312
+-- _aioseo_og_article_section
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1699
+-- 14312
+-- _aioseo_og_article_tags
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1700
+-- 14312
+-- _aioseo_twitter_title
+-- NULL
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1701
+-- 14312
+-- _aioseo_twitter_description
+-- NULL
+-- 14312
+-- 1
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- It is a long established fact that a reader will b...
+-- PHP Beginner + Advanced
+-- publish
+-- closed
+-- closed
+-- php-beginner-advanced
+-- 2023-11-08 09:33:06
+-- 2023-11-08 09:33:06
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1711
+-- 14317
+-- _tutorstarter_schema
+-- a:32:{s:18:"main_schema_select";s:0:"";s:17:"sub_s...
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1712
+-- 14317
+-- _last_editor_used_jetpack
+-- classic-editor
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1713
+-- 14317
+-- _edit_lock
+-- 1699456968:1
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1714
+-- 14317
+-- _edit_last
+-- 1
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1740
+-- 14317
+-- _thumbnail_id
+-- 14321
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1741
+-- 14317
+-- _tutor_course_settings
+-- a:1:{s:16:"maximum_students";i:0;}
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1742
+-- 14317
+-- _course_duration
+-- a:3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:7:"second...
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1743
+-- 14317
+-- _tutor_course_level
+-- intermediate
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+-- 1744
+-- 14317
+-- _video
+-- a:8:{s:6:"source";s:5:"html5";s:15:"source_video_i...
+-- 14317
+-- 1
+-- 2023-11-08 15:24:20
+-- 2023-11-08 15:24:20
+-- Khóa học hay dành cho người mới bắt đầu
+-- Course design 1
+-- publish
+-- closed
+-- closed
+-- course-design-1
+-- 2023-12-07 07:16:18
+-- 2023-12-07 07:16:18
+-- 0
+-- https://mythosedu.com/?post_type=courses&#038;p=14...
+-- 0
+-- courses
+-- 0
+
+-- write SQL to convert all datas from tbl_post and tbl_postmeta into tbl_course: Get value from tbl_posts and tbl_postmeta with tbl_course.ID = post_id, its value is in meta_value column, and somes of the tbl_posts
+
+
+INSERT INTO tbl_course (ID, course_title, course_slug, course_thumbnail_link, course_is_public_course, course_is_delete, course_enable_qa, course_level)
+SELECT
+    p.ID,
+    p.post_title,
+    p.post_name,
+    pm_thumbnail.meta_value AS thumbnail_link,
+    -- pm_public_course.meta_value
+    -- pm_public_course.meta_value AS is_public_course,
+    CASE pm_public_course.meta_value WHEN 'yes' THEN 1 ELSE 0 END AS is_public_course,
+    -- pm_enable_qa.meta_value AS enable_qa,
+    CASE pm_enable_qa.meta_value WHEN 'yes' THEN 1 ELSE 0 END AS enable_qa,
+    '0' AS is_delete, -- Assuming default value as '0'
+    pm_course_level.meta_value AS course_level
+FROM
+    tbl_posts p
+LEFT JOIN tbl_postmeta pm_thumbnail ON p.ID = pm_thumbnail.post_id AND pm_thumbnail.meta_key = '_thumbnail_id'
+LEFT JOIN tbl_postmeta pm_public_course ON p.ID = pm_public_course.post_id AND pm_public_course.meta_key = '_tutor_is_public_course'
+LEFT JOIN tbl_postmeta pm_enable_qa ON p.ID = pm_enable_qa.post_id AND pm_enable_qa.meta_key = '_tutor_enable_qa'
+LEFT JOIN tbl_postmeta pm_course_level ON p.ID = pm_course_level.post_id AND pm_course_level.meta_key = '_tutor_course_level'
+WHERE
+    p.post_type = 'courses'
+AND
+    p.post_status = 'publish';

@@ -1,10 +1,7 @@
 <?php
 /**
- * General class for hook logic
+ * General class để xử lý hook logic
  *
- * @package TutorPro
- *
- * @since 2.0.0
  */
 
 namespace TUTOR_PRO;
@@ -19,13 +16,12 @@ if (!defined('ABSPATH')) {
 /**
  * Class General
  *
- * @since 2.0.0
  */
 class General
 {
 
 	/**
-	 * Register hooks
+	 * Khai báo các hook
 	 *
 	 * @return void
 	 */
@@ -45,14 +41,14 @@ class General
 	}
 
 	/**
-	 * Show course completion button after all course content done.
+	 * Hiển thị nút hoàn thành khóa học sau khi hoàn thành tất cả nội dung khóa học.
 	 *
 	 * @since 2.4.0
 	 *
 	 * @param int   $course_id course id.
 	 * @param int   $user_id user id.
-	 * @param bool  $is_course_completed course completed or not.
-	 * @param array $course_stats course progress stats.
+	 * @param bool  $is_course_completed khoá học đã hoàn thành hay chưa.
+	 * @param array $course_stats các thống kê khóa học.
 	 *
 	 * @return void
 	 */
@@ -83,11 +79,10 @@ class General
 	}
 
 	/**
-	 * Add login page
+	 * Thêm trang đăng nhập vào danh sách trang
 	 *
-	 * @since 2.1.0
 	 *
-	 * @param array $pages page list.
+	 * @param array $pages danh sách trang.
 	 *
 	 * @return array
 	 */
@@ -97,9 +92,8 @@ class General
 	}
 
 	/**
-	 * Process course submission from frontend course builder
+	 * Xử lí khi người dùng submit khóa học từ frontend (course builder)
 	 *
-	 * @since v.1.3.4
 	 *
 	 * @return void
 	 */
@@ -137,7 +131,7 @@ class General
 			'post_name' => $slug,
 		);
 
-		// Publish or Pending...
+		// Publish hoặc Pending
 		$message = null;
 		$show_modal = true;
 		$submit_action = Input::post('course_submit_btn', '');
@@ -174,13 +168,13 @@ class General
 		wp_update_post($post_data);
 
 		/**
-		 * Setting Thumbnail
+		 * Cài đặt Thumbnail
 		 */
 		$_thumbnail_id = Input::post('tutor_course_thumbnail_id', 0, Input::TYPE_INT);
 		self::update_post_thumbnail($post_ID, $_thumbnail_id);
 
 		/**
-		 * Adding taxonomy
+		 * Thêm Taxonomy
 		 */
 		if (tutor_utils()->count($tax_input)) {
 			foreach ($tax_input as $taxonomy => $tags) {
@@ -207,14 +201,26 @@ class General
 		// $prerequisites_course_ids = Input::post('_tutor_course_prerequisites_ids', array(), Input::TYPE_ARRAY);
 		// var_dump( $course_children_arr );
 		// var_dump( $prerequisites_course_ids );
+
+		
 		global $wpdb;
+
+		// Khởi tạo giá trị cho các field của khoá học
+		$course_duration = "";
+		$tutor_course_children = "";
+		$tutor_course_parent = "";
+		$tutor_is_public_course = "";
+		$tutor_enable_qa = "";
+		$tutor_course_level = "";
+		$thumbnail_id = "";
+
 		
 		// lấy data của các bảng về
 		$tbl_posts = $wpdb->prepare("SELECT * FROM tbl_posts WHERE ID = $post_ID");
 		$tbl_posts = $wpdb->get_results($tbl_posts);
 
 		// lấy id của các bảng wp_pm.post_id = wp_p.ID đã đúng
-			$result = $wpdb->prepare("SELECT * FROM tbl_postmeta wp_pm
+		$result = $wpdb->prepare("SELECT * FROM tbl_postmeta wp_pm
 		JOIN tbl_posts wp_p ON wp_pm.post_id = wp_p.ID
 		WHERE wp_pm.post_id = '$post_ID'");
 
@@ -259,10 +265,20 @@ class General
 
 		// topic 
 
+		// vardump 
+		// print_r_pre($results, '$results');
+		print_r_pre($post_ID, '$post_ID');
+		print_r_pre($course_ID, '$course_ID');
+		print_r_pre($tbl_posts, '$tbl_posts');
+		print_r_pre($tbl_course, '$tbl_course');
+		
+		// die();
+
+		// Insert hoặc Update tbl_course dựa vào cột ID. Nếu trong table tbl_course chưa có ID thì insert, ngược lại update
 		$wpdb->insert('tbl_course', $tbl_course);
 		$wpdb->update('tbl_course', $tbl_course, array('ID' => $post_ID));
-
-		// die();
+				
+		// die();	
 		do_action('save_tutor_course', $post_ID, $post_data);
 
 		if (wp_doing_ajax()) {
@@ -270,7 +286,7 @@ class General
 		} else {
 
 			/**
-			 * If update request not comes from edit page, redirect it to edit page
+			* Nếu REQUEST cập nhật không gọi từ trang chỉnh sửa, chuyển hướng nó đến trang chỉnh sửa
 			 */
 			$edit_mode = (int) sanitize_text_field(tutor_utils()->array_get('course_ID', $_GET));
 			if (!$edit_mode) {
@@ -280,7 +296,7 @@ class General
 			}
 
 			/**
-			 * Finally redirect it to previous page to avoid multiple post request
+			 * Sau khi cập nhật thành công, chuyển hướng nó đến trang trước đó để tránh nhiều POST request
 			 */
 			$redirect_option_enabled = (bool) tutor_utils()->get_option('enable_redirect_on_course_publish_from_frontend');
 			if ('publish_course' === $submit_action && true === $redirect_option_enabled) {
@@ -336,7 +352,7 @@ class General
 
 
 	/**
-	 * Extend settings options.
+	 * Thêm các setting options
 	 *
 	 * @param array $attr settings options.
 	 *
@@ -370,9 +386,9 @@ class General
 		);
 
 		/**
-		 * Settings option added in Course > Course section.
+		 * Thêm các setting options trong phần Course > Course
 		 *
-		 * @since 2.0.6
+
 		 */
 		$attr['course']['blocks']['block_course']['fields'][] = array(
 			'key' => 'enable_redirect_on_course_publish_from_frontend',
@@ -384,9 +400,8 @@ class General
 		);
 
 		/**
-		 * Hide quiz attempts details from frontend
-		 *
-		 * @since 2.0.7
+		 * Ẩn các chi tiết của quiz từ phía frontend
+
 		 */
 		$attr['course']['blocks']['block_quiz']['fields'][] = array(
 			'key' => 'hide_quiz_details',
@@ -398,8 +413,9 @@ class General
 
 		/**
 		 * Show enrollment box on top of page when mobile view
+		 * Hiển thị enrollment box ở trên cùng của trang khi xem trên mobile
 		 *
-		 * @since 2.0.9
+
 		 */
 		$attr['design']['blocks']['course-details']['fields'][] = array(
 			'key' => 'enrollment_box_position_in_mobile',
@@ -414,9 +430,9 @@ class General
 		);
 
 		/**
-		 * Login page option
+		 * Option trang đăng nhập
 		 *
-		 * @since 2.1.0
+
 		 */
 		$login_option = array(
 			'key' => 'tutor_login_page',
@@ -427,9 +443,9 @@ class General
 			'desc' => __('This page will be used as the login page for both the students and the instructors.', 'tutor'),
 		);
 		/**
-		 * Invoice generate settings for manual enrollment
+		 * Hoá đơn tạo cài đặt cho đăng ký thủ công
 		 *
-		 * @since 2.1.4
+
 		 */
 		$invoice_options = array(
 			'key' => 'tutor_woocommerce_invoice',
@@ -473,9 +489,8 @@ class General
 		 */
 
 		/**
-		 * Lesson video completion control.
+		 * Lesson video hoàn tất.
 		 *
-		 * @since 2.2.4
 		 */
 		tutor_utils()->add_option_after(
 			'enable_lesson_classic_editor',
@@ -542,14 +557,12 @@ class General
 	}
 
 	/**
-	 * Update post thumbnail
+	 * Cập nhật thumbnail post
 	 *
-	 * It will update post thumbnail meta if thumbnail_id is set
-	 * otherwise it will remove existing meta
+	 * Cập nhật meta thumbnail nếu thumbnail_id được set, ngược lại sẽ xóa meta hiện tại
 	 *
 	 * Used from frontend course & bundle builder
 	 *
-	 * @since 2.2.0
 	 *
 	 * @param int $post_id required post id.
 	 * @param int $thumbnail_id thumbnail id.

@@ -611,7 +611,6 @@ class Course extends Tutor_Base
 	/**
 	 * Save course topic
 	 *
-	 * @since 1.0.0
 	 * @return void
 	 */
 	public function tutor_save_topic()
@@ -632,29 +631,6 @@ class Course extends Tutor_Base
 
 		global $wpdb;
 
-		$get_id_post = $wpdb->get_var($wpdb->prepare("SELECT ID FROM tbl_posts WHERE post_parent = %d ORDER BY ID DESC LIMIT 1", $course_id));
-
-		$datatopic = array(
-			'course_id' => $course_id,
-			'topic_title' => $topic_title,
-			'topic_sumary' => $topic_summery,
-			'post_id' => $get_id_post ? $get_id_post : 0,
-		);
-
-		$exists = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM tbl_topic WHERE post_id = $topic_id"));
-		// If it exists, update
-		if ($exists) {
-			// If not, insert
-			$datatopic_edit = array(
-				'topic_title' => $topic_title,
-				'topic_sumary' => $topic_summery,
-			);
-
-			$wpdb->update('tbl_topic', $datatopic_edit, array('post_id' => $topic_id));
-		} else {
-			$wpdb->insert('tbl_topic', $datatopic);
-		}
-
 		// Validate if user can manage the topic.
 		if (!tutor_utils()->can_user_manage('course', $course_id) || ($topic_id && !tutor_utils()->can_user_manage('topic', $topic_id))) {
 			wp_send_json_error(array('message' => __('Access Denied', 'tutor')));
@@ -672,6 +648,39 @@ class Course extends Tutor_Base
 		);
 		$topic_id ? $post_arr['ID'] = $topic_id : 0;
 		$current_topic_id = wp_insert_post($post_arr);
+
+		// Insert/Update topic
+
+		// $get_id_post = $wpdb->get_var($wpdb->prepare("SELECT ID FROM tbl_posts WHERE post_parent = %d ORDER BY ID DESC LIMIT 1", $course_id));
+
+		$datatopic = array(
+			'course_id' => $course_id,
+			'topic_title' => $topic_title,
+			'topic_sumary' => $topic_summery,
+			// 'post_id' => $get_id_post ? $get_id_post : 0,
+			'post_id' => $current_topic_id,
+		);
+
+		// print_r_pre($datatopic,'datatopic');
+		// die();
+
+		// Insert hoặc Update tbl_topic chưa tồn tại post_id = current_topic_id thì insert, ngược lại update
+
+		$exists = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM tbl_topic WHERE post_id = $current_topic_id"));
+
+		// print_r_pre($exists,'exists');
+		// die();
+
+		// If it exists, update
+		if ($exists) {
+			$wpdb->update('tbl_topic', $datatopic, array('post_id' => $current_topic_id));
+		} else {
+			$wpdb->insert('tbl_topic', $datatopic);
+		}
+
+		// .Insert/Update topic
+
+
 		ob_start();
 		include tutor()->path . 'views/metabox/course-contents.php';
 

@@ -314,7 +314,9 @@ class Lesson extends Tutor_Base
 			$video = $lesson_video ? $lesson_video[0]->meta_value : '0';
 		};
 
+		// Insert or update lesson
 		if (0 === $lesson_id) {
+			// If lesson chưa có thì insert vào tbl_posts
 			$lesson_data['menu_order'] = tutor_utils()->get_next_course_content_order_id($topic_id);
 			$lesson_id = wp_insert_post($lesson_data);
 			if ($lesson_id) {
@@ -323,11 +325,12 @@ class Lesson extends Tutor_Base
 				wp_send_json_error(array('message' => __('Couldn\'t create lesson.', 'tutor')));
 			}
 			
-			$ID = $wpdb->get_var("SELECT ID FROM tbl_posts WHERE post_type = 'lesson' ORDER BY ID DESC LIMIT 1");
+			// $ID = $wpdb->get_var("SELECT ID FROM tbl_posts WHERE post_type = 'lesson' ORDER BY ID DESC LIMIT 1");
 			sleep(1);
 			// echo $ID;
+
 			$tbl_lesson = array(
-				'ID' => $ID,
+				'post_ID' => $lesson_id,
 				'topic_id' => $topic_id,
 				'lesson_title' => $title,
 				'lesson_video' => $video,
@@ -335,13 +338,18 @@ class Lesson extends Tutor_Base
 				'lesson_status' => 'publish',
 				'data_meta' => 'data_meta',
 			);
-			$wpdb->insert('tbl_lesson', $tbl_lesson);
+
+			// print_r_pre($tbl_lesson,'tbl_lesson_insert');
 			// die();
 
-		} else {
+			$wpdb->insert('tbl_lesson', $tbl_lesson);
+
+		} else {	
+			// Nếu lesson đã có thì update tbl_posts
 			$lesson_data['ID'] = $lesson_id;
 			do_action('tutor/lesson_update/before', $lesson_id);
 			wp_update_post($lesson_data);
+
 			// update tbl_lesson
 			$update_lesson_data = array(
 				'lesson_title' => $lesson_data['post_title'],
@@ -351,8 +359,11 @@ class Lesson extends Tutor_Base
 				'data_meta' => 'data_meta',
 			);
 
+			// print_r_pre($update_lesson_data,'$update_lesson_data');
+			// die();
+
 			// update tbl_lesson
-			$wpdb->update('tbl_lesson', $update_lesson_data, array('lesson_ID' => $lesson_id));
+			$wpdb->update('tbl_lesson', $update_lesson_data, array('post_id' => $lesson_id));
 
 			if ($_lesson_thumbnail_id) {
 				update_post_meta($lesson_id, '_thumbnail_id', $_lesson_thumbnail_id);

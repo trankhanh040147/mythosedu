@@ -1,7 +1,4 @@
 <?php
-define('WP_PLUGIN_URL','https://mythosedu.com/wp-content/backend'); // Added by Rename Plugins Folder
-define('WP_PLUGIN_DIR','/home/u199319889/domains/mythosedu.com/public_html/wp-content/backend'); // Added by Rename Plugins Folder
-define('PLUGINDIR','wp-content/backend'); // Added by Rename Plugins Folder
 /**
 * The base configuration for WordPress
 *
@@ -23,19 +20,21 @@ define('PLUGINDIR','wp-content/backend'); // Added by Rename Plugins Folder
 */
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'u199319889_qLjMI' );
+// define( 'DB_NAME', 'u199319889_mythosedu' );
+define( 'DB_NAME', 'mythosedu' );
 /** Database username */
-define( 'DB_USER', 'u199319889_CahMa' );
-// define( 'DB_USER', 'root' );
+// define( 'DB_USER', 'u199319889_root' );  
+define( 'DB_USER', 'root' );
 /** Database password */
-// define( 'DB_PASSWORD', '040147' );
-define( 'DB_PASSWORD', 'Mythosedu@@47' );
+define( 'DB_PASSWORD', '040147' );
+// define( 'DB_PASSWORD', 'Mythosedu@@47' );
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
+
 /**#@+
 * Authentication unique keys and salts.
 *
@@ -90,5 +89,8 @@ define( 'WP_AUTO_UPDATE_CORE', 'minor' );
 if ( ! defined( 'ABSPATH' ) ) {
 define( 'ABSPATH', __DIR__ . '/' );
 }
+define('WP_PLUGIN_URL','https://mythosedu.com/wp-content/backend');
+define('WP_PLUGIN_DIR', ABSPATH . 'wp-content/backend');
+define('PLUGINDIR','wp-content/backend'); 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';

@@ -175,4 +175,13 @@ if ( ! function_exists( 'str_contains' ) ) {
 	}
 }
 
+// <pre> print_r($arr) </pre>
+function print_r_pre( $arr, $arr_name = '' ) {
+	if ( $arr_name ) {
+		echo '<h3>' . $arr_name . '</h3>';
+	}
+	echo '<pre>';
+	print_r( $arr );
+	echo '</pre>';
+}
 $GLOBALS['tutor'] = tutor_lms();
