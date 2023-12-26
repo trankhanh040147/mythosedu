@@ -1,0 +1,39 @@
+#ssl
+openssl genrsa -des3 -out mythosedu.key 4096
+
+openssl req -new -key mythosedu.key -out mythosedu.csr
+
+ca
+mythosedu.com
+
+cp mythosedu.key mythosedu.key.pw
+
+openssl rsa -in mythosedu.key.pw -out mythosedu.key
+040147
+
+cat mythosedu.csr
+
+#sign the csr --> crt
+openssl x509 -req -in mythosedu.csr -signkey mythosedu.key -out mythosedu.crt
+
+ mkdir /etc/nginx/ssl
+
+ cp mythosedu.crt etc\nginx\ssl
+ cp mythosedu.key etc\nginx\ssl
+ 
+# server
+root html;
+index index. html index.htm;
+
+ssl on;
+ssl_certiftcate mythosedu.crt;
+sst_certificate_key mythosedu.key;
+session timeout 5m;
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+ssl
+ssl_ciphers "HIGH: !aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+ssl_prefer_server_ciphers on;
+
+location / {
+    try_files Suri Suri/ =404;
+}
