@@ -48,7 +48,7 @@ function add_custom_css_based_on_login_status() {
 			// Nếu chưa đăng nhập, thêm CSS cho class "__no_login"
 			echo '<style>
 					.__no_login {
-							display: block !important;
+							display: flex !important;
 					}
 					.__logined {
 							display: none !important;
