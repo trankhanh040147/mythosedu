@@ -35,7 +35,7 @@ use TUTOR\Input;
 	</div>
 
 	<!-- Checkbox Lesson Game: is lesson has game or not ? -->
-	<div class="tutor-mb-32">
+	<div class="tutor-mb-32 lesson-game-wrapper">
 		<label class="tutor-form-label"><?php esc_html_e( 'Lesson Game', 'tutor' ); ?></label>
 		<div class="tutor-form-checkbox-wrap">
         	<input type="checkbox" name="lesson_game" class="tutor-form-control" value="1" <?php echo $lesson_game_checked; ?> />

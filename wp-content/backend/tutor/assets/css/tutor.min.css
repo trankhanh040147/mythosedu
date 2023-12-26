@@ -21559,7 +21559,8 @@ button.media-menu-item#menu-item-browse,
 .tutor-select-option[data-value="image_matching"],
 .tutor-select-option[data-value="image_answering"],
 .tutor-select-option[data-value="ordering"],
-#quiz-builder-tab-settings .tutor-mb-32:nth-child(2)
+#quiz-builder-tab-settings .tutor-mb-32:nth-child(2),
+.lesson-game-wrapper
 {
   display: none !important;
 }
