@@ -414,11 +414,14 @@ $index++;
 add_shortcode('custom_course_list', 'custom_course_list_shortcode');
 
 
-function load_all_course_hierarchy() {
-	
+// echo do_shortcode('[load_all_course_hierarchy course_id = ' + $course_id + ']'); 
+// function load_all_course_hierarchy() {
+function load_all_course_hierarchy($atts) {
 	
 	// get a specified course, or the course that user chose to show the learning_path
-	$input_course = 15053;
+	$input_course = 15053;	
+	// $input_course = 14330;
+	// $input_course = $atts['course_id'];
 	// course_tree is a string that contains all course that recusive from $input_course
 	// ex: course_tree = {15053{15054{15057, 15058}, 15055, 15056}}}
 	$course_tree = '{' . $input_course;

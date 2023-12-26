@@ -14,6 +14,10 @@ get_header();
  ?>
 </head>
 
+<!-- https://mythosedu.com/course-map/?course_id=15837 -->
+<?php
+$course_id = $_GET['course_id'];
+?>
 <div class="__loading"></div>
   <img src="/wp-content/uploads/2023/12/cloud1.svg" alt="" class="__cloud1 position-fixed">
   <img src="/wp-content/uploads/2023/12/cloud2.svg" alt="" class="__cloud2 position-fixed">
@@ -25,7 +29,7 @@ get_header();
       <div class="row d-flex justify-content-center">
         <div class="col-12 col-md-10  line-level __mt-5">
           <img src="/wp-content/uploads/2023/12/line.png" alt="" class="__line">
-          <?php echo do_shortcode('[load_all_course_hierarchy]'); ?>
+          <?php echo do_shortcode('[load_all_course_hierarchy course_id = ' . $course_id . ']'); ?>
 </div>
       </div>
     </div>
