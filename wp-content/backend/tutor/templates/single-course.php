@@ -88,9 +88,14 @@ if ( ! is_user_logged_in() && ! $is_public && $student_must_login_to_view_course
 				<!-- <div class="view-learning-path">
 					<a href='/course-map'>See your Learning Path</a>
 				</div> -->
-				
+								
+				<?php 
+					// print_r_pre($course_id, 'course_id');
+				?>
 				<div class="view-learning-path">
-					<a  href='/course-map' class="tutor-btn tutor-btn-primary tutor-btn-block tutor-mb-40" style="background-color: green;">
+					<!-- /course-map + course-id -->
+					<a  href='/course-map<?php echo '?course_id='.$course_id; ?>'
+					 class="tutor-btn tutor-btn-primary tutor-btn-block tutor-mb-40" style="background-color: green;">
 						See your Learning Path							
 					</a>
 				</div>
