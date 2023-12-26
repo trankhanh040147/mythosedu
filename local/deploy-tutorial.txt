@@ -1,0 +1,14 @@
+1. Add host
+127.0.0.1       phpmyadmin.local
+127.0.0.1       mythosedu.com
+
+2. Start php-cgi.exe	
+
+>cd php824
+>php-cgi.exe -b 127.0.0.1:9000
+
+2. Start nginx
+
+>Open another cmd/powershell
+>cd nginx124 
+>start nginx

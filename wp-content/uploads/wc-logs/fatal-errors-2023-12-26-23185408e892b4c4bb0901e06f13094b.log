@@ -1,0 +1,8 @@
+2023-12-26T00:51:33+00:00 CRITICAL Uncaught TypeError: Unsupported operand types: string + string in D:\myData\CodeStorage\web_hosing_src\main-v2\mythosedu\wp-content\themes\tutorstarter\course_map.php:32
+Stack trace:
+#0 D:\myData\CodeStorage\web_hosing_src\main-v2\mythosedu\wp-includes\template-loader.php(106): include()
+#1 D:\myData\CodeStorage\web_hosing_src\main-v2\mythosedu\wp-blog-header.php(19): require_once('D:\\myData\\CodeS...')
+#2 D:\myData\CodeStorage\web_hosing_src\main-v2\mythosedu\index.php(17): require('D:\\myData\\CodeS...')
+#3 {main}
+  thrown in D:\myData\CodeStorage\web_hosing_src\main-v2\mythosedu\wp-content\themes\tutorstarter\course_map.php on line 32
+
