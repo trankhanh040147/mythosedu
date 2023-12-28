@@ -32,6 +32,18 @@ if ( empty( $current_screen ) ) {
 	set_current_screen();
 }
 
+// add jQuery cdn
+?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<?php
+
+// add a custom css file and a custom js file
+?>
+<link rel="stylesheet" href="<?php echo theme_assets('dist/css/wp-admin-custom.css')  ?>" />
+<script src="<?php echo theme_assets('dist/js/wp-admin-custom.js')?>"></script>
+
+<?php
+
 get_admin_page_title();
 $title = strip_tags( $title );
 
@@ -242,7 +254,7 @@ unset( $error_get_last );
 $admin_body_classes = apply_filters( 'admin_body_class', '' );
 $admin_body_classes = ltrim( $admin_body_classes . ' ' . $admin_body_class );
 ?>
-<body class="wp-admin wp-core-ui no-js <?php echo esc_attr( $admin_body_classes ); ?>">
+<body class="wp-admin wp-admin-custom wp-core-ui no-js <?php echo esc_attr( $admin_body_classes ); ?>">
 <script type="text/javascript">
 	document.body.className = document.body.className.replace('no-js','js');
 </script>

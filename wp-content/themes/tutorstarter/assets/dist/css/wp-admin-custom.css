@@ -1,0 +1,51 @@
+.notice.notice-error {
+    display: none !important;
+}
+
+#toplevel_page_tutor .wp-menu-name {
+    display: none;
+}
+
+ul.wp-submenu-wrap li a[href="edit-tags.php?taxonomy=course-tag&amp;post_type=courses"],
+.wp-submenu-wrap li a[href="admin.php?page=tutor-students"] {
+    display: none !important;
+}
+
+/* Hide submenu */
+#toplevel_page_tutor ul.wp-submenu li a {
+    display: none;
+}
+    /* href="update-core.php" */
+ul.wp-submenu li a[href="update-core.php"]
+{
+    display: none !important;
+}
+
+/* Hide tabs */
+#menu-plugins,
+#toplevel_page_pp-capabilities-dashboard
+{
+    display: none !important;
+}
+
+.update-nag,
+.notice,
+#wpadminbar,
+#dashboard-widgets-wrap
+{
+    display: none !important;
+}
+
+/* <ul class="wp-submenu wp-submenu-wrap">
+    <li class="wp-submenu-head" aria-hidden="true">Tutor LMS Pro</li>
+    <li><a href="edit-tags.php?taxonomy=course-tag&amp;post_type=courses">Tags</a></li>
+    <li><a href="admin.php?page=tutor-students">Students</a></li>
+    <li><a href="admin.php?page=tutor_announcements">Announcements</a></li>
+    <li><a href="admin.php?page=question_answer">Q &amp; A </a></li>
+    <li><a href="admin.php?page=tutor_quiz_attempts">Quiz Attempts</a></li>
+    <li><a href="admin.php?page=tutor-addons"><span class="tutor-addons-text">Add-ons</span></a></li>
+    <li><a href="admin.php?page=tutor-tools">Tools</a></li>
+    <li><a href="admin.php?page=tutor_settings">Settings</a></li>
+    <li><a href="admin.php?page=tutor-pro-license">License</a></li>
+    <li><a href="admin.php?page=tutor-whats-new">What’s New</a></li>
+</ul> */
