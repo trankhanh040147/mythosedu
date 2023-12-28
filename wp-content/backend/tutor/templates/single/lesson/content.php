@@ -142,7 +142,7 @@ tutor_load_template(
 
 			<!-- Add nav-item game -->
 			<?php if ($lesson_game_id != 0) : ?>
-				<li class="tutor-nav-item">
+				<li class="tutor-nav-item" style="display:none !important">	<!-- disabled by style="display:none !important" -->
 					<a href="#" class="tutor-nav-link" data-tutor-nav-target="tutor-course-spotlight-game" data-tutor-query-variable="page_tab" data-tutor-query-value="game">
 						<span class="tutor-icon-game tutor-mr-8" area-hidden="true"></span>
 						<span><?php esc_html_e( 'Games', 'tutor' ); ?></span>

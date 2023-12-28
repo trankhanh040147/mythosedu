@@ -1,11 +1,5 @@
 <?php
 /**
- * Lesson Modal Form
- *
- * @package Tutor\Views
- * @author Themeum <support@themeum.com>
- * @link https://themeum.com
- * @since 1.0.0
  */
 
 use TUTOR\Input;
@@ -35,7 +29,7 @@ use TUTOR\Input;
 	</div>
 
 	<!-- Checkbox Lesson Game: is lesson has game or not ? -->
-	<div class="tutor-mb-32 lesson-game-wrapper">
+	<div class="tutor-mb-32 lesson-game-wrapper" style="display: none !important">  <!-- hidden by style="display: none !important" -->
 		<label class="tutor-form-label"><?php esc_html_e( 'Lesson Game', 'tutor' ); ?></label>
 		<div class="tutor-form-checkbox-wrap">
         	<input type="checkbox" name="lesson_game" class="tutor-form-control" value="1" <?php echo $lesson_game_checked; ?> />
@@ -120,8 +114,6 @@ use TUTOR\Input;
 		<?php
 			/**
 			 * Allow iframe inside lesson modal
-			 *
-			 * @since 2.1.6
 			 */
 			add_filter( 'wp_kses_allowed_html', Input::class . '::allow_iframe', 10, 2 );
 			$sanitized_content = wp_kses_post( wp_unslash( str_replace( 'data-mce-style', 'style', $post->post_content ) ) );
@@ -167,7 +159,6 @@ use TUTOR\Input;
 	/**
 	 * Without lesson ID don't redirect user to the edit
 	 * 
-	 * @since v2.1.1
 	 */
 	function tutorLessonWPEditor(e) {
 		e.preventDefault();
