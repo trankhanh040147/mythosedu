@@ -21564,3 +21564,8 @@ button.media-menu-item#menu-item-browse,
 {
   display: none !important;
 }
+
+.tutor-table.tutor-quiz-attempt-details,
+#wpadminbar {
+  display: none !important;
+}
