@@ -20,14 +20,14 @@
 */
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-// define( 'DB_NAME', 'u199319889_mythosedu' );
-define( 'DB_NAME', 'mythosedu' );
+define( 'DB_NAME', 'u199319889_mythosedu' );
+// define( 'DB_NAME', 'mythosedu' );
 /** Database username */
-// define( 'DB_USER', 'u199319889_root' );  
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'u199319889_root' );  
+// define( 'DB_USER', 'root' );
 /** Database password */
-define( 'DB_PASSWORD', '040147' );
-// define( 'DB_PASSWORD', 'Mythosedu@@47' );
+// define( 'DB_PASSWORD', '040147' );
+define( 'DB_PASSWORD', 'Mythosedu@@47' );
 /** Database hostname */
 define( 'DB_HOST', '127.0.0.1' );
 /** Database charset to use in creating database tables. */
